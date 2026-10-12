@@ -2,7 +2,7 @@ import { defineOverridesPreferences } from '@vben/preferences';
 
 export const overridesPreferences = defineOverridesPreferences({
   app: {
-    name: 'CoffeeLink', defaultHomePath: '/members', accessMode: 'backend',
+    name: 'CS Biz', defaultHomePath: '/overview', accessMode: 'backend',
     layout: 'sidebar-nav', locale: 'zh-CN', timezone: 'Asia/Shanghai',
     contentPadding: 0, enablePreferences: false, enableCopyPreferences: false,
     enableCheckUpdates: false, enableRefreshToken: false, defaultAvatar: '',
@@ -10,7 +10,7 @@ export const overridesPreferences = defineOverridesPreferences({
   },
   logo: { enable: true, source: '' },
   theme: {
-    mode: 'light', colorPrimary: '#2563eb', radius: '0.5', fontSize: 14,
+    mode: 'light', colorPrimary: '#0f766e', radius: '0.625', fontSize: 14,
     semiDarkSidebar: false, semiDarkHeader: false,
   },
   sidebar: {

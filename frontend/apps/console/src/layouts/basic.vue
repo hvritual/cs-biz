@@ -18,40 +18,23 @@ watch(() => route.fullPath, () => {
 
 <template>
   <BasicLayout
-    class="coffeelink-shell"
+    class="cs-workspace-shell"
     :sidebar-collapse-label="$t('shell.collapseSidebar')"
     :sidebar-expand-label="$t('shell.expandSidebar')"
     @click-logo="router.push(getWorkspaceHome())"
   >
     <template #logo-text>
-      <div class="cl-logo">
-        <div class="cl-logo-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-            <line x1="6" y1="1" x2="6" y2="4"/>
-            <line x1="10" y1="1" x2="10" y2="4"/>
-            <line x1="14" y1="1" x2="14" y2="4"/>
-          </svg>
-        </div>
-        <div class="cl-logo-text">
-          <div class="cl-logo-title">CoffeeLink</div>
-          <div class="cl-logo-subtitle">咖啡机物联云平台</div>
-        </div>
-      </div>
+      <span class="cs-wordmark"><span class="cs-brand-mark" aria-hidden="true">C</span>CS Biz</span>
     </template>
     <template #header-left-1>
       <WorkspaceShellTools area="tenant" />
-    </template>
-    <template #header-center>
-      <WorkspaceShellTools area="search" />
     </template>
     <template #user-dropdown>
       <WorkspaceShellTools area="actions" />
     </template>
     <template #extra>
-      <div v-if="workspace.loading" class="cl-loading-overlay" role="status" aria-live="polite">
-        <span class="cl-loading-spinner" aria-hidden="true"></span>
+      <div v-if="workspace.loading" class="cs-workspace-loading" role="status" aria-live="polite">
+        <span class="cs-loading-spinner" aria-hidden="true"></span>
         {{ $t('shell.loadingWorkspace') }}
       </div>
     </template>
@@ -59,14 +42,11 @@ watch(() => route.fullPath, () => {
 </template>
 
 <style scoped>
-.cl-logo { display: flex; align-items: center; gap: 10px; padding-left: 4px; }
-.cl-logo-icon { width: 32px; height: 32px; background: #2563eb; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
-.cl-logo-text { display: flex; flex-direction: column; }
-.cl-logo-title { font-size: 16px; font-weight: 700; color: #111827; line-height: 1.2; }
-.cl-logo-subtitle { font-size: 11px; color: #6b7280; line-height: 1.2; }
-.cl-loading-overlay { position: fixed; inset: 64px 0 0 220px; z-index: 190; display: flex; align-items: center; justify-content: center; gap: 12px; background: rgba(255, 255, 255, 0.94); color: #374151; }
-.cl-loading-spinner { width: 20px; height: 20px; border: 2px solid #e5e7eb; border-top-color: #2563eb; border-radius: 50%; animation: cl-spin 0.75s linear infinite; }
-@keyframes cl-spin { to { transform: rotate(360deg); } }
-@media (max-width: 767px) { .cl-loading-overlay { left: 0; } }
-@media (prefers-reduced-motion: reduce) { .cl-loading-spinner { animation: none; } }
+.cs-wordmark { display:flex; align-items:center; gap:10px; padding-left:7px; font-size:20px; font-weight:750; letter-spacing:-.7px; }
+.cs-brand-mark { display:grid; place-items:center; width:29px; height:29px; background:hsl(var(--primary)); color:white; border-radius:8px; font-size:20px; font-weight:800; }
+.cs-workspace-loading { position:fixed; inset:64px 0 0 220px; z-index:190; display:flex; align-items:center; justify-content:center; gap:12px; background:hsl(var(--background) / .94); color:hsl(var(--foreground)); }
+.cs-loading-spinner { width:20px; height:20px; border:2px solid hsl(var(--border)); border-top-color:hsl(var(--primary)); border-radius:50%; animation:cs-spin .75s linear infinite; }
+@keyframes cs-spin { to { transform:rotate(360deg); } }
+@media(max-width:767px) { .cs-workspace-loading { left:0; } }
+@media(prefers-reduced-motion:reduce) { .cs-loading-spinner { animation:none; } }
 </style>

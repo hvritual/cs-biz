@@ -2,26 +2,16 @@ import type { NavigationItem } from '#/api/mock/types';
 
 export const NAVIGATION_POLICY = {
   'workspace.overview': { name: 'overview', path: '/overview', titleKey: 'menu.overview', order: 10 },
-  'workspace.customers': { name: 'customers', path: '/customers', titleKey: 'menu.customers', order: 20 },
+  'crm.customer.list': { name: 'customers', path: '/customers', titleKey: 'menu.customers', order: 20 },
   'workspace.members': { name: 'members', path: '/members', titleKey: 'menu.members', order: 30 },
   'workspace.roles': { name: 'roles', path: '/roles', titleKey: 'menu.roles', order: 40 },
-  'workspace.settings': { name: 'settings', path: '/settings', titleKey: 'menu.settings', order: 50 },
-  'workspace.platform': { name: 'platform', path: '/platform', titleKey: 'menu.platform', order: 60 },
+  'workspace.profile': { name: 'settings', path: '/settings', titleKey: 'menu.settings', order: 50 },
+  'workspace.apps': { name: 'applications', path: '/applications', titleKey: 'menu.applications', order: 60 },
 } as const;
 
 export type WorkspaceViewKey = keyof typeof NAVIGATION_POLICY;
 
-export const ENTERPRISE_CENTER_ITEMS = [
-  { key: 'personal', titleKey: 'menu.personal', path: '/personal' },
-  { key: 'members', titleKey: 'menu.members', path: '/members' },
-  { key: 'roles', titleKey: 'menu.roles', path: '/roles' },
-  { key: 'organization', titleKey: 'menu.organization', path: '/organization' },
-  { key: 'package', titleKey: 'menu.package', path: '/package' },
-  { key: 'enterprise', titleKey: 'menu.enterprise', path: '/enterprise' },
-  { key: 'brand', titleKey: 'menu.brand', path: '/brand' },
-  { key: 'logs', titleKey: 'menu.logs', path: '/logs' },
-] as const;
-
+/** Only a local, exact view/path/name/title tuple can enter the router. */
 export function validateNavigation(input: readonly NavigationItem[]): NavigationItem[] {
   const names = new Set<string>();
   const paths = new Set<string>();

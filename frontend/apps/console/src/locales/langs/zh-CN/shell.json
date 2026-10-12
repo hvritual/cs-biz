@@ -12,18 +12,5 @@
   "darkMode": "切换深色",
   "account": "账户",
   "collapseSidebar": "收起侧栏",
-  "expandSidebar": "展开侧栏",
-  "search": "搜索设备、点位、客户、订单...",
-  "helpCenter": "帮助中心",
-  "downloadCenter": "下载中心",
-  "enterpriseCenter": "企业中心",
-  "enterpriseCenterDesc": "管理企业组织、成员、权限与套餐",
-  "quickActions": "快捷操作",
-  "functionMenu": "功能菜单",
-  "addMember": "新增成员",
-  "inviteMember": "邀请成员",
-  "newRole": "新建角色",
-  "adjustPackage": "调整套餐",
-  "editEnterprise": "编辑企业信息",
-  "viewLogs": "查看操作日志"
+  "expandSidebar": "展开侧栏"
 }
