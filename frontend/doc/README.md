@@ -7,7 +7,7 @@ S01 已在固定 Vben Admin `v5.7.0` / Element Plus 底座上实现唯一 consol
 | 层 | 源码入口，均相对 `apps/console/src` | 责任 |
 | --- | --- | --- |
 | 应用启动 | `main.ts`、`bootstrap.ts` | 先恢复偏好与访问上下文，再挂载布局；初始化失败提供业务文案与重试 |
-| 壳层 | `layouts/basic.vue`、`components/WorkspaceShellTools.vue` | 使用 Vben BasicLayout；企业、账户、语言、外观与可访问侧栏控制 |
+| 壳层 | `layouts/basic.vue`、`components/WorkspaceShellTools.vue` | CoffeeLink DesktopShell，复用 Vben 的路由、权限与偏好系统；企业、账户、语言、外观与导航控制 |
 | 工作空间 | `store/workspace.ts`、`platform/` | 有效权限、动态菜单、白名单视图、租户切换与过期请求丢弃 |
 | 外观 | `store/appearance.ts`、`styles/business.css`、`app.vue` | Vben preferences、Element Plus token 与业务 CSS 共用状态 |
 | 业务页面 | `views/` | 工作台、客户、成员、角色、企业资料、应用、个人偏好、平台企业管理，以及账户/异常状态 |

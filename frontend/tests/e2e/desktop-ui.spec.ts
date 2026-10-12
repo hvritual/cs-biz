@@ -10,6 +10,7 @@ async function openMembers(page: Page) {
   await page.goto('/members');
   await expect(page.getByRole('heading', { name: '成员管理', level: 1, exact: true })).toBeVisible();
   await expect(page.locator('.cs-workspace-loading')).toHaveCount(0);
+  await expect(page.locator('.cl-members-table .el-table__body-wrapper tbody tr').first()).toBeVisible();
 }
 for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, { width: 1536, height: 1024 }]) {
   test('CoffeeLink Desktop shell and member page ' + size.width, async ({ page }, info) => {
