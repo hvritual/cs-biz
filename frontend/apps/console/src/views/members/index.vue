@@ -8,7 +8,7 @@ import {
   ElAlert, ElButton, ElDrawer, ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox,
   ElOption, ElPagination, ElSelect, ElTable, ElTableColumn, ElTag,
 } from 'element-plus';
-import { Download, Plus, RefreshCw, Search, ShieldCheck, Users, X } from '@vben/icons';
+import { Download, Plus, RefreshCw, Search, ShieldCheck, Users, X } from 'lucide-vue-next';
 
 import { api, ServiceError } from '#/api/mock/service';
 import PageState from '#/components/PageState.vue';

@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { updatePreferences, usePreferences } from '@vben/preferences';
-import { Building2, ChevronLeft, ChevronRight, Home, Layers3, Settings, Users } from '@vben/icons';
+import { Building2, ChevronLeft, ChevronRight, Home, Layers3, Settings, Users } from 'lucide-vue-next';
 import { $t } from '#/locales';
 import { getWorkspaceHome, canVisitPath } from '#/platform/routing';
 import { useWorkspaceStore } from '#/store';

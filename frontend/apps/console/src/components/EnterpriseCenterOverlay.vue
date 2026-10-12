@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { Building2, Layers3, Plus, Settings, ShieldCheck, UserRound, Users, X } from '@vben/icons';
+import { Building2, Layers3, Plus, Settings, ShieldCheck, UserRound, Users, X } from 'lucide-vue-next';
 import { $t } from '#/locales';
 import { canVisitPath } from '#/platform/routing';
 import { useWorkspaceStore } from '#/store';
