@@ -55,7 +55,7 @@ watch(() => workspace.generation, () => { flyout.value = false; });
   <div class="cl-desktop-shell" :style="{ '--cl-rail-width': railWidth + 'px' }">
     <header class="cl-global-header">
       <button type="button" class="cl-brand" aria-label="CoffeeLink" @click="router.push(getWorkspaceHome())">
-        <span class="cl-brand-icon" aria-hidden="true">◆</span>
+        <span class="cl-brand-icon cs-brand-mark" aria-hidden="true">◆</span>
         <span class="cl-brand-words"><strong>CoffeeLink</strong><small>{{ $t('shell.productSubtitle') }}</small></span>
       </button>
       <WorkspaceShellTools area="tenant" />

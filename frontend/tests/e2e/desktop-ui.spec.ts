@@ -58,6 +58,7 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
     await page.getByRole('button', { name:'关闭成员详情' }).click();
     await expect(page.locator('.cl-member-detail')).toHaveCount(0);
     await page.locator('.cl-rail-toggle').click();
+    await expect(rail).toHaveCSS('width', '76px');
     const collapsed = await rail.boundingBox();
     expect(Math.abs((collapsed?.width ?? 0) - 76)).toBeLessThanOrEqual(1);
     await page.locator('[data-domain="enterprise"]').click();

@@ -76,5 +76,6 @@
   "profileTab": "Profile",
   "rolesTab": "Roles",
   "dataTab": "Data access",
-  "dataScopeDescription": "Customer read access from assigned roles. Other actions are evaluated separately."
+  "dataScopeDescription": "Customer read access from assigned roles. Other actions are evaluated separately.",
+  "confirmBatch": "Confirm"
 }

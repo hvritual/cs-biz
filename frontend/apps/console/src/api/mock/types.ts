@@ -254,6 +254,7 @@ export interface MockService {
   listMembers(context: RequestContext): Promise<MemberView[]>;
   createMember(context: RequestContext, input: CreateMemberInput, key: string): Promise<MemberView>;
   updateMembership(context: RequestContext, id: string, input: { roleIds?: string[]; status?: MembershipStatus }): Promise<MemberView>;
+  bulkUpdateMembershipStatus(context: RequestContext, ids: string[], status: MembershipStatus): Promise<{ updatedCount: number }>;
   listRoles(context: RequestContext): Promise<Role[]>;
   createRole(context: RequestContext, input: RoleInput): Promise<Role>;
   updateRole(context: RequestContext, id: string, input: Partial<RoleInput>): Promise<Role>;

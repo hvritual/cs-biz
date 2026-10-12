@@ -517,6 +517,26 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       policyCommit(next, context.tenantId);
       return memberView(context, updated);
     },
+
+    async bulkUpdateMembershipStatus(context, ids, status) {
+      (await begin(context, context.subjectId))();
+      authorize(context, 'tenant.member.manage');
+      if (!Array.isArray(ids) || ids.length === 0 || ids.length > 100 ||
+        ids.some((value) => typeof value !== 'string') ||
+        new Set(ids).size !== ids.length || !['active', 'disabled'].includes(status)) {
+        return fail('INVALID_INPUT', 422);
+      }
+      const next = clone(state);
+      for (const id of ids) {
+        const member = next.memberships.find((entry) => entry.tenantId === context.tenantId && entry.id === id);
+        if (!member) return fail('MEMBER_NOT_FOUND', 404);
+        if (status === 'active') validateRoleIds(context, member.roleIds);
+        member.status = status;
+      }
+      if (ownerCount(context.tenantId, next) === 0) return fail('LAST_OWNER', 409);
+      policyCommit(next, context.tenantId);
+      return { updatedCount: ids.length };
+    },
     async listRoles(context) {
       (await begin(context, context.subjectId))();
       membership(context);

@@ -177,7 +177,7 @@ test('read-all does not widen write-own; live revocation clears the open custome
   await customerRow(page, '星河书店').getByRole('button', { name: '编辑', exact: true }).click();
   await page.getByTestId('customer-phone').fill('13800009999');
   const admin = await context.newPage();
-  await open(admin, '/members', '团队成员');
+  await open(admin, '/members', '成员管理');
   await rows(admin).filter({ hasText: '周远' }).getByRole('button', { name: '暂停访问', exact: true }).click();
   await admin.locator('.el-message-box').getByRole('button', { name: '暂停访问', exact: true }).click();
   await expect(page).toHaveURL(/\/forbidden/);

@@ -393,3 +393,21 @@ describe('Desktop member data remains tenant-scoped', () => {
     expect(added.user).not.toHaveProperty('department');
   });
 });
+
+describe('member bulk operation remains atomic', () => {
+  it('updates multiple members together with one policy change and refuses removing the last owner', async () => {
+    const api = service();
+    const rows = await api.listMembers(context());
+    const ids = rows.filter((row) => !row.isOwner).slice(0, 2).map((row) => row.id);
+    expect(ids).toHaveLength(2);
+    expect((await api.bulkUpdateMembershipStatus(context(), ids, 'disabled')).updatedCount).toBe(2);
+    const state = await api.listMembers(context());
+    expect(state.filter((row) => ids.includes(row.id)).every((row) => row.status === 'disabled')).toBe(true);
+    const owner = state.find((row) => row.isOwner)!;
+    await expect(api.bulkUpdateMembershipStatus(context(), [owner.id], 'disabled')).rejects.toMatchObject({code:'LAST_OWNER'});
+    expect((await api.listMembers(context())).find((row) => row.id === owner.id)?.status).toBe('active');
+    await expect(api.bulkUpdateMembershipStatus(context(), [owner.id, 'member-nonexistent'], 'disabled'))
+      .rejects.toMatchObject({code:'MEMBER_NOT_FOUND'});
+    expect((await api.listMembers(context())).find((row) => row.id === owner.id)?.status).toBe('active');
+  });
+});

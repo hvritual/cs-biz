@@ -177,24 +177,21 @@ async function changeBatch(status: 'active' | 'disabled') {
   try {
     await ElMessageBox.confirm(t('members.batchConfirm', { count: candidates.length }),
       t(status === 'active' ? 'members.batchEnable' : 'members.batchDisable'),
-      { confirmButtonText: t('common.confirm'), cancelButtonText: t('common.cancel'), type: 'warning' });
+      { confirmButtonText: t('members.confirmBatch'), cancelButtonText: t('common.cancel'), type: 'warning' });
   } catch { return; }
   finally { confirmationOpen = false; }
   if (!captured.isCurrent() || !canManage.value) return;
   batchBusy.value = true;
-  let succeeded = 0;
-  let failed = 0;
-  for (const member of candidates) {
-    if (!captured.isCurrent() || !canManage.value) break;
-    try { await api.updateMembership(captured.context, member.id, { status }); succeeded++; }
-    catch { failed++; }
-  }
-  if (captured.isCurrent()) {
-    if (succeeded) ElMessage.success(t('members.batchUpdated', { count: succeeded }));
-    if (failed) ElMessage.warning(t('members.batchFailed', { count: failed }));
-    batchBusy.value = false;
+  try {
+    const result = await api.bulkUpdateMembershipStatus(captured.context, candidates.map((m) => m.id), status);
+    if (!captured.isCurrent()) return;
+    ElMessage.success(t('members.batchUpdated', { count: result.updatedCount }));
     selected.value = [];
     await refresh();
+  } catch (cause) {
+    if (captured.isCurrent()) ElMessage.error(errorMessage(cause));
+  } finally {
+    if (captured.isCurrent()) batchBusy.value = false;
   }
 }
 function onSelectionChange(rows: MemberView[]) { selected.value = rows; }

@@ -76,5 +76,6 @@
   "profileTab": "基本信息",
   "rolesTab": "角色权限",
   "dataTab": "数据权限",
-  "dataScopeDescription": "以下是当前角色授予的客户查看范围。其他业务动作按各自授权判断。"
+  "dataScopeDescription": "以下是当前角色授予的客户查看范围。其他业务动作按各自授权判断。",
+  "confirmBatch": "确认"
 }
