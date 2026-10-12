@@ -1,0 +1,17 @@
+{
+  "greeting": "你好，{name}",
+  "description": "欢迎回到{tenant}，从这里开始今天的工作。",
+  "viewCustomers": "查看客户",
+  "activeApps": "已开通应用",
+  "recentCustomers": "最近更新的客户",
+  "shortcuts": "常用入口",
+  "customerShortcut": "查看客户档案与合作进展",
+  "memberShortcut": "安排成员职责与访问范围",
+  "appShortcut": "查看和申请企业应用",
+  "profileShortcut": "维护企业联系方式",
+  "workspaceTitle": "当前工作空间",
+  "workspaceDescription": "客户资料与成员权限按企业分别管理。",
+  "startTitle": "开始安排企业的业务工具",
+  "startDescription": "前往应用中心查看企业应用，或联系负责人安排访问权限。",
+  "viewApps": "查看应用"
+}

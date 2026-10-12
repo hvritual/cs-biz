@@ -8,3 +8,15 @@ coverage/
 __pycache__/
 *.pyc
 .artifacts/
+
+# Frontend build and browser validation output
+.turbo/
+dist.zip
+test-results/
+playwright-report/
+# Checked-in application defaults contain no credentials.
+!frontend/apps/console/.env
+!frontend/apps/console/.env.development
+!frontend/apps/console/.env.production
+!frontend/apps/console/.env.analyze
+frontend/apps/console/public/favicon.ico

@@ -4,6 +4,8 @@
 
 ```sh
 python3 doc/ci/check_repository.py
+# 已按 frontend/README.md 安装依赖和浏览器后，执行当前全部运行门禁：
+bash doc/ci/check.sh
 ```
 
 Windows：`py -3 doc/ci/check_repository.py`。要求 Python 3.10+，不安装第三方依赖。脚本从自己的位置寻找仓库根，不依赖机器上的固定绝对路径。
@@ -14,7 +16,9 @@ Windows：`py -3 doc/ci/check_repository.py`。要求 Python 3.10+，不安装�
 
 ## GitHub 自动入口
 
-`.github/workflows/repository.yml` 在 push、PR 或手动触发时调用同一脚本。job 名为 `repository-structure`，只表示结构检查；没有前后端应用时不创建假 build/test 成功项。
+`.github/workflows/repository.yml` 在 push、PR 或手动触发时调用结构脚本，job 名为 `repository-structure`。S01 增加 `.github/workflows/frontend.yml` 的 `frontend-validation`：冻结安装、应用类型/lint/文案/单元测试、真实静态构建和 Playwright 用户旅程；报告和截图作为 CI artifact 保留。两个 job 的范围分别解释，结构成功不能代替前端成功。
+
+[check.sh](check.sh) 是仓库内的本地全局调度入口，依次执行结构检查和 `frontend` 的 `pnpm check`，任何门禁失败都会停止。当前尚没有后端运行实现，因此它不宣称覆盖真实跨端契约或数据库集成。后续增加后端时在此接入真实门禁，不能以跳过后端获得“跨端通过”。
 
 GitHub 只自动发现 `.github/workflows` 的工作流；此处存放检查逻辑与本地入口。[来源：GitHub 官方语法](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)。
 
@@ -28,4 +32,4 @@ GitHub 只自动发现 `.github/workflows` 的工作流；此处存放检查逻�
 | 用户旅程 | `doc/ci/` 调度真实前后端测试环境 | SAAS-01、幂等恢复、切租户、撤权 |
 | 发布验收 | 各端 deploy + 全局调度 | 固定构建、迁移、部署与环境回读 |
 
-S01/S02 引入运行代码时，同步增加对应真实 job。缺少依赖时应失败并给出原因，不能回退成只执行结构检查后宣布功能完成。PR 门禁、主线合并、部署成功分别记录。
+S01 已增加前端真实 job；S02/S03 引入后端与跨端运行代码时继续增加对应 job。缺少依赖时应失败并给出原因，不能回退成只执行结构检查后宣布功能完成。PR 门禁、主线合并、部署成功分别记录，参见 [S01 验证](../evidence/S01-validation.md)。

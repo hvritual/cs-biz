@@ -1,0 +1,16 @@
+{
+  "workspace": "Workspace",
+  "platformWorkspace": "Platform operations",
+  "selectWorkspace": "Select a workspace",
+  "loadingWorkspace": "Opening your workspace…",
+  "preferences": "Personal preferences",
+  "switchAccount": "Switch account",
+  "logout": "Sign out",
+  "theme": "Appearance",
+  "language": "Language",
+  "lightMode": "Use light appearance",
+  "darkMode": "Use dark appearance",
+  "account": "Account",
+  "collapseSidebar": "Hide sidebar",
+  "expandSidebar": "Show sidebar"
+}

@@ -1,0 +1,26 @@
+{
+  "title": "个人偏好",
+  "description": "按你的习惯安排工作空间",
+  "appearance": "显示外观",
+  "appearanceDescription": "选择舒适的明暗显示方式",
+  "light": "浅色",
+  "dark": "深色",
+  "system": "跟随系统",
+  "color": "主题颜色",
+  "colorDescription": "用于导航、按钮和重点内容",
+  "language": "显示语言",
+  "languageDescription": "菜单、表单和操作反馈将使用所选语言",
+  "density": "内容密度",
+  "densityDescription": "调整表格和内容的疏密",
+  "comfortable": "舒适",
+  "compact": "紧凑",
+  "savedFor": "更改会自动保存，仅用于{name}在{tenant}的个人偏好。",
+  "colors": {
+    "0": "青绿",
+    "1": "靛蓝",
+    "2": "海蓝",
+    "3": "紫藤",
+    "4": "琥珀",
+    "5": "岩灰"
+  }
+}

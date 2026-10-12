@@ -1,0 +1,87 @@
+{
+  "observed_date": "2026-10-12",
+  "repository": "https://github.com/vbenjs/vue-vben-admin",
+  "ref": "v5.7.0",
+  "commit": "63a38dce49ba109f61607994e21ba921d8e970e9",
+  "source_app": "apps/web-ele",
+  "target_app": "apps/console",
+  "retained_workspace_groups": [
+    "packages",
+    "internal",
+    "scripts/vsh",
+    "scripts/turbo-run"
+  ],
+  "retained_upstream_tooling_source_files": 919,
+  "modified_retained_tooling_files": [
+    {
+      "path": "packages/@core/base/shared/src/utils/update-css-variables.ts",
+      "upstream_sha256": "5c21c03e9a938495ce4600209bdeca640b39601d6a56bd712032402a18da7b09",
+      "adapted_sha256": "9c58a8a07a0e69e566c3cec21134b3524603f83dba1e81a87a4a9684c394766c"
+    },
+    {
+      "path": "packages/@core/preferences/src/preferences.ts",
+      "upstream_sha256": "46862fa31febd0a429e9145562cae2d9ab6061ed57596e4effbbc65e79fe3942",
+      "adapted_sha256": "2ee9b6f6d6a7a3390694ab241ff004da2755bb60d98c832b3974c0ba734191aa"
+    },
+    {
+      "path": "packages/@core/ui-kit/layout-ui/src/vben-layout.ts",
+      "upstream_sha256": "83a49f40c42b1230ab8b0e31b282e269a509aaa46d0a5dc101bb7a2e37c7a07f",
+      "adapted_sha256": "1bced0214cea7f5d107659c3289741c91acf0b004f75144d9e824beec663acb0"
+    },
+    {
+      "path": "packages/@core/ui-kit/layout-ui/src/vben-layout.vue",
+      "upstream_sha256": "d3f2d2aec1788d1bb9c1ee913a124515d0c81fe6d80a3fd6a811d951fede83bf",
+      "adapted_sha256": "e715938a50735c936006bf70477adff880628b850ab5238bd6952891b76efab7"
+    }
+  ],
+  "omitted_upstream_tooling_paths": [
+    "internal/vite-config/src/plugins/inject-app-loading/README.md",
+    "packages/@core/README.md",
+    "packages/@core/base/README.md",
+    "packages/@core/base/shared/src/cache/README.md",
+    "packages/@core/composables/src/use-simple-locale/README.md",
+    "packages/@core/ui-kit/README.md",
+    "packages/@core/ui-kit/menu-ui/README.md",
+    "packages/constants/README.md",
+    "packages/effects/README.md",
+    "packages/effects/hooks/README.md",
+    "packages/effects/layouts/src/basic/README.md",
+    "packages/effects/plugins/README.md",
+    "packages/effects/plugins/src/echarts/README.md",
+    "packages/effects/plugins/src/motion/README.md",
+    "packages/effects/plugins/src/vxe-table/README.md",
+    "packages/icons/README.md",
+    "packages/styles/README.md",
+    "packages/types/README.md",
+    "packages/utils/README.md",
+    "scripts/clean.mjs",
+    "scripts/deploy/Dockerfile",
+    "scripts/deploy/build-local-docker-image.sh",
+    "scripts/deploy/nginx.conf",
+    "scripts/turbo-run/README.md",
+    "scripts/vsh/README.md"
+  ],
+  "application_replacement": "CS Biz business views, accounts, access lifecycle and browser Mock replace the upstream example application; no Nitro server or extra app is imported.",
+  "license": "../LICENSE.vben",
+  "package_manager": "pnpm@10.33.4",
+  "verified_node": "24.19.0",
+  "locked_installed_versions": {
+    "vue": "3.5.34",
+    "vue-router": "5.0.7",
+    "pinia": "3.0.4",
+    "element-plus": "2.14.0",
+    "vite": "8.0.13",
+    "typescript": "6.0.3",
+    "vitest": "4.1.7",
+    "playwright": "1.60.0",
+    "@playwright/test": "1.60.0",
+    "turbo": "2.9.14"
+  },
+  "lockfile_sha256": "853dfd3ea331e547ced7babe9bcf117215c8a7448141f71c0618524c45506da1",
+  "upstream_notice_sha256": "26bd1c47f2d85139581c82c7b0197785322a11217c762d65f10c04f1567450ee",
+  "qa_browser": {
+    "local": "Chromium 153.0.8010.0 from @sparticuz/chromium 153.0.0",
+    "standard_ci": "Playwright-managed Chromium",
+    "note": "Local fallback and fonts are QA-only; neither is committed as an application dependency."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "workspace": "工作空间",
+  "platformWorkspace": "平台运营",
+  "selectWorkspace": "选择企业",
+  "loadingWorkspace": "正在进入工作空间…",
+  "preferences": "个人偏好",
+  "switchAccount": "切换账户",
+  "logout": "退出登录",
+  "theme": "外观",
+  "language": "语言",
+  "lightMode": "切换浅色",
+  "darkMode": "切换深色",
+  "account": "账户",
+  "collapseSidebar": "收起侧栏",
+  "expandSidebar": "展开侧栏"
+}

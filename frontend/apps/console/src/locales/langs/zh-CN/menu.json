@@ -1,0 +1,14 @@
+{
+  "overview": "工作台",
+  "customers": "客户管理",
+  "members": "团队成员",
+  "roles": "角色权限",
+  "settings": "企业资料",
+  "applications": "应用中心",
+  "personal": "个人偏好",
+  "platform": "企业管理",
+  "login": "选择账户",
+  "forbidden": "访问受限",
+  "notFound": "页面不存在",
+  "company": "企业设置"
+}
