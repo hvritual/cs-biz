@@ -16,7 +16,8 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test --config ci/playwright.config.ts",
     "check:copy": "node ci/check-copy.mjs",
-    "check": "pnpm typecheck && pnpm lint && pnpm check:copy && pnpm test:unit && pnpm build && pnpm test:e2e"
+    "check": "pnpm typecheck && pnpm lint && pnpm check:copy && pnpm check:desktop && pnpm test:unit && pnpm build && pnpm test:e2e",
+    "check:desktop": "node ci/check-desktop-ui.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "catalog:",

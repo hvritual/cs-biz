@@ -52,3 +52,7 @@ S01 已在固定 Vben Admin `v5.7.0` / Element Plus 底座上实现唯一 consol
 上游 commit、保留范围和定向修改见 [来源记录](upstream.json) 与 [第三方通知](../THIRD_PARTY_NOTICES.md)。安装必须使用根 `packageManager` 指定的 pnpm 和现有锁文件。禁止把主线 package 中的开发版本号当作本项目已升级到新发布版。
 
 构建入口设置 `TURBO_TELEMETRY_DISABLED=1` 与 `DO_NOT_TRACK=1`，不发送 Turborepo 构建遥测。当前启用的壳层图标随包构建；不要添加运行时依赖外部图标服务的导航按钮。
+
+## Project-wide Desktop UI standard
+
+The single source is **doc/design/desktop-ui.md** (relative link: [desktop contract](../../doc/design/desktop-ui.md)). It governs all future UI tasks and is checked by pnpm check:desktop. The desktop shell uses existing Vben access/router/preferences services with one product-specific layout; its width and visual rules are in styles/desktop.css. No Mobile acceptance in this phase.

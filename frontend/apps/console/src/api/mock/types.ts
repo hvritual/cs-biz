@@ -48,6 +48,7 @@ export interface User {
   email: string;
   initials: string;
   title: string;
+  lastLoginAt?: string;
   platformRole?: 'operator';
 }
 
@@ -85,6 +86,7 @@ export interface Membership {
   status: MembershipStatus;
   roleIds: string[];
   joinedAt: string;
+  department?: string;
 }
 
 export interface MemberView extends Membership {
@@ -181,6 +183,7 @@ export interface CreateMemberInput {
   name: string;
   email: string;
   title?: string;
+  department?: string;
   roleIds: string[];
 }
 

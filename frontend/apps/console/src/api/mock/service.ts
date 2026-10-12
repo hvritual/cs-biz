@@ -481,7 +481,7 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       (await begin(context, context.subjectId))();
       authorize(context, 'tenant.member.manage');
       const normalized = { name: textField(input.name, 'name', 80), email: emailField(input.email),
-        title: textField(input.title ?? '', 'title', 80, false), roleIds: normalizeRoleIds(input.roleIds) };
+        title: textField(input.title ?? '', 'title', 80, false), department: textField(input.department ?? '', 'department', 80, false), roleIds: normalizeRoleIds(input.roleIds) };
       const request = idempotency(context, 'member.create', key, normalized);
       if (request.existing) {
         const existing = state.memberships.find((member) => member.id === request.existing!.resultId && member.tenantId === context.tenantId);
@@ -495,7 +495,7 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       const user: User = existingUser ?? { id: id('user'), name: normalized.name, email: normalized.email, title: normalized.title,
         initials: normalized.name.slice(0, 1) };
       if (!existingUser) next.users.push(user);
-      const member: Membership = { id: id('member'), tenantId: context.tenantId, userId: user.id, status: 'active', roleIds: normalized.roleIds, joinedAt: now() };
+      const member: Membership = { id: id('member'), tenantId: context.tenantId, userId: user.id, status: 'active', roleIds: normalized.roleIds, joinedAt: now(), department: normalized.department };
       next.memberships.push(member);
       next.idempotency[request.lookupKey] = { payload: request.fingerprint, resultId: member.id };
       policyCommit(next, context.tenantId);

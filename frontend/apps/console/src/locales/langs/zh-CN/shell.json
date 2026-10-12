@@ -12,5 +12,18 @@
   "darkMode": "切换深色",
   "account": "账户",
   "collapseSidebar": "收起侧栏",
-  "expandSidebar": "展开侧栏"
+  "expandSidebar": "展开侧栏",
+  "productSubtitle": "咖啡机物联云平台",
+  "enterpriseCenter": "企业中心",
+  "enterpriseCenterDesc": "管理企业组织、成员、权限与套餐",
+  "primaryNavigation": "主导航",
+  "functionMenu": "功能菜单",
+  "quickActions": "快捷操作",
+  "addMember": "新增成员",
+  "newRole": "新建角色",
+  "editEnterprise": "编辑企业信息",
+  "promoTitle": "让每一杯咖啡更智能",
+  "promoDesc": "连接设备 · 激活数据 · 创造更多价值",
+  "search": "搜索客户或成员",
+  "searchAction": "搜索"
 }

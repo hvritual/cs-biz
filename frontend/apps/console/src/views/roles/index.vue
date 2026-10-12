@@ -3,6 +3,7 @@ import type { Role, RoleInput } from '#/api/mock/types';
 import type { FormInstance, FormRules } from 'element-plus';
 
 import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import { ElAlert, ElButton, ElDrawer, ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox, ElTable, ElTableColumn } from 'element-plus';
 
@@ -16,6 +17,8 @@ import { useWorkspaceStore } from '#/store';
 import { errorMessage } from '#/utils/format';
 
 const workspace = useWorkspaceStore();
+const route = useRoute();
+const router = useRouter();
 const { data, loading, error, refresh } = useResource<Role[]>((context) => api.listRoles(context), []);
 const query = ref('');
 const drawer = ref(false);
@@ -87,6 +90,12 @@ async function removeRole(role: Role) {
   }
 }
 
+watch(() => route.query.create, (value) => {
+  if (value === '1' && canManage.value) {
+    openRole();
+    void router.replace({ path: '/roles' });
+  }
+}, { immediate: true });
 watch(() => workspace.generation, () => { if (confirmationOpen) ElMessageBox.close(); drawer.value = false; editing.value = null; saving.value = false; deleting.value = ''; formError.value = ''; query.value = ''; });
 onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
 </script>

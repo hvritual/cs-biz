@@ -48,3 +48,7 @@
 ## 自检
 
 范围是否匹配目标？依赖是否真实存在？文档与代码是否同一语义？门禁能否从反例证明行为？当前声称的完成状态是否有同版本证据？是否把界面/Mock、仓库合并和线上结果混为一谈？
+
+## UI task contract
+
+Before a frontend implementation, read **doc/design/desktop-ui.md**. Record UI page template, authorized actions, desktop screenshots at 1366/1440/1536 widths, negative interaction checks and actual Playwright results tied to the same commit.

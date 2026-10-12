@@ -24,3 +24,7 @@
 - Keep API authorization server-side and tenant-scoped. Menu visibility cannot authorize an operation.
 - Record upstream source commits, retained licenses, and actual dependency locks when importing a frontend template.
 - Repository writes, merge, deployment, and contacting other people are separate actions. Follow the user's actual authorization and the repository's enforced controls.
+
+## Desktop design system
+
+For every future UI task, read and comply with **doc/design/desktop-ui.md**. Use its shared tokens and Desktop browser checks, not page-local visual assumptions. Record screenshots from the exact changed commit.

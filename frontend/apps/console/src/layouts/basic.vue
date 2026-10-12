@@ -1,52 +1,94 @@
 <script setup lang="ts">
-import { watch } from 'vue';
-import { BasicLayout } from '@vben/layouts';
-import { preferences, updatePreferences } from '@vben/preferences';
+import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { updatePreferences, usePreferences } from '@vben/preferences';
+import { Building2, ChevronLeft, ChevronRight, Home, Layers3, Settings, Users } from '@vben/icons';
 import { $t } from '#/locales';
-import { getWorkspaceHome } from '#/platform/routing';
+import { getWorkspaceHome, canVisitPath } from '#/platform/routing';
 import { useWorkspaceStore } from '#/store';
+import EnterpriseCenterOverlay from '#/components/EnterpriseCenterOverlay.vue';
 import WorkspaceShellTools from '#/components/WorkspaceShellTools.vue';
 
-const workspace = useWorkspaceStore();
 const router = useRouter();
 const route = useRoute();
-watch(() => route.fullPath, () => {
-  if (preferences.app.isMobile) updatePreferences({ sidebar: { collapsed: true } });
-}, { flush: 'post' });
+const workspace = useWorkspaceStore();
+const { sidebarCollapsed } = usePreferences();
+const flyout = ref(false);
+const collapsed = computed(() => sidebarCollapsed.value);
+const railWidth = computed(() => collapsed.value ? 76 : 208);
+const inEnterprise = computed(() => ['/members', '/roles', '/applications', '/personal'].includes(route.path));
+const domains = computed(() => {
+  const accessVersion = workspace.context?.accessVersion;
+  void accessVersion;
+  return [
+  { key: 'home', icon: Home, title: $t('menu.overview'), path: '/overview', enabled: canVisitPath('/overview') },
+  { key: 'customers', icon: Users, title: $t('menu.customers'), path: '/customers', enabled: canVisitPath('/customers') },
+  { key: 'enterprise', icon: Building2, title: $t('shell.enterpriseCenter'), path: '/members', enabled: !workspace.isPlatform && (canVisitPath('/members') || canVisitPath('/roles') || canVisitPath('/settings') || canVisitPath('/applications')) },
+  { key: 'platform', icon: Layers3, title: $t('menu.platform'), path: '/platform', enabled: workspace.isPlatform },
+  { key: 'settings', icon: Settings, title: $t('menu.settings'), path: '/settings', enabled: canVisitPath('/settings') },
+].filter((item) => item.enabled);
+});
+function activeDomain(key: string, path: string) {
+  return key === 'enterprise' ? inEnterprise.value : route.path === path;
+}
+function openDomain(key: string, path: string) {
+  if (key === 'enterprise') {
+    flyout.value = !flyout.value;
+    return;
+  }
+  flyout.value = false;
+  if (canVisitPath(path)) void router.push(path);
+}
+function closeFlyout() {
+  flyout.value = false;
+  document.querySelector<HTMLButtonElement>('[data-domain="enterprise"]')?.focus();
+}
+function collapseRail() {
+  flyout.value = false;
+  updatePreferences({ sidebar: { collapsed: !collapsed.value } });
+}
+watch(() => route.fullPath, () => { flyout.value = false; });
+watch(() => workspace.generation, () => { flyout.value = false; });
 </script>
 
 <template>
-  <BasicLayout
-    class="cs-workspace-shell"
-    :sidebar-collapse-label="$t('shell.collapseSidebar')"
-    :sidebar-expand-label="$t('shell.expandSidebar')"
-    @click-logo="router.push(getWorkspaceHome())"
-  >
-    <template #logo-text>
-      <span class="cs-wordmark"><span class="cs-brand-mark" aria-hidden="true">C</span>CS Biz</span>
-    </template>
-    <template #header-left-1>
+  <div class="cl-desktop-shell" :style="{ '--cl-rail-width': railWidth + 'px' }">
+    <header class="cl-global-header">
+      <button type="button" class="cl-brand" aria-label="CoffeeLink" @click="router.push(getWorkspaceHome())">
+        <span class="cl-brand-icon" aria-hidden="true">◆</span>
+        <span class="cl-brand-words"><strong>CoffeeLink</strong><small>{{ $t('shell.productSubtitle') }}</small></span>
+      </button>
       <WorkspaceShellTools area="tenant" />
-    </template>
-    <template #user-dropdown>
+      <WorkspaceShellTools area="search" />
       <WorkspaceShellTools area="actions" />
-    </template>
-    <template #extra>
-      <div v-if="workspace.loading" class="cs-workspace-loading" role="status" aria-live="polite">
-        <span class="cs-loading-spinner" aria-hidden="true"></span>
-        {{ $t('shell.loadingWorkspace') }}
+    </header>
+    <nav class="cl-primary-rail" :class="{ 'is-collapsed': collapsed }" :aria-label="$t('shell.primaryNavigation')">
+      <div class="cl-primary-links" role="menu">
+        <button
+          v-for="item in domains" :key="item.key" type="button" role="menuitem"
+          class="cl-primary-link" :data-domain="item.key" :class="{ 'is-active': activeDomain(item.key, item.path) }"
+          :title="item.title" :aria-label="item.title"
+          :aria-current="activeDomain(item.key, item.path) && item.key !== 'enterprise' ? 'page' : undefined"
+          :aria-expanded="item.key === 'enterprise' ? flyout : undefined"
+          @click="openDomain(item.key, item.path)"
+        >
+          <component :is="item.icon" :size="20" aria-hidden="true" />
+          <span v-if="!collapsed" class="cl-primary-text">{{ item.title }}</span>
+        </button>
       </div>
-    </template>
-  </BasicLayout>
+      <button class="cl-rail-toggle" type="button"
+        :aria-label="$t(collapsed ? 'shell.expandSidebar' : 'shell.collapseSidebar')" @click="collapseRail">
+        <ChevronRight v-if="collapsed" :size="17" />
+        <ChevronLeft v-else :size="17" />
+      </button>
+    </nav>
+    <main class="cl-desktop-main" id="main-content"><RouterView /></main>
+    <EnterpriseCenterOverlay
+      :visible="flyout" :rail-width="railWidth" :active-path="route.path"
+      @close="closeFlyout" @navigate="flyout = false"
+    />
+    <div v-if="workspace.loading" class="cs-workspace-loading" role="status" aria-live="polite">
+      <span class="cs-loading-spinner" aria-hidden="true"></span>{{ $t('shell.loadingWorkspace') }}
+    </div>
+  </div>
 </template>
-
-<style scoped>
-.cs-wordmark { display:flex; align-items:center; gap:10px; padding-left:7px; font-size:20px; font-weight:750; letter-spacing:-.7px; }
-.cs-brand-mark { display:grid; place-items:center; width:29px; height:29px; background:hsl(var(--primary)); color:white; border-radius:8px; font-size:20px; font-weight:800; }
-.cs-workspace-loading { position:fixed; inset:64px 0 0 220px; z-index:190; display:flex; align-items:center; justify-content:center; gap:12px; background:hsl(var(--background) / .94); color:hsl(var(--foreground)); }
-.cs-loading-spinner { width:20px; height:20px; border:2px solid hsl(var(--border)); border-top-color:hsl(var(--primary)); border-radius:50%; animation:cs-spin .75s linear infinite; }
-@keyframes cs-spin { to { transform:rotate(360deg); } }
-@media(max-width:767px) { .cs-workspace-loading { left:0; } }
-@media(prefers-reduced-motion:reduce) { .cs-loading-spinner { animation:none; } }
-</style>

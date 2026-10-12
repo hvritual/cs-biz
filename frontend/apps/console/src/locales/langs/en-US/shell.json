@@ -12,5 +12,18 @@
   "darkMode": "Use dark appearance",
   "account": "Account",
   "collapseSidebar": "Hide sidebar",
-  "expandSidebar": "Show sidebar"
+  "expandSidebar": "Show sidebar",
+  "productSubtitle": "Connected coffee operations",
+  "enterpriseCenter": "Company center",
+  "enterpriseCenterDesc": "Manage members, roles and company settings",
+  "primaryNavigation": "Main navigation",
+  "functionMenu": "Pages",
+  "quickActions": "Quick actions",
+  "addMember": "Add member",
+  "newRole": "Create role",
+  "editEnterprise": "Edit company profile",
+  "promoTitle": "A smarter cup of coffee",
+  "promoDesc": "Connected devices · Useful insights",
+  "search": "Search customers or members",
+  "searchAction": "Search"
 }

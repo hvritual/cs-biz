@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { ElButton, ElDrawer, ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox, ElOption, ElPagination, ElSelect, ElTable, ElTableColumn } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
 import { Plus, Search } from 'lucide-vue-next';
@@ -16,8 +17,10 @@ import { errorMessage, formatDate, formatNumber } from '#/utils/format';
 import { clearPendingCommand, readPendingCommand, writePendingCommand } from '#/utils/pending-command';
 
 const workspace = useWorkspaceStore();
+const route = useRoute();
 const { data, loading, error, refresh } = useResource((ctx) => api.listCustomers(ctx), [] as CustomerView[]);
 const search = ref('');
+watch(() => route.query.search, (value) => { if (typeof value === 'string') search.value = value; }, { immediate: true });
 const status = ref<CustomerStatus | 'all'>('all');
 const page = ref(1);
 const pageSize = ref(10);

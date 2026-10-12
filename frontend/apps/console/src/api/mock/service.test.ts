@@ -379,3 +379,17 @@ describe('S01 local customer and access contract', () => {
     await stale;
   });
 });
+
+describe('Desktop member data remains tenant-scoped', () => {
+  it('persists department on membership instead of globally on the user', async () => {
+    const api = service();
+    const added = await api.createMember(context(), {
+      name: '林远', email: 'desktop-member@example.test', title: '运营',
+      roleIds: ['qinghe-viewer'], department: '客户成功部',
+    }, 'desktop-department-1');
+    expect(added.department).toBe('客户成功部');
+    expect((await api.listMembers(context())).find((row) => row.id === added.id)?.department).toBe('客户成功部');
+    await expect(api.listMembers(context('chen', 'yunlan'))).resolves.not.toContainEqual(added);
+    expect(added.user).not.toHaveProperty('department');
+  });
+});
