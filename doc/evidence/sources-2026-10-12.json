@@ -1,0 +1,92 @@
+{
+  "observed_on": "2026-10-12",
+  "timezone": "Asia/Shanghai",
+  "method": "GitHub plugin repository/search/ref/release/file reads plus official web documentation; static inspection only",
+  "runtime_validation": "not_performed",
+  "target": {
+    "repository": "hvritual/cs-biz",
+    "initial_state": "empty_repository",
+    "initial_commit": null,
+    "initialized_main_commit": "9bb04654e258ffec1e043e031d91b35d166c0746",
+    "default_branch_name": "main",
+    "initial_branches": [],
+    "contents_message": "This repository is empty.",
+    "sources": [
+      "https://api.github.com/repos/hvritual/cs-biz",
+      "https://api.github.com/repos/hvritual/cs-biz/branches",
+      "https://api.github.com/repos/hvritual/cs-biz/contents/",
+      "https://api.github.com/repos/hvritual/cs-biz/issues?state=open&per_page=50"
+    ]
+  },
+  "candidates": [
+    {
+      "repository": "vbenjs/vue-vben-admin",
+      "observed_ref": "main",
+      "observed_commit": "4634655c621338abd97386350e5dc3d9119dab2c",
+      "latest_release": "v5.7.0",
+      "release_commit": "63a38dce49ba109f61607994e21ba921d8e970e9",
+      "release_published_at": "2026-05-21T01:09:08Z",
+      "license_file": "LICENSE",
+      "license_identifier_observed": "MIT",
+      "selected_import_commit": null,
+      "sources": [
+        "https://api.github.com/repos/vbenjs/vue-vben-admin/releases/latest",
+        "https://api.github.com/repos/vbenjs/vue-vben-admin/git/ref/tags/v5.7.0",
+        "https://github.com/vbenjs/vue-vben-admin/blob/4634655c621338abd97386350e5dc3d9119dab2c/apps/web-antd/src/app.vue",
+        "https://github.com/vbenjs/vue-vben-admin/blob/4634655c621338abd97386350e5dc3d9119dab2c/packages/effects/access/src/directive.ts",
+        "https://github.com/vbenjs/vue-vben-admin/blob/4634655c621338abd97386350e5dc3d9119dab2c/packages/effects/access/src/use-access.ts",
+        "https://doc.vben.pro/guide/in-depth/ui-framework.html",
+        "https://doc.vben.pro/guide/in-depth/access.html",
+        "https://doc.vben.pro/en/guide/in-depth/locale.html"
+      ]
+    },
+    {
+      "repository": "pure-admin/vue-pure-admin",
+      "observed_ref": "main",
+      "observed_commit": "fae75ad1cd52d11a7279931ef5bba2b80e363c7b",
+      "latest_release": "v7.0.0",
+      "release_published_at": "2026-04-07T03:21:27Z",
+      "license_file": "LICENSE",
+      "license_identifier_observed": "MIT",
+      "selected_import_commit": null,
+      "sources": [
+        "https://api.github.com/repos/pure-admin/vue-pure-admin/releases/latest",
+        "https://github.com/pure-admin/vue-pure-admin/blob/fae75ad1cd52d11a7279931ef5bba2b80e363c7b/README.md",
+        "https://api.github.com/repos/pure-admin/pure-admin-thin/branches/i18n"
+      ],
+      "thin_i18n": {
+        "repository": "pure-admin/pure-admin-thin",
+        "ref": "i18n",
+        "commit": "2395bb11b51b45c3e9ae78ee23f88e3f3510b606",
+        "commit_date": "2025-10-30T01:50:04Z",
+        "commit_message": "release: update `6.2.0`"
+      }
+    },
+    {
+      "repository": "soybeanjs/soybean-admin",
+      "observed_ref": "main",
+      "observed_commit": "341f4ee4e590207cd1176441763247568a3e8f8d",
+      "latest_release": "v2.3.0",
+      "release_published_at": "2026-10-09T13:21:32Z",
+      "license_file": "LICENSE",
+      "license_identifier_observed": "MIT",
+      "selected_import_commit": null,
+      "maintenance_note": "README states 2.3 is the final maintained 2.x major line and 3.0 is being rebuilt on ubean and VeanUI",
+      "sources": [
+        "https://api.github.com/repos/soybeanjs/soybean-admin/releases/latest",
+        "https://github.com/soybeanjs/soybean-admin/blob/341f4ee4e590207cd1176441763247568a3e8f8d/README.md",
+        "https://github.com/soybeanjs/soybean-admin/issues/941"
+      ]
+    }
+  ],
+  "workflow_dependency": {
+    "repository": "actions/checkout",
+    "observed_ref": "v6",
+    "commit": "d23441a48e516b6c34aea4fa41551a30e30af803",
+    "source": "https://api.github.com/repos/actions/checkout/git/ref/tags/v6"
+  },
+  "official_references": [
+    "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax",
+    "https://router.vuejs.org/guide/advanced/dynamic-routing"
+  ]
+}
