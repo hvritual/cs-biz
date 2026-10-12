@@ -48,6 +48,8 @@ export interface User {
   email: string;
   initials: string;
   title: string;
+  department?: string;
+  lastLoginAt?: string;
   platformRole?: 'operator';
 }
 
@@ -223,7 +225,7 @@ export interface IdempotencyRecord {
 }
 
 export interface MockDatabase {
-  schemaVersion: 1;
+  schemaVersion: 2;
   users: User[];
   tenants: Tenant[];
   memberships: Membership[];

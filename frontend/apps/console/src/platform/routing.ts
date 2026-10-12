@@ -4,37 +4,47 @@ import type { NavigationItem } from '#/api/mock/types';
 
 import { markRaw } from 'vue';
 import { generateAccessible } from '@vben/access';
-import { BookOpenText, Grid, LayoutGrid, LockKeyhole, Settings, UserRoundPen } from '@vben/icons';
+import {
+  BookOpenText, Grid, LayoutGrid, LockKeyhole, Settings, UserRoundPen,
+  Building2, Cog, Crown, Monitor, Shield, Wrench,
+} from '@vben/icons';
 import { useAccessStore } from '@vben/stores';
 
 import { isSafeLocalPath, validateNavigation } from './navigation';
 
 let workspaceRouter: Router | undefined;
-let homePath = '/overview';
+let homePath = '/members';
 let allowedPaths = new Set<string>();
 let installQueue: Promise<unknown> = Promise.resolve();
 
 const viewMap: ComponentRecordType = {
   '/workspace.overview.vue': () => import('#/views/overview/index.vue').then((module) => module.default),
-  '/crm.customer.list.vue': () => import('#/views/customers/index.vue').then((module) => module.default),
+  '/workspace.customers.vue': () => import('#/views/customers/index.vue').then((module) => module.default),
   '/workspace.members.vue': () => import('#/views/members/index.vue').then((module) => module.default),
   '/workspace.roles.vue': () => import('#/views/roles/index.vue').then((module) => module.default),
-  '/workspace.profile.vue': () => import('#/views/settings/index.vue').then((module) => module.default),
-  '/workspace.apps.vue': () => import('#/views/applications/index.vue').then((module) => module.default),
-  '/platform.vue': () => import('#/views/platform/index.vue').then((module) => module.default),
+  '/workspace.settings.vue': () => import('#/views/settings/index.vue').then((module) => module.default),
+  '/workspace.platform.vue': () => import('#/views/platform/index.vue').then((module) => module.default),
 };
 
 const icons = {
-  overview: markRaw(LayoutGrid), customers: markRaw(BookOpenText),
-  members: markRaw(UserRoundPen), roles: markRaw(LockKeyhole),
-  settings: markRaw(Settings), applications: markRaw(Grid), platform: markRaw(Grid),
+  overview: markRaw(LayoutGrid),
+  customers: markRaw(BookOpenText),
+  members: markRaw(UserRoundPen),
+  roles: markRaw(LockKeyhole),
+  settings: markRaw(Settings),
+  platform: markRaw(Shield),
+  enterprise: markRaw(Building2),
+  leasing: markRaw(Monitor),
+  device: markRaw(Wrench),
+  business: markRaw(Cog),
+  system: markRaw(Cog),
 };
 
 export function createWorkspaceRoot(): RouteRecordRaw {
   return {
     name: 'Root', path: '/', component: () => import('#/layouts/basic.vue'),
     redirect: () => homePath,
-    meta: { title: 'CS Biz', hideInBreadcrumb: true },
+    meta: { title: 'CoffeeLink', hideInBreadcrumb: true },
     children: [
       {
         name: 'Personal', path: '/personal', component: () => import('#/views/personal/index.vue'),
@@ -67,7 +77,6 @@ export function clearWorkspaceRoutes() {
   }
 }
 
-/** Serializing publication prevents an older asynchronous route build replacing a newer one. */
 export function installWorkspaceRoutes(
   navigation: readonly NavigationItem[], platform: boolean, isCurrent: () => boolean,
 ) {
@@ -75,8 +84,8 @@ export function installWorkspaceRoutes(
     if (!workspaceRouter || !isCurrent()) return false;
     const routes: RouteRecordStringComponent[] = platform
       ? [{
-          name: 'platform', path: '/platform', component: 'platform',
-          meta: { title: 'menu.platform', icon: icons.platform, order: 10, keepAlive: false },
+          name: 'platform', path: '/platform', component: 'workspace.platform',
+          meta: { title: 'menu.platform', icon: icons.platform, order: 60, keepAlive: false },
         }]
       : validateNavigation(navigation).map((item) => ({
           name: `workspace-${item.name}`, path: item.path, component: item.viewKey,

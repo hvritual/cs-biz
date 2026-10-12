@@ -30,6 +30,7 @@ overrides:
   '@ctrl/tinycolor': 'catalog:'
   clsx: 'catalog:'
   pinia: 'catalog:'
+  sass-embedded: 'npm:sass@^1.99.0'
   vue: 'catalog:'
 
 catalog:
@@ -164,7 +165,6 @@ catalog:
   rolldown: ^1.0.1
   rollup-plugin-visualizer: ^7.0.1
   sass: ^1.99.0
-  sass-embedded: ^1.99.0
   secure-ls: ^2.0.0
   sortablejs: ^1.15.7
   stylelint: ^17.11.1

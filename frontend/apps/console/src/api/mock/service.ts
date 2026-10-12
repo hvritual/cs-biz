@@ -111,11 +111,11 @@ async function delay(ms: number, signal?: AbortSignal): Promise<void> {
 
 const NAVIGATION: Array<NavigationItem & { permission: PermissionCode }> = [
   { name: 'overview', path: '/overview', viewKey: 'workspace.overview', titleKey: 'menu.overview', order: 10, permission: 'workspace.read' },
-  { name: 'customers', path: '/customers', viewKey: 'crm.customer.list', titleKey: 'menu.customers', order: 20, permission: 'crm.customer.read' },
+  { name: 'customers', path: '/customers', viewKey: 'workspace.customers', titleKey: 'menu.customers', order: 20, permission: 'crm.customer.read' },
   { name: 'members', path: '/members', viewKey: 'workspace.members', titleKey: 'menu.members', order: 30, permission: 'tenant.member.read' },
   { name: 'roles', path: '/roles', viewKey: 'workspace.roles', titleKey: 'menu.roles', order: 40, permission: 'tenant.role.read' },
-  { name: 'settings', path: '/settings', viewKey: 'workspace.profile', titleKey: 'menu.settings', order: 50, permission: 'tenant.profile.read' },
-  { name: 'applications', path: '/applications', viewKey: 'workspace.apps', titleKey: 'menu.applications', order: 60, permission: 'tenant.module.read' },
+  { name: 'settings', path: '/settings', viewKey: 'workspace.settings', titleKey: 'menu.settings', order: 50, permission: 'tenant.profile.read' },
+  { name: 'platform', path: '/platform', viewKey: 'workspace.platform', titleKey: 'menu.platform', order: 60, permission: 'tenant.module.read' },
 ];
 
 /**
@@ -139,7 +139,7 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     if (!raw) return;
     try {
       const value: unknown = JSON.parse(raw);
-      if (!value || typeof value !== 'object' || !('schemaVersion' in value) || value.schemaVersion !== 1) {
+      if (!value || typeof value !== 'object' || !('schemaVersion' in value) || value.schemaVersion !== 2) {
         return fail('STORAGE_INVALID', 500);
       }
       const candidate = value as MockDatabase;
