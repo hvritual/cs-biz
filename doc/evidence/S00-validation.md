@@ -32,6 +32,8 @@ Scope: S00 structure and documentation only; no application/runtime validation.
 
 评审还修正了后端命令的措辞，明确 Go 是当前建议。最终评审在 S00 范围内无剩余 P0/P1。结构检查在修复后再次通过。
 
+提交准备中补查组件库自身发布后，将默认推荐从 Ant Design Vue 修正为 Element Plus。独立 Vben 研究补充核验了 main 与 v5.7.0 的 `apps/web-ele`、主题 hook、语言与访问适配，确认已存在真实实现。该修正不涉及运行代码或授权契约变动，候选仍未安装/构建/运行。
+
 ## 已核验与未实施的边界
 
 范围仅为目录骨架、设计、来源及本地结构门禁。前端依赖导入、业务 API、数据库、权限运行、浏览器与部署均未实施。研究候选没有安装和运行验证。

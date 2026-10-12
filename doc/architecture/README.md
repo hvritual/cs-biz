@@ -69,7 +69,7 @@ flowchart TD
 
 | 项目 | 建议 | 当前承诺范围 |
 | --- | --- | --- |
-| 前端 | Vue 3 + Vben 5 + Ant Design Vue + TypeScript | 推荐草案；未导入依赖 |
+| 前端 | Vue 3 + Vben 5 + Element Plus + TypeScript | 推荐草案；未导入依赖 |
 | 组织方式 | 单一 console 应用，必要上游包，后端动态菜单 | 不承诺任意切换组件库无成本 |
 | 后端 | Go 模块化单体 | Web 框架尚未选择 |
 | 数据库 | 优先评估 PostgreSQL 的事务与租户约束 | 未建立数据库，无容量实测 |

@@ -37,8 +37,13 @@
         "https://github.com/vbenjs/vue-vben-admin/blob/4634655c621338abd97386350e5dc3d9119dab2c/packages/effects/access/src/use-access.ts",
         "https://doc.vben.pro/guide/in-depth/ui-framework.html",
         "https://doc.vben.pro/guide/in-depth/access.html",
-        "https://doc.vben.pro/en/guide/in-depth/locale.html"
-      ]
+        "https://doc.vben.pro/en/guide/in-depth/locale.html",
+        "https://github.com/vbenjs/vue-vben-admin/blob/63a38dce49ba109f61607994e21ba921d8e970e9/apps/web-ele/src/app.vue",
+        "https://github.com/vbenjs/vue-vben-admin/blob/63a38dce49ba109f61607994e21ba921d8e970e9/apps/web-ele/src/locales/index.ts",
+        "https://github.com/vbenjs/vue-vben-admin/blob/63a38dce49ba109f61607994e21ba921d8e970e9/apps/web-ele/src/router/access.ts",
+        "https://github.com/vbenjs/vue-vben-admin/blob/63a38dce49ba109f61607994e21ba921d8e970e9/packages/effects/hooks/src/use-design-tokens.ts"
+      ],
+      "recommended_ui": "Element Plus (apps/web-ele)"
     },
     {
       "repository": "pure-admin/vue-pure-admin",
@@ -88,5 +93,25 @@
   "official_references": [
     "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax",
     "https://router.vuejs.org/guide/advanced/dynamic-routing"
+  ],
+  "ui_library_observations": [
+    {
+      "repository": "element-plus/element-plus",
+      "latest_release": "2.14.7",
+      "published_at": "2026-09-30T11:18:57Z",
+      "source": "https://api.github.com/repos/element-plus/element-plus/releases/latest"
+    },
+    {
+      "repository": "vueComponent/ant-design-vue",
+      "latest_release": "4.2.6",
+      "published_at": "2024-11-11T06:59:22Z",
+      "source": "https://api.github.com/repos/vueComponent/ant-design-vue/releases/latest"
+    },
+    {
+      "repository": "tusen-ai/naive-ui",
+      "latest_release": null,
+      "observation": "releases/latest returned 404; no maintenance conclusion inferred",
+      "source": "https://api.github.com/repos/tusen-ai/naive-ui/releases/latest"
+    }
   ]
 }

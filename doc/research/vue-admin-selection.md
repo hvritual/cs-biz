@@ -7,9 +7,9 @@
 
 ## 结论
 
-默认推荐 **Vben Admin 5 + Ant Design Vue**。只选一个主要组件库和一个 console 应用，适配本项目的租户/权益/成员/数据范围契约。选型仍为 [ADR-0001 提案](../architecture/adr/0001-frontend.md)，引入时必须选定固定版本并验证关键场景。
+默认推荐 **Vben Admin 5 + Element Plus**，从 `apps/web-ele` 引入。只选一个主要组件库和一个 console 应用，适配本项目的租户/权益/成员/数据范围契约。选型仍为 [ADR-0001 提案](../architecture/adr/0001-frontend.md)，引入时必须选定固定版本并验证关键场景。
 
-这项推荐基于已存在的组件适配与访问能力、可承受的集成路线，以及两个备选当前的维护差异。不能从 README、star 数或最近提交推导长期稳定性。
+这项推荐基于已存在的组件适配与访问能力、可承受的集成路线、组件库自己的正式发布记录，以及两个备选当前的维护差异。不能从 README、star 数或最近提交推导长期稳定性。
 
 ## 候选比较
 
@@ -20,6 +20,19 @@
 | [Soybean Admin](https://github.com/soybeanjs/soybean-admin) | 本次核验主仓是 Vue 3 + Naive UI；另有官方 Ant Design Vue/Element Plus 仓库 | 主题与 UnoCSS/Naive Token 协同、语言包 | 静态/动态路由、Elegant Router、按钮权限 | 2.3 维护线与未来 3.0 重构要分开评估，本次降为备选 |
 
 三个主仓均有 MIT 许可文件。正式采用时保留相应声明并盘点实际复制的依赖与资源；这不自动决定本项目自身的发布许可。
+
+## 组件库自己的维护观察
+
+脚手架活跃并不代表其选用的每个组件库都有相同发布节奏。本次补查 GitHub release API 后修正早期 Ant Design Vue 推荐：
+
+| 组件库 | GitHub latest release | 发布时间 | 决策意义 |
+| --- | --- | --- | --- |
+| [Element Plus](https://github.com/element-plus/element-plus/releases/tag/2.14.7) | 2.14.7 | 2026-09-30 | 有近期正式发布，Vben 5.7 已有完整适配，作为当前默认候选 |
+| [Ant Design Vue](https://github.com/vueComponent/ant-design-vue/releases/tag/4.2.6) | 4.2.6 | 2024-11-11 | 有成熟组件与既有适配，但稳定发布间隔需要纳入新项目维护评估 |
+
+这不是“Ant Design Vue 已停止维护”或“Element Plus 全面优于其他库”的结论，证据不足以支持这些断言。Naive UI 的 releases/latest 本次返回 404，不能据此推断其维护状态；若最终选择该路线，应另查 tag、包发布和实际兼容证据。
+
+Element Plus 官方说明支持基于 CSS variables 的动态定制与暗色模式，来源：[主题](https://element-plus.org/en-US/guide/theming)、[暗色模式](https://element-plus.org/en-US/guide/dark-mode)。组件库最新 release 与 Vben 的依赖声明/锁文件是不同观察，正式引入以固定来源锁文件和安装结果为准。
 
 ## 固定观察点
 
@@ -36,12 +49,12 @@
 
 ### 可核实能力
 
-- [官方组件库说明](https://doc.vben.pro/guide/in-depth/ui-framework.html) 列出独立的 UI 应用与必要适配工作。选择 Ant Design Vue 后不应同时保留所有 UI 演示作为业务依赖。
-- 固定提交中的 [app.vue](https://github.com/vbenjs/vue-vben-admin/blob/4634655c621338abd97386350e5dc3d9119dab2c/apps/web-antd/src/app.vue) 将明暗算法、紧凑算法、主题 tokens 和 locale 传入 Ant Design Vue 的 ConfigProvider；换肤有真实组件适配，不仅是切一个页面背景色。
+- [官方组件库说明](https://doc.vben.pro/guide/in-depth/ui-framework.html) 列出独立的 UI 应用与必要适配工作。选择 Element Plus 后不应同时保留所有 UI 演示作为业务依赖。
+- main 与 v5.7.0 中都存在真实的 Element Plus 应用。发布版 [app.vue](https://github.com/vbenjs/vue-vben-admin/blob/63a38dce49ba109f61607994e21ba921d8e970e9/apps/web-ele/src/app.vue) 调用 `useElementPlusDesignTokens()`，由[共享 hook](https://github.com/vbenjs/vue-vben-admin/blob/63a38dce49ba109f61607994e21ba921d8e970e9/packages/effects/hooks/src/use-design-tokens.ts) 将品牌色、背景、边框、圆角、文字及状态色映射为 `--el-*` CSS 变量。`ElConfigProvider` 在该应用中接收 locale；主题不是 Antd 的 algorithm 机制。
 - [权限文档](https://doc.vben.pro/guide/in-depth/access.html) 定义后端菜单生成路由、权限码和访问组件等机制；可用作本项目访问投影的渲染层。
 - [国际化文档](https://doc.vben.pro/en/guide/in-depth/locale.html) 描述偏好更新与语言包动态加载。仍须验证业务文案和选定组件库的语言覆盖。
 
-Ant Design Vue 应用的 [locales/index.ts](https://github.com/vbenjs/vue-vben-admin/blob/4634655c621338abd97386350e5dc3d9119dab2c/apps/web-antd/src/locales/index.ts) 当前明确适配中文/英文的组件库和日期语言；更多语言需要补齐，不能把核心已有某语言文件解释为整个应用已完成该语言。
+Element Plus 应用的 [locales/index.ts](https://github.com/vbenjs/vue-vben-admin/blob/63a38dce49ba109f61607994e21ba921d8e970e9/apps/web-ele/src/locales/index.ts) 当前明确适配中文/英文的组件库和日期语言；更多语言需要补齐，不能把核心已有某语言文件解释为整个应用已完成该语言。[router/access.ts](https://github.com/vbenjs/vue-vben-admin/blob/63a38dce49ba109f61607994e21ba921d8e970e9/apps/web-ele/src/router/access.ts) 使用与其他应用相同的访问层和本地页面映射。
 
 ### 影响 SaaS 的静态源码发现
 
@@ -56,7 +69,7 @@ Ant Design Vue 应用的 [locales/index.ts](https://github.com/vbenjs/vue-vben-a
 
 ### 导入策略
 
-在固定来源上先证明唯一 Ant Design Vue 应用可安装和构建，再做有记录的裁剪。保留真实依赖的内部包与许可证；把业务组件放在自己的模块，尽量通过 API/主题/访问适配扩展。每次上游升级先在单独分支重跑主题、语言、权限变化、租户切换和深链接测试。
+在固定来源上先证明唯一 Element Plus 应用可安装和构建，再做有记录的裁剪。保留真实依赖的内部包与许可证；把业务组件放在自己的模块，尽量通过 API/主题/访问适配扩展。每次上游升级先在单独分支重跑主题、语言、权限变化、租户切换和深链接测试。
 
 ## Pure：简洁路线需要先解决版本差异
 

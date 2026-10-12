@@ -7,7 +7,7 @@
 - 2026-10-12 核验时，`hvritual/cs-biz` 是空仓库：没有分支、提交、应用代码或 Issue。
 - 本次建立 `frontend`、`backend`、`doc`，两端分别包含 `deploy`、`ci`、`doc`。
 - 前端明确要求：Vue、成熟组件库、动态换肤、国际化、动态菜单和权限管理。
-- 推荐候选为 **Vben Admin 5 + Ant Design Vue**；技术决策状态为 `proposed`，尚未导入前端依赖。
+- 推荐候选为 **Vben Admin 5 + Element Plus**；技术决策状态为 `proposed`，尚未导入前端依赖。
 - 后端建议使用 Go 模块化单体；具体 Web 框架、数据库和认证提供方尚未锁定。
 - 当前可执行的是仓库结构与文档一致性检查。没有可运行的 SaaS 应用、真实 API、数据库或部署包。
 

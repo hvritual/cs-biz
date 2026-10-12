@@ -2,7 +2,7 @@
 
 当前只有前端目录边界与接入设计，尚未导入 Vue 应用或 npm 依赖。
 
-明确需求为 Vue + 成熟组件库 + 动态换肤 + 国际化 + 动态菜单与权限管理。推荐采用 Vben Admin 5 的 Ant Design Vue 应用作为来源，详见 [选型研究](../doc/research/vue-admin-selection.md) 和 [ADR-0001](../doc/architecture/adr/0001-frontend.md)。
+明确需求为 Vue + 成熟组件库 + 动态换肤 + 国际化 + 动态菜单与权限管理。推荐采用 Vben Admin 5 的 Element Plus 应用 `apps/web-ele` 作为来源，详见 [选型研究](../doc/research/vue-admin-selection.md) 和 [ADR-0001](../doc/architecture/adr/0001-frontend.md)。
 
 | 目录 | 责任 |
 | --- | --- |

@@ -7,9 +7,11 @@
 
 ## 推荐
 
-选择 **Vben Admin 5 + Ant Design Vue** 作为默认候选，在 `frontend/` 内保留可构建的 pnpm workspace，仅交付一个 console 应用。沿用上游可用的布局、主题、国际化和访问适配；业务契约放在自己的模块中。
+选择 **Vben Admin 5 + Element Plus** 作为默认候选，以真实的 `apps/web-ele` 应用为来源，在 `frontend/` 内保留可构建的 pnpm workspace，仅交付一个 console 应用。沿用上游可用的布局、主题、国际化和访问适配；业务契约放在自己的模块中。
 
 选择依据是它已有组件库应用、主题状态与 UI 适配、动态路由和权限码能力，较适合需要多个租户工作区和长期扩展的后台。它并不提供本项目完整的租户权益、数据隔离或经营业务实现。
+
+本次早期草案推荐过 Ant Design Vue。补查组件库正式发布后修正：Element Plus latest release 为 2.14.7（2026-09-30），Ant Design Vue 为 4.2.6（2024-11-11）。在没有既有 UI 品牌约束的新项目中，近期正式发布加上 Vben 现成适配使 Element Plus 更适合作为默认候选。发布日期不等于全面质量评分，也不足以断言 Ant Design Vue 已停止维护。发布主源见选型研究。
 
 来源与固定版本见 [选型研究](../../research/vue-admin-selection.md)。当前核验的最新发布为 `v5.7.0`，main 为 `4634655c621338abd97386350e5dc3d9119dab2c`；main 中部分 package 标记为 5.8.0，不能称已发布 5.8.0。正式引入时从选定 release/ref 固定 commit 与锁文件，重新验证本项目需要的行为。
 
@@ -17,6 +19,7 @@
 
 | 备选 | 适用条件 | 代价 |
 | --- | --- | --- |
+| Vben Admin 5 + Ant Design Vue | 已有 Ant Design 组件资产或团队明确偏好 | 需评估当前稳定版本的发布间隔与本项目兼容需求，不能将 React antd 或其他派生库的维护状态套用过来 |
 | Pure Admin 国际化精简版 + Element Plus | 团队更熟悉 Element Plus，优先较直接的应用目录和二次开发 | 当前 i18n 精简分支仍为 6.2.0，不能把完整版 7.0 的维护状态直接套用；需评估补齐差异 |
 | Soybean Admin 2.3 + Naive UI | 团队接受固定 2.x 维护线与自动路由生成体系 | 官方宣布 2.3 为 2.x 最后维护大版本，3.0 将转 ubean/VeanUI，需要承担路线迁移评估 |
 | Vue + 组件库自行搭壳 | 候选模板被运行验证证明耦合过重，且有维护预算 | 重新承担布局、主题、语言、路由与访问工程成本 |
