@@ -31,7 +31,8 @@ for (const source of [css,shell,menu,members]) {
   if (/@media\s*\(\s*max-width/i.test(source)) errors.push('Unexpected mobile-specific rule');
   if (/action\s*:\s*\(\s*\)\s*=>\s*\{\s*\}/.test(source)) errors.push('Inert product control');
 }
-for (const token of ['--cl-rail-surface', '--cl-header-glass-bg', '--cl-header-glass-edge']) {
+for (const token of ['--cl-rail-surface', '--cl-header-glass-bg', '--cl-header-glass-edge',
+  '--cl-table-header-surface', '--cl-table-header-text']) {
   if (!css.includes(token)) errors.push('Missing glass/surface token: ' + token);
 }
 for (const marker of ['backdrop-filter: blur(24px) saturate(175%)', 'background-color: var(--cl-rail-surface)', 'opacity: 1']) {

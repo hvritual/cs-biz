@@ -59,3 +59,7 @@ Use a translucent surface with alpha between 0.60 and 0.85, genuine `backdrop-fi
 The left primary navigation rail is **not** glass: its background must remain fully opaque (`--cl-rail-surface`, light `#ffffff`, dark `#1a222d`), with no background bleed-through and no inherited global-header transparency. When the company menu opens, the rail and navigation panel stay visually solid while the header stays glassy. Do not alter the approved 208px/76px/480px sizing, or introduce mobile styles.
 
 Visual and functional acceptance: computed CSS in Chromium must confirm header background alpha below 1, nonempty blur filter, rail alpha exactly 1 and theme-appropriate opaque color at 1366/1440/1536 widths. Take member list, expanded menu and collapsed menu screenshots, plus a dark-theme screen capture. Do not call a static design drawing a runtime screenshot.
+
+### Dark theme contrast after visual inspection
+
+Dark-mode Desktop uses an opaque canvas `#11171f` behind the opaque rail `#1a222d`, so white page titles do not disappear into a light canvas. Table header surface `#263445` and text `#d2dff1` remain paired; the top toolbar icons use high-contrast foreground. Check the computed background and text colors, not only the presence of a `dark` class. The header itself remains translucent in dark mode.

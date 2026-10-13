@@ -1,6 +1,8 @@
 :root {
   /* A fully opaque rail must not inherit the translucent header surface. */
   --cl-rail-surface: #ffffff;
+  --cl-table-header-surface: #f7f9fc;
+  --cl-table-header-text: #637185;
   /* Liquid glass is intentionally limited to the global header. */
   --cl-header-glass-bg: rgba(246, 250, 255, .73);
   --cl-header-glass-edge: rgba(255, 255, 255, .76);
@@ -97,7 +99,10 @@ html, body, #app { min-width: 1100px; }
 .cl-desktop-main .page-heading h1 { font-size: 24px; font-weight: 650; line-height: 32px; letter-spacing: -.45px; }
 .cl-desktop-main .page-heading p { margin-top: 4px; font-size: 13px; line-height: 21px; }
 .cl-desktop-main .surface { background: var(--biz-surface); border: 1px solid var(--biz-border); border-radius: var(--cl-card-radius); box-shadow: 0 5px 16px rgba(37,63,94,.025); }
-.cl-desktop-main .el-table th.el-table__cell { background: #f7f9fc; }
+.cl-desktop-main .el-table th.el-table__cell {
+  background: var(--cl-table-header-surface);
+  color: var(--cl-table-header-text);
+}
 .cl-navigation-layer { position: fixed; inset: var(--cl-header-height) 0 0 0; z-index: var(--cl-layer-nav-mask); }
 .cl-navigation-mask { position: absolute; inset: 0; background: rgba(37,55,83,.18); }
 .cl-navigation-panel { position: fixed; left: var(--cl-overlay-left); top: var(--cl-header-height); bottom: 0;
@@ -128,6 +133,13 @@ html, body, #app { min-width: 1100px; }
 .cs-loading-spinner { width: 20px; height: 20px; border: 2px solid var(--cl-line); border-top-color: var(--cl-action); border-radius: 50%; animation: cl-spin .75s linear infinite; }
 @keyframes cl-spin { to { transform: rotate(360deg); } }
 .dark {
+  --cl-canvas: #11171f;
+  --cl-ink: #e8edf3;
+  --cl-muted: #a4b1c1;
+  --cl-line: #334051;
+  --cl-action-soft: #243a5a;
+  --cl-table-header-surface: #263445;
+  --cl-table-header-text: #d2dff1;
   --cl-rail-surface: #1a222d;
   --cl-header-glass-bg: rgba(23, 33, 47, .72);
   --cl-header-glass-edge: rgba(171, 198, 230, .16);
@@ -143,6 +155,20 @@ html, body, #app { min-width: 1100px; }
     linear-gradient(108deg,rgba(255,255,255,.04),transparent 60%,rgba(137,166,212,.06));
 }
 .dark .cl-global-header::after { opacity: .2; }
+.dark .cl-desktop-shell { background-color: var(--cl-canvas); }
+.dark .cl-desktop-main .el-table {
+  --el-table-header-bg-color: var(--cl-table-header-surface);
+  --el-table-header-text-color: var(--cl-table-header-text);
+}
+.dark .cl-desktop-main .el-table th.el-table__cell {
+  background: var(--cl-table-header-surface);
+  color: var(--cl-table-header-text);
+}
+.dark .cl-members-heading h1 { color: var(--biz-text); }
+.dark .cl-breadcrumb { color: #adc0d8; }
+.dark .cs-shell-tool { color: #d7e5f6; }
+.dark .cl-brand-words small { color: #c3d2e5; }
+.dark .cl-tenant-building { color: #9bd5c9; }
 .dark .cl-header-search-field .el-input__wrapper {
   background: rgba(24, 37, 54, .56);
   border-color: rgba(148, 177, 215, .17);

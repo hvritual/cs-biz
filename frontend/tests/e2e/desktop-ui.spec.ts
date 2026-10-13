@@ -117,6 +117,10 @@ test('dark appearance preserves header glass and opaque rail', async ({ page }, 
   expect(alpha).toBeLessThan(0.9);
   expect(style.blur).toContain('blur(24px)');
   await expect(rail).toHaveCSS('background-color', 'rgb(26, 34, 45)');
+  await expect(page.locator('.cl-desktop-shell')).toHaveCSS('background-color', 'rgb(17, 23, 31)');
+  await expect(page.getByRole('heading', { name: '成员管理', exact: true })).toHaveCSS('color', 'rgb(232, 237, 243)');
+  await expect(page.locator('.cl-members-table .el-table__header-wrapper th.el-table__cell').first())
+    .toHaveCSS('background-color', 'rgb(38, 52, 69)');
   await saveScreenshot(page, info, 'glass-header-dark-1536');
   await page.locator('[data-domain="enterprise"]').click();
   await expect(page.locator('.cl-navigation-panel')).toBeVisible();
