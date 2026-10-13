@@ -40,12 +40,9 @@ html, body, #app { min-width: 1100px; }
   align-items: center; gap: 12px; position: fixed; inset: 0 0 auto; height: var(--cl-header-height);
   z-index: var(--cl-layer-header); padding: 0 18px;
   isolation: isolate;
-  background: var(--cl-header-glass-bg);
-  border-bottom: 1px solid var(--cl-header-glass-edge);
   -webkit-backdrop-filter: blur(24px) saturate(175%);
   backdrop-filter: blur(24px) saturate(175%);
-  box-shadow: 0 8px 26px rgba(55, 78, 116, .105), inset 0 1px 0 rgba(255, 255, 255, .78);
-}
+ }
 /* Reflection is a light-only coating: hit targets remain on the actual controls. */
 .cl-global-header::before {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
@@ -86,9 +83,6 @@ html, body, #app { min-width: 1100px; }
 .cl-primary-rail {
   position: fixed; top: var(--cl-header-height); bottom: 0; left: var(--cl-rail-gutter); z-index: var(--cl-layer-nav-rail);
   width: var(--cl-rail-current); display: flex; flex-direction: column;
-  background-color: var(--cl-rail-surface); background-image: none; opacity: 1;
-  border: 1px solid var(--cl-line); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  box-shadow: var(--shadow-panel);
   transition: width .16s ease;
 }
 .cl-primary-links { display: grid; align-content: start; gap: 3px; flex: 1; padding: 12px 14px; }
@@ -126,7 +120,7 @@ html, body, #app { min-width: 1100px; }
 }
 .cl-navigation-layer {
   --cl-overlay-left: calc(var(--cl-rail-expanded) + var(--cl-rail-gutter));
-  position: fixed; inset: var(--cl-header-height) 0 0 0; z-index: var(--cl-layer-nav-mask);
+  position: fixed; inset: var(--cl-header-height) 0 0 var(--cl-rail-expanded); z-index: var(--cl-layer-nav-mask);
 }
 .cl-navigation-layer.is-collapsed {
   --cl-overlay-left: calc(var(--cl-rail-collapsed) + var(--cl-rail-gutter));
@@ -135,7 +129,7 @@ html, body, #app { min-width: 1100px; }
 .cl-navigation-panel { position: fixed; left: var(--cl-overlay-left); top: var(--cl-header-height); bottom: 0;
   z-index: var(--cl-layer-nav-panel); width: var(--cl-flyout-width); max-width: calc(100vw - var(--cl-overlay-left) - 16px);
   display: flex; flex-direction: column; padding: 22px var(--cl-flyout-padding) 18px; background: var(--biz-surface);
-  border-radius: 0 var(--radius-xl) var(--radius-xl) 0; box-shadow: var(--shadow-menu);
+
 }
 .cl-navigation-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--biz-border); }
 .cl-navigation-heading h2 { font-size: 22px; font-weight: 650; line-height: 30px; margin: 0; }

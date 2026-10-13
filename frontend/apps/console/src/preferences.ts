@@ -2,7 +2,7 @@ import { defineOverridesPreferences } from '@vben/preferences';
 
 export const overridesPreferences = defineOverridesPreferences({
   app: {
-    name: 'CoffeeLink', defaultHomePath: '/overview', accessMode: 'backend',
+    name: 'CS', defaultHomePath: '/overview', accessMode: 'backend',
     layout: 'sidebar-nav', locale: 'zh-CN', timezone: 'Asia/Shanghai',
     contentPadding: 0, enablePreferences: false, enableCopyPreferences: false,
     enableCheckUpdates: false, enableRefreshToken: false, defaultAvatar: '',
