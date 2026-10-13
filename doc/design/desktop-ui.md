@@ -65,3 +65,14 @@ test exact visual geometry, two themes, actual values, brand switching,
 menu open/close without content shift, no app horizontal overflow,
 and real screenshots from the exact commit. Keep security tests, build,
 i18n and copy checks. A green TypeScript run does not prove visual parity.
+
+## Header liquid-glass and opaque sidebar rule
+
+The 56px header retains the already-approved cs-biz translucent, blurred
+liquid-glass coating: alpha between 0.60 and 0.85, blur(24px), rim light,
+and a nearly opaque fallback. This is the sole deliberate departure from
+Biz V1.2's 10px header backdrop blur. The rail remains strictly opaque:
+light surface #ffffff, dark surface #111827, no backdrop filter.
+The 8px rail inset must not expose an interactive background layer.
+Retain the 18% scrim, focus restoration, Escape and outside click behavior
+while the 480px panel is open.
