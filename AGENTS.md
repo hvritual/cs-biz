@@ -28,3 +28,7 @@
 ## Desktop design system
 
 For every future UI task, read and comply with **doc/design/desktop-ui.md**. Use its shared tokens and Desktop browser checks, not page-local visual assumptions. Record screenshots from the exact changed commit.
+
+## No-Stall Gate: mandatory for future tasks
+
+Read **doc/ci/NO-STALL-GATES.md**. Run Fast before any full qualification; UI work runs one targeted Desktop journey before promotion. Do not launch a full browser suite on each push or edit test expectations without runtime evidence. Source-of-truth layout/token rules remain in doc/design/desktop-ui.md. Never describe an unprotected branch as GitHub merge-protected.

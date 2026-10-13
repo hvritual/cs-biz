@@ -73,6 +73,12 @@ for (const marker of ['backdrop-filter: blur(24px) saturate(175%)', 'background-
   if (!css.includes(marker)) errors.push('Missing shell material contract: ' + marker);
 }
 if (!rules.includes('Header liquid-glass and opaque sidebar rule')) errors.push('Missing material spec');
+if (!shell.includes("'is-collapsed': collapsed") || !shell.includes(' :collapsed="collapsed"')) {
+  errors.push('Desktop shell must publish one reactive collapse state to rail, content and overlay');
+}
+if (!menu.includes("'is-collapsed': collapsed") || menu.includes("railWidth + 'px'")) {
+  errors.push('Company flyout must derive position from the canonical collapse token');
+}
 if (!JSON.parse(pkg).scripts['check:desktop']) errors.push('Missing check:desktop script');
 if (errors.length) { console.error(errors.join('\n')); process.exitCode=1; }
 else console.log('PASS: Biz V1.2 semantic tokens, inset 200/68 rail, adaptive tenant theme, Desktop UI contract and global references.');

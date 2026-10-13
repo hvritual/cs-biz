@@ -14,6 +14,8 @@ concurrency:
 
 jobs:
   repository-structure:
+    # Internal PRs are already checked through push; forks require PR checks.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

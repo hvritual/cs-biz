@@ -16,7 +16,6 @@ const workspace = useWorkspaceStore();
 const { sidebarCollapsed } = usePreferences();
 const flyout = ref(false);
 const collapsed = computed(() => sidebarCollapsed.value);
-const railWidth = computed(() => collapsed.value ? 76 : 208);
 const inEnterprise = computed(() => ['/members', '/roles', '/applications', '/personal'].includes(route.path));
 const domains = computed(() => {
   const accessVersion = workspace.context?.accessVersion;
@@ -53,7 +52,7 @@ watch(() => workspace.generation, () => { flyout.value = false; });
 </script>
 
 <template>
-  <div class="cl-desktop-shell" :style="{ '--cl-rail-width': railWidth + 'px' }">
+  <div class="cl-desktop-shell" :class="{ 'is-collapsed': collapsed, 'is-platform': workspace.isPlatform }">
     <header class="cl-global-header">
       <button type="button" class="cl-brand" aria-label="CoffeeLink" @click="router.push(getWorkspaceHome())">
         <span class="cl-brand-icon cs-brand-mark" aria-hidden="true"><img :src="brandMark" alt="" /></span>
@@ -85,7 +84,7 @@ watch(() => workspace.generation, () => { flyout.value = false; });
     </nav>
     <main class="cl-desktop-main" id="main-content"><RouterView /></main>
     <EnterpriseCenterOverlay
-      :visible="flyout" :rail-width="railWidth" :active-path="route.path"
+      :visible="flyout" :collapsed="collapsed" :active-path="route.path"
       @close="closeFlyout" @navigate="flyout = false"
     />
     <div v-if="workspace.loading" class="cs-workspace-loading" role="status" aria-live="polite">

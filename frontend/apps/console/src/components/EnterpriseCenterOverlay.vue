@@ -7,7 +7,7 @@ import { canVisitPath } from '#/platform/routing';
 import { useWorkspaceStore } from '#/store';
 import coffeeMenu from '#/assets/coffee-menu.webp';
 
-const props = defineProps<{ visible: boolean; railWidth: number; activePath: string }>();
+const props = defineProps<{ visible: boolean; collapsed: boolean; activePath: string }>();
 const emit = defineEmits<{ close: []; navigate: [] }>();
 const router = useRouter();
 const workspace = useWorkspaceStore();
@@ -52,7 +52,7 @@ onBeforeUnmount(() => { document.removeEventListener('keydown', onKeyDown); });
 
 <template>
   <Teleport to="body">
-    <div v-if="visible" class="cl-navigation-layer" :style="{ '--cl-overlay-left': railWidth + 'px' }">
+    <div v-if="visible" class="cl-navigation-layer" :class="{ 'is-collapsed': collapsed }">
       <div class="cl-navigation-mask" @click.stop="emit('close')"></div>
       <section class="cl-navigation-panel" :aria-label="$t('shell.enterpriseCenter')" role="dialog" aria-modal="true">
         <div class="cl-navigation-heading">

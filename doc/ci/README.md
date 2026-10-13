@@ -33,3 +33,7 @@ GitHub 只自动发现 `.github/workflows` 的工作流；此处存放检查逻�
 | 发布验收 | 各端 deploy + 全局调度 | 固定构建、迁移、部署与环境回读 |
 
 S01 已增加前端真实 job；S02/S03 引入后端与跨端运行代码时继续增加对应 job。缺少依赖时应失败并给出原因，不能回退成只执行结构检查后宣布功能完成。PR 门禁、主线合并、部署成功分别记录，参见 [S01 验证](../evidence/S01-validation.md)。
+
+## Fast Gate / Full Gate (2026-10)
+
+Read [No-Stall Delivery Gates](NO-STALL-GATES.md). The fast path is `bash doc/ci/check.sh --fast`; `bash doc/ci/check.sh --full` (default) is reserved for qualification. On UI changes, use a targeted browser probe before Full. The GitHub Fast push workflow and Full review-ready PR workflow are deliberately separated; PRs left Draft are not Full-qualified. Old descriptions of unconditional push+PR full E2E no longer apply.

@@ -52,3 +52,7 @@
 ## UI task contract
 
 Before a frontend implementation, read **doc/design/desktop-ui.md**. Record UI page template, authorized actions, desktop screenshots at 1366/1440/1536 widths, negative interaction checks and actual Playwright results tied to the same commit.
+
+## Required delivery gate for any new frontend task
+
+Use **doc/ci/NO-STALL-GATES.md**. Record the smallest failing assertion and source ownership; the Fast Gate outcome; targeted Desktop verification for visible UI work; then the frozen head SHA and the Full Gate status when PR becomes ready for review. No per-push full-browser validation, unverified test changes, duplicate CI conclusions or merging a red/pending/unavailable Full Gate. GitHub branch protection requires admin configuration and cannot be inferred from a successful workflow.

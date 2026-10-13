@@ -1,21 +1,33 @@
-name: Frontend validation
+name: Frontend Fast Gate
 
+# Internal branch pushes run exactly one cheap gate. Internal PR hooks are
+# intentionally skipped because they point at the same head commit.
 on:
   push:
     paths:
       - 'frontend/**'
+      - 'doc/design/**'
+      - 'doc/ci/**'
+      - 'doc/templates/**'
+      - 'AGENTS.md'
       - '.github/workflows/frontend.yml'
+      - '.github/workflows/frontend-full.yml'
   pull_request:
     paths:
       - 'frontend/**'
+      - 'doc/design/**'
+      - 'doc/ci/**'
+      - 'doc/templates/**'
+      - 'AGENTS.md'
       - '.github/workflows/frontend.yml'
+      - '.github/workflows/frontend-full.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: frontend-${{ github.workflow }}-${{ github.ref }}
+  group: frontend-fast-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -23,39 +35,30 @@ env:
   DO_NOT_TRACK: '1'
 
 jobs:
-  frontend-validation:
+  frontend-fast:
+    # PRs from this same repo are already covered by the push workflow.
+    # Forked PRs still receive fast validation.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 8
     defaults:
       run:
         working-directory: frontend
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6; verified 2026-10-12
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
       - name: Node
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6; verified 2026-10-12
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: '24.19.0'
           package-manager-cache: false
-      - name: Activate repository package manager
+      - name: Activate pinned package manager
         run: |
           corepack enable
           corepack install
       - name: Install locked dependencies
         run: corepack pnpm install --frozen-lockfile
-      - name: Install browser
-        run: corepack pnpm exec playwright install --with-deps chromium
-      - name: Validate frontend and browser journeys
-        run: corepack pnpm check
-      - name: Retain browser evidence
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4; verified 2026-10-12
-        with:
-          name: frontend-browser-evidence-${{ github.run_attempt }}
-          path: |
-            frontend/playwright-report/
-            frontend/test-results/
-          retention-days: 7
-          if-no-files-found: warn
+      - name: Fast type, lint, copy, token, gate-policy and unit checks
+        run: corepack pnpm check:fast

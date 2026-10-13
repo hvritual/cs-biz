@@ -1,0 +1,67 @@
+name: Frontend Full Gate
+
+# NO automatic full run on each push. Promotion to ready-for-review (or an
+# explicit manual dispatch after the workflow reaches the default branch)
+# is the expensive qualification boundary.
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+    paths:
+      - 'frontend/**'
+      - 'doc/design/**'
+      - 'doc/ci/**'
+      - 'doc/templates/**'
+      - 'AGENTS.md'
+      - '.github/workflows/frontend.yml'
+      - '.github/workflows/frontend-full.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-full-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: '1'
+  DO_NOT_TRACK: '1'
+
+jobs:
+  frontend-validation:
+    if: github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - name: Activate pinned package manager
+        run: |
+          corepack enable
+          corepack install
+      - name: Install locked dependencies
+        run: corepack pnpm install --frozen-lockfile
+      - name: Install Chromium only for Full Gate
+        run: corepack pnpm exec playwright install --with-deps chromium
+      - name: Full qualification (fast, build, all browser journeys)
+        run: corepack pnpm check:full
+      - name: Retain screenshots and traces
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: frontend-browser-evidence-${{ github.run_attempt }}
+          path: |
+            frontend/playwright-report/
+            frontend/test-results/
+          retention-days: 7
+          if-no-files-found: warn
