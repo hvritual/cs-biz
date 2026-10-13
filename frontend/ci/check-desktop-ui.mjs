@@ -73,7 +73,8 @@ for (const marker of ['backdrop-filter: blur(24px) saturate(175%)', 'background-
   if (!css.includes(marker)) errors.push('Missing shell material contract: ' + marker);
 }
 if (!rules.includes('Header liquid-glass and opaque sidebar rule')) errors.push('Missing material spec');
-if (!shell.includes("'is-collapsed': collapsed") || !shell.includes(' :collapsed="collapsed"')) {
+if (!shell.includes('class="cl-desktop-shell" :class="{ \'is-collapsed\': collapsed, \'is-platform\': workspace.isPlatform }"') ||
+    !shell.includes(' :collapsed="collapsed"')) {
   errors.push('Desktop shell must publish one reactive collapse state to rail, content and overlay');
 }
 if (!menu.includes("'is-collapsed': collapsed") || menu.includes("railWidth + 'px'")) {

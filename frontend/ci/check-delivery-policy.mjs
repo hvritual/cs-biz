@@ -45,7 +45,7 @@ function problems({ pkg, fast, full, shell, overlay, css }) {
   if (!fast.includes('cancel-in-progress: true') || !full.includes('cancel-in-progress: true')) {
     errors.push('Obsolete runs must cancel when superseded');
   }
-  if (!shell.includes("'is-collapsed': collapsed") ||
+  if (!shell.includes('class="cl-desktop-shell" :class="{ \'is-collapsed\': collapsed, \'is-platform\': workspace.isPlatform }"') ||
       !shell.includes(' :collapsed="collapsed"') ||
       /collapsed\.value\s*\?\s*76\s*:\s*208/.test(shell)) {
     errors.push('Shared shell collapse state is not connected to canonical tokens');
