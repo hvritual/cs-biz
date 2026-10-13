@@ -50,8 +50,10 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
       '--header-height': '56px', '--rail-width': '200px', '--rail-collapsed-width': '68px',
       '--rail-offset': '8px', '--module-width': '480px', '--member-detail-width': '360px',
       '--color-canvas': '#f5f7fa', '--color-text-muted': '#64748b',
-      '--color-surface': '#ffffff', '--control-height': '36px', '--table-row-height': '64px',
+      '--control-height': '36px', '--table-row-height': '64px',
     });
+    // Chromium may normalize the same valid white CSS token as #fff.
+    await expect(main).toHaveCSS('background-color', 'rgb(255, 255, 255)');
     await expect(page.locator('.cl-metric-card')).toHaveCount(4);
     await expect(page.locator('.cl-members-filter-panel')).toBeVisible();
     await expect(page.locator('.cl-members-table')).toBeVisible();
@@ -90,6 +92,10 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
     const collapsed = await rail.boundingBox();
     expect(Math.abs((collapsed?.width ?? 0) - 68)).toBeLessThanOrEqual(1);
     expect(Math.abs((collapsed?.x ?? 0) - 8)).toBeLessThanOrEqual(1);
+    const firstNavButton = await rail.locator('.cl-primary-link').first().boundingBox();
+    expect(firstNavButton).toBeTruthy();
+    expect(Math.abs((firstNavButton!.x + firstNavButton!.width / 2) - (collapsed!.x + collapsed!.width / 2)))
+      .toBeLessThanOrEqual(1);
     await page.locator('[data-domain="enterprise"]').click();
     const collapsedFlyout = await panel.boundingBox();
     expect(Math.abs((collapsedFlyout?.x ?? 0) - 76)).toBeLessThanOrEqual(1);

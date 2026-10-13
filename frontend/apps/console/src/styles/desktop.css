@@ -98,7 +98,7 @@ html, body, #app { min-width: 1100px; }
   background: linear-gradient(105deg, var(--color-primary), var(--color-gradient-end));
   color: var(--color-on-primary); box-shadow: 0 4px 12px var(--color-shadow);
 }
-.cl-primary-rail.is-collapsed .cl-primary-links { padding-inline: 14px; }
+.cl-primary-rail.is-collapsed .cl-primary-links { padding-inline: 10px; }
 .cl-primary-rail.is-collapsed .cl-primary-link { width: 48px; padding: 0; justify-content: center; }
 .cl-primary-text { overflow: hidden; text-overflow: ellipsis; }
 .cl-rail-toggle { align-self: flex-end; display: grid; place-items: center; margin: 12px 14px 14px; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--cl-line); color: var(--color-text-secondary); background: var(--color-surface); cursor: pointer; }
