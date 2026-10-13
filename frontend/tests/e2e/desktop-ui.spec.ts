@@ -36,7 +36,22 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
     const h = await header.boundingBox();
     const r = await rail.boundingBox();
     expect(Math.abs((h?.height ?? 0) - 56)).toBeLessThanOrEqual(1);
-    expect(Math.abs((r?.width ?? 0) - 208)).toBeLessThanOrEqual(1);
+    expect(Math.abs((r?.width ?? 0) - 200)).toBeLessThanOrEqual(1);
+    expect(Math.abs((r?.x ?? 0) - 8)).toBeLessThanOrEqual(1);
+    const semantic = await page.evaluate(() => {
+      const root = getComputedStyle(document.documentElement);
+      return Object.fromEntries([
+        '--header-height', '--rail-width', '--rail-collapsed-width', '--rail-offset',
+        '--module-width', '--member-detail-width', '--color-canvas', '--color-text-muted',
+        '--color-surface', '--control-height', '--table-row-height',
+      ].map(key => [key, root.getPropertyValue(key).trim()]));
+    });
+    expect(semantic).toMatchObject({
+      '--header-height': '56px', '--rail-width': '200px', '--rail-collapsed-width': '68px',
+      '--rail-offset': '8px', '--module-width': '480px', '--member-detail-width': '360px',
+      '--color-canvas': '#f5f7fa', '--color-text-muted': '#64748b',
+      '--color-surface': '#ffffff', '--control-height': '36px', '--table-row-height': '64px',
+    });
     await expect(page.locator('.cl-metric-card')).toHaveCount(4);
     await expect(page.locator('.cl-members-filter-panel')).toBeVisible();
     await expect(page.locator('.cl-members-table')).toBeVisible();
@@ -71,9 +86,10 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
     await page.getByRole('button', { name:'关闭成员详情' }).click();
     await expect(page.locator('.cl-member-detail')).toHaveCount(0);
     await page.locator('.cl-rail-toggle').click();
-    await expect(rail).toHaveCSS('width', '76px');
+    await expect(rail).toHaveCSS('width', '68px');
     const collapsed = await rail.boundingBox();
-    expect(Math.abs((collapsed?.width ?? 0) - 76)).toBeLessThanOrEqual(1);
+    expect(Math.abs((collapsed?.width ?? 0) - 68)).toBeLessThanOrEqual(1);
+    expect(Math.abs((collapsed?.x ?? 0) - 8)).toBeLessThanOrEqual(1);
     await page.locator('[data-domain="enterprise"]').click();
     const collapsedFlyout = await panel.boundingBox();
     expect(Math.abs((collapsedFlyout?.x ?? 0) - 76)).toBeLessThanOrEqual(1);
@@ -116,11 +132,11 @@ test('dark appearance preserves header glass and opaque rail', async ({ page }, 
   expect(alpha).toBeGreaterThan(0.6);
   expect(alpha).toBeLessThan(0.9);
   expect(style.blur).toContain('blur(24px)');
-  await expect(rail).toHaveCSS('background-color', 'rgb(26, 34, 45)');
-  await expect(page.locator('.cl-desktop-shell')).toHaveCSS('background-color', 'rgb(17, 23, 31)');
-  await expect(page.getByRole('heading', { name: '成员管理', exact: true })).toHaveCSS('color', 'rgb(232, 237, 243)');
+  await expect(rail).toHaveCSS('background-color', 'rgb(17, 24, 39)');
+  await expect(page.locator('.cl-desktop-shell')).toHaveCSS('background-color', 'rgb(11, 17, 32)');
+  await expect(page.getByRole('heading', { name: '成员管理', exact: true })).toHaveCSS('color', 'rgb(241, 245, 249)');
   await expect(page.locator('.cl-members-table .el-table__header-wrapper th.el-table__cell').first())
-    .toHaveCSS('background-color', 'rgb(38, 52, 69)');
+    .toHaveCSS('background-color', 'rgb(23, 32, 51)');
   await saveScreenshot(page, info, 'glass-header-dark-1536');
   await page.locator('[data-domain="enterprise"]').click();
   await expect(page.locator('.cl-navigation-panel')).toBeVisible();

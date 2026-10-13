@@ -5,6 +5,7 @@ import { Building2, Layers3, Plus, Settings, ShieldCheck, UserRound, Users, X } 
 import { $t } from '#/locales';
 import { canVisitPath } from '#/platform/routing';
 import { useWorkspaceStore } from '#/store';
+import coffeeMenu from '#/assets/coffee-menu.webp';
 
 const props = defineProps<{ visible: boolean; railWidth: number; activePath: string }>();
 const emit = defineEmits<{ close: []; navigate: [] }>();
@@ -82,14 +83,7 @@ onBeforeUnmount(() => { document.removeEventListener('keydown', onKeyDown); });
         </div>
         <div class="cl-navigation-promo" aria-hidden="true">
           <div><strong>{{ $t('shell.promoTitle') }}</strong><p>{{ $t('shell.promoDesc') }}</p></div>
-          <svg viewBox="0 0 120 90" width="112" height="86" fill="none" aria-hidden="true">
-            <ellipse cx="60" cy="77" rx="46" ry="8" fill="#bed9ff"/>
-            <path d="M30 26h58l-7 46a22 22 0 0 1-22 12h-9a22 22 0 0 1-19-16z" fill="#fff" stroke="#9fc6f3" stroke-width="2"/>
-            <path d="M88 35h10c18 0 15 29-14 26" stroke="#8ebbe8" stroke-width="7" stroke-linecap="round"/>
-            <ellipse cx="59" cy="27" rx="28" ry="8" fill="#f7fcff" stroke="#9fc6f3" stroke-width="2"/>
-            <ellipse cx="59" cy="28" rx="23" ry="5" fill="#d4aa7c"/>
-            <path d="M42 11c-9-8 4-10 0-17M60 12c-9-8 4-10 0-17M78 12c-9-8 4-10 0-17" stroke="#b1d7fa" stroke-width="2" stroke-linecap="round" opacity=".7"/>
-          </svg>
+          <img :src="coffeeMenu" alt="" aria-hidden="true" />
         </div>
       </section>
     </div>

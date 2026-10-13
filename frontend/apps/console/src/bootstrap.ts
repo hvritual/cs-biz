@@ -6,6 +6,7 @@ import { initStores } from '@vben/stores';
 import '@vben/styles';
 import '@vben/styles/ele';
 import '#/styles/business.css';
+import '#/styles/coffeelink-tokens.css';
 import '#/styles/desktop.css';
 
 import { ElLoading } from 'element-plus';

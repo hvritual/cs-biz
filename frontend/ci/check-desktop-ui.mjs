@@ -3,8 +3,9 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const read = (path) => readFile(resolve(root, path), 'utf8');
-const [rules, css, shell, menu, members, agents, frontAgents, doc, task, pkg] = await Promise.all([
+const [rules, css, tokens, shell, menu, members, agents, frontAgents, doc, task, pkg] = await Promise.all([
   read('doc/design/desktop-ui.md'), read('frontend/apps/console/src/styles/desktop.css'),
+  read('frontend/apps/console/src/styles/coffeelink-tokens.css'),
   read('frontend/apps/console/src/layouts/basic.vue'),
   read('frontend/apps/console/src/components/EnterpriseCenterOverlay.vue'),
   read('frontend/apps/console/src/views/members/index.vue'),
@@ -13,14 +14,47 @@ const [rules, css, shell, menu, members, agents, frontAgents, doc, task, pkg] = 
   read('frontend/package.json'),
 ]);
 const errors = [];
-for (const [key,value] of Object.entries({
-  '--cl-header-height':'56px', '--cl-rail-expanded':'208px',
-  '--cl-rail-collapsed':'76px', '--cl-flyout-width':'480px',
-  '--cl-flyout-padding':'20px', '--cl-page-gutter':'24px'
-})) {
-  if (!css.includes(key + ': ' + value)) errors.push('Incorrect desktop token: ' + key);
-  if (!rules.includes(key)) errors.push('Missing rule: ' + key);
+// Verify imported Biz V1.2 numbers, then verify cs-biz uses aliases instead of copies.
+const canonical = {
+  '--header-height': '56px',
+  '--rail-width': '200px',
+  '--rail-collapsed-width': '68px',
+  '--rail-offset': '8px',
+  '--module-width': '480px',
+  '--member-detail-width': '360px',
+  '--content-padding': '24px',
+  '--control-height': '36px',
+  '--table-row-height': '64px',
+  '--color-text': '#1f2937',
+  '--color-text-muted': '#64748b',
+  '--color-canvas': '#f5f7fa',
+  '--color-surface': '#ffffff',
+  '--color-border': '#e5e7eb',
+};
+for (const [key,value] of Object.entries(canonical)) {
+  if (!tokens.includes(key + ': ' + value)) errors.push('Invalid Biz V1.2 token: ' + key);
+  if (!rules.includes(key)) errors.push('Design rule omits source token: ' + key);
 }
+const aliases = {
+  '--cl-header-height': '--header-height',
+  '--cl-rail-expanded': '--rail-width',
+  '--cl-rail-collapsed': '--rail-collapsed-width',
+  '--cl-rail-gutter': '--rail-offset',
+  '--cl-flyout-width': '--module-width',
+  '--cl-page-gutter': '--content-padding',
+  '--cl-canvas': '--color-canvas',
+  '--cl-action': '--color-primary',
+  '--cl-line': '--color-border',
+};
+for (const [alias,source] of Object.entries(aliases)) {
+  if (!css.includes(alias + ': var(' + source + ');')) errors.push('Missing semantic alias: ' + alias);
+}
+if (!tokens.includes('--color-primary: var(--el-color-primary, #2563eb);'))
+  errors.push('Tenant primary color no longer follows Element Plus branding');
+if (!tokens.includes(':root.dark') || !tokens.includes(":root[data-density='compact']"))
+  errors.push('Biz semantic dark/density variants are missing');
+if (!css.includes('left: var(--cl-rail-gutter)') || !css.includes('margin-left: calc(var(--cl-rail-current) + var(--cl-rail-gutter))'))
+  errors.push('Biz inset rail / main geometry missing');
 for (const source of [agents,frontAgents,doc,task]) {
   if (!source.includes('doc/design/desktop-ui.md')) errors.push('Missing global UI contract reference');
 }
@@ -41,4 +75,4 @@ for (const marker of ['backdrop-filter: blur(24px) saturate(175%)', 'background-
 if (!rules.includes('Header liquid-glass and opaque sidebar rule')) errors.push('Missing material spec');
 if (!JSON.parse(pkg).scripts['check:desktop']) errors.push('Missing check:desktop script');
 if (errors.length) { console.error(errors.join('\n')); process.exitCode=1; }
-else console.log('PASS: canonical Desktop UI tokens, structure, live controls and global references.');
+else console.log('PASS: Biz V1.2 semantic tokens, inset 200/68 rail, adaptive tenant theme, Desktop UI contract and global references.');

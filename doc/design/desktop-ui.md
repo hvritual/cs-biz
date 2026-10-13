@@ -1,65 +1,67 @@
-# CoffeeLink Desktop UI Contract v1.0
+# CoffeeLink Desktop UI Contract v1.2 — Biz-aligned
 
-Status: canonical product UI standard for hvritual/cs-biz; Desktop-only scope.
+**Authority and evidence:** Biz `hvritual/biz@a8a2368f03d8f8ce53d6adcb431fb3ba55df1184`.
+The source of truth is `web/src/styles/tokens.css`; shell contracts come from
+`AppShell.vue`, `AppHeader.vue`, `PrimaryNavigation.vue` and `ModulePanel.vue`,
+documented in `docs/design/COFFEELINK-BUSINESS-UI-V1.2.md`.
+The local consumer and adaptation record is [Biz sync notes](biz-v12-sync.md).
 
-Source references: 01-members-desktop(5).png (1536x1172), 02-overlay-menu-480(2).png (1536x1024), 03-collapsed-menu(4).png (1536x1024), plus business UI specification V1.1.
+**This repository's executable tokens:** `frontend/apps/console/src/styles/coffeelink-tokens.css`.
+`desktop.css` exposes **aliases** (`--cl-*`) for current console components, not a second numeric specification.
+Do not edit colors/dimensions in a page when a token already exists.
 
-## Scope and precedence
+## Desktop geometry (actual Biz V1.2)
 
-This task validates 1366x768, 1440x900 and 1536x1024 only. No new mobile-specific breakpoint CSS or mobile completion claims. Screenshot content is example data, never actual quota. The current screenshot-specific preset uses expanded 208px and collapsed 76px; it intentionally overrides V1.1's generic 200px/68px values. All screenshots are visual references, not proof of previous implementation.
+| Biz token | Value | Meaning |
+|---|---|---|
+| `--header-height` | 56px | Global header |
+| `--rail-width` | 200px | Expanded rail |
+| `--rail-collapsed-width` | 68px | Collapsed rail |
+| `--rail-offset` | 8px | Rail left inset (from Biz AppShell) |
+| `--module-width` | 480px | Attached second-level panel |
+| `--member-detail-width` | 360px | Independent member detail |
+| `--content-padding` | 24px | Desktop page horizontal spacing |
+| `--control-height` | 36px | Standard control |
+| `--table-row-height` | 64px | Standard table row |
+| `--color-text` | #1f2937 | Primary text |
+| `--color-text-muted` | #64748b | Muted text |
+| `--color-canvas` | #f5f7fa | Platform canvas |
+| `--color-surface` | #ffffff | Tenant main canvas/cards |
+| `--color-border` | #e5e7eb | Stroke |
 
-## Canonical tokens
+With the left inset, the expanded flyout begins at **8+200=208px**, and the collapsed
+flyout begins at **8+68=76px**. Hence the old reference images' *screen positions*
+can be preserved without keeping the wrong physical rail widths.
 
-The executable design tokens live in frontend/apps/console/src/styles/desktop.css. Pages must consume the shared --cl-* values and must not redefine the shared shell sizes.
+## Shell and ownership
 
-| Token | Value |
-|---|---|
-| --cl-header-height | 56px |
-| --cl-rail-expanded | 208px |
-| --cl-rail-collapsed | 76px |
-| --cl-flyout-width | 480px |
-| --cl-flyout-padding | 20px |
-| --cl-page-gutter | 24px |
-| --cl-canvas | #F5F7FA |
-| --cl-surface | #FFFFFF |
-| --cl-action | #2563EB |
-| --cl-ink | #1F2937 |
-| --cl-muted | #596579 |
-| --cl-line | #E5E7EB |
+- Full-width 56px global header. The previously approved **glass transparency**
+  is an explicit cs-biz variant of Biz's blurred header (Biz uses blur(10px));
+  keep the previous blur(24px), translucent edge, and theme-safe fallback.
+- Rail is fully **opaque**. Expanded 200px, collapsed 68px, left margin 8px.
+  Actual business domains depend on existing S01 route and access registry.
+- Attached 480px double-column flyout overlays, not reflows, tenant main content.
+  Preserve dimming, Escape/outside/close, and authorized quick links.
+- For the tenant surface, main content is white. Platform surface uses gray canvas.
+  Do not create two unrelated shells or duplicate navigation trees.
+- Same Vben 5 + Element Plus application, no shadcn theme injection or second
+  theme authority. Use `--el-color-primary` for current tenant brand;
+  Biz `#2563eb` is fallback, **not** a permanent tenant override.
+- Use Biz primary nav gradient and semantic color roles, card radius 14px,
+  and density variables. Compact density reduces content padding to 18px,
+  controls to 32px and row height to 42px, but never shell geometry.
 
-Page title 24px/32px at weight 600-650. Base text and navigation 14px/22px. Dense table may use 12-13px text. White surfaces, thin borders, subtle shadows, blue for operations, green for successful states.
+## Member ListPage and evidence
 
-## Shared layout
+Heading/banner → four data-backed metrics → separate query panel →
+member table/toolbar/pagination → optional 360px side-by-side detail.
+Viewing a member does not select them; tenant switch discards stale detail
+and permissions. No fake quota, invitation email, deleted-member recycle bin,
+or enterprise module UI before its real data/actions exist. All product text
+uses business terms, never integration or development status.
 
-AppShell contains a fixed GlobalHeader, primary navigation rail, NavigationOverlay, and PageContent. Flyout is an overlay, not a second column. Its left position equals the current rail width, its own width is 480px, and there must be no gap between surfaces.
-
-Flyout has a heading/close button, authorized local pages on the left, executable quick actions on the right, and an optional decorative coffee panel below. Submenu entries contain icons and text without trailing arrows; the active background wraps content, not the entire column. Hover/toggle, explicit close, Escape, outside click and route changes close the flyout. Content location and width stay unchanged within 1 CSS pixel when the flyout opens or closes. Its subtle mask must not allow click-through; tab focus must remain in the active dialog.
-
-Collapsing the primary rail is separate from opening the flyout; collapse is allowed to resize the main workspace. After tenant or account changes, navigation, quick actions, member detail and selected records must use the new authorization context.
-
-## Member management ListPage
-
-Desktop page order: heading + retained right-side illustration; four actual-data metrics; independent search/filter panel; one data panel with toolbar, member table and pagination. Columns: member, email, department, role, data permission, status, last sign-in if known, join time, actions. Detail panel opens on View without selecting records or resetting filter/pagination. It is 360px wide, does not dim the page, and closes to the original View trigger.
-
-Metric values derive from the current tenant data. Never copy the screenshot's 368 members, 12 roles, 500 quota, or 74% into hard-coded business state. Existing S01 has no member quota service; show active/total instead. Existing member status is active/disabled, not deleted; use the truthful Paused Members shortcut instead of a fictitious recycle bin. Do not display Invite or billing buttons without real actions.
-
-Access uses action-specific scope; a read-all role combined with a write-own role must not imply write-all. Pending commands remain idempotent; data refresh and tenant switching must not resurrect previous context.
-
-## Product copy and review gates
-
-End-user UI never shows Mock, API, 未接入, 占位, 待开发, stack traces or empty interactive buttons. Unknown facts must be displayed as unknown, not guessed numbers. A click is not success unless the state is read back from the current mock service.
-
-Required for each desktop UI PR: TypeScript typecheck, linter, bilingual copy scan, unit tests, build, desktop browser journeys, screen captures for member list, open menu, collapsed menu and member detail, and an independently reviewed diff. Evidence must be tied to the exact GitHub commit. Product code is not production server authentication.
-
-## Header liquid-glass and opaque sidebar rule (v1.1)
-
-The 56px global navigation header is the **only glass navigation surface**.
-Use a translucent surface with alpha between 0.60 and 0.85, genuine `backdrop-filter: blur(24px) saturate(175%)`, a restrained highlight/rim and a clear text contrast. Keep its clickable elements above noninteractive reflection layers. The visual treatment must work in light and dark themes; browsers without backdrop filtering receive a near-opaque fallback.
-
-The left primary navigation rail is **not** glass: its background must remain fully opaque (`--cl-rail-surface`, light `#ffffff`, dark `#1a222d`), with no background bleed-through and no inherited global-header transparency. When the company menu opens, the rail and navigation panel stay visually solid while the header stays glassy. Do not alter the approved 208px/76px/480px sizing, or introduce mobile styles.
-
-Visual and functional acceptance: computed CSS in Chromium must confirm header background alpha below 1, nonempty blur filter, rail alpha exactly 1 and theme-appropriate opaque color at 1366/1440/1536 widths. Take member list, expanded menu and collapsed menu screenshots, plus a dark-theme screen capture. Do not call a static design drawing a runtime screenshot.
-
-### Dark theme contrast after visual inspection
-
-Dark-mode Desktop uses an opaque canvas `#11171f` behind the opaque rail `#1a222d`, so white page titles do not disappear into a light canvas. Table header surface `#263445` and text `#d2dff1` remain paired; the top toolbar icons use high-contrast foreground. Check the computed background and text colors, not only the presence of a `dark` class. The header itself remains translucent in dark mode.
+Acceptance: 1366x768, 1440x900, 1536x1024 Desktop only;
+test exact visual geometry, two themes, actual values, brand switching,
+menu open/close without content shift, no app horizontal overflow,
+and real screenshots from the exact commit. Keep security tests, build,
+i18n and copy checks. A green TypeScript run does not prove visual parity.

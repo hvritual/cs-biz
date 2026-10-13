@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { updatePreferences, usePreferences } from '@vben/preferences';
+import brandMark from '#/assets/brand-mark.png';
 import { Building2, ChevronLeft, ChevronRight, Home, Layers3, Settings, Users } from 'lucide-vue-next';
 import { $t } from '#/locales';
 import { getWorkspaceHome, canVisitPath } from '#/platform/routing';
@@ -55,7 +56,7 @@ watch(() => workspace.generation, () => { flyout.value = false; });
   <div class="cl-desktop-shell" :style="{ '--cl-rail-width': railWidth + 'px' }">
     <header class="cl-global-header">
       <button type="button" class="cl-brand" aria-label="CoffeeLink" @click="router.push(getWorkspaceHome())">
-        <span class="cl-brand-icon cs-brand-mark" aria-hidden="true">◆</span>
+        <span class="cl-brand-icon cs-brand-mark" aria-hidden="true"><img :src="brandMark" alt="" /></span>
         <span class="cl-brand-words"><strong>CoffeeLink</strong><small>{{ $t('shell.productSubtitle') }}</small></span>
       </button>
       <WorkspaceShellTools area="tenant" />

@@ -1,0 +1,121 @@
+/* CoffeeLink Business UI V1.2 tokens; source: hvritual/biz main@a8a2368f03d8f8ce53d6adcb431fb3ba55df1184
+ * Canonical input: web/src/styles/tokens.css. Intentional integration:
+ * - Element Plus/Vben retains control of tenant brand palette (--el-color-primary).
+ * - No shadcn aliases (--primary/--background), which are HSL contracts in Vben.
+ * - No legacy --color-fixed-* hash variables; they are not public semantic tokens.
+ * - Legacy --biz-* names are aliases and MUST NOT redefine another palette.
+ */
+:root {
+  color-scheme: light;
+  --color-primary: var(--el-color-primary, #2563eb);
+  --color-primary-hover: var(--el-color-primary-dark-2, #1d4ed8);
+  --color-primary-soft: var(--el-color-primary-light-9, #eff6ff);
+  --color-on-primary: #ffffff;
+  --color-text: #1f2937;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-canvas: #f5f7fa;
+  --color-workbench: #eef4ff;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f8fafc;
+  --color-border: #e5e7eb;
+  --color-border-strong: #cbd5e1;
+  --color-success: #0f9f6e;
+  --color-success-soft: #ecfdf5;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fef2f2;
+  --color-warning: #d97706;
+  --color-warning-soft: #fffbeb;
+  --color-violet: #7c3aed;
+  --color-violet-soft: #f5f3ff;
+  --color-overlay: rgb(51 65 85 / 18%);
+  --color-shadow: rgb(15 23 42 / 12%);
+  --color-gradient-end: var(--el-color-primary-light-5, #93c5fd);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-title: 24px;
+  --text-metric: 32px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --header-height: 56px;
+  --rail-width: 200px;
+  --rail-collapsed-width: 68px;
+  --rail-offset: 8px; /* AppShell.side-frame left: 8px in Biz V1.2 */
+  --module-width: 480px;
+  --member-detail-width: 360px;
+  --content-padding: 24px;
+  --control-height: 36px;
+  --table-row-height: 64px;
+  --shadow-panel: 0 4px 20px rgb(15 23 42 / 6%);
+  --shadow-menu: 18px 20px 52px var(--color-shadow);
+  --z-header: 20;
+  --z-member-detail: 30;
+  --z-scrim: 35;
+  --z-nav: 40;
+  --z-dialog: 60;
+  --z-toast: 80;
+
+  /* Compatibility adapter for existing cs-biz business components. */
+  --font-family: var(--font-sans);
+  --biz-page: var(--color-canvas);
+  --biz-surface: var(--color-surface);
+  --biz-subtle: var(--color-surface-soft);
+  --biz-text: var(--color-text);
+  --biz-muted: var(--color-text-muted);
+  --biz-border: var(--color-border);
+  --biz-success-bg: var(--color-success-soft);
+  --biz-success: var(--color-success);
+  --biz-warning-bg: var(--color-warning-soft);
+  --biz-warning: var(--color-warning);
+  --biz-danger-bg: var(--color-danger-soft);
+  --biz-danger: var(--color-danger);
+}
+:root.dark {
+  color-scheme: dark;
+  --color-text: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  --color-canvas: #0b1120;
+  --color-workbench: #111c2f;
+  --color-surface: #111827;
+  --color-surface-soft: #172033;
+  --color-border: #2b3a50;
+  --color-border-strong: #475569;
+  --color-success: #34d399;
+  --color-success-soft: #0f2d25;
+  --color-danger: #f87171;
+  --color-danger-soft: #3a171c;
+  --color-warning: #fbbf24;
+  --color-warning-soft: #392b0e;
+  --color-violet: #a78bfa;
+  --color-violet-soft: #2f2350;
+  --color-overlay: rgb(2 6 23 / 62%);
+  --color-shadow: rgb(0 0 0 / 42%);
+  --shadow-panel: 0 4px 24px rgb(0 0 0 / 24%);
+}
+:root[data-density='compact'] {
+  --content-padding: 18px;
+  --control-height: 32px;
+  --table-row-height: 42px;
+}
+html, body, #app {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-canvas);
+}

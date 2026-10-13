@@ -56,3 +56,12 @@ S01 已在固定 Vben Admin `v5.7.0` / Element Plus 底座上实现唯一 consol
 ## Project-wide Desktop UI standard
 
 The single source is **doc/design/desktop-ui.md** (relative link: [desktop contract](../../doc/design/desktop-ui.md)). It governs all future UI tasks and is checked by pnpm check:desktop. The desktop shell uses existing Vben access/router/preferences services with one product-specific layout; its width and visual rules are in styles/desktop.css. No Mobile acceptance in this phase.
+
+
+## Biz V1.2 设计同步
+
+全局以 [Desktop UI Contract](../../doc/design/desktop-ui.md) 为规范，来源与适配差异见
+[Biz V1.2 同步记录](../../doc/design/biz-v12-sync.md)。视觉数值唯一来源为
+`apps/console/src/styles/coffeelink-tokens.css`，`desktop.css` 与
+原有 `business.css` 只消费语义 Token；租户品牌仍由 Vben/Element Plus
+偏好驱动。业务页面不重复复制尺寸或颜色数值。

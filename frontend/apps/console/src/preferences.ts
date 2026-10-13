@@ -14,7 +14,7 @@ export const overridesPreferences = defineOverridesPreferences({
     semiDarkSidebar: false, semiDarkHeader: false,
   },
   sidebar: {
-    width: 208, collapseWidth: 76, draggable: false, collapsedButton: false,
+    width: 200, collapseWidth: 68, draggable: false, collapsedButton: false,
     fixedButton: false, expandOnHover: false,
   },
   header: { height: 56 },
