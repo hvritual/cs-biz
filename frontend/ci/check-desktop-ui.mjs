@@ -31,6 +31,13 @@ for (const source of [css,shell,menu,members]) {
   if (/@media\s*\(\s*max-width/i.test(source)) errors.push('Unexpected mobile-specific rule');
   if (/action\s*:\s*\(\s*\)\s*=>\s*\{\s*\}/.test(source)) errors.push('Inert product control');
 }
+for (const token of ['--cl-rail-surface', '--cl-header-glass-bg', '--cl-header-glass-edge']) {
+  if (!css.includes(token)) errors.push('Missing glass/surface token: ' + token);
+}
+for (const marker of ['backdrop-filter: blur(24px) saturate(175%)', 'background-color: var(--cl-rail-surface)', 'opacity: 1']) {
+  if (!css.includes(marker)) errors.push('Missing shell material contract: ' + marker);
+}
+if (!rules.includes('Header liquid-glass and opaque sidebar rule')) errors.push('Missing material spec');
 if (!JSON.parse(pkg).scripts['check:desktop']) errors.push('Missing check:desktop script');
 if (errors.length) { console.error(errors.join('\n')); process.exitCode=1; }
 else console.log('PASS: canonical Desktop UI tokens, structure, live controls and global references.');

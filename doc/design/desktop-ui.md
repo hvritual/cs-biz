@@ -50,3 +50,12 @@ Access uses action-specific scope; a read-all role combined with a write-own rol
 End-user UI never shows Mock, API, 未接入, 占位, 待开发, stack traces or empty interactive buttons. Unknown facts must be displayed as unknown, not guessed numbers. A click is not success unless the state is read back from the current mock service.
 
 Required for each desktop UI PR: TypeScript typecheck, linter, bilingual copy scan, unit tests, build, desktop browser journeys, screen captures for member list, open menu, collapsed menu and member detail, and an independently reviewed diff. Evidence must be tied to the exact GitHub commit. Product code is not production server authentication.
+
+## Header liquid-glass and opaque sidebar rule (v1.1)
+
+The 56px global navigation header is the **only glass navigation surface**.
+Use a translucent surface with alpha between 0.60 and 0.85, genuine `backdrop-filter: blur(24px) saturate(175%)`, a restrained highlight/rim and a clear text contrast. Keep its clickable elements above noninteractive reflection layers. The visual treatment must work in light and dark themes; browsers without backdrop filtering receive a near-opaque fallback.
+
+The left primary navigation rail is **not** glass: its background must remain fully opaque (`--cl-rail-surface`, light `#ffffff`, dark `#1a222d`), with no background bleed-through and no inherited global-header transparency. When the company menu opens, the rail and navigation panel stay visually solid while the header stays glassy. Do not alter the approved 208px/76px/480px sizing, or introduce mobile styles.
+
+Visual and functional acceptance: computed CSS in Chromium must confirm header background alpha below 1, nonempty blur filter, rail alpha exactly 1 and theme-appropriate opaque color at 1366/1440/1536 widths. Take member list, expanded menu and collapsed menu screenshots, plus a dark-theme screen capture. Do not call a static design drawing a runtime screenshot.

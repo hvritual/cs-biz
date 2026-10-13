@@ -21,6 +21,18 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
     const main = page.locator('.cl-desktop-main');
     await expect(header).toBeVisible();
     await expect(rail).toBeVisible();
+    // Glass belongs to the header only; the navigation rail is a solid surface.
+    const headerStyles = await header.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { bg: style.backgroundColor, blur: style.backdropFilter, safariBlur: style.webkitBackdropFilter };
+    });
+    expect(headerStyles.bg).toMatch(/^rgba\(/);
+    const headerAlpha = Number(headerStyles.bg.match(/,\s*([\d.]+)\)$/)?.[1] ?? 1);
+    expect(headerAlpha).toBeGreaterThan(0.6);
+    expect(headerAlpha).toBeLessThan(0.85);
+    expect(headerStyles.blur || headerStyles.safariBlur).toMatch(/blur\(24px\)/);
+    await expect(rail).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+    await expect(rail).toHaveCSS('opacity', '1');
     const h = await header.boundingBox();
     const r = await rail.boundingBox();
     expect(Math.abs((h?.height ?? 0) - 56)).toBeLessThanOrEqual(1);
@@ -86,4 +98,27 @@ test('Desktop member query preserves data and enforces existing service permissi
   await expect(page.locator('.cl-member-search input')).toHaveValue('陈雨');
   await page.getByRole('button',{name:'重置',exact:true}).click();
   await expect(page.locator('.cl-members-table .el-table__body-wrapper tbody tr')).toHaveCount(initial);
+});
+
+test('dark appearance preserves header glass and opaque rail', async ({ page }, info) => {
+  await page.setViewportSize({ width: 1536, height: 1024 });
+  await page.goto('/personal');
+  await page.getByTestId('theme-dark').click();
+  await expect(page.locator('html')).toHaveClass(/dark/);
+  await openMembers(page);
+  const header = page.locator('.cl-global-header');
+  const rail = page.locator('.cl-primary-rail');
+  const style = await header.evaluate(node => {
+    const current = getComputedStyle(node);
+    return { color: current.backgroundColor, blur: current.backdropFilter || current.webkitBackdropFilter };
+  });
+  const alpha = Number(style.color.match(/,\s*([\d.]+)\)$/)?.[1] ?? 1);
+  expect(alpha).toBeGreaterThan(0.6);
+  expect(alpha).toBeLessThan(0.9);
+  expect(style.blur).toContain('blur(24px)');
+  await expect(rail).toHaveCSS('background-color', 'rgb(26, 34, 45)');
+  await saveScreenshot(page, info, 'glass-header-dark-1536');
+  await page.locator('[data-domain="enterprise"]').click();
+  await expect(page.locator('.cl-navigation-panel')).toBeVisible();
+  await saveScreenshot(page, info, 'glass-menu-dark-1536');
 });
