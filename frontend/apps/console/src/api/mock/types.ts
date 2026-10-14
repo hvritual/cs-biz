@@ -1,4 +1,5 @@
-export type DataScope = 'all' | 'own';
+/** `group` narrows a record set to the acting member's own department. */
+export type DataScope = 'all' | 'group' | 'own';
 export type ModuleCode = 'crm';
 export type MembershipStatus = 'active' | 'disabled';
 export type CustomerStatus = 'active' | 'prospect' | 'paused';
@@ -23,23 +24,72 @@ export interface PermissionDefinition {
   code: PermissionCode;
   labelKey: string;
   moduleCode?: ModuleCode;
+  /** Menus this permission makes visible; the read permission of a menu drives its switch. */
+  menu?: MenuKey;
   scopes: DataScope[];
 }
 
+/** Stable menu identifiers for the permission configurator. Leaf keys match `NAVIGATION_POLICY` viewKeys. */
+export type MenuKey =
+  | 'workspace.overview'
+  | 'crm.customers'
+  | 'crm.customer.list'
+  | 'workspace.team'
+  | 'workspace.members'
+  | 'workspace.roles'
+  | 'workspace.company'
+  | 'workspace.profile'
+  | 'workspace.apps';
+
+export interface MenuCatalogEntry {
+  key: MenuKey;
+  labelKey: string;
+  children: Array<{ key: MenuKey; labelKey: string }>;
+}
+
+export const MENU_CATALOG: MenuCatalogEntry[] = [
+  {
+    key: 'workspace.overview',
+    labelKey: 'menu.overview',
+    children: [],
+  },
+  {
+    key: 'crm.customers',
+    labelKey: 'menu.customers',
+    children: [{ key: 'crm.customer.list', labelKey: 'menu.customerList' }],
+  },
+  {
+    key: 'workspace.team',
+    labelKey: 'menu.team',
+    children: [
+      { key: 'workspace.members', labelKey: 'menu.members' },
+      { key: 'workspace.roles', labelKey: 'menu.roles' },
+    ],
+  },
+  {
+    key: 'workspace.company',
+    labelKey: 'menu.company',
+    children: [
+      { key: 'workspace.profile', labelKey: 'menu.settings' },
+      { key: 'workspace.apps', labelKey: 'menu.applications' },
+    ],
+  },
+];
+
 export const PERMISSIONS: PermissionDefinition[] = [
-  { code: 'workspace.read', labelKey: 'permission.workspace.read', scopes: ['all'] },
-  { code: 'crm.customer.read', labelKey: 'permission.crm.customer.read', moduleCode: 'crm', scopes: ['all', 'own'] },
-  { code: 'crm.customer.create', labelKey: 'permission.crm.customer.create', moduleCode: 'crm', scopes: ['all', 'own'] },
-  { code: 'crm.customer.update', labelKey: 'permission.crm.customer.update', moduleCode: 'crm', scopes: ['all', 'own'] },
-  { code: 'crm.customer.archive', labelKey: 'permission.crm.customer.archive', moduleCode: 'crm', scopes: ['all', 'own'] },
-  { code: 'tenant.member.read', labelKey: 'permission.tenant.member.read', scopes: ['all'] },
-  { code: 'tenant.member.manage', labelKey: 'permission.tenant.member.manage', scopes: ['all'] },
-  { code: 'tenant.role.read', labelKey: 'permission.tenant.role.read', scopes: ['all'] },
-  { code: 'tenant.role.manage', labelKey: 'permission.tenant.role.manage', scopes: ['all'] },
-  { code: 'tenant.profile.read', labelKey: 'permission.tenant.profile.read', scopes: ['all'] },
-  { code: 'tenant.profile.update', labelKey: 'permission.tenant.profile.update', scopes: ['all'] },
-  { code: 'tenant.module.read', labelKey: 'permission.tenant.module.read', scopes: ['all'] },
-  { code: 'tenant.module.request', labelKey: 'permission.tenant.module.request', scopes: ['all'] },
+  { code: 'workspace.read', labelKey: 'permission.workspace.read', menu: 'workspace.overview', scopes: ['all'] },
+  { code: 'crm.customer.read', labelKey: 'permission.crm.customer.read', moduleCode: 'crm', menu: 'crm.customer.list', scopes: ['all', 'group', 'own'] },
+  { code: 'crm.customer.create', labelKey: 'permission.crm.customer.create', moduleCode: 'crm', menu: 'crm.customer.list', scopes: ['all', 'group', 'own'] },
+  { code: 'crm.customer.update', labelKey: 'permission.crm.customer.update', moduleCode: 'crm', menu: 'crm.customer.list', scopes: ['all', 'group', 'own'] },
+  { code: 'crm.customer.archive', labelKey: 'permission.crm.customer.archive', moduleCode: 'crm', menu: 'crm.customer.list', scopes: ['all', 'group', 'own'] },
+  { code: 'tenant.member.read', labelKey: 'permission.tenant.member.read', menu: 'workspace.members', scopes: ['all'] },
+  { code: 'tenant.member.manage', labelKey: 'permission.tenant.member.manage', menu: 'workspace.members', scopes: ['all'] },
+  { code: 'tenant.role.read', labelKey: 'permission.tenant.role.read', menu: 'workspace.roles', scopes: ['all'] },
+  { code: 'tenant.role.manage', labelKey: 'permission.tenant.role.manage', menu: 'workspace.roles', scopes: ['all'] },
+  { code: 'tenant.profile.read', labelKey: 'permission.tenant.profile.read', menu: 'workspace.profile', scopes: ['all'] },
+  { code: 'tenant.profile.update', labelKey: 'permission.tenant.profile.update', menu: 'workspace.profile', scopes: ['all'] },
+  { code: 'tenant.module.read', labelKey: 'permission.tenant.module.read', menu: 'workspace.apps', scopes: ['all'] },
+  { code: 'tenant.module.request', labelKey: 'permission.tenant.module.request', menu: 'workspace.apps', scopes: ['all'] },
 ];
 
 export interface User {

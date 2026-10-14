@@ -10,5 +10,7 @@
   "login": "Choose an account",
   "forbidden": "Access restricted",
   "notFound": "Page not found",
-  "company": "Company settings"
+  "company": "Company settings",
+  "customerList": "Customer list",
+  "team": "Team and permissions"
 }

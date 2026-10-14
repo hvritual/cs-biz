@@ -29,7 +29,11 @@ const actions = computed(() => [
 ].filter((entry) => entry.allowed));
 async function navigate(path: string) {
   emit('navigate');
-  await router.push(path);
+  try {
+    await router.push(path);
+  } catch (error) {
+    console.error('[EnterpriseCenter] Navigation failed:', path, error);
+  }
 }
 function onKeyDown(event: KeyboardEvent) {
   if (event.key === 'Escape' && props.visible) {

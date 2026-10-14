@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreateMemberInput, MemberView, Role } from '#/api/mock/types';
+import type { CreateMemberInput, Grant, MemberView, Role } from '#/api/mock/types';
 import type { FormInstance, FormRules } from 'element-plus';
 import coffeeBanner from '#/assets/coffee-banner.webp';
 
@@ -7,12 +7,13 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
   ElAlert, ElButton, ElDrawer, ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox,
-  ElOption, ElPagination, ElSelect, ElTable, ElTableColumn, ElTag,
+  ElOption, ElPagination, ElSelect, ElSwitch, ElTable, ElTableColumn, ElTag,
 } from 'element-plus';
 import { Download, Plus, RefreshCw, Search, ShieldCheck, Users, X } from 'lucide-vue-next';
 
 import { api, ServiceError } from '#/api/mock/service';
 import PageState from '#/components/PageState.vue';
+import PermissionSetEditor from '#/components/PermissionSetEditor.vue';
 import { useResource } from '#/composables/useResource';
 import { $t as t } from '#/locales';
 import { useWorkspaceStore } from '#/store';
@@ -39,8 +40,12 @@ const selected = ref<MemberView[]>([]);
 const detail = ref<MemberView | null>(null);
 const detailTab = ref('profile');
 function memberReadScope(member: MemberView) {
-  return member.roles.some((role) => role.grants.some((grant) => grant.action === 'crm.customer.read' && grant.scope === 'all'))
-    ? t('members.allData') : t('members.ownData');
+  const scopes = member.roles.flatMap((role) => role.grants)
+    .filter((grant) => grant.action === 'crm.customer.read')
+    .map((grant) => grant.scope);
+  if (scopes.includes('all')) return t('members.allData');
+  if (scopes.includes('group')) return t('members.groupData');
+  return t('members.ownData');
 }
 const drawer = ref(false);
 const editing = ref<MemberView | null>(null);
@@ -52,6 +57,9 @@ const formRef = ref<FormInstance>();
 const creationKey = ref('');
 let confirmationOpen = false;
 const form = reactive<CreateMemberInput>({ name: '', email: '', title: '', roleIds: [], department: '' });
+const inlineSet = ref(false);
+const setName = ref('');
+const setGrants = ref<Grant[]>([]);
 const canManage = computed(() => workspace.can('tenant.member.manage'));
 const assignableRoles = computed(() => data.value.roles.filter((item) => !item.isOwner));
 const departments = computed(() => [...new Set(data.value.members.map((m) => m.department || t('members.unassigned')))].sort());
@@ -81,7 +89,8 @@ const rules = computed<FormRules>(() => ({
     { required: true, message: t('members.emailRequired'), trigger: 'blur' },
     { type: 'email', message: t('members.emailInvalid'), trigger: ['blur', 'change'] },
   ],
-  roleIds: [{ type: 'array', required: true, min: 1, message: t('members.rolesRequired'), trigger: 'change' }],
+  // An inline permission set becomes the member's role, so an existing role is optional in that path.
+  roleIds: inlineSet.value ? [] : [{ type: 'array', required: true, min: 1, message: t('members.rolesRequired'), trigger: 'change' }],
 }));
 function applyFilters() { applied.value = { ...draft }; page.value = 1; selected.value = []; }
 function resetFilters() {
@@ -104,6 +113,7 @@ function openCreate() {
     ? { ...pending.input, roleIds: [...pending.input.roleIds] }
     : { name: '', email: '', title: '', roleIds: [], department: '' });
   creationKey.value = pending?.key ?? crypto.randomUUID();
+  inlineSet.value = false; setName.value = ''; setGrants.value = [];
   formError.value = ''; drawer.value = true;
 }
 function openEdit(member: MemberView) {
@@ -127,6 +137,13 @@ async function saveMember() {
     if (memberId) {
       await api.updateMembership(captured.context, memberId, { roleIds: input.roleIds });
     } else {
+      if (inlineSet.value) {
+        const roleName = setName.value.trim();
+        if (!roleName) { formError.value = t('members.setNameRequired'); return; }
+        if (setGrants.value.length === 0) { formError.value = t('members.setGrantsRequired'); return; }
+        const created = await api.createRole(captured.context, { name: roleName, description: '', grants: setGrants.value.map((grant) => ({ ...grant })) });
+        input.roleIds = [...new Set([...input.roleIds, created.id])].sort();
+      }
       writePendingCommand(captured.context, 'member.create', input, key);
       await api.createMember(captured.context, input, key);
       clearPendingCommand(captured.context, 'member.create', key);
@@ -211,8 +228,8 @@ function exportMembers() {
   link.href = url; link.download = 'members.csv'; link.click();
   URL.revokeObjectURL(url);
 }
-watch(() => route.query.create, (value) => {
-  if (value === '1' && canManage.value) {
+watch([() => route.query.create, canManage], ([value, can]) => {
+  if (value === '1' && can) {
     openCreate();
     void router.replace({ path: '/members' });
   }
@@ -370,7 +387,8 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
       <template #emptyActions><ElButton v-if="canManage" type="primary" @click="openCreate">{{ t('members.add') }}</ElButton></template>
     </PageState>
 
-    <ElDrawer v-model="drawer" :title="t(editing ? 'members.editRoles' : 'members.add')" size="500px"
+    <ElDrawer v-model="drawer" :title="t(editing ? 'members.editRoles' : 'members.add')"
+      :size="inlineSet && !editing ? 'min(920px, 100vw)' : '500px'"
       destroy-on-close :close-on-click-modal="!saving" :close-on-press-escape="!saving" :show-close="!saving">
       <ElAlert v-if="formError" :title="formError" type="error" :closable="false" show-icon class="form-notice" />
       <div v-if="editing" class="member-summary"><strong>{{ editing.user.name }}</strong><span class="muted">{{ editing.user.email }}</span></div>
@@ -387,6 +405,21 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
           </ElSelect>
         </ElFormItem>
         <p class="muted role-help">{{ t('members.roleHelp') }}</p>
+        <div v-if="!editing" class="cl-inline-set">
+          <div class="cl-inline-set-head">
+            <div>
+              <strong>{{ t('members.inlineSetTitle') }}</strong>
+              <p class="muted">{{ t('members.inlineSetHelp') }}</p>
+            </div>
+            <ElSwitch v-model="inlineSet" :aria-label="t('members.inlineSetTitle')" />
+          </div>
+          <template v-if="inlineSet">
+            <ElFormItem :label="t('members.setName')" class="cl-inline-set-name">
+              <ElInput v-model="setName" :maxlength="60" />
+            </ElFormItem>
+            <PermissionSetEditor v-model="setGrants" />
+          </template>
+        </div>
       </ElForm>
       <template #footer><div class="form-actions"><ElButton :disabled="saving" @click="drawer = false">{{ t('common.cancel') }}</ElButton>
         <ElButton type="primary" :loading="saving" @click="saveMember">{{ t(editing ? 'common.saveChanges' : 'members.save') }}</ElButton></div></template>
@@ -455,6 +488,11 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
 .form-notice,.member-summary { margin-bottom:20px; }
 .member-summary { display:grid; gap:5px; }
 .role-help { color:var(--biz-muted); font-size:12px; line-height:1.6; }
+.cl-inline-set { display:grid; gap:var(--space-3); margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--biz-border); }
+.cl-inline-set-head { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-3); }
+.cl-inline-set-head strong { font-size:13px; }
+.cl-inline-set-head p { margin:2px 0 0; font-size:12px; line-height:1.6; }
+.cl-inline-set-name { margin-bottom:var(--space-3); }
 .dark .cl-hero-art { background:linear-gradient(110deg,#213952,#365474); }
 .dark .cl-hero-art strong,.dark .cl-hero-art span { color:#e9f1ff; }
 .dark .cl-metric-symbol { background:var(--color-primary-soft); color:var(--color-primary); }

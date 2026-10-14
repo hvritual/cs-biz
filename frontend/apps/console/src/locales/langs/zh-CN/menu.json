@@ -10,5 +10,7 @@
   "login": "选择账户",
   "forbidden": "访问受限",
   "notFound": "页面不存在",
-  "company": "企业设置"
+  "company": "企业设置",
+  "customerList": "客户列表",
+  "team": "团队与权限"
 }

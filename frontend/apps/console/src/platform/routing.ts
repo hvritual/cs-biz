@@ -86,18 +86,25 @@ export function installWorkspaceRoutes(
           },
         }));
     clearWorkspaceRoutes();
-    const { accessibleMenus, accessibleRoutes } = await generateAccessible('backend', {
-      router: workspaceRouter, routes: [], pageMap: viewMap,
-      fetchMenuListAsync: async () => routes,
-    });
-    if (!isCurrent()) { clearWorkspaceRoutes(); return false; }
-    allowedPaths = new Set(routes.map((route) => route.path));
-    homePath = routes[0]?.path || '/forbidden';
-    const access = useAccessStore();
-    access.setAccessMenus(accessibleMenus);
-    access.setAccessRoutes(accessibleRoutes);
-    access.setIsAccessChecked(true);
-    return true;
+    try {
+      const { accessibleMenus, accessibleRoutes } = await generateAccessible('backend', {
+        router: workspaceRouter, routes: [], pageMap: viewMap,
+        fetchMenuListAsync: async () => routes,
+      });
+      if (!isCurrent()) { clearWorkspaceRoutes(); return false; }
+      allowedPaths = new Set(routes.map((route) => route.path));
+      homePath = routes[0]?.path || '/forbidden';
+      const access = useAccessStore();
+      access.setAccessMenus(accessibleMenus);
+      access.setAccessRoutes(accessibleRoutes);
+      access.setIsAccessChecked(true);
+      console.log('[routing] Installed routes:', routes.map(r => r.path).join(', '));
+      return true;
+    } catch (error) {
+      console.error('[routing] Failed to install workspace routes:', error);
+      clearWorkspaceRoutes();
+      return false;
+    }
   });
   installQueue = task.catch(() => undefined);
   return task;

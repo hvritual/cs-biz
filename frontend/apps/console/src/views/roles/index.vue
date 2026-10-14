@@ -10,7 +10,7 @@ import { ElAlert, ElButton, ElDrawer, ElForm, ElFormItem, ElInput, ElMessage, El
 import { api } from '#/api/mock/service';
 import PageHeader from '#/components/PageHeader.vue';
 import PageState from '#/components/PageState.vue';
-import RoleGrantEditor from '#/components/RoleGrantEditor.vue';
+import PermissionSetEditor from '#/components/PermissionSetEditor.vue';
 import { useResource } from '#/composables/useResource';
 import { $t as t } from '#/locales';
 import { useWorkspaceStore } from '#/store';
@@ -90,8 +90,8 @@ async function removeRole(role: Role) {
   }
 }
 
-watch(() => route.query.create, (value) => {
-  if (value === '1' && canManage.value) {
+watch([() => route.query.create, canManage], ([value, can]) => {
+  if (value === '1' && can) {
     openRole();
     void router.replace({ path: '/roles' });
   }
@@ -117,7 +117,7 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
       </section>
       <template #emptyActions><ElButton v-if="canManage" type="primary" @click="openRole()">{{ t('roles.create') }}</ElButton></template>
     </PageState>
-    <ElDrawer v-model="drawer" :title="t(editing ? (readonly ? 'roles.view' : 'roles.edit') : 'roles.create')" size="min(620px, 100vw)" destroy-on-close :close-on-click-modal="!saving" :close-on-press-escape="!saving" :show-close="!saving">
+    <ElDrawer v-model="drawer" :title="t(editing ? (readonly ? 'roles.view' : 'roles.edit') : 'roles.create')" size="min(920px, 100vw)" destroy-on-close :close-on-click-modal="!saving" :close-on-press-escape="!saving" :show-close="!saving">
       <ElAlert v-if="formError" :title="formError" type="error" :closable="false" show-icon class="form-notice" />
       <ElForm ref="formRef" :model="form" :rules="rules" label-position="top" :disabled="saving || readonly" @submit.prevent="saveRole">
         <ElFormItem :label="t('roles.name')" prop="name"><ElInput v-model="form.name" :maxlength="60" /></ElFormItem>
@@ -125,7 +125,7 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
       </ElForm>
       <h2 class="section-title permissions-title">{{ t('roles.permissions') }}</h2>
       <p class="muted role-help">{{ t('roles.scopeHelp') }}</p>
-      <RoleGrantEditor v-model="form.grants" :disabled="saving || readonly" />
+      <PermissionSetEditor v-model="form.grants" :disabled="saving || readonly" />
       <template #footer><div class="form-actions"><ElButton :disabled="saving" @click="drawer = false">{{ t(readonly ? 'common.close' : 'common.cancel') }}</ElButton><ElButton v-if="!readonly" type="primary" :loading="saving" @click="saveRole">{{ t('roles.save') }}</ElButton></div></template>
     </ElDrawer>
   </div>

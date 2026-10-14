@@ -223,6 +223,10 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     return memberRoles(member, database).flatMap((role) => role.grants);
   }
 
+  function departmentOf(tenantId: string, userId: string, database = state): string | undefined {
+    return database.memberships.find((entry) => entry.tenantId === tenantId && entry.userId === userId)?.department || undefined;
+  }
+
   function moduleAvailable(tenantId: string, action: PermissionCode): boolean {
     const definition = PERMISSIONS.find((permission) => permission.code === action);
     if (!definition) return false;
@@ -233,8 +237,16 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     const member = state.memberships.find((entry) => entry.tenantId === context.tenantId && entry.userId === context.subjectId);
     if (member?.status !== 'active' || !moduleAvailable(context.tenantId, action)) return false;
     // Match action and its own scope together. Never union scopes across actions.
-    return grantsFor(member).some((grant) => grant.action === action
-      && (grant.scope === 'all' || (!resource || resource.ownerId === context.subjectId)));
+    return grantsFor(member).some((grant) => {
+      if (grant.action !== action) return false;
+      if (grant.scope === 'all' || !resource) return true;
+      if (grant.scope === 'group') {
+        // An ungrouped member has no peers, so `group` cannot widen to the whole tenant.
+        const department = departmentOf(context.tenantId, member.userId);
+        return !!department && departmentOf(context.tenantId, resource.ownerId) === department;
+      }
+      return resource.ownerId === context.subjectId;
+    });
   }
 
   function authorize(context: RequestContext, action: PermissionCode, resource?: { ownerId: string }): Membership {
@@ -553,7 +565,9 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       const next = clone(state);
       const role: Role = { id: id('role'), tenantId: context.tenantId, name, description, grants, isSystem: false, isOwner: false };
       next.roles.push(role);
-      policyCommit(next, context.tenantId);
+      // A role nobody holds yet changes no member's effective access, so it must not invalidate sessions
+      // in flight — the member drawer creates its permission set immediately before creating the member.
+      commit(next, { type: 'data', tenantId: context.tenantId });
       return clone(role);
     },
     async updateRole(context, roleId, input) {

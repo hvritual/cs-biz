@@ -167,6 +167,32 @@ test('roles and members: create, persist, change access, protect the last owner'
   await expect(customerRow(page, '林间小筑')).toBeVisible();
 });
 
+test('member creation configures and binds a new permission set inline', async ({ page }, info) => {
+  await open(page, '/members', '成员管理');
+  await page.getByRole('button', { name: '添加成员', exact: true }).click();
+  const drawer = page.getByRole('dialog');
+  await drawer.getByRole('textbox', { name: /姓名$/ }).fill('沈昭');
+  await drawer.getByRole('textbox', { name: /邮箱$/ }).fill('shenzhao@example.test');
+  await drawer.getByRole('textbox', { name: /所属部门$/ }).fill('运营管理部');
+  await drawer.locator('.cl-inline-set-head .el-switch').click();
+  await drawer.locator('.cl-inline-set-name').getByRole('textbox').fill('客户协作组');
+  await drawer.getByRole('button', { name: '保存成员', exact: true }).click();
+  await expect(drawer.getByText('请至少启用一个菜单', { exact: true })).toBeVisible();
+  const crmRow = drawer.locator('.pse-row', { hasText: '客户列表' });
+  await crmRow.locator('.pse-menu .el-switch').click();
+  await expect(drawer.getByRole('checkbox', { name: '查看客户', exact: true })).toBeChecked();
+  await crmRow.getByText('同组', { exact: true }).click();
+  await expect(drawer.getByRole('radio', { name: '同组', exact: true })).toBeChecked();
+  await shot(page, info, 'member-inline-permission-set');
+  await drawer.getByRole('button', { name: '保存成员', exact: true }).click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  const created = rows(page).filter({ hasText: '沈昭' });
+  await expect(created).toContainText('客户协作组');
+  await expect(created).toContainText('同组数据');
+  await page.reload();
+  await expect(rows(page).filter({ hasText: '沈昭' })).toContainText('客户协作组');
+});
+
 test('read-all does not widen write-own; live revocation clears the open customer form', async ({ page, context }, info) => {
   await account(page, 'zhou');
   await open(page, '/customers', '客户管理');

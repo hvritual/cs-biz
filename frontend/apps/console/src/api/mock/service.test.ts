@@ -109,6 +109,19 @@ describe('S01 local customer and access contract', () => {
     await expect(api.listCustomerOwners(context('yu', 'yunlan'), 'crm.customer.update')).rejects.toMatchObject({ code: 'MEMBERSHIP_REQUIRED' });
   });
 
+  it('limits a group-scope grant to records owned within the member department', async () => {
+    const api = service();
+    const groupRead = await api.createRole(context(), { name: '同组客户观察', description: '', grants: [{ action: 'crm.customer.read', scope: 'group' }] });
+    // The peer joins zhou's department, so group scope reaches zhou's customers only.
+    const peer = await api.createMember(context(), { name: '同组同事', email: 'peer.group@example.test', title: '客户顾问',
+      department: '运营管理部', roleIds: [groupRead.id] }, 'group-peer-key');
+    api.selectUser(peer.userId);
+    const rows = await api.listCustomers(context(peer.userId));
+    expect(rows.map((row) => row.id).sort()).toEqual(['qh-qingniao', 'qh-xinghe']);
+    await expect(api.getCustomer(context(peer.userId), 'qh-yunshan'))
+      .rejects.toMatchObject({ code: 'CUSTOMER_NOT_FOUND', status: 404 });
+  });
+
   it('separates tenant resources, module entitlement, and platform membership', async () => {
     const api = service();
     await expect(api.getCustomer(context(), 'yl-shanlan')).rejects.toMatchObject({ code: 'CUSTOMER_NOT_FOUND', status: 404 });
@@ -319,6 +332,16 @@ describe('S01 local customer and access contract', () => {
     await api.updateMembership(context(), 'qinghe-yu', { roleIds: ['qinghe-viewer'] });
     await api.deleteRole(context(), role.id);
     expect((await api.listRoles(context())).some((entry) => entry.id === role.id)).toBe(false);
+  });
+
+  it('reports a new unbound role as data so an in-flight member creation keeps its session', async () => {
+    const api = service();
+    const events: ServiceEvent[] = [];
+    const unsubscribe = api.subscribe((event) => events.push(event));
+    await api.createRole(context(), { name: '协作观察员', description: '', grants: [{ action: 'workspace.read', scope: 'all' }] });
+    unsubscribe();
+    expect(events).toContainEqual({ type: 'data', tenantId: 'qinghe' });
+    expect(events.some((event) => event.type === 'access')).toBe(false);
   });
 
   it('separates tenant activation requests from operator approval and persists the outcome', async () => {
