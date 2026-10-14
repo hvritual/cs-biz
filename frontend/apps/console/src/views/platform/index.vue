@@ -151,7 +151,7 @@ onBeforeUnmount(() => { alive = false; sequence++; controller?.abort(); unsubscr
 <style scoped>
 .tenant-search { width: 340px; max-width: 100%; }
 .tenant-cell { display: flex; align-items: center; gap: 12px; padding: 9px 0; }
-.tenant-avatar { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border: 1px solid var(--el-border-color-lighter); border-radius: 8px; background: var(--el-fill-color-light); color: var(--el-text-color-regular); font-weight: 600; }
+.tenant-avatar { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border: 1px solid var(--el-border-color-lighter); border-radius: var(--radius-sm); background: var(--el-fill-color-light); color: var(--el-text-color-regular); font-weight: 600; }
 .tenant-name { font-weight: 500; }
 .tenant-email { margin-top: 4px; font-size: 12px; }
 .tenant-count { padding: 20px 0 0; font-size: 13px; }

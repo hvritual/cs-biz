@@ -41,6 +41,10 @@ export function createWorkspaceRoot(): RouteRecordRaw {
         meta: { title: 'menu.personal', hideInMenu: true, keepAlive: false },
       },
       {
+        name: 'MemberCreate', path: '/members/create', component: () => import('#/views/members/create.vue'),
+        meta: { title: 'members.wizardTitle', hideInMenu: true, keepAlive: false },
+      },
+      {
         name: 'Forbidden', path: '/forbidden', component: () => import('#/views/states/index.vue'),
         meta: { title: 'menu.forbidden', hideInMenu: true, state: 'forbidden', keepAlive: false },
       },
@@ -111,7 +115,7 @@ export function installWorkspaceRoutes(
 }
 
 export function canVisitPath(path: string) {
-  return path === '/personal' || path === '/forbidden' || allowedPaths.has(path);
+  return path === '/personal' || path === '/members/create' || path === '/forbidden' || allowedPaths.has(path);
 }
 
 export function getWorkspaceHome() { return homePath; }

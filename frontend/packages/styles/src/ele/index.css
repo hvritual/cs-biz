@@ -1,5 +1,5 @@
 .el-card {
-  --el-card-border-radius: var(--radius) !important;
+  --el-card-border-radius: var(--radius-sm) !important;
 }
 
 .form-valid-error {
@@ -42,3 +42,4 @@
 html .el-loading-mask {
   z-index: 1000;
 }
+

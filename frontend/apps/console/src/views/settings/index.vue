@@ -54,7 +54,7 @@ async function save() {
 <style scoped>
 .profile-surface { max-width: 780px; }
 .profile-heading { display: flex; align-items: center; gap: 16px; padding: 0 0 26px; margin-bottom: 24px; border-bottom: 1px solid var(--biz-border); }
-.profile-logo { width: 58px; height: 58px; border-radius: 12px; color: var(--el-color-primary); background: var(--el-color-primary-light-9); display: grid; place-items: center; }
+.profile-logo { width: 58px; height: 58px; border-radius: var(--radius-md); color: var(--el-color-primary); background: var(--el-color-primary-light-9); display: grid; place-items: center; }
 .profile-heading h2 { margin: 0 0 5px; font-size: 19px; font-weight: 550; }
 .profile-heading p { margin: 0; color: var(--biz-muted); font-size: 13px; }
 .profile-footer { border-top: 1px solid var(--biz-border); padding-top: 22px; display: flex; justify-content: flex-end; }

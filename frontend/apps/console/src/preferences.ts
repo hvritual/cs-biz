@@ -10,7 +10,7 @@ export const overridesPreferences = defineOverridesPreferences({
   },
   logo: { enable: true, source: '' },
   theme: {
-    mode: 'light', colorPrimary: '#2563eb', radius: '0.625', fontSize: 14,
+    mode: 'light', colorPrimary: '#2563eb', radius: '0.2', fontSize: 12,
     semiDarkSidebar: false, semiDarkHeader: false,
   },
   sidebar: {
@@ -19,7 +19,7 @@ export const overridesPreferences = defineOverridesPreferences({
   },
   header: { height: 56 },
   breadcrumb: { enable: false },
-  tabbar: { enable: false, keepAlive: false, persist: false },
+  tabbar: { enable: true, keepAlive: false, persist: false },
   copyright: { enable: false },
   footer: { enable: false },
   shortcutKeys: {

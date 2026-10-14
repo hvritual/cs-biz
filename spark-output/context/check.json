@@ -1,0 +1,133 @@
+{
+  "skill": "check",
+  "generated_at": "2026-10-14T12:00:00+08:00",
+  "project_name": "cs-biz",
+  "target": ["frontend/apps/console/src/styles/business.css", "frontend/apps/console/src/styles/desktop.css", "frontend/apps/console/src/styles/coffeelink-tokens.css", "frontend/apps/console/src/views/"],
+  "findings": [
+    {
+      "category": "components",
+      "severity": "blocker",
+      "description": "Token 系统双重定义 — business.css 与 coffeelink-tokens.css 对 --biz-* 变量给出不同的具体值，违反单一 token 源原则",
+      "suggestion": "删除 business.css 中 :root 和 .dark 的 --biz-* 硬编码定义（第 1-29 行），保留 coffeelink-tokens.css 作为唯一 token 源",
+      "location": "frontend/apps/console/src/styles/business.css:1-29 vs coffeelink-tokens.css:74-87"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "blocker",
+      "description": "深色模式 Header 使用双层嵌套阴影 box-shadow: 0 10px 30px rgba(0,0,0,.19), inset 0 1px 0 rgba(235,245,255,.085) — 属于明确禁止的'大圈套小圈'效果",
+      "suggestion": "移除外阴影和 inset 阴影，改为 border-bottom: 1px solid var(--color-border)",
+      "location": "frontend/apps/console/src/styles/desktop.css:165"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "blocker",
+      "description": "Surface 卡片使用 --shadow-panel (0 4px 20px) 阴影，多个相邻 surface 阴影叠加产生沉重视觉效果，不符合阿里云控制台的轻量边框风格",
+      "suggestion": "移除 .surface 的 box-shadow，仅保留 1px border",
+      "location": "frontend/apps/console/src/styles/desktop.css:115 + coffeelink-tokens.css:65"
+    },
+    {
+      "category": "components",
+      "severity": "major",
+      "description": "Metric Card 同时拥有 border 和 box-shadow: var(--shadow-panel)，冗余视觉层级",
+      "suggestion": "移除 box-shadow: var(--shadow-panel)，仅保留 1px 边框",
+      "location": "frontend/apps/console/src/views/members/index.vue:441"
+    },
+    {
+      "category": "components",
+      "severity": "major",
+      "description": "--shadow-menu: 18px 20px 52px var(--color-shadow) 阴影参数极其夸张，产生明显漂浮感",
+      "suggestion": "改为 --shadow-menu: 0 8px 24px rgb(15 23 42 / 10%)，或如果菜单有边框则设为 none",
+      "location": "frontend/apps/console/src/styles/coffeelink-tokens.css:66"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "major",
+      "description": "导航活跃项 .cl-primary-link.is-active 使用 box-shadow: 0 4px 12px，渐变背景已足够表达选中状态",
+      "suggestion": "移除该 box-shadow",
+      "location": "frontend/apps/console/src/styles/desktop.css:93"
+    },
+    {
+      "category": "components",
+      "severity": "major",
+      "description": "desktop.css 中约 15+ 处硬编码 hex 颜色值（#536274, #0e9272, #67768b, #4a5c76, #2865ee 等），未引用 token",
+      "suggestion": "在 coffeelink-tokens.css 中新增语义 token（如 --color-text-caption, --color-avatar-bg），替换所有硬编码值",
+      "location": "frontend/apps/console/src/styles/desktop.css:64,66,74,76,81,151,182-185"
+    },
+    {
+      "category": "components",
+      "severity": "major",
+      "description": "members/index.vue scoped 样式中约 10 处硬编码颜色（#8290a4, #273344, #59708d, #0b9d74, #e7edf4, #0b936f 等）",
+      "suggestion": "提取为语义 token 或使用 var(--color-*) 系列变量",
+      "location": "frontend/apps/console/src/views/members/index.vue:433-449,496-497"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "major",
+      "description": "business.css 的 --font-family 和 html,body,#app 规则与 coffeelink-tokens.css 重复定义且字体栈不同",
+      "suggestion": "删除 business.css 中的 --font-family 和 html,body,#app 规则，统一使用 coffeelink-tokens.css 的 --font-sans",
+      "location": "frontend/apps/console/src/styles/business.css:14,30"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "major",
+      "description": "business.css 的 .page 定义 max-width:1680px + padding:30px 32px 后被 desktop.css 覆盖为 max-width:none，定义后覆盖增加维护成本",
+      "suggestion": "business.css 的 .page 使用 token 变量作为初始值，减少后续覆盖",
+      "location": "frontend/apps/console/src/styles/business.css:34 vs desktop.css:109"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "major",
+      "description": "Header 搜索框使用 inset box-shadow 高光效果，在已有 border + background 的情况下多余",
+      "suggestion": "移除 box-shadow: inset 0 1px 0 rgba(255,255,255,.55) !important",
+      "location": "frontend/apps/console/src/styles/desktop.css:72"
+    },
+    {
+      "category": "components",
+      "severity": "minor",
+      "description": "personal/index.vue 的 .color-option 使用 color: #fff 硬编码",
+      "suggestion": "改为 color: var(--color-on-primary)",
+      "location": "frontend/apps/console/src/views/personal/index.vue:45"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "minor",
+      "description": "business.css 的 .surface 圆角 8px 与 token 系统 --radius-lg:14px 不一致",
+      "suggestion": "改为 border-radius: var(--radius-lg)",
+      "location": "frontend/apps/console/src/styles/business.css:40"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "minor",
+      "description": "统计数字 font-size: 30px 偏大，阿里云控制台通常在 24-28px",
+      "suggestion": "改为 font-size: 28px 或使用 var(--text-metric)",
+      "location": "frontend/apps/console/src/styles/business.css:52"
+    },
+    {
+      "category": "visual-hierarchy",
+      "severity": "minor",
+      "description": "按钮圆角 6px 与卡片圆角 14px 差距 8px，视觉家族不统一",
+      "suggestion": "按钮保持 var(--radius-sm)=6px，卡片改为 var(--radius-md)=10px 缩小差距",
+      "location": "frontend/apps/console/src/styles/business.css:53"
+    },
+    {
+      "category": "accessibility",
+      "severity": "minor",
+      "description": "面包屑颜色 #8290a4 在白色背景上对比度约 3.2:1，不满足 WCAG AA 4.5:1 要求",
+      "suggestion": "使用 var(--color-text-muted) = #64748b（对比度 4.6:1）替代",
+      "location": "frontend/apps/console/src/views/members/index.vue:433"
+    },
+    {
+      "category": "components",
+      "severity": "minor",
+      "description": ".el-dialog 圆角 10px 未引用 token，虽然等于 --radius-md 但应显式引用",
+      "suggestion": "改为 border-radius: var(--radius-md)",
+      "location": "frontend/apps/console/src/styles/business.css:86"
+    }
+  ],
+  "summary": {
+    "blocker": 3,
+    "major": 8,
+    "minor": 6,
+    "pass": 3
+  }
+}

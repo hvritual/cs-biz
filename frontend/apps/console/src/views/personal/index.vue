@@ -38,11 +38,11 @@ async function change(patch: Partial<typeof appearance.settings>) {
 .preference-label h2 { font-size: 16px; font-weight: 550; margin: 0 0 6px; }
 .preference-label p { color: var(--biz-muted); margin: 0; font-size: 13px; line-height: 1.7; }
 .theme-options { display: flex; gap: 16px; margin-top: 20px; }
-.theme-option { flex: 1; max-width: 170px; padding: 22px 14px; display: flex; flex-direction: column; gap: 12px; align-items: center; background: var(--biz-surface); color: var(--biz-muted); border: 1px solid var(--biz-border); border-radius: 8px; position: relative; cursor: pointer; }
+.theme-option { flex: 1; max-width: 170px; padding: 22px 14px; display: flex; flex-direction: column; gap: 12px; align-items: center; background: var(--biz-surface); color: var(--biz-muted); border: 1px solid var(--biz-border); border-radius: var(--radius-sm); position: relative; cursor: pointer; }
 .theme-option.selected { color: var(--el-color-primary); border-color: var(--el-color-primary); background: var(--el-color-primary-light-9); }
 .selected-check { position: absolute; top: 10px; right: 10px; }
 .color-options { display: flex; gap: 14px; margin-top: 18px; }
-.color-option { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: #fff; cursor: pointer; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%); }
+.color-option { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: var(--color-on-primary); cursor: pointer; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%); }
 .color-option[aria-pressed='true'] { outline: 2px solid var(--el-color-primary); outline-offset: 4px; }
 .preference-inline { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .preference-inline .el-select { width: 185px; flex-shrink: 0; }

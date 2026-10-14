@@ -61,24 +61,24 @@ html, body, #app { min-width: 1100px; }
 .cl-brand-icon img { display:block; width:32px; height:32px; object-fit:contain; }
 .cl-brand-words { display: grid; min-width: 0; gap: 2px; }
 .cl-brand-words strong { color: var(--color-text); font-size: 19px; line-height: 21px; font-weight: 750; letter-spacing: -.6px; }
-.cl-brand-words small { color: #536274; font-size: 10px; line-height: 13px; white-space: nowrap; }
+.cl-brand-words small { color: var(--color-text-caption); font-size: 10px; line-height: 13px; white-space: nowrap; }
 .cs-tenant-tools { display: flex; align-items: center; min-width: 0; gap: 7px; }
-.cl-tenant-building { color: #0e9272; font-size: 22px; }
+.cl-tenant-building { color: var(--color-accent-green); font-size: 22px; }
 .cs-tenant-select { width: min(100%, 232px); min-width: 0; }
 .cs-tenant-select .el-select__wrapper { border: none; background: transparent; box-shadow: none !important; padding: 4px 7px; font-weight: 550; }
 .cs-workspace-context { font-size: 13px; font-weight: 550; }
 .cl-header-search { position: relative; display: flex; min-width: 0; width: min(100%, 480px); justify-self: center; }
 .cl-header-search-field { width: 100%; }
-.cl-header-search-field .el-input__wrapper { min-height: 36px; padding-right: 39px; background: rgba(255, 255, 255, .47); border: 1px solid rgba(155, 176, 205, .34); box-shadow: inset 0 1px 0 rgba(255,255,255,.55) !important; border-radius: 8px; }
+.cl-header-search-field .el-input__wrapper { min-height: 36px; padding-right: 39px; background: rgba(255, 255, 255, .47); border: 1px solid rgba(155, 176, 205, .34); border-radius: var(--radius-sm); }
 .cl-header-search-field .el-input__inner { font-size: 12px; }
-.cl-search-apply { position: absolute; right: 6px; top: 5px; width: 28px; height: 26px; background: none; border: 0; color: #67768b; cursor: pointer; }
+.cl-search-apply { position: absolute; right: 6px; top: 5px; width: 28px; height: 26px; background: none; border: 0; color: var(--color-text-muted); cursor: pointer; }
 .cs-shell-actions { display: flex; align-items: center; justify-content: flex-end; flex: none; gap: 9px; min-width: 0; }
-.cs-shell-tool { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-height: 34px; padding: 0 6px; border: 0; background: transparent; border-radius: 7px; cursor: pointer; color: #4a5c76; }
+.cs-shell-tool { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-height: 34px; padding: 0 6px; border: 0; background: transparent; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text-subtle); }
 .cs-shell-tool:hover, .cs-account-tool:hover { background: var(--cl-action-soft); }
 .cs-language-tool { font-size: 13px; padding: 0 5px; }
 .cs-shell-divider { display: inline-block; height: 24px; border-left: 1px solid var(--cl-line); }
-.cs-account-tool { display: flex; align-items: center; gap: 9px; padding: 3px 5px; background: transparent; border: 0; border-radius: 7px; cursor: pointer; color: var(--cl-ink); }
-.cs-account-avatar { display: grid; place-items: center; width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; color: #fff; background: #2865ee; font-weight: 650; }
+.cs-account-tool { display: flex; align-items: center; gap: 9px; padding: 3px 5px; background: transparent; border: 0; border-radius: var(--radius-sm); cursor: pointer; color: var(--cl-ink); }
+.cs-account-avatar { display: grid; place-items: center; width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; color: #fff; background: var(--color-avatar-bg); font-weight: 650; }
 .cs-account-name { max-width: 100px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cl-primary-rail {
   position: fixed; top: var(--cl-header-height); bottom: 0; left: var(--cl-rail-gutter); z-index: var(--cl-layer-nav-rail);
@@ -86,11 +86,11 @@ html, body, #app { min-width: 1100px; }
   transition: width .16s ease;
 }
 .cl-primary-links { display: grid; align-content: start; gap: 3px; flex: 1; padding: 12px 14px; }
-.cl-primary-link { display: flex; align-items: center; justify-content: flex-start; gap: 14px; height: 48px; border: 0; border-radius: 9px; padding: 0 16px; color: var(--color-text-secondary); background: transparent; cursor: pointer; font-size: var(--text-sm); font-weight: 500; white-space: nowrap; }
+.cl-primary-link { display: flex; align-items: center; justify-content: flex-start; gap: 14px; height: 48px; border: 0; border-radius: var(--radius-md); padding: 0 16px; color: var(--color-text-secondary); background: transparent; cursor: pointer; font-size: var(--text-sm); font-weight: 500; white-space: nowrap; }
 .cl-primary-link:hover { background: var(--color-primary-soft); color: var(--color-primary); }
 .cl-primary-link.is-active {
   background: linear-gradient(105deg, var(--color-primary), var(--color-gradient-end));
-  color: var(--color-on-primary); box-shadow: 0 4px 12px var(--color-shadow);
+  color: var(--color-on-primary);
 }
 .cl-primary-rail.is-collapsed .cl-primary-links { padding-inline: 10px; }
 .cl-primary-rail.is-collapsed .cl-primary-link { width: 48px; padding: 0; justify-content: center; }
@@ -98,7 +98,7 @@ html, body, #app { min-width: 1100px; }
 .cl-rail-toggle { align-self: flex-end; display: grid; place-items: center; margin: 12px 14px 14px; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--cl-line); color: var(--color-text-secondary); background: var(--color-surface); cursor: pointer; }
 .cl-primary-rail.is-collapsed .cl-rail-toggle { align-self: center; margin-inline: auto; }
 .cl-desktop-main {
-  position: relative; z-index: var(--cl-layer-content);
+  z-index: var(--cl-layer-content);
   min-width: 0; min-height: calc(100vh - var(--cl-header-height));
   margin-top: var(--cl-header-height);
   margin-left: calc(var(--cl-rail-current) + var(--cl-rail-gutter));
@@ -112,8 +112,11 @@ html, body, #app { min-width: 1100px; }
 .cl-desktop-main .page-heading p { margin-top: 4px; font-size: 13px; line-height: 21px; }
 .cl-desktop-main .surface {
   background: var(--color-surface); border: 1px solid var(--color-border);
-  border-radius: var(--cl-card-radius); box-shadow: var(--shadow-panel);
+  border-radius: var(--cl-card-radius);
 }
+/* Filter/tool bars sit inside surfaces — flat edges prevent nested rounded corners. */
+.cl-desktop-main .cl-members-filter-panel.surface,
+.cl-desktop-main .toolbar-surface { border-radius: 0; }
 .cl-desktop-main .el-table th.el-table__cell {
   background: var(--cl-table-header-surface);
   color: var(--cl-table-header-text);
@@ -140,15 +143,15 @@ html, body, #app { min-width: 1100px; }
 .cl-navigation-columns h3 { margin: 0 0 12px; font-weight: 650; font-size: 13px; line-height: 20px; }
 .cl-navigation-list { display: grid; gap: 2px; }
 .cl-navigation-menu { display: flex; justify-content: flex-start; padding: 2px 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
-.cl-navigation-selection { display: inline-flex; width: max-content; max-width: 100%; min-height: 40px; align-items: center; gap: 10px; padding: 0 10px; border-radius: 8px; color: var(--biz-text); font-size: 14px; }
+.cl-navigation-selection { display: inline-flex; width: max-content; max-width: 100%; min-height: 40px; align-items: center; gap: 10px; padding: 0 10px; border-radius: var(--radius-sm); color: var(--biz-text); font-size: 14px; }
 .cl-navigation-menu:hover .cl-navigation-selection { background: var(--biz-subtle); }
 .cl-navigation-selection.is-active { background: var(--cl-action-soft); color: var(--cl-action); }
 .cl-navigation-action-list { display: grid; align-content: start; gap: 9px; }
 .cl-navigation-action-list button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 9px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-text); background: linear-gradient(115deg,var(--color-surface),var(--color-surface-soft)); cursor: pointer; text-align: left; font-size: 12px; }
 .cl-navigation-action-list button:hover { border-color: var(--cl-action); color: var(--cl-action); background: var(--cl-action-soft); }
-.cl-navigation-promo { display: flex; justify-content: space-between; flex: none; min-height: 112px; margin-top: 16px; padding: 12px 10px 8px 18px; border-radius: 10px; background: linear-gradient(105deg,#eaf4ff,#f6faff 58%,#c7ddff); overflow: hidden; }
+.cl-navigation-promo { display: flex; justify-content: space-between; flex: none; min-height: 112px; margin-top: 16px; padding: 12px 10px 8px 18px; border-radius: var(--radius-md); background: linear-gradient(105deg,#eaf4ff,#f6faff 58%,#c7ddff); overflow: hidden; }
 .cl-navigation-promo strong { display: block; padding-top: 18px; color: var(--cl-ink); font-size: 15px; }
-.cl-navigation-promo p { color: #526481; font-size: 11px; margin-top: 4px; }
+.cl-navigation-promo p { color: var(--color-promo-text); font-size: 11px; margin-top: 4px; }
 .cl-navigation-promo img { align-self:flex-end; flex:0 0 auto; width:112px; height:86px; object-fit:cover; mask-image:linear-gradient(to right,transparent,black 26%); }
 .cs-workspace-loading { position: fixed; inset: var(--cl-header-height) 0 0 calc(var(--cl-rail-current) + var(--cl-rail-gutter)); z-index: 450; display: grid; align-content: center; justify-content: center; gap: 12px; background: rgba(255,255,255,.94); }
 .cs-loading-spinner { width: 20px; height: 20px; border: 2px solid var(--cl-line); border-top-color: var(--cl-action); border-radius: 50%; animation: cl-spin .75s linear infinite; }
@@ -162,7 +165,7 @@ html, body, #app { min-width: 1100px; }
 .dark .cl-primary-rail { background-color: var(--cl-rail-surface); border-color: var(--color-border); }
 .dark .cl-global-header {
   background: var(--cl-header-glass-bg); border-color: var(--cl-header-glass-edge);
-  box-shadow: 0 10px 30px rgba(0,0,0,.19), inset 0 1px 0 rgba(235,245,255,.085);
+  border-bottom: 1px solid rgba(171, 198, 230, .16);
 }
 .dark .cl-global-header::before {
   background: radial-gradient(ellipse 50% 130% at 28% -62%, rgba(167,203,247,.115),transparent 78%),
@@ -179,14 +182,13 @@ html, body, #app { min-width: 1100px; }
   color: var(--cl-table-header-text);
 }
 .dark .cl-members-heading h1 { color: var(--biz-text); }
-.dark .cl-breadcrumb { color: #adc0d8; }
-.dark .cs-shell-tool { color: #d7e5f6; }
-.dark .cl-brand-words small { color: #c3d2e5; }
-.dark .cl-tenant-building { color: #9bd5c9; }
+.dark .cl-breadcrumb { color: var(--color-text-caption); }
+.dark .cs-shell-tool { color: var(--color-text-subtle); }
+.dark .cl-brand-words small { color: var(--color-text-caption); }
+.dark .cl-tenant-building { color: var(--color-accent-green); }
 .dark .cl-header-search-field .el-input__wrapper {
   background: rgba(24, 37, 54, .56);
   border-color: rgba(148, 177, 215, .17);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .cl-global-header { background: var(--cl-header-glass-fallback); }
@@ -196,7 +198,7 @@ html, body, #app { min-width: 1100px; }
 .dark .cl-navigation-panel { background: var(--color-surface); }
 .dark .cl-navigation-selection.is-active { background: var(--color-primary-soft); color: var(--color-primary); }
 .dark .cl-navigation-promo { background: linear-gradient(110deg,#18334f,#23466b); }
-.dark .cl-navigation-promo strong,.dark .cl-navigation-promo p { color: #e6f2ff; }
+.dark .cl-navigation-promo strong,.dark .cl-navigation-promo p { color: var(--color-promo-text); }
 @media (max-height: 830px) {
   .cl-primary-link { height: 42px; font-size: var(--text-xs); gap: 12px; }
   .cl-primary-links { padding-top: var(--space-2); }

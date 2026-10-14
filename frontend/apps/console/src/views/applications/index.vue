@@ -102,7 +102,7 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
 <style scoped>
 .application-surface { padding: 28px; }
 .application-heading { display: flex; align-items: center; gap: 16px; }
-.application-icon { display: grid; place-items: center; flex: 0 0 52px; width: 52px; height: 52px; border: 1px solid var(--el-color-primary-light-8); border-radius: 12px; color: var(--el-color-primary); background: var(--el-color-primary-light-9); }
+.application-icon { display: grid; place-items: center; flex: 0 0 52px; width: 52px; height: 52px; border: 1px solid var(--el-color-primary-light-8); border-radius: var(--radius-md); color: var(--el-color-primary); background: var(--el-color-primary-light-9); }
 .application-name { flex: 1; min-width: 0; }
 .application-name h2 { margin: 0; font-size: 18px; line-height: 26px; font-weight: 600; }
 .application-name p { margin: 5px 0 0; font-size: 14px; line-height: 22px; }

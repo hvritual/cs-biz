@@ -32,6 +32,15 @@
   --color-shadow: rgb(15 23 42 / 12%);
   --color-gradient-end: var(--el-color-primary-light-5, #93c5fd);
 
+  --color-text-caption: #536274;
+  --color-text-subtle: #4a5c76;
+  --color-accent-green: #0e9272;
+  --color-avatar-bg: #2563eb;
+  --color-promo-text: #526481;
+  --color-ring-track: #e7edf4;
+  --color-ring-fill: #0b9d74;
+  --color-ring-label: #0b936f;
+
   --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
   --text-xs: 12px;
@@ -48,11 +57,11 @@
   --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
-  --radius: 10px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 18px;
+  --radius: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
   --header-height: 56px;
   --rail-width: 200px;
   --rail-collapsed-width: 68px;
@@ -63,7 +72,7 @@
   --control-height: 36px;
   --table-row-height: 64px;
   --shadow-panel: 0 4px 20px rgb(15 23 42 / 6%);
-  --shadow-menu: 18px 20px 52px var(--color-shadow);
+  --shadow-menu: 0 8px 24px rgb(15 23 42 / 10%);
   --z-header: 20;
   --z-member-detail: 30;
   --z-scrim: 35;
@@ -108,6 +117,15 @@
   --color-overlay: rgb(2 6 23 / 62%);
   --color-shadow: rgb(0 0 0 / 42%);
   --shadow-panel: 0 4px 24px rgb(0 0 0 / 24%);
+
+  --color-text-caption: #c3d2e5;
+  --color-text-subtle: #d7e5f6;
+  --color-accent-green: #9bd5c9;
+  --color-avatar-bg: #3b82f6;
+  --color-promo-text: #e6f2ff;
+  --color-ring-track: #1e293b;
+  --color-ring-fill: #34d399;
+  --color-ring-label: #6ee7b7;
 }
 :root[data-density='compact'] {
   --content-padding: 18px;

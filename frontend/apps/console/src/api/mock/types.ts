@@ -98,6 +98,8 @@ export interface User {
   email: string;
   initials: string;
   title: string;
+  username?: string;
+  phone?: string;
   lastLoginAt?: string;
   platformRole?: 'operator';
 }
@@ -232,6 +234,8 @@ export interface RequestContext extends RequestOptions {
 export interface CreateMemberInput {
   name: string;
   email: string;
+  username?: string;
+  phone?: string;
   title?: string;
   department?: string;
   roleIds: string[];

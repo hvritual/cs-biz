@@ -493,6 +493,7 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       (await begin(context, context.subjectId))();
       authorize(context, 'tenant.member.manage');
       const normalized = { name: textField(input.name, 'name', 80), email: emailField(input.email),
+        username: textField(input.username ?? '', 'username', 60, false), phone: textField(input.phone ?? '', 'phone', 20, false),
         title: textField(input.title ?? '', 'title', 80, false), department: textField(input.department ?? '', 'department', 80, false), roleIds: normalizeRoleIds(input.roleIds) };
       const request = idempotency(context, 'member.create', key, normalized);
       if (request.existing) {
@@ -505,6 +506,7 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       if (existingUser && state.memberships.some((member) => member.tenantId === context.tenantId && member.userId === existingUser.id)) return fail('MEMBER_EXISTS', 409);
       const next = clone(state);
       const user: User = existingUser ?? { id: id('user'), name: normalized.name, email: normalized.email, title: normalized.title,
+        username: normalized.username || undefined, phone: normalized.phone || undefined,
         initials: normalized.name.slice(0, 1) };
       if (!existingUser) next.users.push(user);
       const member: Membership = { id: id('member'), tenantId: context.tenantId, userId: user.id, status: 'active', roleIds: normalized.roleIds, joinedAt: now(), department: normalized.department };

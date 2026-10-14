@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreateMemberInput, Grant, MemberView, Role } from '#/api/mock/types';
+import type { MemberView, Role } from '#/api/mock/types';
 import type { FormInstance, FormRules } from 'element-plus';
 import coffeeBanner from '#/assets/coffee-banner.webp';
 
@@ -7,18 +7,16 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
   ElAlert, ElButton, ElDrawer, ElForm, ElFormItem, ElInput, ElMessage, ElMessageBox,
-  ElOption, ElPagination, ElSelect, ElSwitch, ElTable, ElTableColumn, ElTag,
+  ElOption, ElPagination, ElSelect, ElTable, ElTableColumn, ElTag,
 } from 'element-plus';
 import { Download, Plus, RefreshCw, Search, ShieldCheck, Users, X } from 'lucide-vue-next';
 
-import { api, ServiceError } from '#/api/mock/service';
+import { api } from '#/api/mock/service';
 import PageState from '#/components/PageState.vue';
-import PermissionSetEditor from '#/components/PermissionSetEditor.vue';
 import { useResource } from '#/composables/useResource';
 import { $t as t } from '#/locales';
 import { useWorkspaceStore } from '#/store';
 import { errorMessage, formatDate } from '#/utils/format';
-import { clearPendingCommand, readPendingCommand, writePendingCommand } from '#/utils/pending-command';
 
 const route = useRoute();
 const router = useRouter();
@@ -54,12 +52,8 @@ const changingMember = ref('');
 const batchBusy = ref(false);
 const formError = ref('');
 const formRef = ref<FormInstance>();
-const creationKey = ref('');
 let confirmationOpen = false;
-const form = reactive<CreateMemberInput>({ name: '', email: '', title: '', roleIds: [], department: '' });
-const inlineSet = ref(false);
-const setName = ref('');
-const setGrants = ref<Grant[]>([]);
+const form = reactive({ roleIds: [] as string[] });
 const canManage = computed(() => workspace.can('tenant.member.manage'));
 const assignableRoles = computed(() => data.value.roles.filter((item) => !item.isOwner));
 const departments = computed(() => [...new Set(data.value.members.map((m) => m.department || t('members.unassigned')))].sort());
@@ -84,13 +78,7 @@ const stats = computed(() => {
 });
 const selectedActionable = computed(() => selected.value.filter((m) => m.canManage));
 const rules = computed<FormRules>(() => ({
-  name: [{ required: true, whitespace: true, message: t('members.nameRequired'), trigger: 'blur' }],
-  email: [
-    { required: true, message: t('members.emailRequired'), trigger: 'blur' },
-    { type: 'email', message: t('members.emailInvalid'), trigger: ['blur', 'change'] },
-  ],
-  // An inline permission set becomes the member's role, so an existing role is optional in that path.
-  roleIds: inlineSet.value ? [] : [{ type: 'array', required: true, min: 1, message: t('members.rolesRequired'), trigger: 'change' }],
+  roleIds: [{ type: 'array', required: true, min: 1, message: t('members.permissionsRequired'), trigger: 'change' }],
 }));
 function applyFilters() { applied.value = { ...draft }; page.value = 1; selected.value = []; }
 function resetFilters() {
@@ -107,56 +95,28 @@ function closeDetail() {
 }
 function openCreate() {
   if (!canManage.value || !workspace.context || workspace.loading) return;
-  const pending = readPendingCommand<CreateMemberInput>(workspace.requestContext(), 'member.create');
-  editing.value = null;
-  Object.assign(form, pending
-    ? { ...pending.input, roleIds: [...pending.input.roleIds] }
-    : { name: '', email: '', title: '', roleIds: [], department: '' });
-  creationKey.value = pending?.key ?? crypto.randomUUID();
-  inlineSet.value = false; setName.value = ''; setGrants.value = [];
-  formError.value = ''; drawer.value = true;
+  router.push('/members/create');
 }
 function openEdit(member: MemberView) {
   if (!member.canManage || !canManage.value) return;
   editing.value = member;
-  Object.assign(form, { name: member.user.name, email: member.user.email, title: member.user.title,
-    roleIds: [...member.roleIds], department: member.department || '' });
+  form.roleIds = [...member.roleIds];
   formError.value = ''; drawer.value = true;
 }
 async function saveMember() {
-  if (saving.value || !canManage.value || !workspace.context || workspace.loading) return;
+  if (saving.value || !canManage.value || !workspace.context || workspace.loading || !editing.value) return;
   const captured = workspace.capture();
-  const memberId = editing.value?.id;
-  const input: CreateMemberInput = { name: form.name.trim(), email: form.email.trim(),
-    title: form.title?.trim(), department: form.department?.trim(), roleIds: [...form.roleIds] };
-  const key = creationKey.value;
+  const memberId = editing.value.id;
   saving.value = true; formError.value = '';
   try {
     const valid = await formRef.value?.validate().catch(() => false);
     if (!valid || !captured.isCurrent() || !canManage.value) return;
-    if (memberId) {
-      await api.updateMembership(captured.context, memberId, { roleIds: input.roleIds });
-    } else {
-      if (inlineSet.value) {
-        const roleName = setName.value.trim();
-        if (!roleName) { formError.value = t('members.setNameRequired'); return; }
-        if (setGrants.value.length === 0) { formError.value = t('members.setGrantsRequired'); return; }
-        const created = await api.createRole(captured.context, { name: roleName, description: '', grants: setGrants.value.map((grant) => ({ ...grant })) });
-        input.roleIds = [...new Set([...input.roleIds, created.id])].sort();
-      }
-      writePendingCommand(captured.context, 'member.create', input, key);
-      await api.createMember(captured.context, input, key);
-      clearPendingCommand(captured.context, 'member.create', key);
-    }
+    await api.updateMembership(captured.context, memberId, { roleIds: [...form.roleIds] });
     if (!captured.isCurrent()) return;
     drawer.value = false;
-    ElMessage.success(t(memberId ? 'members.updated' : 'members.created'));
+    ElMessage.success(t('members.updated'));
     await refresh();
   } catch (cause) {
-    if (!memberId && cause instanceof ServiceError && cause.status >= 400 && cause.status < 500
-      && cause.status !== 408 && !['IDEMPOTENCY_CONFLICT','REQUEST_CANCELLED','STORAGE_UNAVAILABLE'].includes(cause.code)) {
-      clearPendingCommand(captured.context, 'member.create', key);
-    }
     if (captured.isCurrent()) formError.value = errorMessage(cause);
   } finally {
     if (captured.isCurrent()) saving.value = false;
@@ -230,8 +190,7 @@ function exportMembers() {
 }
 watch([() => route.query.create, canManage], ([value, can]) => {
   if (value === '1' && can) {
-    openCreate();
-    void router.replace({ path: '/members' });
+    void router.replace({ path: '/members/create' });
   }
 }, { immediate: true });
 watch(() => route.query.search, (value) => {
@@ -268,7 +227,7 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
       <div class="cl-metric-card"><div class="cl-metric-symbol"><Users :size="25" /></div><div>
         <span>{{ t('members.departments') }}</span><strong>{{ stats.departments }}</strong><small>{{ t('members.orgStructure') }}</small></div></div>
       <div class="cl-metric-card"><div class="cl-metric-symbol"><ShieldCheck :size="25" /></div><div>
-        <span>{{ t('members.rolesCount') }}</span><strong>{{ stats.roles }}</strong><small>{{ t('members.roleConfig') }}</small></div></div>
+        <span>{{ t('members.permissionsCount') }}</span><strong>{{ stats.roles }}</strong><small>{{ t('members.permissionConfig') }}</small></div></div>
       <div class="cl-metric-card">
         <div class="cl-usage-ring" :style="{ '--cl-percent': stats.percent + '%' }"><span>{{ stats.percent }}%</span></div>
         <div><span>{{ t('members.activeUsage') }}</span><strong class="cl-count-small">{{ stats.active }} / {{ stats.total }}</strong>
@@ -288,9 +247,9 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
           <ElOption value="all" :label="t('members.allDepartments')" />
           <ElOption v-for="dept in departments" :key="dept" :value="dept" :label="dept" />
         </ElSelect>
-        <label>{{ t('members.role') }}</label>
-        <ElSelect v-model="draft.role" :aria-label="t('members.role')" class="cl-member-select">
-          <ElOption value="all" :label="t('members.allRoles')" />
+        <label>{{ t('members.permission') }}</label>
+        <ElSelect v-model="draft.role" :aria-label="t('members.permission')" class="cl-member-select">
+          <ElOption value="all" :label="t('members.allPermissions')" />
           <ElOption v-for="item in data.roles" :key="item.id" :value="item.id" :label="item.name" />
         </ElSelect>
         <label>{{ t('members.status') }}</label>
@@ -326,7 +285,7 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
             <ElTableColumn :label="t('members.department')" min-width="112">
               <template #default="{ row }">{{ row.department || t('members.unassigned') }}</template>
             </ElTableColumn>
-            <ElTableColumn :label="t('members.role')" min-width="130">
+            <ElTableColumn :label="t('members.permission')" min-width="130">
               <template #default="{ row }"><div class="cl-role-tags">
                 <ElTag v-for="role in row.roles" :key="role.id" size="small" :type="role.isOwner ? 'danger' : 'info'" effect="light">{{ role.name }}</ElTag>
               </div></template>
@@ -365,7 +324,7 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
           <div class="cl-detail-person"><span class="cl-member-avatar">{{ detail.user.initials }}</span>
             <strong>{{ detail.user.name }}</strong><p>{{ detail.user.email }}</p></div>
           <div class="cl-detail-tabs">
-            <button v-for="tab in [{ id:'profile', text:t('members.profileTab') },{ id:'roles',text:t('members.rolesTab') },{ id:'data',text:t('members.dataTab') }]"
+            <button v-for="tab in [{ id:'profile', text:t('members.profileTab') },{ id:'permissions',text:t('members.permissionsTab') },{ id:'data',text:t('members.dataTab') }]"
               :key="tab.id" type="button" :class="{ active: detailTab === tab.id }" @click="detailTab = tab.id">{{ tab.text }}</button>
           </div>
           <dl v-if="detailTab === 'profile'" class="detail-list">
@@ -375,7 +334,7 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
             <div><dt>{{ t('members.status') }}</dt><dd>{{ t('members.' + detail.status) }}</dd></div>
             <div><dt>{{ t('members.joinedAt') }}</dt><dd>{{ formatDate(detail.joinedAt) }}</dd></div>
           </dl>
-          <div v-else-if="detailTab === 'roles'" class="cl-detail-tag-list">
+          <div v-else-if="detailTab === 'permissions'" class="cl-detail-tag-list">
             <ElTag v-for="role in detail.roles" :key="role.id">{{ role.name }}</ElTag>
           </div>
           <div v-else class="cl-detail-summary">
@@ -387,42 +346,21 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
       <template #emptyActions><ElButton v-if="canManage" type="primary" @click="openCreate">{{ t('members.add') }}</ElButton></template>
     </PageState>
 
-    <ElDrawer v-model="drawer" :title="t(editing ? 'members.editRoles' : 'members.add')"
-      :size="inlineSet && !editing ? 'min(920px, 100vw)' : '500px'"
+    <ElDrawer v-model="drawer" :title="t('members.editPermissions')"
+      size="500px"
       destroy-on-close :close-on-click-modal="!saving" :close-on-press-escape="!saving" :show-close="!saving">
       <ElAlert v-if="formError" :title="formError" type="error" :closable="false" show-icon class="form-notice" />
       <div v-if="editing" class="member-summary"><strong>{{ editing.user.name }}</strong><span class="muted">{{ editing.user.email }}</span></div>
       <ElForm ref="formRef" :model="form" :rules="rules" label-position="top" :disabled="saving" @submit.prevent="saveMember">
-        <template v-if="!editing">
-          <ElFormItem :label="t('members.name')" prop="name"><ElInput v-model="form.name" :maxlength="80" /></ElFormItem>
-          <ElFormItem :label="t('members.email')" prop="email"><ElInput v-model="form.email" type="email" :maxlength="160" /></ElFormItem>
-          <ElFormItem :label="t('members.jobTitle')" prop="title"><ElInput v-model="form.title" :maxlength="80" /></ElFormItem>
-          <ElFormItem :label="t('members.department')"><ElInput v-model="form.department" :maxlength="80" /></ElFormItem>
-        </template>
-        <ElFormItem :label="t('members.roles')" prop="roleIds">
-          <ElSelect v-model="form.roleIds" multiple :placeholder="t('members.selectRoles')" :aria-label="t('members.roles')" style="width:100%">
+        <ElFormItem :label="t('members.permissions')" prop="roleIds">
+          <ElSelect v-model="form.roleIds" multiple :placeholder="t('members.selectPermissions')" :aria-label="t('members.permissions')" style="width:100%">
             <ElOption v-for="entry in assignableRoles" :key="entry.id" :value="entry.id" :label="entry.name" />
           </ElSelect>
         </ElFormItem>
-        <p class="muted role-help">{{ t('members.roleHelp') }}</p>
-        <div v-if="!editing" class="cl-inline-set">
-          <div class="cl-inline-set-head">
-            <div>
-              <strong>{{ t('members.inlineSetTitle') }}</strong>
-              <p class="muted">{{ t('members.inlineSetHelp') }}</p>
-            </div>
-            <ElSwitch v-model="inlineSet" :aria-label="t('members.inlineSetTitle')" />
-          </div>
-          <template v-if="inlineSet">
-            <ElFormItem :label="t('members.setName')" class="cl-inline-set-name">
-              <ElInput v-model="setName" :maxlength="60" />
-            </ElFormItem>
-            <PermissionSetEditor v-model="setGrants" />
-          </template>
-        </div>
+        <p class="muted role-help">{{ t('members.permissionHelp') }}</p>
       </ElForm>
       <template #footer><div class="form-actions"><ElButton :disabled="saving" @click="drawer = false">{{ t('common.cancel') }}</ElButton>
-        <ElButton type="primary" :loading="saving" @click="saveMember">{{ t(editing ? 'common.saveChanges' : 'members.save') }}</ElButton></div></template>
+        <ElButton type="primary" :loading="saving" @click="saveMember">{{ t('common.saveChanges') }}</ElButton></div></template>
     </ElDrawer>
   </div>
 </template>
@@ -430,23 +368,23 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
 <style scoped>
 .cl-members-page .cl-members-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:16px; }
 .cl-members-heading h1 { font-size:24px; line-height:32px; font-weight:650; margin:12px 0 4px; }
-.cl-breadcrumb { font-size:12px; color:#8290a4; margin:0; }
+.cl-breadcrumb { font-size:12px; color:var(--color-text-muted); margin:0; }
 .cl-members-intro { margin:0; font-size:13px; color:var(--biz-muted); }
-.cl-hero-art { position:relative; flex:0 0 32%; max-width:400px; min-height:84px; display:grid; align-content:center; gap:4px; padding:14px 20px; background:linear-gradient(110deg,var(--color-primary-soft),var(--color-surface-soft) 60%,var(--color-primary-soft)); border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden; }
+.cl-hero-art { position:relative; flex:0 0 32%; max-width:400px; min-height:84px; display:grid; align-content:center; gap:4px; padding:14px 20px; background:linear-gradient(110deg,var(--color-primary-soft),var(--color-surface-soft) 60%,var(--color-primary-soft)); border:1px solid var(--color-border); border-radius:var(--radius-sm); overflow:hidden; }
 .cl-hero-art strong,.cl-hero-art span { z-index:1; position:relative; max-width:75%; }
-.cl-hero-art strong { color:#273344; font-size:15px; font-weight:650; }
-.cl-hero-art span { color:#59708d; font-size:11px; }
+.cl-hero-art strong { color:var(--color-text); font-size:15px; font-weight:650; }
+.cl-hero-art span { color:var(--color-text-secondary); font-size:11px; }
 .cl-hero-image { position:absolute; right:0; inset-block:0; height:100%; width:43%; object-fit:cover; mask-image:linear-gradient(to right,transparent,black 30%); }
 .cl-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:16px; }
-.cl-metric-card { display:flex; align-items:center; min-width:0; min-height:112px; gap:var(--space-4); padding:var(--space-4); border:1px solid var(--color-border); background:var(--color-surface); border-radius:var(--radius-lg); box-shadow:var(--shadow-panel); }
+.cl-metric-card { display:flex; align-items:center; min-width:0; min-height:112px; gap:var(--space-4); padding:var(--space-4); border:1px solid var(--color-border); background:var(--color-surface); border-radius:var(--radius-md); }
 .cl-metric-card>div:last-child { display:grid; min-width:0; gap:2px; }
 .cl-metric-card span:not(.cl-usage-ring span) { font-size:13px; font-weight:600; }
 .cl-metric-card strong { font-size:var(--text-metric); line-height:38px; font-weight:700; color:var(--biz-text); font-variant-numeric:tabular-nums; }
 .cl-metric-card small { color:var(--biz-muted); font-size:11px; }
 .cl-metric-card .cl-count-small { font-size:18px; }
-.cl-metric-symbol { width:48px; height:48px; flex:0 0 48px; display:grid; place-items:center; border-radius:var(--radius-md); background:var(--color-primary-soft); color:var(--color-primary); }
-.cl-usage-ring { display:grid; place-items:center; flex:0 0 68px; width:68px; height:68px; border-radius:50%; background:conic-gradient(#0b9d74 var(--cl-percent),#e7edf4 0); }
-.cl-usage-ring span { width:55px; height:55px; border-radius:50%; background:var(--biz-surface); display:grid; place-items:center; color:#0b936f; font-weight:650; }
+.cl-metric-symbol { width:48px; height:48px; flex:0 0 48px; display:grid; place-items:center; border-radius:var(--radius-sm); background:var(--color-primary-soft); color:var(--color-primary); }
+.cl-usage-ring { display:grid; place-items:center; flex:0 0 68px; width:68px; height:68px; border-radius:50%; background:conic-gradient(var(--color-ring-fill) var(--cl-percent),var(--color-ring-track) 0); }
+.cl-usage-ring span { width:55px; height:55px; border-radius:50%; background:var(--biz-surface); display:grid; place-items:center; color:var(--color-ring-label); font-weight:650; }
 .cl-members-help { margin:2px 2px 12px; color:var(--color-primary); text-align:right; font-size:var(--text-xs); }
 .cl-members-filter-panel { display:flex; align-items:center; gap:9px; padding:12px 14px !important; margin-bottom:14px; }
 .cl-members-filter-panel label { flex:none; font-size:12px; white-space:nowrap; }
@@ -488,13 +426,8 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
 .form-notice,.member-summary { margin-bottom:20px; }
 .member-summary { display:grid; gap:5px; }
 .role-help { color:var(--biz-muted); font-size:12px; line-height:1.6; }
-.cl-inline-set { display:grid; gap:var(--space-3); margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--biz-border); }
-.cl-inline-set-head { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-3); }
-.cl-inline-set-head strong { font-size:13px; }
-.cl-inline-set-head p { margin:2px 0 0; font-size:12px; line-height:1.6; }
-.cl-inline-set-name { margin-bottom:var(--space-3); }
-.dark .cl-hero-art { background:linear-gradient(110deg,#213952,#365474); }
-.dark .cl-hero-art strong,.dark .cl-hero-art span { color:#e9f1ff; }
+.dark .cl-hero-art { background:linear-gradient(110deg, var(--color-workbench), var(--color-surface-soft)); }
+.dark .cl-hero-art strong,.dark .cl-hero-art span { color:var(--color-text); }
 .dark .cl-metric-symbol { background:var(--color-primary-soft); color:var(--color-primary); }
 .dark .cl-members-filter-panel .el-input__wrapper,.dark .cl-members-filter-panel .el-select__wrapper { border-color:var(--color-border-strong); }
 
