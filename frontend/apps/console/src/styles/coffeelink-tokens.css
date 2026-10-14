@@ -65,7 +65,7 @@
   --header-height: 56px;
   --rail-width: 200px;
   --rail-collapsed-width: 68px;
-  --rail-offset: 8px; /* AppShell.side-frame left: 8px in Biz V1.2 */
+  --rail-offset: 0px; /* User-approved cs-biz flush rail; overrides Biz V1.2's 8px inset. */
   --module-width: 480px;
   --member-detail-width: 360px;
   --content-padding: 24px;
