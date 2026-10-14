@@ -1,0 +1,16 @@
+{
+  "cancel": "取消",
+  "saveChanges": "保存更改",
+  "actions": "操作",
+  "edit": "编辑",
+  "view": "查看",
+  "close": "关闭",
+  "refresh": "刷新",
+  "loading": "正在读取资料…",
+  "unableToLoad": "暂时无法显示资料",
+  "tryAgain": "重试",
+  "noResults": "暂无内容",
+  "clearFilters": "清除筛选",
+  "noDate": "暂无日期",
+  "saved": "已保存"
+}

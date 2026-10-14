@@ -1,0 +1,16 @@
+{
+  "overview": "Overview",
+  "customers": "Customers",
+  "members": "Team members",
+  "roles": "Member permissions",
+  "settings": "Company profile",
+  "applications": "Applications",
+  "personal": "Personal preferences",
+  "platform": "Companies",
+  "login": "Choose an account",
+  "forbidden": "Access restricted",
+  "notFound": "Page not found",
+  "company": "Company settings",
+  "customerList": "Customer list",
+  "team": "Team and permissions"
+}

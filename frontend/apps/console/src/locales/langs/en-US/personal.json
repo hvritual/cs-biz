@@ -1,0 +1,26 @@
+{
+  "title": "Personal preferences",
+  "description": "Make your workspace feel right for you.",
+  "appearance": "Appearance",
+  "appearanceDescription": "Choose the appearance that feels most comfortable.",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "color": "Accent color",
+  "colorDescription": "Used for navigation, buttons, and highlights.",
+  "language": "Language",
+  "languageDescription": "Menus, forms, and messages use your selected language.",
+  "density": "Content density",
+  "densityDescription": "Adjust spacing in tables and content.",
+  "comfortable": "Comfortable",
+  "compact": "Compact",
+  "savedFor": "Changes save automatically for {name} in {tenant}.",
+  "colors": {
+    "0": "Teal",
+    "1": "Indigo",
+    "2": "Blue",
+    "3": "Violet",
+    "4": "Amber",
+    "5": "Slate"
+  }
+}

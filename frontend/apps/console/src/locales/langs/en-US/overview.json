@@ -1,0 +1,17 @@
+{
+  "greeting": "Hello, {name}",
+  "description": "Welcome to {tenant}. Your work starts here.",
+  "viewCustomers": "View customers",
+  "activeApps": "Active applications",
+  "recentCustomers": "Recently updated customers",
+  "shortcuts": "Quick access",
+  "customerShortcut": "Customer details and relationship progress",
+  "memberShortcut": "Team responsibilities and access",
+  "appShortcut": "View and request applications",
+  "profileShortcut": "Company contact information",
+  "workspaceTitle": "Your workspace",
+  "workspaceDescription": "Customer information and team access are managed separately for each company.",
+  "startTitle": "Choose the tools for your team",
+  "startDescription": "Visit Applications to see your company’s tools, or ask your company owner to arrange access.",
+  "viewApps": "View applications"
+}

@@ -1,0 +1,16 @@
+{
+  "cancel": "Cancel",
+  "saveChanges": "Save changes",
+  "actions": "Actions",
+  "edit": "Edit",
+  "view": "View",
+  "close": "Close",
+  "refresh": "Refresh",
+  "loading": "Loading your information…",
+  "unableToLoad": "Information is unavailable",
+  "tryAgain": "Try again",
+  "noResults": "Nothing here yet",
+  "clearFilters": "Clear filters",
+  "noDate": "No date",
+  "saved": "Saved"
+}

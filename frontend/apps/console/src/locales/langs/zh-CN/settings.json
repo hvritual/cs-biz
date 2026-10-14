@@ -1,0 +1,18 @@
+{
+  "title": "企业资料",
+  "description": "让团队使用一致、准确的企业信息",
+  "name": "企业名称",
+  "contact": "联系人",
+  "phone": "联系电话",
+  "email": "联系邮箱",
+  "save": "保存资料",
+  "saved": "企业资料已保存",
+  "since": "创建于 {date}",
+  "readonly": "如需修改企业资料，请联系企业负责人。",
+  "validation": {
+    "name": "请填写企业名称",
+    "contact": "请填写联系人",
+    "email": "请填写联系邮箱",
+    "phone": "请填写联系电话"
+  }
+}

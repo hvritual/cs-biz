@@ -1,0 +1,18 @@
+{
+  "title": "Company profile",
+  "description": "Keep your team’s company information accurate and consistent.",
+  "name": "Company name",
+  "contact": "Contact person",
+  "phone": "Phone number",
+  "email": "Contact email",
+  "save": "Save profile",
+  "saved": "Company profile saved.",
+  "since": "Created on {date}",
+  "readonly": "Contact your company owner to update this profile.",
+  "validation": {
+    "name": "Enter the company name.",
+    "contact": "Enter a contact person.",
+    "email": "Enter a contact email.",
+    "phone": "Enter a phone number."
+  }
+}

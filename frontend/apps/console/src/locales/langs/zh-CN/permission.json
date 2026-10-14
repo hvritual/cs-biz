@@ -1,0 +1,31 @@
+{
+  "workspace": {
+    "read": "查看工作台"
+  },
+  "crm": {
+    "customer": {
+      "read": "查看客户",
+      "create": "新建客户",
+      "update": "编辑客户",
+      "archive": "归档客户"
+    }
+  },
+  "tenant": {
+    "member": {
+      "read": "查看团队成员",
+      "manage": "管理团队成员"
+    },
+    "role": {
+      "read": "查看角色",
+      "manage": "管理角色权限"
+    },
+    "profile": {
+      "read": "查看企业资料",
+      "update": "编辑企业资料"
+    },
+    "module": {
+      "read": "查看应用",
+      "request": "申请开通应用"
+    }
+  }
+}

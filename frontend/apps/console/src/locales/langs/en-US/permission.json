@@ -1,0 +1,31 @@
+{
+  "workspace": {
+    "read": "View workspace"
+  },
+  "crm": {
+    "customer": {
+      "read": "View customers",
+      "create": "Create customers",
+      "update": "Edit customers",
+      "archive": "Archive customers"
+    }
+  },
+  "tenant": {
+    "member": {
+      "read": "View team members",
+      "manage": "Manage team members"
+    },
+    "role": {
+      "read": "View roles",
+      "manage": "Manage roles and permissions"
+    },
+    "profile": {
+      "read": "View business profile",
+      "update": "Edit business profile"
+    },
+    "module": {
+      "read": "View applications",
+      "request": "Request application activation"
+    }
+  }
+}
