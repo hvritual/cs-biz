@@ -1,7 +1,7 @@
 name: Frontend Targeted Desktop
 
 # Cloud equivalent of the existing local targeted probe. This is not Full.
-# It runs Fast first and exercises only the existing Desktop contract.
+# Fast precedes Desktop plus the two evidence-backed repaired member journeys.
 on:
   push:
     paths:
@@ -58,6 +58,10 @@ jobs:
         run: corepack pnpm exec playwright install --with-deps chromium
       - name: Existing targeted Desktop contract
         run: corepack pnpm check:desktop:runtime
+      - name: Repaired member journeys without rebuilding
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report-workspace
+        run: corepack pnpm exec playwright test --config ci/playwright.config.ts workspace.spec.ts --grep 'roles and members:|member creation configures' --output test-results-workspace
       - name: Retain targeted evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -66,5 +70,7 @@ jobs:
           path: |
             frontend/playwright-report/
             frontend/test-results/
+            frontend/playwright-report-workspace/
+            frontend/test-results-workspace/
           retention-days: 7
           if-no-files-found: warn
