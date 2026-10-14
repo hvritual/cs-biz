@@ -1,0 +1,51 @@
+# cs-biz V2 功能接入审查索引（非权限策略、非实时 IAM 配置）
+# 仅引用 canonical Operation/Permission 以及真实证据，不自行授权。
+schema_version: 2
+kind: feature_onboarding_review
+review_id: REPLACE_WITH_ISSUE_OR_TASK
+repository: hvritual/cs-biz
+base_commit: REPLACE_WITH_VERIFIED_SHA
+intent:
+  goal_ref: REPLACE_WITH_GOAL
+  acceptance_ref: REPLACE_WITH_ACCEPTANCE
+  task_class: T3
+  onboarding_path: existing_domain  # existing_domain | new_domain | platform_or_worker
+  non_goals: []
+reuse:
+  operation_authority: backend/internal/platform/authz
+  identity_authority_ref: ''       # S02 真正实现后的引用
+  current_grants_authority_ref: '' # S02 真正实现后的引用
+  resource_domain_ref: ''
+  reused_operation_ids: []
+  new_operation_ids: []
+  new_permission_keys: []
+security_review:
+  trusted_principal_source_ref: ''
+  tenant_context_source_ref: ''
+  resource_scope_enforcement_ref: ''
+  object_state_invariant_ref: ''
+  failure_semantics_ref: ''
+  idempotency_readback_ref: ''
+  service_worker_safety_ref: ''
+acceptance:
+  scenarios:
+    - missing_authentication_denied
+    - inactive_membership_denied
+    - missing_permission_denied
+    - cross_tenant_resource_not_visible
+    - out_of_scope_resource_not_visible
+    - revocation_applies_to_next_request
+    - denial_has_no_side_effect
+    - unknown_operation_denied
+  conditional: []
+  locked_acceptance_ref: ''
+verification:
+  code_candidate_sha: ''
+  go_test_receipt: ''
+  real_api_db_receipt: ''
+  independent_review_ref: ''
+  main_readback_sha: ''
+  status: NOT_VERIFIED
+release:
+  user_approval_ref: ''
+  production_release_ref: ''

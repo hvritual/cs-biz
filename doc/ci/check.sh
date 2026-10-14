@@ -9,6 +9,7 @@ case "$mode" in
 esac
 
 python3 "$root/doc/ci/check_repository.py"
+bash "$root/backend/ci/check.sh"
 (
   cd "$root/frontend"
   case "$mode" in
