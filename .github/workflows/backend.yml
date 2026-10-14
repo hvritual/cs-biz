@@ -1,0 +1,41 @@
+name: Backend authorization
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - 'doc/ci/check.sh'
+      - 'doc/templates/feature-onboarding-v2.yaml'
+      - '.github/workflows/backend.yml'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'doc/ci/check.sh'
+      - 'doc/templates/feature-onboarding-v2.yaml'
+      - '.github/workflows/backend.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backend-authz-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-authz:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Set up Go
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version-file: backend/go.mod
+          cache: false
+      - name: Validate backend authz library
+        run: bash backend/ci/check.sh

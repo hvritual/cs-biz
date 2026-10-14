@@ -1,0 +1,76 @@
+name: Frontend Targeted Desktop
+
+# Cloud equivalent of the existing local targeted probe. This is not Full.
+# Fast precedes Desktop plus the two evidence-backed repaired member journeys.
+on:
+  push:
+    paths:
+      - 'frontend/**'
+      - 'doc/design/**'
+      - '.github/workflows/frontend-targeted.yml'
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - 'doc/design/**'
+      - '.github/workflows/frontend-targeted.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-targeted-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: '1'
+  DO_NOT_TRACK: '1'
+
+jobs:
+  frontend-targeted-desktop:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Record exact source
+        run: git rev-parse HEAD HEAD^{tree}
+      - name: Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - name: Activate pinned package manager
+        run: |
+          corepack enable
+          corepack install
+      - name: Install locked dependencies
+        run: corepack pnpm install --frozen-lockfile
+      - name: Fast before any browser work
+        run: corepack pnpm check:fast
+      - name: Install Chromium for targeted probe
+        run: corepack pnpm exec playwright install --with-deps chromium
+      - name: Existing targeted Desktop contract
+        run: corepack pnpm check:desktop:runtime
+      - name: Repaired member journeys without rebuilding
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report-workspace
+        run: corepack pnpm exec playwright test --config ci/playwright.config.ts workspace.spec.ts --grep 'roles and members:|member creation configures' --output test-results-workspace
+      - name: Retain targeted evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: frontend-targeted-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            frontend/playwright-report/
+            frontend/test-results/
+            frontend/playwright-report-workspace/
+            frontend/test-results-workspace/
+          retention-days: 7
+          if-no-files-found: warn

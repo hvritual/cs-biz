@@ -1,9 +1,15 @@
-# 后端检查
+# Backend CI — 通用权限内核 V2
 
-当前状态：`not-implemented`。没有 `go.mod` 或服务测试，不能宣称后端测试通过。
+当前已存在并执行 `backend/ci/check.sh`（Go 1.23，只有标准库）。从仓库根运行 `bash backend/ci/check.sh` 或 `cd backend && bash ci/check.sh`：
 
-若最终采用 Go，实现后从 `backend` 工作目录执行 `go test ./...`、`go vet ./...`，并补充对真实测试数据库的集成命令。跨端调度与报告放 [全局 CI](../../doc/ci/README.md)。
+```bash
+go test -count=1 ./...
+go vet ./...
+go test -race -count=1 ./internal/platform/authz/...
+```
 
-授权测试不能只跑正常管理员路径。至少覆盖：其他租户资源 ID、伪造租户上下文、未开通模块、无权限成员、禁用成员、无效状态、列表和详情、批量写入、导出任务和下载、服务端并发撤权、幂等冲突、重复邀请，以及外部事件重复投递。
+本切片测试覆盖：Registry 缺失/冲突/非法定义，安全主体类型与成员关系、IAM Grant/Scope 隔离、动态撤权、跨租户、对象范围、权限语义 ALL/ANY、未知 HTTP 路由、未绑定 Handler、伪造头及不可用 Authority 的拒绝。**所有 Authority 均为内存测试 Fake**，目前没有真实数据库、身份服务、事务、API 集成、浏览器或生产验收。
 
-具体测试命令必须在新增实现的任务中写为可执行入口；不得把尚不存在的命令写成已经通过的验收。
+GitHub 工作流 `.github/workflows/backend.yml` 应在相关文件变更时运行同一入口；全局 `doc/ci/check.sh` 将它纳入仓库检查（前端需要预装依赖）。
+
+下一独立阶段 S02 需使用真实认证提供方、数据库和持久权限/成员关系，为同一接口增加 API/DB 权限矩阵、真实撤权与失败无副作用证据。没有这些证据不能宣称 SaaS 权限闭环完成。
