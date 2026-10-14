@@ -39,6 +39,8 @@ html, body, #app { min-width: 1100px; }
   display: grid; grid-template-columns: 174px minmax(185px, 260px) minmax(180px, 1fr) max-content;
   align-items: center; gap: 12px; position: fixed; inset: 0 0 auto; height: var(--cl-header-height);
   z-index: var(--cl-layer-header); padding: 0 18px;
+  background: var(--cl-header-glass-bg);
+  border-bottom: 1px solid var(--cl-header-glass-edge);
   isolation: isolate;
   -webkit-backdrop-filter: blur(24px) saturate(175%);
   backdrop-filter: blur(24px) saturate(175%);
@@ -83,6 +85,10 @@ html, body, #app { min-width: 1100px; }
 .cl-primary-rail {
   position: fixed; top: var(--cl-header-height); bottom: 0; left: var(--cl-rail-gutter); z-index: var(--cl-layer-nav-rail);
   width: var(--cl-rail-current); display: flex; flex-direction: column;
+  background-color: var(--cl-rail-surface);
+  opacity: 1;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   transition: width .16s ease;
 }
 .cl-primary-links { display: grid; align-content: start; gap: 3px; flex: 1; padding: 12px 14px; }
@@ -123,7 +129,8 @@ html, body, #app { min-width: 1100px; }
 }
 .cl-navigation-layer {
   --cl-overlay-left: calc(var(--cl-rail-expanded) + var(--cl-rail-gutter));
-  position: fixed; inset: var(--cl-header-height) 0 0 var(--cl-rail-expanded); z-index: var(--cl-layer-nav-mask);
+  /* Cover the rail inset too; the opaque rail remains above the scrim. */
+  position: fixed; inset: var(--cl-header-height) 0 0; z-index: var(--cl-layer-nav-mask);
 }
 .cl-navigation-layer.is-collapsed {
   --cl-overlay-left: calc(var(--cl-rail-collapsed) + var(--cl-rail-gutter));
