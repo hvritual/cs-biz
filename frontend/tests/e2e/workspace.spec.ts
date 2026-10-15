@@ -444,6 +444,9 @@ test('account list failure during use keeps a business recovery action and can b
   await page.getByTestId('account-chen').click();
   await expect(page).toHaveURL(/\/auth\/tenants/);
   await page.getByTestId('tenant-choice-qinghe').click();
+  // Recovery is complete only when the newly-authorized workspace shell exists.
+  await expect(page.locator('.cs-tenant-select')).toContainText('青禾咖啡');
+  await expect(page).not.toHaveURL(/\/auth\/tenants/);
   await open(page, '/customers', '客户管理');
   await expect(customerRow(page, '云杉科技')).toBeVisible();
 });
