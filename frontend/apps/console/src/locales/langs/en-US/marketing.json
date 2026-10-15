@@ -1,0 +1,11 @@
+{
+  "title": "Marketing workspace",
+  "description": "View and run the marketing campaigns you can access in this company.",
+  "campaigns": "Campaigns",
+  "name": "Campaign",
+  "executions": "Executions",
+  "actions": "Actions",
+  "execute": "Run campaign",
+  "completed": "Campaign executed",
+  "empty": "There are no campaigns you can access."
+}

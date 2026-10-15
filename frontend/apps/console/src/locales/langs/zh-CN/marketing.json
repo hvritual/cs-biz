@@ -1,0 +1,11 @@
+{
+  "title": "营销工作区",
+  "description": "查看和执行当前企业授权范围内的营销活动。",
+  "campaigns": "我的营销活动",
+  "name": "活动名称",
+  "executions": "执行次数",
+  "actions": "操作",
+  "execute": "执行活动",
+  "completed": "活动已执行",
+  "empty": "当前没有可查看的营销活动。"
+}

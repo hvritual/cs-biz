@@ -35,6 +35,12 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   let pendingSession = false;
 
   const isPlatform = computed(() => user.value?.platformRole === 'operator');
+  const hasConsoleMenu = computed(() => !!context.value?.navigation.length);
+  const canUseMarketing = computed(() => !!context.value?.permissions.includes('marketing.campaign.read'));
+
+  function permissionsHome(permissions: readonly PermissionCode[]): string | undefined {
+    return permissions.includes('marketing.campaign.read') ? '/marketing' : undefined;
+  }
 
   function savedTenant(subjectId: string) {
     try { return sessionStorage.getItem(`cs-biz:tenant:v1:${subjectId}`) || undefined; }
@@ -113,7 +119,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       if (!isCurrent()) return false;
       await appearance.restoreScope(session.id, selectedId, next.tenant.brandColor);
       if (!isCurrent()) return false;
-      const installed = await installWorkspaceRoutes(next.navigation, false, isCurrent);
+      const installed = await installWorkspaceRoutes(next.navigation, false, isCurrent, permissionsHome(next.permissions));
       if (!installed || !isCurrent()) return false;
       rememberTenant(session.id, selectedId);
       context.value = next;
@@ -256,7 +262,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   api.subscribe(onServiceEvent);
 
   return {
-    user, tenant, tenants, context, loading, ready, error, revision, generation, isPlatform,
+    user, tenant, tenants, context, loading, ready, error, revision, generation, isPlatform, hasConsoleMenu, canUseMarketing,
     initialize, selectAccount, switchTenant, refreshAccess, logout, can, requestContext, capture, run,
   };
 });

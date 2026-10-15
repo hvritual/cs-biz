@@ -74,6 +74,7 @@ export function clearWorkspaceRoutes() {
 /** Serializing publication prevents an older asynchronous route build replacing a newer one. */
 export function installWorkspaceRoutes(
   navigation: readonly NavigationItem[], platform: boolean, isCurrent: () => boolean,
+  noConsoleHome?: string,
 ) {
   const task = installQueue.then(async () => {
     if (!workspaceRouter || !isCurrent()) return false;
@@ -97,7 +98,7 @@ export function installWorkspaceRoutes(
       });
       if (!isCurrent()) { clearWorkspaceRoutes(); return false; }
       allowedPaths = new Set(routes.map((route) => route.path));
-      homePath = routes[0]?.path || '/forbidden';
+      homePath = routes[0]?.path || noConsoleHome || '/auth/no-console';
       const access = useAccessStore();
       access.setAccessMenus(accessibleMenus);
       access.setAccessRoutes(accessibleRoutes);
@@ -115,7 +116,9 @@ export function installWorkspaceRoutes(
 }
 
 export function canVisitPath(path: string) {
-  return path === '/personal' || path === '/members/create' || path === '/forbidden' || allowedPaths.has(path);
+  return path === '/marketing' || path === '/auth/no-console' || path === '/forbidden' ||
+    (allowedPaths.size > 0 && path === '/personal') ||
+    (allowedPaths.has('/members') && path === '/members/create') || allowedPaths.has(path);
 }
 
 export function getWorkspaceHome() { return homePath; }

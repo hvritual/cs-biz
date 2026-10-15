@@ -26,6 +26,19 @@ export function createRouterGuard(router: Router) {
     if (!workspace.isPlatform && !workspace.context && !workspace.error) {
       return { path: '/auth/tenants', query: isSafeLocalPath(to.fullPath) ? { redirect: to.fullPath } : {}, replace: true };
     }
+    if (to.path === '/auth/no-console') {
+      if (workspace.hasConsoleMenu || workspace.isPlatform) return getWorkspaceHome();
+      return true;
+    }
+    if (to.path === '/marketing') {
+      if (!workspace.canUseMarketing) return { path: '/auth/no-console', replace: true };
+      return true;
+    }
+    // No Console menu: no Console shell, even for direct links or ancillary routes.
+    if (!workspace.isPlatform && workspace.context && !workspace.hasConsoleMenu && to.path !== '/auth/no-console')
+      return { path: '/auth/no-console', replace: true };
+    if (to.path === '/members/create' && !workspace.can('tenant.member.manage'))
+      return { path: '/forbidden', replace: true };
     if ((isWorkspacePath(to.path) || to.path === '/platform') && !canVisitPath(to.path)) {
       return { path: '/forbidden', query: { from: to.path }, replace: true };
     }

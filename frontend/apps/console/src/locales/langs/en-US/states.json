@@ -3,5 +3,8 @@
   "forbiddenDescription": "Your account does not have access to this work. Contact your company owner.",
   "notFoundTitle": "This page could not be found",
   "notFoundDescription": "The page may have moved, or the address may be incorrect. Return to your overview to continue.",
-  "backHome": "Back to overview"
+  "backHome": "Back to overview",
+  "noConsoleTitle": "No console access",
+  "noConsoleDescription": "You may still use any marketing functions you are authorized for. Contact your administrator for Console access.",
+  "goMarketing": "Open marketing workspace"
 }
