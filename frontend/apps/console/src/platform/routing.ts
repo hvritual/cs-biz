@@ -7,7 +7,7 @@ import { generateAccessible } from '@vben/access';
 import { BookOpenText, Grid, LayoutGrid, LockKeyhole, Settings, UserRoundPen } from '@vben/icons';
 import { useAccessStore } from '@vben/stores';
 
-import { isSafeLocalPath, validateNavigation } from './navigation';
+import { isSafeLocalPath, isWorkspacePath, validateNavigation } from './navigation';
 
 let workspaceRouter: Router | undefined;
 let homePath = '/overview';
@@ -127,6 +127,13 @@ export async function navigateWorkspace(preferred?: unknown) {
   const target = isSafeLocalPath(requested) && workspaceRouter.resolve(requested).path !== '/forbidden' && canVisitPath(workspaceRouter.resolve(requested).path)
     ? requested : homePath;
   await workspaceRouter.replace(target);
+}
+
+export async function navigateToTenantSelection(preferred?: unknown) {
+  const from = isSafeLocalPath(preferred) && workspaceRouter
+    && (isWorkspacePath(workspaceRouter.resolve(preferred).path) || workspaceRouter.resolve(preferred).path === '/personal')
+    ? preferred : undefined;
+  await workspaceRouter?.replace({ path: '/auth/tenants', query: from ? { redirect: from } : {} });
 }
 
 export async function navigateToLogin() { await workspaceRouter?.replace('/auth/login'); }
