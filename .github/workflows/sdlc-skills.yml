@@ -14,6 +14,13 @@ on:
       - "doc/ci/test_intent_v02.py"
       - "doc/ci/test_build_v04.py"
       - ".github/workflows/sdlc-skills.yml"
+      - ".github/workflows/frontend-full.yml"
+      - ".github/workflows/frontend.yml"
+      - "frontend/ci/check-delivery-policy.mjs"
+      - "doc/ci/manual_full_dispatch.py"
+      - "doc/ci/test_manual_full_dispatch.py"
+      - "doc/ci/NO-STALL-GATES.md"
+      - "frontend/ci/README.md"
       - "AGENTS.md"
   pull_request:
     paths:
@@ -28,6 +35,13 @@ on:
       - "doc/ci/test_intent_v02.py"
       - "doc/ci/test_build_v04.py"
       - ".github/workflows/sdlc-skills.yml"
+      - ".github/workflows/frontend-full.yml"
+      - ".github/workflows/frontend.yml"
+      - "frontend/ci/check-delivery-policy.mjs"
+      - "doc/ci/manual_full_dispatch.py"
+      - "doc/ci/test_manual_full_dispatch.py"
+      - "doc/ci/NO-STALL-GATES.md"
+      - "frontend/ci/README.md"
       - "AGENTS.md"
 
 permissions:
@@ -54,3 +68,7 @@ jobs:
           python3 -m unittest discover -s doc/ci -p 'test_revision_v04.py' -v
           python3 -m unittest discover -s doc/ci -p 'test_intent_v02.py' -v
           python3 -m unittest discover -s doc/ci -p 'test_build_v04.py' -v
+      - name: Manual Full CI policy and negative fixtures
+        run: |
+          python3 -m unittest discover -s doc/ci -p 'test_manual_full_dispatch.py' -v
+          node frontend/ci/check-delivery-policy.mjs
