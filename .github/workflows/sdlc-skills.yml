@@ -4,6 +4,12 @@ on:
   push:
     paths:
       - ".agents/skills/**"
+      - "doc/ci/check_goal_resume.py"
+      - "doc/ci/test_goal_resume.py"
+      - "doc/ci/sdlc_issue_intake.py"
+      - "doc/ci/test_sdlc_issue_intake.py"
+      - ".github/workflows/sdlc-intake.yml"
+      - ".github/ISSUE_TEMPLATE/sdlc-intent.yml"
       - "doc/workflow/**"
       - "doc/ci/check_*workflow.py"
       - "doc/ci/check_revision_v04.py"
@@ -27,6 +33,12 @@ on:
   pull_request:
     paths:
       - ".agents/skills/**"
+      - "doc/ci/check_goal_resume.py"
+      - "doc/ci/test_goal_resume.py"
+      - "doc/ci/sdlc_issue_intake.py"
+      - "doc/ci/test_sdlc_issue_intake.py"
+      - ".github/workflows/sdlc-intake.yml"
+      - ".github/ISSUE_TEMPLATE/sdlc-intent.yml"
       - "doc/workflow/**"
       - "doc/ci/check_*workflow.py"
       - "doc/ci/check_revision_v04.py"
@@ -78,3 +90,7 @@ jobs:
           python3 doc/ci/check_human_full_policy.py
           python3 -m unittest discover -s doc/ci -p 'test_human_full_policy.py' -v
           node frontend/ci/check-delivery-policy.mjs
+      - name: Goal resume and Issue intake negative cases
+        run: |
+          python3 -m unittest discover -s doc/ci -p 'test_goal_resume.py' -v
+          python3 -m unittest discover -s doc/ci -p 'test_sdlc_issue_intake.py' -v

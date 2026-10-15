@@ -1,0 +1,35 @@
+{
+  "schema_version": "goal-v1",
+  "goal_id": "EXAMPLE-READONLY",
+  "authority_ref": "https://github.com/hvritual/cs-biz/issues/1",
+  "outcome": "只读核对当前任务的验收证据",
+  "acceptance": [
+    {
+      "id": "AC-01",
+      "result": "所有原始验收项均有证据或明确缺口",
+      "verification": "回读当前 Issue、PR SHA 与 CI"
+    }
+  ],
+  "invariants": [
+    "不缩减原始验收",
+    "不自动启动 Full、合并或部署"
+  ],
+  "scope": {
+    "allowed_paths": [
+      "doc/tasks"
+    ],
+    "forbidden_paths": [
+      "frontend",
+      "backend"
+    ]
+  },
+  "budget": {
+    "max_attempts": 2
+  },
+  "wake_events": [
+    "new_evidence",
+    "dependency_resolved",
+    "human_decision",
+    "candidate_changed"
+  ]
+}

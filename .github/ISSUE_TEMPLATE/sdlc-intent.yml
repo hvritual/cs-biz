@@ -1,0 +1,19 @@
+name: SDLC IntentSpec
+description: 提交目标与原版 IntentSpec，准备受控 SDLC 交接
+title: '[Intent] '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        从 doc/workflow/examples/issue-input.json 复制完整对象。
+        先创建 Issue，再把 goal.authority_ref 改为本 Issue URL 并保存。
+        JSON 必须放在一个 ```json 代码块中。校验不授予 Build 权限，不自动启动 Codex。
+        操作说明：doc/workflow/CONTINUATION.md。
+  - type: textarea
+    id: input
+    attributes:
+      label: SDLC input
+      description: 粘贴包含 goal 和 intent_spec 的 JSON；保持原版 IntentSpec 协议。
+      placeholder: '用 json 代码块包裹完整 JSON 对象'
+    validations:
+      required: true

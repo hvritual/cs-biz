@@ -64,3 +64,13 @@ Before a frontend implementation, read **doc/design/desktop-ui.md**. Record UI p
 ## Required delivery gate for any new frontend task
 
 Use **doc/ci/NO-STALL-GATES.md**. Record the smallest failing assertion and source ownership; the Fast Gate outcome; targeted Desktop verification for visible UI work; then the frozen head SHA and the **Human-triggered Full Gate** evidence (dispatching actor, PR number, exact SHA, run ID/attempt, approved environment, independent receipt and conclusion). Ready for review does not start Full. No Human Full decision/receipt means awaiting Human action; an exact-SHA authorized governance waiver is recorded separately as HUMAN_WAIVED, never PASS. No per-push full-browser validation, unverified test changes, duplicate CI conclusions or merging a red/pending/unavailable Full Gate. GitHub branch protection requires admin configuration and cannot be inferred from a successful workflow.
+
+## Goal / Resume（跨会话任务）
+
+- 权威 Issue URL、冻结 Goal 文件与摘要、全部 AC ID（包含 blocked/unproven）：
+- 当前 Run ID、累计 attempt、原任务预算（新会话不得重置）：
+- Git 中的 Resume 引用、精确 candidate SHA、approved design / authority 摘要、环境：
+- 每项 AC 的状态、实际证据 URL/命令及对应 SHA；证据引用不是完成证明：
+- 等待原因、恢复事件/依赖、负责方、未知外部效果的对账方法：
+- 已处理事件 ID、唯一下一动作、独立授权/证据回读：
+- 本地临时缓存不得成为唯一持久来源；参见 [恢复协议](../workflow/CONTINUATION.md)。

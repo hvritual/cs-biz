@@ -1,6 +1,6 @@
 ---
 name: sdlc-workflow
-description: Orchestrate Intent -> preview-first Design -> approved Plan -> acceptance-driven Build -> independent Test/Review -> authorized Release/Maintain. Route to peer Skills, preserve real project authority and evidence.
+description: Orchestrate intent, preview-first design, approved planning, acceptance-driven build, independent verification and authorized release. Use for end-to-end delivery, goal reconciliation and cross-session resume while preserving project authority and evidence.
 ---
 
 # SDLC Workflow — cs-biz Orchestrator
@@ -40,3 +40,10 @@ Checks fail closed for missing artifacts/invalid scope; they cannot authenticate
 
 ## Original runtime compatibility
 Before claiming an original v0.4-like gate, read `doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md`. For original-form artifacts use, in stage order: `check_intent_v02.py`, `check_revision_v04.py`, `check_build_v04.py`. The earlier `check_sdlc_workflow.py` file validates a **different lightweight task schema** and is NOT original v0.4 workflow equivalence. The original revision CAS store, full workflow gate, actual GitHub verifier, and all inherited regression fixtures remain separate work. Never infer actual Human acceptance from local hashes.
+
+## Goal continuation: resume / reconcile_goal / schedule_next
+Read `doc/workflow/CONTINUATION.md` on start, resume or meaningful wake-up.
+- `reconcile_goal`: read the current authoritative Issue/Task and frozen Goal; retain every original AC including blocked/unproven ones. Use task-progression; a finished slice is not a finished Goal.
+- `resume`: read the Git-persisted Goal/Resume references from the existing task/Issue. Independently read current SHA, approved design, authority and environment. Run `doc/ci/check_goal_resume.py`; do not combine its additive wrapper with the two older artifact protocols. A planner result never grants authority or proves completion. Revalidate stale bindings before selecting one authorized slice.
+- `schedule_next`: record the exact dependency/event, owner and next action in the same task. Use only a genuinely available authorized adapter. Registering a wait or receiving an event never creates Build/Full/merge rights. Do not promise automatic Codex dispatch without a successful actual task readback.
+Persist recovery references before handoff; do not rely solely on ignored files, expiring artifacts or chat. This read-only MVP does not implement CAS writes, event claims or exactly-once side effects. Leave waits and unknown effects unresolved until independently checked.

@@ -31,3 +31,6 @@ This file binds shared task-progression and sdlc-build methods to **hvritual/cs-
 
 ## Pilot acceptance
 First pilot is one **existing approved and genuinely unverified** slice. Audit before selection. If the candidate outcome is already verified, record it and select the next missing AC. Do not create a fake defect. No business code edits under this workflow-only integration change.
+
+## Continuation binding
+Use [Goal continuation](CONTINUATION.md), `doc/ci/check_goal_resume.py` and `doc/ci/sdlc_issue_intake.py` for additive Goal/Resume views. Persist their references in the current task's existing record. Issue/Task, original IntentSpec, design approvals and actual CI remain authoritative. Actions intake only prepares data; account-only automatic Codex dispatch is unproven. Scheduled and PR observers are read-only and cannot clear approvals or run Full.

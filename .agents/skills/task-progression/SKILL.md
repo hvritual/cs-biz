@@ -42,3 +42,6 @@ Continue autonomous work only inside approved scope and existing budgets. Diagno
 
 ## Output
 Record: source goal and approved changes; verified current evidence; task risk; selected slice; protected invariants; coverage of all original outcomes; actual next action and constraints.
+
+## Persistent Goal coverage
+For multi-run delivery, use `doc/workflow/CONTINUATION.md` and the existing task's Goal/Resume references. Compare the frozen Goal digest and complete AC ID set on every meaningful resume. Preserve blocked/unproven items; never reduce the denominator. Invalidate evidence after candidate/design/authority/environment drift. Evidence references are claims until independently read back. Do not reset the existing attempt budget with a new Run. Resume planning cannot clear Human, Full or unknown-side-effect waits.

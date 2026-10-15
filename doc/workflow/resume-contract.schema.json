@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "resume-contract",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "resume-v1"
+    },
+    "goal_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "goal_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "design_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "authority_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "state": {
+      "enum": [
+        "in_progress",
+        "waiting_dependency",
+        "waiting_human",
+        "waiting_full",
+        "unknown_effect",
+        "complete"
+      ]
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "processed_event_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "coverage": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "enum": [
+              "unproven",
+              "blocked",
+              "evidence_available"
+            ]
+          },
+          "candidate_sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "if": {
+          "properties": {
+            "status": {
+              "const": "evidence_available"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "candidate_sha",
+            "source"
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "goal_id",
+    "goal_digest",
+    "run_id",
+    "candidate_sha",
+    "design_digest",
+    "authority_digest",
+    "environment",
+    "attempt",
+    "state",
+    "next_action",
+    "processed_event_ids",
+    "coverage"
+  ]
+}

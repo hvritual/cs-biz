@@ -1,0 +1,19 @@
+{
+  "schema_version": "resume-v1",
+  "goal_id": "EXAMPLE-READONLY",
+  "goal_digest": "ded31e6ab5bd880ff756d854438cbacc214c2b7e0890247879b62a024f42f810",
+  "run_id": "example-run-1",
+  "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "design_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "authority_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "environment": "example-only",
+  "attempt": 0,
+  "state": "in_progress",
+  "next_action": "核对 AC-01",
+  "processed_event_ids": [],
+  "coverage": {
+    "AC-01": {
+      "status": "unproven"
+    }
+  }
+}

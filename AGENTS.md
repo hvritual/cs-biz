@@ -53,3 +53,6 @@ Read `doc/workflow/SDLC-ADOPTION.md` for stage artifact contracts and verified/u
 ## Original-SDLC artifact verification (compatibility subset)
 
 Read `doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md` before using v0.4-style `intent-spec.json`, `design-revisions.json` or `build-loop.json`. Run the matching `doc/ci/check_intent_v02.py`, `check_revision_v04.py` and `check_build_v04.py`. The prior `check_sdlc_workflow.py` uses simplified legacy task artifacts; **do not combine the two protocols** or represent static compatibility checks as externally authenticated approvals, CI, or business tests.
+
+## Goal continuation
+For multi-run goals or Issue intake, read `doc/workflow/CONTINUATION.md`. Preserve the frozen original AC and Git-persisted resume references in the existing task record. Intake, planner output, webhook and schedule never authorize execution, clear Human Full waits or prove business completion. Do not claim automatic Issue-to-Codex dispatch without a real observed task.

@@ -1,0 +1,6 @@
+{
+  "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "design_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "authority_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "environment": "example-only"
+}
