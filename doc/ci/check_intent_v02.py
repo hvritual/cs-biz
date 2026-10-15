@@ -40,7 +40,7 @@ def decision(spec,repo=None):
     for row in spec["hard_constraints"]:
         if not isinstance(row,dict) or not row.get("source_quote") or row["source_quote"] not in raw:
             return out("BLOCKED","CONSTRAINT_NOT_GROUNDED")
-        if phase=="rewritten" and row.get("optimized_quote","") not in spec["optimized_prompt"]:
+        if phase=="rewritten" and (not row.get("optimized_quote") or row["optimized_quote"] not in spec["optimized_prompt"]):
             return out("BLOCKED","CONSTRAINT_DROPPED")
         if phase=="extracted" and row.get("optimized_quote"):
             return out("BLOCKED","PREMATURE_REWRITE")
