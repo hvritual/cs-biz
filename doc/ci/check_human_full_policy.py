@@ -71,15 +71,22 @@ def check(root: Path) -> list[str]:
                 errors.append("FULL_MISSING_CONTRACT:" + token)
         if "cancel-in-progress: true" in full:
             errors.append("HUMAN_RUN_CAN_BE_CANCELLED_AUTOMATICALLY")
-        for name in AUTO:
+        # Scan every workflow, including future files. A new automatic workflow
+        # cannot bypass Human-only control by choosing an unknown filename.
+        workflow_dir = root / ".github" / "workflows"
+        files = sorted([*workflow_dir.glob("*.yml"), *workflow_dir.glob("*.yaml")])
+        if not files:
+            errors.append("NO_WORKFLOWS")
+        for file in files:
+            name = file.relative_to(root).as_posix()
+            if name == FULL:
+                continue
             content = read(name)
-            # Restrict to executed commands and executable references, not benign
-            # comments/documentation names.
             for command in BANNED:
                 if re.search(r"(?m)^\s*run:\s*.*" + re.escape(command), content) or (
                     re.search(r"(?m)^\s+" + re.escape(command), content)
                 ):
-                    errors.append("AUTO_WORKFLOW_RUNS_FULL:" + name)
+                    errors.append("OTHER_WORKFLOW_RUNS_FULL:" + name)
         s = read(CHECK)
         if 'mode="${1:---fast}"' not in s:
             errors.append("ROOT_DEFAULT_NOT_FAST")
