@@ -2,7 +2,7 @@
 
 ## 状态与来源
 
-- 当前：**DESIGN_REVIEW / F1_BLOCKED_PUBLICATION**；Issue [#11](https://github.com/hvritual/cs-biz/issues/11) 保持 open，不宣称 F0 完成。
+- 当前：**DESIGN_REVIEW / BLOCKED_SECURITY_BASELINE**；Issue [#11](https://github.com/hvritual/cs-biz/issues/11) 保持 open，不宣称 F0 完成。
 - 用户本次原文：“启用工作流，开始完成cs-biz仓库里面的issue”。按当前工作流选择依赖链起点，一次一个独立 Issue；其他 11 个开放 Issue 全部保留在 [本轮 intake 快照](issue-11-f0/rounds/r001/intake-snapshot.json)。
 - main 基线：`da5494d03c362ab873465c1793e7aba7e4e3a7cc`；分支 `codex/issue-11-f0-design`；2026-10-15 Asia/Shanghai。
 - 当前授权：当前 Issue 的检索、设计/文档、验证和可审阅候选；不扩大为 F1 Runtime、其他 PR 合并、Full、生产数据或部署权限。
@@ -42,3 +42,7 @@ D1 已由 Human 选择 A，详见 [r002 决策与资格核实](issue-11-f0/round
 ## r002 决策反馈与发布核实
 
 Human 原文“按照推荐A进行推进”绑定首轮 PR #27 `8065dade6348743eec5212ece5b9f1e275a4a2fc` 的 D1=A；记录于 [decision.json](issue-11-f0/rounds/r002/decision.json)。r001 保持原字节，仅表示当时状态。新证据证明 infras/v0.1.0 缺失，CLI 发行锁尚无充分证据；A 不回退为源码快照。见 [qualification](issue-11-f0/rounds/r002/qualification.md)、[来源](issue-11-f0/rounds/r002/publication-evidence.json) 和 [验证](issue-11-f0/rounds/r002/validation.md)。这是决策/资格补充，尚无完整设计批准、独立评审或当前候选 Full 决策，不宣称交接/合并/关闭。
+
+## r003 上游执行回读
+
+跨仓库修复已获 Human 授权。[当前补充](issue-11-f0/rounds/r003/qualification.md) 记录四模块外部分发锁、真实 CLI 编译修复和打包资格。上游 PR #243 当前 5/7 通过，CI/Production 因 Go1.25.13 的可达漏洞失败；[安全前置 #244](https://github.com/hvritual/yunka.io/issues/244) 等待 Human 对原 Go 目标变更作决定。下一动作更新为该工具链决定；不再误报“没有可下载 infras 版本”，也不将功能候选当安全合格发行。原始 R/AC、D1=A、D2/D3、完整设计/Full/交付条件保持。

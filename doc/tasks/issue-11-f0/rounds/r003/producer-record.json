@@ -1,0 +1,176 @@
+{
+  "producer": {
+    "commit": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+    "tree": "dcd0ae8d537d08c1732b5409fe76d1fb1308269f"
+  },
+  "sdk": {
+    "schemaVersion": 1,
+    "sdkSourceCommit": "3527488325030fbf86fe52804140c936e9d937a4",
+    "modules": [
+      {
+        "path": "github.com/hvritual/yunka.io/pkg",
+        "version": "v0.1.1-0.20261008054254-352748832503",
+        "sum": "h1:8jSz7XtvlWYTjKBQwKJ7QRDAWYUJ2n3KlAyfkBcG7BQ=",
+        "goModSum": "h1:UiXjpcdr8XDps0wdYW933HZ/TYt2gCbO56Tp10Rlc2k="
+      },
+      {
+        "path": "github.com/hvritual/yunka.io/framework",
+        "version": "v0.1.1-0.20261008054254-352748832503",
+        "sum": "h1:d4mykr1Nw7jOxk4bo4xpHao3JKeX6J2WPfEizl+YnQk=",
+        "goModSum": "h1:B1yHWtjO8uF+6NQUo63MJr88LqpFfp5WeJWfB0/xtHs="
+      },
+      {
+        "path": "github.com/hvritual/yunka.io/gateway",
+        "version": "v0.1.1-0.20261008054254-352748832503",
+        "sum": "h1:fPYrqvKwXyD6UQMK2m54H+xzczcFOlH+j+vaoclzPyA=",
+        "goModSum": "h1:3jgrmCck8g9TvHxjCDzDCk/WOEpra0tb+HxI4BMpidk="
+      },
+      {
+        "path": "github.com/hvritual/yunka.io/infras",
+        "version": "v0.0.0-20261008054254-352748832503",
+        "sum": "h1:XUlXqP/sbG+gISPnw10fRmLPB7bR8stUQYV1tetZchQ=",
+        "goModSum": "h1:1ERhdCSSPGVjbrnSNoM2SoMN0TFk+uFPm7Bz83Jn5iM="
+      }
+    ]
+  },
+  "artifact": {
+    "run_id": 38726530134,
+    "artifact_id": 11968548246,
+    "zip_sha256": "7573d8723c8c85148c868af9c1fc8b543eec921450d0f5348d81d80ffc639ac1",
+    "tar_sha256": "8f2d9130e9826ae6a07fe0f4d5d6801b84bec120d2f598202e85c46fbe42f96e",
+    "manifest_sha256": "54bc2d61909a7b0b890baf8c1c63c8c95d1a4adf8fdb88ec350eb889716cc241",
+    "expiry": "2026-11-14T11:21:33Z",
+    "status": "candidate_not_published"
+  },
+  "conditions": {
+    "platform": "linux/amd64",
+    "requiredGoRoot": "/opt/hostedtoolcache/go/1.25.13/x64",
+    "GOROOT": "unset",
+    "toolchain": {
+      "GO_VERSION": "1.25.13",
+      "PROTOC_RELEASE": "21.12",
+      "PROTOC_VERSION": "3.21.12",
+      "PROTOC_LINUX_X86_64_SHA256": "3a4c1e5f2516c639d3079b1586e703fc7bcfa2136d58bda24d1d54f949c315e8",
+      "GOVULNCHECK_VERSION": "v1.7.0",
+      "PROTOC_GEN_GO_VERSION": "v1.36.11",
+      "PROTOC_GEN_GO_GRPC_VERSION": "v1.6.2"
+    },
+    "licensing_files": []
+  },
+  "qualification": {
+    "status": "PASS",
+    "commands": 35,
+    "file_hashes_checked": 10,
+    "cs_biz_runtime": "not_run",
+    "issue234": "not_completed",
+    "security_acceptance": "BLOCKED; CI/Production fail make vuln",
+    "gates": [
+      {
+        "id": 38726530130,
+        "name": "branch-baseline-qualification",
+        "event": "pull_request",
+        "sha": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/hvritual/yunka.io/actions/runs/38726530130"
+      },
+      {
+        "id": 38726530160,
+        "name": "ag04-consumer-types",
+        "event": "pull_request",
+        "sha": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/hvritual/yunka.io/actions/runs/38726530160"
+      },
+      {
+        "id": 38726530165,
+        "name": "ag06-template-qualification",
+        "event": "pull_request",
+        "sha": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/hvritual/yunka.io/actions/runs/38726530165"
+      },
+      {
+        "id": 38726530131,
+        "name": "ag05-source-policy",
+        "event": "pull_request",
+        "sha": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/hvritual/yunka.io/actions/runs/38726530131"
+      },
+      {
+        "id": 38726530134,
+        "name": "consumer-release-qualification",
+        "event": "pull_request",
+        "sha": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/hvritual/yunka.io/actions/runs/38726530134"
+      },
+      {
+        "id": 38726530297,
+        "name": "production",
+        "event": "pull_request",
+        "sha": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/hvritual/yunka.io/actions/runs/38726530297"
+      },
+      {
+        "id": 38726530372,
+        "name": "ci",
+        "event": "pull_request",
+        "sha": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+        "status": "completed",
+        "conclusion": "failure",
+        "url": "https://github.com/hvritual/yunka.io/actions/runs/38726530372"
+      }
+    ]
+  },
+  "security_prerequisite": {
+    "issue": "https://github.com/hvritual/yunka.io/issues/244",
+    "decision": "NEEDS_HUMAN_TOOLCHAIN_DECISION",
+    "proposed_go": "1.26.9",
+    "proposed_x_net": "v0.60.0",
+    "approved": false,
+    "advisory_ids": [
+      "GO-2026-6603",
+      "GO-2026-6605",
+      "GO-2026-6607",
+      "GO-2026-6608",
+      "GO-2026-6610",
+      "GO-2026-6611",
+      "GO-2026-6612",
+      "GO-2026-6613",
+      "GO-2026-6617"
+    ],
+    "baseline_pkg_tree": "24edaed2bd58b4160429f37f1d5aa40927bb8450",
+    "source_refs": [
+      "https://go.dev/doc/devel/release#go1.26.9",
+      "https://pkg.go.dev/vuln/GO-2026-6617"
+    ]
+  },
+  "authorization": {
+    "raw_path": "raw-feedback.txt",
+    "raw_sha256": "bbc5d43fb95fc8401f5a4f761fe915209177d90164319a364ec9e0a0ec3ef6b5",
+    "received_at": "2026-10-15T18:56:20+08:00",
+    "channel": "active ChatGPT conversation",
+    "effect": "开展已准备的 Yunka 模块/CLI 发布资格修复",
+    "does_not_imply": [
+      "批准修改已冻结Go1.25.13验收",
+      "Full豁免",
+      "安全扫描例外",
+      "正式发布",
+      "部署"
+    ]
+  },
+  "integration": {
+    "yunka_main": "3527488325030fbf86fe52804140c936e9d937a4",
+    "cs_biz_main": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+    "pr": "https://github.com/hvritual/yunka.io/pull/243",
+    "merged": false
+  }
+}

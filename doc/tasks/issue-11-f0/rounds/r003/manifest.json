@@ -1,0 +1,10 @@
+{
+  "revision": "r003",
+  "kind": "producer-qualification-followup-not-design-handoff",
+  "assets": {
+    "producer-record.json": "af15c67e0ce924d32c3cc99ced3153366838653d8e810a52f5e27586612f1178",
+    "qualification.md": "2352bbdbb11b69a055aac79a4df0a00ee1699ce87ce07ea060ed865350bef9c0",
+    "raw-feedback.txt": "bbc5d43fb95fc8401f5a4f761fe915209177d90164319a364ec9e0a0ec3ef6b5",
+    "validation.md": "f2e6f6199b9aed245287871a2e43dc8c9516dd9649b84c8096122e5676418d6b"
+  }
+}
