@@ -1,3 +1,7 @@
+> **新版本优先级（2026-10-15）：** 本文是 Session、Workspace、Error、Idempotency 的早期设计提案；三权 Menu/Function/Data 的权威定义由 [Access Contract V3](three-rights-v3.md) 覆盖。**Menu 不是业务 API 的授权条件**：没有 Console Menu 的营销成员仍可使用有 Function+Data 的营销 API。未来 Operation/Permission/API 的唯一可写合同采用 Yunka typed PB（尚未导入）；本页曾称 “OpenAPI 作为结构源” 或把 Menu 当 Function 前置条件的解释均视为旧草案，不再适用。
+>
+> 当前 main 无真实 IdP/Access Store/Yunka API；下列路径与 JSON 均为示意。参见 [迁移 ADR](../architecture/adr/0002-yunka-runtime-adoption.md)。
+
 # Access Context：租户有效访问上下文
 
 状态：`proposed`；下列接口与 JSON 为设计示例，尚未实现。
@@ -104,3 +108,11 @@ Vben backend 路由机制可以作为渲染适配层；本项目公开 API 保�
 采用两个租户、负责人/只读/禁用成员三类状态、已开通/未开通模块构建矩阵。验证完整 UI 与直调 API、列表/详情/写入/批量/导出及后台任务的行为。至少一个真实持久化资源用于证明隔离；只有 Mock 菜单或匿名 fixture 不算 SaaS 权限完成。
 
 版本、执行命令、真实依赖、结果与证据写入对应任务。当前文本和示例尚不提供任何运行通过结论。
+
+## 8. 三权分离继承规范（V3 优先）
+
+- `menuGrants` 只生成后台 `viewKey`/route；客户端无菜单拒绝 Console，但不阻断独立营销入口和经过 Function 授权的服务端请求。
+- `permissions` 与 `dataScopes` 是同一 `accessVersion` 的有效投影；Function 授权每次由受信 Gateway+Access 当前事实确定，Data Scope 必须由 Domain 强制查询。
+- `ApplicationAvailability` 的启停不授予/删除 IAM Function Grant。角色委派和范围解释需各自的资源负例。
+- 目标 source-of-truth 与测试见 [V3](three-rights-v3.md)、[Yunka SOP](../tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)；原文中功能与菜单隐式绑定的读法不再有效。
+

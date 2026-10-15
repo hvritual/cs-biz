@@ -1,3 +1,5 @@
+> **当前实现与后续目标分开（2026-10-15）：** 本文准确描述已合并 main 的纯 Go V2 `internal/platform/authz`；其源码存在且可测试，但**不是真实服务端授权/数据库**。F0–F5 的目标将单一执行链路迁至 Yunka typed PB + Gateway GrantAuthorizer/OperationGuard + Executor，Access/Scope 业务权威继续在 cs-biz；旧 Go Registry/HTTPRouter 不再作为新功能的**目标**合同源。不要在单个生产 Operation 上同时使用两套判定。查看 [ADR-0002](../../doc/architecture/adr/0002-yunka-runtime-adoption.md)、[SOP](../../doc/tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)。
+
 # 通用后端授权内核 V2.0 — cs-biz 实施基线
 
 状态：**基础库已实现，真实服务/持久 IAM/跨端授权尚未实现**。此文档描述 `backend/internal/platform/authz/` 当前代码，不表示 S02/S03 已通过业务验收。

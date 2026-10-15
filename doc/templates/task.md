@@ -56,3 +56,8 @@ Before a frontend implementation, read **doc/design/desktop-ui.md**. Record UI p
 ## Required delivery gate for any new frontend task
 
 Use **doc/ci/NO-STALL-GATES.md**. Record the smallest failing assertion and source ownership; the Fast Gate outcome; targeted Desktop verification for visible UI work; then the frozen head SHA and the Full Gate status when PR becomes ready for review. No per-push full-browser validation, unverified test changes, duplicate CI conclusions or merging a red/pending/unavailable Full Gate. GitHub branch protection requires admin configuration and cannot be inferred from a successful workflow.
+
+## F0–F6 新功能权限接入的附加输入（2026-10-15）
+
+适用 Yunka 目标的新功能请使用 [V3 Review Template](feature-onboarding-v3.yaml) 和 [Yunka Developer SOP](../tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)：独立填写产品入口 `Console/Marketing/API`、菜单是否需要、canonical `OperationID`、Function Permission、逐 Permission Scope、真实 Principal/Membership 来源、业务资源 Owner/Tenant、Domain SQL Filter、模块可用性、事务/幂等/回执、跨租户/越权/撤权/重放正反例。F1 之前该模板是审查输入而非可运行 typed PB 合同；真实版本和执行门禁必须按对应 Issue 回读。
+

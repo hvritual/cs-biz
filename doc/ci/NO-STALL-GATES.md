@@ -62,3 +62,9 @@ required checks are pending or failed. Until configured, this is an enforced
 - Full red: not qualified; fix grouped root cause, run Fast again and send
   a new head for review. Never use prior green head.
 - Missing tool/infrastructure: record **unavailable** rather than pass.
+
+### Yunka F0–F6 将增加的门禁（目标，尚未存在于 cs-biz CI）
+
+参照 [Issue #10](https://github.com/hvritual/cs-biz/issues/10) 与 [F0–F6](../tasks/YUNKA-MIGRATION-F0-F6.md)：F1 冻结 Go/protoc/Yunka 版本后新增 `yunka generate/check`、二次生成零漂移、source/dependency/assembly 检查；F2–F5 附真实 Gateway/Scope/Domain SQL/API 直调与 HTTP/gRPC/Worker negative fixtures；F6 真 MySQL/IdP/恢复与发布门禁。**现有 Fast/Targeted/Full 顺序与用户界面标准不改变。**
+
+[PR #9](https://github.com/hvritual/cs-biz/pull/9) 提议 Full 改 Human 手动，2026-10-15 核查时尚未合并；当前以仓库 main 的工作流为准。历史已通过的 Mock/Go CI 不能作为 Yunka Consumer 或生产资格。

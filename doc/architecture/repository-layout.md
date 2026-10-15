@@ -1,3 +1,5 @@
+> **2026-10-15 最新定位：** 本文件中的目录清单是 S00 历史布局说明，当前 `frontend/apps/console` 与 `backend/internal/platform/authz` 已存在。未来 Yunka Consumer 的 canonical typed PB 预计置于 `backend/contracts/proto/**`（最终以 F1 project profile 冻结），`contracts/generated` 的 OpenAPI/TS/OperationPlan/Assembly 为生成产物而非第二个独立可写接口真相。来源：[ADR-0002](adr/0002-yunka-runtime-adoption.md)、[Roadmap](../roadmap.md)。
+
 # 仓库布局
 
 ## 已明确的目录要求
@@ -41,7 +43,7 @@ GitHub 规定工作流文件必须位于 `.github/workflows`。将工作流 YAML
 | `backend/cmd/api/` | 进程入口与依赖装配 |
 | `backend/internal/<module>/` | 领域模块；按真实复杂度拆应用、领域、存储 |
 | `backend/migrations/` | 版本化数据库迁移 |
-| `doc/contracts/openapi/` | 后续 OpenAPI 结构定义的规范源 |
+| `backend/contracts/proto/`（F1 目标，未建立） | Yunka typed PB 为目标 Operation / API 可写规范源，OpenAPI/TS/OperationPlan 为其派生生成物 |
 
 以上目录不是预先建立的大型框架清单。S01、S02 引入可运行代码时，基于依赖与用户旅程逐步建立。整个仓库统一使用根 `doc`，不新建竞争的根 `docs`。
 
@@ -56,3 +58,13 @@ GitHub 规定工作流文件必须位于 `.github/workflows`。将工作流 YAML
 | 部署、认证、租户隔离 | 集成验收及相应运行场景检查 |
 
 运行门禁尚未实现时应明确显示缺失状态；不能让单一结构绿灯代表整套系统通过。
+
+## F1 之后的目标工作目录（当前并非已创建）
+
+- `backend/contracts/proto/**`：受保护业务 Operation/Request/Response/Transport/ExecutionPolicy；
+- `backend/contracts/generated/**`：Yunka 生成的 OpenAPI/TypeScript/OperationPlan 等，不直接手工编辑；
+- `backend/internal/{access,marketing,crm}/**`：真实业务数据模型与 Owner，`OperationGuard` 与 SQL Scope 解释在业务边界；
+- `backend/internal/assembly/**`：Yunka 生成的静态 Assembly（以实际 F1 工具生成结果为准）；
+- `doc/contracts/**`：跨端**语义合同**与版本/迁移/用例，不是另一份 runnable Protobuf/OpenAPI 权威。
+
+需要从 `backend/go.mod` Go 1.23 升至 Yunka 当前 1.25.13/protoc 3.21.12，且**当前尚未实施**。
