@@ -1,5 +1,7 @@
 import type {
   AccessContext,
+  Campaign,
+  ConsoleMenuKey,
   Customer,
   CustomerInput,
   CustomerView,
@@ -21,7 +23,7 @@ import type {
 } from './types';
 
 import { createSeedDatabase } from './seed';
-import { PERMISSIONS } from './types';
+import { CONSOLE_MENUS, PERMISSIONS } from './types';
 
 export const DATABASE_KEY = 'csbiz.s01.database.v1';
 export const SESSION_KEY = 'csbiz.s01.session.v1';
@@ -109,14 +111,21 @@ async function delay(ms: number, signal?: AbortSignal): Promise<void> {
   });
 }
 
-const NAVIGATION: Array<NavigationItem & { permission: PermissionCode }> = [
-  { name: 'overview', path: '/overview', viewKey: 'workspace.overview', titleKey: 'menu.overview', order: 10, permission: 'workspace.read' },
-  { name: 'customers', path: '/customers', viewKey: 'crm.customer.list', titleKey: 'menu.customers', order: 20, permission: 'crm.customer.read' },
-  { name: 'members', path: '/members', viewKey: 'workspace.members', titleKey: 'menu.members', order: 30, permission: 'tenant.member.read' },
-  { name: 'roles', path: '/roles', viewKey: 'workspace.roles', titleKey: 'menu.roles', order: 40, permission: 'tenant.role.read' },
-  { name: 'settings', path: '/settings', viewKey: 'workspace.profile', titleKey: 'menu.settings', order: 50, permission: 'tenant.profile.read' },
-  { name: 'applications', path: '/applications', viewKey: 'workspace.apps', titleKey: 'menu.applications', order: 60, permission: 'tenant.module.read' },
+const NAVIGATION: Array<NavigationItem & { menu: ConsoleMenuKey }> = [
+  { name: 'overview', path: '/overview', viewKey: 'workspace.overview', titleKey: 'menu.overview', order: 10, menu: 'workspace.overview' },
+  { name: 'customers', path: '/customers', viewKey: 'crm.customer.list', titleKey: 'menu.customers', order: 20, menu: 'crm.customer.list' },
+  { name: 'members', path: '/members', viewKey: 'workspace.members', titleKey: 'menu.members', order: 30, menu: 'workspace.members' },
+  { name: 'roles', path: '/roles', viewKey: 'workspace.roles', titleKey: 'menu.roles', order: 40, menu: 'workspace.roles' },
+  { name: 'settings', path: '/settings', viewKey: 'workspace.profile', titleKey: 'menu.settings', order: 50, menu: 'workspace.profile' },
+  { name: 'applications', path: '/applications', viewKey: 'workspace.apps', titleKey: 'menu.applications', order: 60, menu: 'workspace.apps' },
 ];
+// Exact, one-time import of S01 roles persisted without explicit Menu Grants.
+// Recreates ONLY their previously visible menus. New roles never auto-infer menus.
+const LEGACY_READ_MENU: Partial<Record<PermissionCode, ConsoleMenuKey>> = {
+  'workspace.read': 'workspace.overview', 'crm.customer.read': 'crm.customer.list',
+  'tenant.member.read': 'workspace.members', 'tenant.role.read': 'workspace.roles',
+  'tenant.profile.read': 'workspace.profile', 'tenant.module.read': 'workspace.apps',
+};
 
 /**
  * Browser-only stateful adapter for S01. Every request names its tenant; sessions
@@ -148,7 +157,13 @@ export function createMockService(options: MockServiceOptions = {}): MockService
         || !candidate.entitlements || !Array.isArray(candidate.activationRequests) || !candidate.idempotency) {
         return fail('STORAGE_INVALID', 500);
       }
-      state = candidate;
+      state = {
+        ...candidate,
+        campaigns: Array.isArray(candidate.campaigns) ? candidate.campaigns : createSeedDatabase().campaigns,
+        roles: candidate.roles.map((role) => ({ ...role, menuGrants: Array.isArray(role.menuGrants) ? role.menuGrants : [
+          ...new Set(role.grants.flatMap((grant) => LEGACY_READ_MENU[grant.action] ? [LEGACY_READ_MENU[grant.action]!] : [])),
+        ] })),
+      };
     } catch (error) {
       if (error instanceof ServiceError) throw error;
       return fail('STORAGE_INVALID', 500);
@@ -223,6 +238,14 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     return memberRoles(member, database).flatMap((role) => role.grants);
   }
 
+  function menusFor(member: Membership, database = state): ConsoleMenuKey[] {
+    return [...new Set(memberRoles(member, database).flatMap((role) => role.menuGrants ?? []))];
+  }
+
+  function menuAvailable(tenantId: string, menu: ConsoleMenuKey): boolean {
+    return menu !== 'crm.customer.list' || !!state.entitlements[tenantId]?.some((e) => e.moduleCode === 'crm' && e.status === 'active');
+  }
+
   function departmentOf(tenantId: string, userId: string, database = state): string | undefined {
     return database.memberships.find((entry) => entry.tenantId === tenantId && entry.userId === userId)?.department || undefined;
   }
@@ -249,10 +272,19 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     });
   }
 
+  // Function Authorization is independent of Console navigation and commercial availability.
   function authorize(context: RequestContext, action: PermissionCode, resource?: { ownerId: string }): Membership {
     const member = membership(context);
+    if (!grantsFor(member).some((grant) => grant.action === action && (
+      !resource || grant.scope === 'all' || (grant.scope === 'own' && resource.ownerId === context.subjectId) ||
+      (grant.scope === 'group' && !!departmentOf(context.tenantId, context.subjectId) &&
+        departmentOf(context.tenantId, resource.ownerId) === departmentOf(context.tenantId, context.subjectId))
+    ))) return fail('PERMISSION_DENIED', 403);
+    return member;
+  }
+  function authorizeBusiness(context: RequestContext, action: PermissionCode, resource?: { ownerId: string }): Membership {
+    const member = authorize(context, action, resource);
     if (!moduleAvailable(context.tenantId, action)) return fail('MODULE_INACTIVE', 403);
-    if (!can(context, action, resource)) return fail('PERMISSION_DENIED', 403);
     return member;
   }
 
@@ -317,6 +349,18 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     return { lookupKey, fingerprint, existing };
   }
 
+  function validateMenuGrants(context: RequestContext, input: ConsoleMenuKey[] = []): ConsoleMenuKey[] {
+    if (!Array.isArray(input)) return fail('INVALID_INPUT', 422, { field: 'menuGrants' });
+    const allowed = menusFor(membership(context));
+    const result: ConsoleMenuKey[] = [];
+    for (const menu of input) {
+      if (!CONSOLE_MENUS.includes(menu)) return fail('INVALID_PERMISSION', 422);
+      if (!allowed.includes(menu)) return fail('GRANT_EXCEEDS_AUTHORITY', 403);
+      if (!result.includes(menu)) result.push(menu);
+    }
+    return result.sort();
+  }
+
   function validateGrants(context: RequestContext, input: Grant[]): Grant[] {
     const actor = membership(context);
     if (!Array.isArray(input)) return fail('INVALID_INPUT', 422, { field: 'grants' });
@@ -344,6 +388,7 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       const role = state.roles.find((entry) => entry.id === roleId && entry.tenantId === context.tenantId);
       if (!role) return fail('ROLE_NOT_FOUND', 404);
       validateGrants(context, role.grants);
+      validateMenuGrants(context, role.menuGrants);
     }
     return uniqueIds;
   }
@@ -408,18 +453,41 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       const member = membership(context);
       const tenant = state.tenants.find((entry) => entry.id === context.tenantId)!;
       const permissions = PERMISSIONS.filter(({ code }) => can(context, code)).map(({ code }) => code);
-      const navigation = NAVIGATION.filter((item) => permissions.includes(item.permission)).map(({ permission: _permission, ...item }) => item);
+      const menuGrants = menusFor(member).filter((menu) => menuAvailable(context.tenantId, menu));
+      const dataScopes = grantsFor(member).filter((g) => permissions.includes(g.action));
+      const navigation = NAVIGATION.filter((item) => menuGrants.includes(item.menu)).map(({ menu: _menu, ...item }) => item);
       const result: AccessContext = {
         subjectId: user.id, tenantId: tenant.id, accessVersion: `${tenant.id}:${state.accessVersions[tenant.id] ?? 0}`,
-        user, tenant, membership: memberView(context, member), entitlements: state.entitlements[tenant.id] ?? [], permissions, navigation,
+        user, tenant, membership: memberView(context, member), entitlements: state.entitlements[tenant.id] ?? [], permissions, menuGrants, dataScopes, navigation,
       };
       return clone(result);
     },
     async listCustomers(context) {
       (await begin(context, context.subjectId))();
-      authorize(context, 'crm.customer.read');
+      authorizeBusiness(context, 'crm.customer.read');
       return state.customers.filter((entry) => entry.tenantId === context.tenantId && !entry.archivedAt && can(context, 'crm.customer.read', entry))
         .sort((left, right) => right.updatedAt.localeCompare(left.updatedAt)).map((entry) => customerView(context, entry));
+    },
+    async listCampaigns(context) {
+      (await begin(context, context.subjectId))();
+      authorizeBusiness(context, 'marketing.campaign.read');
+      return clone(state.campaigns.filter((c) => c.tenantId === context.tenantId &&
+        can(context, 'marketing.campaign.read', c)));
+    },
+    async executeCampaign(context, campaignId, key) {
+      (await begin(context, context.subjectId))();
+      authorizeBusiness(context, 'marketing.campaign.execute');
+      const existing = state.campaigns.find((c) => c.id === campaignId && c.tenantId === context.tenantId);
+      if (!existing) return fail('CAMPAIGN_NOT_FOUND', 404);
+      authorizeBusiness(context, 'marketing.campaign.execute', existing);
+      const result = idempotency(context, 'marketing.campaign.execute', key, { campaignId });
+      if (result.existing) return clone(state.campaigns.find((c) => c.id === result.existing!.resultId && c.tenantId === context.tenantId)!);
+      const next = clone(state);
+      const campaign = next.campaigns.find((c) => c.id === campaignId && c.tenantId === context.tenantId)!;
+      campaign.executions++;
+      next.idempotency[result.lookupKey] = { payload: result.fingerprint, resultId: campaign.id };
+      commit(next, { type: 'data', tenantId: context.tenantId });
+      return clone(campaign);
     },
     async listCustomerOwners(context, action) {
       (await begin(context, context.subjectId))();
@@ -435,14 +503,14 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     },
     async getCustomer(context, customerId) {
       (await begin(context, context.subjectId))();
-      authorize(context, 'crm.customer.read');
+      authorizeBusiness(context, 'crm.customer.read');
       return customerView(context, findCustomer(context, customerId));
     },
     async createCustomer(context, input, key) {
       (await begin(context, context.subjectId))();
-      authorize(context, 'crm.customer.create');
+      authorizeBusiness(context, 'crm.customer.create');
       const normalized = normalizeCustomer(input);
-      authorize(context, 'crm.customer.create', normalized);
+      authorizeBusiness(context, 'crm.customer.create', normalized);
       const request = idempotency(context, 'customer.create', key, normalized);
       if (request.existing) return customerView(context, findCustomer(context, request.existing.resultId));
       requireActiveOwner(context, normalized.ownerId);
@@ -456,14 +524,14 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     },
     async updateCustomer(context, customerId, input) {
       (await begin(context, context.subjectId))();
-      authorize(context, 'crm.customer.update');
+      authorizeBusiness(context, 'crm.customer.update');
       const current = findCustomer(context, customerId);
       if (current.archivedAt) return fail('CUSTOMER_ARCHIVED', 409);
-      authorize(context, 'crm.customer.update', current);
+      authorizeBusiness(context, 'crm.customer.update', current);
       const normalized = normalizeCustomer({ ...current, ...input });
       requireActiveOwner(context, normalized.ownerId);
       // An own-scope editor cannot transfer a record to another owner to bypass scope.
-      authorize(context, 'crm.customer.update', normalized);
+      authorizeBusiness(context, 'crm.customer.update', normalized);
       requireUniqueCompany(context, normalized.company, customerId);
       const next = clone(state);
       const updated = { ...current, ...normalized, updatedAt: now() };
@@ -473,9 +541,9 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     },
     async archiveCustomer(context, customerId) {
       (await begin(context, context.subjectId))();
-      authorize(context, 'crm.customer.archive');
+      authorizeBusiness(context, 'crm.customer.archive');
       const current = findCustomer(context, customerId);
-      authorize(context, 'crm.customer.archive', current);
+      authorizeBusiness(context, 'crm.customer.archive', current);
       if (current.archivedAt) return customerView(context, current);
       const next = clone(state);
       const timestamp = now();
@@ -563,9 +631,10 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       const name = textField(input.name, 'name', 80);
       const description = textField(input.description, 'description', 300, false);
       const grants = validateGrants(context, input.grants);
+      const menuGrants = validateMenuGrants(context, input.menuGrants);
       requireUniqueRole(context, name);
       const next = clone(state);
-      const role: Role = { id: id('role'), tenantId: context.tenantId, name, description, grants, isSystem: false, isOwner: false };
+      const role: Role = { id: id('role'), tenantId: context.tenantId, name, description, grants, menuGrants, isSystem: false, isOwner: false };
       next.roles.push(role);
       // A role nobody holds yet changes no member's effective access, so it must not invalidate sessions
       // in flight — the member drawer creates its permission set immediately before creating the member.
@@ -581,9 +650,10 @@ export function createMockService(options: MockServiceOptions = {}): MockService
       const name = input.name === undefined ? current.name : textField(input.name, 'name', 80);
       const description = input.description === undefined ? current.description : textField(input.description, 'description', 300, false);
       const grants = input.grants === undefined ? current.grants : validateGrants(context, input.grants);
+      const menuGrants = input.menuGrants === undefined ? current.menuGrants : validateMenuGrants(context, input.menuGrants);
       requireUniqueRole(context, name, roleId);
       const next = clone(state);
-      const updated = { ...current, name, description, grants };
+      const updated = { ...current, name, description, grants, menuGrants };
       next.roles[next.roles.findIndex((entry) => entry.id === roleId)] = updated;
       policyCommit(next, context.tenantId);
       return clone(updated);
