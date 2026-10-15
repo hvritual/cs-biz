@@ -39,6 +39,11 @@ async function account(page: Page, id: string) {
   await page.goto('/auth/login?choose=1');
   await page.getByTestId(`account-${id}`).click();
   await expect(page).not.toHaveURL(/\/auth\/login/);
+  if (id === 'chen' || id === 'zhou') {
+    // New account entry is not permission to choose the first of several tenants.
+    await expect(page).toHaveURL(/\/auth\/tenants/);
+    await page.getByTestId('tenant-choice-qinghe').click();
+  }
   await expect(page.locator('.cs-workspace-loading')).toHaveCount(0);
 }
 
@@ -432,7 +437,35 @@ test('account list failure during use keeps a business recovery action and can b
   await page.evaluate((saved) => localStorage.setItem('csbiz.s01.database.v1', saved!), database);
   await page.getByRole('button', { name: '重试', exact: true }).click();
   await page.getByTestId('account-chen').click();
-  await expect(page).not.toHaveURL(/\/auth\/login/);
+  await expect(page).toHaveURL(/\/auth\/tenants/);
+  await page.getByTestId('tenant-choice-qinghe').click();
   await open(page, '/customers', '客户管理');
   await expect(customerRow(page, '云杉科技')).toBeVisible();
+});
+
+
+test('account entry with multiple eligible enterprises requires a deliberate selection', async ({ page }) => {
+  await page.goto('/auth/login?choose=1');
+  await page.getByTestId('account-chen').click();
+  await expect(page).toHaveURL(/\/auth\/tenants/);
+  await expect(page.getByRole('heading', { name: '选择要进入的企业' })).toBeVisible();
+  await expect(page.getByTestId('tenant-choice-qinghe')).toBeVisible();
+  await expect(page.getByTestId('tenant-choice-yunlan')).toBeVisible();
+  await page.goto('/customers');
+  await expect(page).toHaveURL(/\/auth\/tenants/);
+  await page.getByTestId('tenant-choice-qinghe').click();
+  await expect(page).toHaveURL(/\/customers$/);
+  await expect(page.getByRole('heading', { name: '客户管理', level: 1 })).toBeVisible();
+});
+
+test('authenticated account without active memberships sees recovery instead of a login loop', async ({ page }) => {
+  await page.goto('/auth/login?choose=1');
+  await page.getByTestId('account-shen').click();
+  await expect(page).toHaveURL(/\/auth\/tenants/);
+  await expect(page.getByRole('heading', { name: '暂时没有可进入的企业' })).toBeVisible();
+  await expect(page.locator('[data-testid^="tenant-choice-"]')).toHaveCount(0);
+  await page.goto('/members');
+  await expect(page).toHaveURL(/\/auth\/tenants/);
+  await page.getByRole('button', { name: '切换账号' }).click();
+  await expect(page).toHaveURL(/\/auth\/login\?choose=1$/);
 });
