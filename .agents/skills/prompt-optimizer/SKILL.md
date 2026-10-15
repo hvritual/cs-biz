@@ -26,3 +26,6 @@ Run `python3 doc/ci/check_sdlc_workflow.py --mode intent --task <task-path>` whe
 ## READY output
 Rewrite one concise executable prompt: objective, in/out scope, preserved literal constraints, read-first unverified facts, acceptance checks, approval boundaries, stop conditions. Recompare raw intention and candidate for implicit drift. Pass unapproved user decisions back rather than selecting them. Invoke engineering-language only for candidate expression review, never to transform raw user input or grant READY.
 No repository modifications, code edits, automatic submission, merge, deployment or permission escalation in this Skill.
+
+## Original-form deterministic verification (restored slice)
+Use `python3 doc/ci/check_intent_v02.py .sdlc/tasks/<id>/intent-spec.json --repo-root .` for v0.2.0 structured fields. It restores intent-source quote, constraint, risk, evidence, authorization and decision routing checks as a **compatible subset**, not the original code or an independent semantic verdict. Distinguish `READY` preflight from authenticated approval and actual execution.
