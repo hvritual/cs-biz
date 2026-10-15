@@ -83,7 +83,7 @@ def check(root: Path) -> list[str]:
                 continue
             content = read(name)
             for command in BANNED:
-                if re.search(r"(?m)^\s*run:\s*.*" + re.escape(command), content) or (
+                if re.search(r"(?m)^\s*(?:-\s*)?run:\s*.*" + re.escape(command), content) or (
                     re.search(r"(?m)^\s+" + re.escape(command), content)
                 ):
                     errors.append("OTHER_WORKFLOW_RUNS_FULL:" + name)
