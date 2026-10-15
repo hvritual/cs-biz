@@ -1,0 +1,56 @@
+name: SDLC Skills Contract
+
+on:
+  push:
+    paths:
+      - ".agents/skills/**"
+      - "doc/workflow/**"
+      - "doc/ci/check_*workflow.py"
+      - "doc/ci/check_revision_v04.py"
+      - "doc/ci/check_intent_v02.py"
+      - "doc/ci/check_build_v04.py"
+      - "doc/ci/test_*workflow.py"
+      - "doc/ci/test_revision_v04.py"
+      - "doc/ci/test_intent_v02.py"
+      - "doc/ci/test_build_v04.py"
+      - ".github/workflows/sdlc-skills.yml"
+      - "AGENTS.md"
+  pull_request:
+    paths:
+      - ".agents/skills/**"
+      - "doc/workflow/**"
+      - "doc/ci/check_*workflow.py"
+      - "doc/ci/check_revision_v04.py"
+      - "doc/ci/check_intent_v02.py"
+      - "doc/ci/check_build_v04.py"
+      - "doc/ci/test_*workflow.py"
+      - "doc/ci/test_revision_v04.py"
+      - "doc/ci/test_intent_v02.py"
+      - "doc/ci/test_build_v04.py"
+      - ".github/workflows/sdlc-skills.yml"
+      - "AGENTS.md"
+
+permissions:
+  contents: read
+
+jobs:
+  skill-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Repository structure
+        run: python3 doc/ci/check_repository.py
+      - name: Skill structure
+        run: |
+          python3 doc/ci/check_build_workflow.py
+          python3 doc/ci/check_sdlc_workflow.py --mode structure
+      - name: Negative fixtures
+        run: |
+          python3 -m unittest discover -s doc/ci -p 'test_*workflow.py' -v
+          python3 -m unittest discover -s doc/ci -p 'test_revision_v04.py' -v
+          python3 -m unittest discover -s doc/ci -p 'test_intent_v02.py' -v
+          python3 -m unittest discover -s doc/ci -p 'test_build_v04.py' -v
