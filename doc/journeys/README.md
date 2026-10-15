@@ -13,3 +13,7 @@
 - 结构化规则在 [身份旅程合同](../contracts/identity-journey-v1.yaml)，交付边界与门禁在 [S02-ID 实施任务](../tasks/S02-identity-journeys.md)。
 
 这两条旅程已形成正式设计与首个候选代码切片；真实 IdP、DB、BFF Session、成员激活和 API 跨端验收**尚未完成**。
+
+## V2.2 营销与后台分离旅程
+
+[营销功能与后台准入独立](MKT-01-function-without-console.md)：账号可以拥有营销 Function + Data Scope，而没有任何 Console Menu；仍能执行已授权营销任务，但所有后台深链被拒绝。

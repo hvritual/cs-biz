@@ -28,6 +28,10 @@
       "request": "Request application activation"
     }
   },
-  "marketing.campaign.read": "View campaigns",
-  "marketing.campaign.execute": "Execute campaign"
+  "marketing": {
+    "campaign": {
+      "read": "View campaigns",
+      "execute": "Execute campaign"
+    }
+  }
 }

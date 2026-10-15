@@ -28,6 +28,10 @@
       "request": "申请开通应用"
     }
   },
-  "marketing.campaign.read": "查看营销活动",
-  "marketing.campaign.execute": "执行营销活动"
+  "marketing": {
+    "campaign": {
+      "read": "查看营销活动",
+      "execute": "执行营销活动"
+    }
+  }
 }

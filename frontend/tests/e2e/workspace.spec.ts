@@ -480,3 +480,69 @@ test('authenticated account without active memberships sees recovery instead of 
   await page.getByRole('button', { name: '切换账号' }).click();
   await expect(page).toHaveURL(/\/auth\/login\?choose=1$/);
 });
+
+
+test('V2.2: separate Console Menu grants from Function grants and retain per-function Data scope', async ({ page }, info) => {
+  await open(page, '/roles', '成员权限');
+  await page.getByRole('button', { name: '新建权限集', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('textbox', { name: /权限集名称$/ }).fill('按动作独立范围');
+  const crm = dialog.locator('.pse-row', { hasText: '客户列表' });
+  await crm.locator('.pse-menu .el-switch').click();
+  await expect(crm.getByRole('checkbox', { name: '查看客户' })).not.toBeChecked();
+  await crm.getByRole('checkbox', { name: '查看客户' }).click();
+  await crm.getByRole('checkbox', { name: '编辑客户' }).click();
+  const cells = crm.locator('.pse-action-scope');
+  await cells.nth(0).getByRole('radio', { name: '所有' }).click();
+  await cells.nth(2).getByRole('radio', { name: '个人' }).click();
+  await expect(cells.nth(0).getByRole('radio', { name: '所有' })).toBeChecked();
+  await expect(cells.nth(2).getByRole('radio', { name: '个人' })).toBeChecked();
+  await shot(page, info, 'three-rights-menu-function-scope');
+  await dialog.getByRole('button', { name: '保存权限集', exact: true }).click();
+  const target = rows(page).filter({ hasText: '按动作独立范围' });
+  await expect(target).toBeVisible();
+  await target.getByRole('button', { name: '编辑' }).click();
+  const reloaded = page.getByRole('dialog').locator('.pse-row', { hasText: '客户列表' }).locator('.pse-action-scope');
+  await expect(reloaded.nth(0).getByRole('radio', { name: '所有' })).toBeChecked();
+  await expect(reloaded.nth(2).getByRole('radio', { name: '个人' })).toBeChecked();
+});
+
+test('V2.2: marketing Function without any Console Menu grants uses marketing but cannot open Console', async ({ page }, info) => {
+  await open(page, '/members', '成员管理');
+  // This fixture uses the S01 browser-only local data contract, not a credential bypass in a real server.
+  await page.evaluate(() => {
+    const key = 'csbiz.s01.database.v1';
+    const state = JSON.parse(localStorage.getItem(key)!) as {
+      roles: Array<Record<string, unknown>>;
+      memberships: Array<{ id: string; roleIds: string[] }>;
+      accessVersions: Record<string, number>;
+    };
+    state.roles.push({
+      id: 'qinghe-marketing-fixture', tenantId: 'qinghe', name: '营销执行成员',
+      description: '仅营销能力', isSystem: false, isOwner: false, menuGrants: [],
+      grants: [
+        { action: 'marketing.campaign.read', scope: 'own' },
+        { action: 'marketing.campaign.execute', scope: 'own' },
+      ],
+    });
+    const member = state.memberships.find((m) => m.id === 'qinghe-zhou')!;
+    member.roleIds = ['qinghe-marketing-fixture'];
+    state.accessVersions.qinghe = (state.accessVersions.qinghe ?? 0) + 1;
+    localStorage.setItem(key, JSON.stringify(state));
+  });
+  await page.goto('/auth/login?choose=1');
+  await page.getByTestId('account-zhou').click();
+  await expect(page).toHaveURL(/\/auth\/tenants/);
+  await page.getByTestId('tenant-choice-qinghe').click();
+  await expect(page).toHaveURL(/\/marketing$/);
+  await expect(page.getByRole('heading', { name: '营销工作区' })).toBeVisible();
+  await expect(page.getByTestId('marketing-campaigns').locator('.el-table__body-wrapper tbody tr')).toHaveCount(1);
+  await page.getByRole('button', { name: '执行活动', exact: true }).click();
+  await expect(page.getByTestId('marketing-campaigns')).toContainText('1');
+  await shot(page, info, 'marketing-function-no-console-menu');
+  await page.goto('/members');
+  await expect(page).toHaveURL(/\/auth\/no-console/);
+  await expect(page.getByRole('heading', { name: '当前账号没有管理后台权限' })).toBeVisible();
+  await page.getByRole('button', { name: '进入营销工作区' }).click();
+  await expect(page).toHaveURL(/\/marketing$/);
+});
