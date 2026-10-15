@@ -38,3 +38,14 @@ Read **doc/ci/NO-STALL-GATES.md**. Run Fast before any full qualification; UI wo
 For implementation task start/resume, slice admission, material failure, slice close and handoff, read `.agents/skills/task-progression/SKILL.md` and `doc/workflow/project-profile.md`.
 For approved development slices, use `.agents/skills/sdlc-build/SKILL.md` (acceptance-driven short loop). These Skills are methods, not new approval authorities or substitutes for `doc/ci/NO-STALL-GATES.md`.
 Reuse the existing task template and actual CI results. Missing Skill, locked acceptance, tool or evidence means not verified; never claim auto-enforced gates from this instruction alone.
+
+## Unified SDLC Skill composition
+
+For any end-to-end intent/design/build/review task, first load `.agents/skills/sdlc-workflow/SKILL.md` and `doc/workflow/project-profile.md`. Delegate to peer Skills, not independent competing orchestrators:
+- `prompt-optimizer` recovers IntentSpec, checks uncertainty and human decisions; it never implements.
+- `sdlc-design` delivers preview demo/flow/journey for Human confirmation, then controlled revision and approved requirements/design.
+- `task-progression` preserves all original/unfinished outcomes and authorized scope.
+- `sdlc-build` runs acceptance-driven, risk-appropriate fast loops and project CI.
+- `engineering-language` checks prose semantics at handoff without changing user intent.
+
+Read `doc/workflow/SDLC-ADOPTION.md` for stage artifact contracts and verified/unverified boundaries. Use `python3 doc/ci/check_sdlc_workflow.py --mode structure` for read-only structural checks. No Skill or static checker authorizes code change, approves itself, weakens tests, or replaces real GitHub CI and Human review. Treat the approved Design and Acceptance as read-only for the implementer. Do not silently advance from review-ready Prompt to execution.
