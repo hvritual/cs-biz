@@ -26,3 +26,6 @@ Read accepted intent from prompt-optimizer, project design standards and approve
 ## Approval and output
 Write in current task directory under `.sdlc/tasks/<id>/`; link approved requirements/Design to actual task authority in doc/tasks, do not create a duplicate status registry. Attach snapshot manifests and SHA256; file immutability requires protected history/permissions beyond local hashes.
 Report: preview version, feedback location, changed/preserved items, verification evidence, unresolved decisions, Human approval reference. No screenshots/automated visual tests claimed unless they were really run.
+
+## Original controlled-revisions compatibility gate
+When `design-revisions.json` uses `controlled-revisions-v1`, run `python3 doc/ci/check_revision_v04.py --task .sdlc/tasks/<id>`. It checks ledger and snapshot integrity, parent lineage, allowed changes, frozen original preservations and acceptance. It is read-only: it does NOT provide original `revision_store.py` CAS writer; manual checks remain `NEEDS_EVIDENCE`. Do not mix this format with the older lightweight `design-preview.json` validator or rewrite sealed rounds.
