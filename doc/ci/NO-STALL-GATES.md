@@ -16,24 +16,19 @@ assertion, turn off security checks, or claim a skipped check passed.
    across local iterations; never reinstall per screenshot.
 4. Resolve ALL Fast/targeted failures in one root-cause batch. Avoid serial
    one-line pushes and CI-wait loops. Once clean, freeze the candidate SHA.
-5. Promote the PR from Draft to **Ready for review**: `frontend-full.yml`
-   then runs **once for that head** (plus when a new commit changes the head).
-   Full runs the same Fast checks, build, and all Chromium journeys; uploads
-   artifacts. Outdated in-progress runs cancel.
-6. Before stating "done", read back branch SHA, full workflow conclusion,
-   all skipped/failing tests, and screenshots for the exact SHA. Merge and
-   production deployment are separate, explicitly authorized steps.
+5. Promote the PR from Draft to **Ready for review** to obtain review readiness, **not** to start Full. Human alone chooses when to run `Frontend Full Gate` via GitHub Actions `Run workflow` on **main**, entering exact `pr_number` and `candidate_sha`. Do not dispatch Full from Agent, bot, automatic PR workflow or a push. Configure `full-ci-human-approval` environment with required Human reviewers and allow main as the only deployment branch. This is an admin setting; the environment name by itself does NOT enforce human identity.
+   Full checks the current PR head before test and again on an isolated receipt signer after the tests; the Full run must succeed and emit `frontend-manual-full-receipt-<run_id>-<run_attempt>`. Any new head invalidates the old receipt. No automatic repeat or cancellation of prior Human-started Full runs.
+6. Before stating "done" or requesting merge, independently read the exact PR/head, Human-dispatched Full run and its receipt artifact, executed jobs, skipped/failing tests and screenshots. A Draft/Ready transition or successful Fast does not satisfy Full. This manual workflow runs from main and does **not automatically create a required PR check on the candidate SHA**; do not infer merge protection. Merge and deployment remain separately authorized.
 
 ### Gate map
 | Phase | Trigger | Executed | Excluded | Evidence |
 | --- | --- | --- | --- | --- |
 | Fast | internal push; fork PR | check:fast (static/units/policy) | Playwright install, build, full E2E | frontend-fast |
 | Targeted Desktop | local on visible UI changes | build + one desktop-ui spec | unrelated E2E | screenshots, exact workspace revision |
-| Full | non-Draft PR open/update or review promotion, explicit dispatch on default branch | check:full (Fast + build + all E2E) | skipped tests are NOT passes | frontend-validation + artifacts |
+| Full | **Human `workflow_dispatch` on main only**, explicit open PR number + matching 40-character candidate SHA; environment approval required by admin | check:full (Fast + build + all E2E) | no push/PR auto Full; stale candidates rejected | frontend-validation + independent Human receipt + browser artifacts |
 | Repo | internal push, external PR | structure/docs | frontend/runtime | repository-structure |
 
-Manual dispatch is available once the workflow has been introduced to the default
-branch. PRs remaining Draft deliberately **do not qualify** as Full-complete.
+Human manual dispatch becomes available once the revised workflow is merged into default branch. A PR must be non-Draft for this process, but merely marking Ready does not start Full. The `workflow_dispatch` event and Human event sender check are insufficient to prevent an automation from using a Human account token; enable environment required reviewers, restrict allowed branches and protect settings. Only the real GitHub run/artifact/approval evidence supports qualification.
 
 ### Time and scope budget
 - Before editing, name the **one failing assertion** and source owner.
@@ -51,14 +46,11 @@ branch. PRs remaining Draft deliberately **do not qualify** as Full-complete.
 Workflow checks alone do **not** block merges without repository protection.
 As observed during this task, the GitHub connection cannot modify branch
 protection (403) and there are no accessible repository rulesets.
-Repository admins must require `repository-structure`, `frontend-fast`
-and `frontend-validation` for protected branches and disallow merge when
-required checks are pending or failed. Until configured, this is an enforced
-*process and CI* contract, not a claimed protected-branch rule.
+Repository admins must require appropriate automatic checks and enforce the separate Human Full receipt before merge. **Warning:** a main-dispatched Full run does not automatically attach `frontend-validation` status to the PR's head. Requiring the old PR-context `frontend-validation` check without a trusted receipt/status bridge can leave a PR permanently pending; deleting that required check without a replacement can allow an unchecked merge. An independently verified receipt bridge or controlled Human merge policy must be configured. Until then, this is an enforced *process* policy, not proof of GitHub-side merge protection.
 
 ### Fail-closed rule
 - Fast red: stop, repair Fast; do not run Full.
 - Targeted red: repair UI cause; do not run Full.
-- Full red: not qualified; fix grouped root cause, run Fast again and send
-  a new head for review. Never use prior green head.
+- Full red: not qualified; fix grouped root cause, run Fast again, then request a **new Human decision** for another Full on the new SHA. Never auto-dispatch or reuse an earlier green head.
+- Human did not start Full: `WAITING_HUMAN_FULL`; do not claim qualified or auto-trigger it.
 - Missing tool/infrastructure: record **unavailable** rather than pass.
