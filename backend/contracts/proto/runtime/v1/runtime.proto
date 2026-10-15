@@ -1,0 +1,21 @@
+syntax = "proto3";
+package runtime.v1;
+import "yunka/dsl/v1/options.proto";
+option go_package = "github.com/hvritual/cs-biz/backend/contracts/runtime/v1;runtimev1";
+option (yunka.dsl.v1.domain) = { name: "runtime" version: "v1" };
+
+message InspectRequest {}
+message InspectResponse { string status = 1; }
+
+// Local-only technical probe. No identity, tenant or business data.
+service RuntimeService {
+  option (yunka.dsl.v1.application) = { name: "probe" };
+  rpc Inspect(InspectRequest) returns (InspectResponse) {
+    option (yunka.dsl.v1.operation) = {
+      id: "runtime.inspect"
+      use_case: "inspect"
+      public: true
+      execution: { transaction: TRANSACTION_NONE idempotency: IDEMPOTENCY_NONE }
+    };
+  }
+}

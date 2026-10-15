@@ -1,15 +1,7 @@
-# Backend CI — 通用权限内核 V2
+# Backend CI
 
-当前已存在并执行 `backend/ci/check.sh`（Go 1.23，只有标准库）。从仓库根运行 `bash backend/ci/check.sh` 或 `cd backend && bash ci/check.sh`：
+入口为 bash backend/ci/check.sh，自动调度统一使用根 quality.yml；旧 backend.yml 仅手工诊断。固定Go1.26.9与实际Consumer锁，详见 [Consumer说明](../doc/YUNKA-CONSUMER.md)。
 
-```bash
-go test -count=1 ./...
-go vet ./...
-go test -race -count=1 ./internal/platform/authz/...
-```
-
-本切片测试覆盖：Registry 缺失/冲突/非法定义，安全主体类型与成员关系、IAM Grant/Scope 隔离、动态撤权、跨租户、对象范围、权限语义 ALL/ANY、未知 HTTP 路由、未绑定 Handler、伪造头及不可用 Authority 的拒绝。**所有 Authority 均为内存测试 Fake**，目前没有真实数据库、身份服务、事务、API 集成、浏览器或生产验收。
-
-GitHub 工作流 `.github/workflows/backend.yml` 应在相关文件变更时运行同一入口；全局 `doc/ci/check.sh` 将它纳入仓库检查（前端需要预装依赖）。
-
-下一独立阶段 S02 需使用真实认证提供方、数据库和持久权限/成员关系，为同一接口增加 API/DB 权限矩阵、真实撤权与失败无副作用证据。没有这些证据不能宣称 SaaS 权限闭环完成。
+顺序：制品/安装根 → 固定protoc/plugins/scanner → 两次生成零漂移/check只读/篡改拒绝 → 依赖Origin/sums与source/assembly → build、全部unit/race/vet/security → 真正Consumer经Collector/Jaeger的Trace查询和故障。缺工具/权限/容器/样本均不是通过。
+保留原Authz V2全部正反例；新增覆盖Trace/隐私、错误环境/远程监听拒绝、exporter开关、Collector不可达与有界退出。Fake Authority不证明真实IAM/DB。
+下载上游固定Actions制品可能需要配置只读YUNKA_ARTIFACT_TOKEN Secret，不能换浮动源或关闭检查求绿。日志/报告保存在backend证据artifact；未合格不合并。

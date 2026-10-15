@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "yunka.engineering-quality/v1",
+  "policyIdentity": "00305ddb22950031702471a4637ccf2d0d3dd4f9aaf881728268e09705cf1314",
+  "provenance": "yunka:docs/ENGINEERING_QUALITY_RULES.md",
+  "rulesPath": ".yunka/ENGINEERING_QUALITY.md",
+  "canonicalRulesSha256": "05854cfb6121f75c6c1450791c8d8ca6702c6caeea4ad749ba20fc6b9e88099d",
+  "enforcementPolicyPath": ".yunka/engineering-quality.json",
+  "projectInstructionsPath": "AGENTS.md",
+  "upgradePolicy": "explicit-review-required"
+}

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    "contracts/runtime/v1/runtime.pb.go",
+    "contracts/runtime/v1/runtime_grpc.pb.go"
+  ]
+}

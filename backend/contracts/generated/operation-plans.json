@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "operations": [
+    {
+      "operationId": "runtime.inspect",
+      "domain": "runtime",
+      "application": "probe",
+      "useCase": "inspect",
+      "requestType": "runtime.v1.InspectRequest",
+      "responseType": "runtime.v1.InspectResponse",
+      "security": {
+        "public": true,
+        "permissionMode": "all"
+      },
+      "execution": {
+        "transaction": "none",
+        "idempotency": "none"
+      },
+      "composition": {},
+      "bindings": {
+        "rpc": "/runtime.v1.RuntimeService/Inspect"
+      }
+    }
+  ]
+}

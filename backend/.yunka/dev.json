@@ -1,0 +1,13 @@
+{
+  "processes": [
+    {
+      "command": [
+        "go",
+        "run",
+        "./cmd/runtime-probe"
+      ],
+      "name": "runtime-probe"
+    }
+  ],
+  "schemaVersion": 2
+}

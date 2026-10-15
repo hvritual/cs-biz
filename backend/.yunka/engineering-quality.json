@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "limits": {},
+  "blockingRules": [
+    "AUDIT-APP-001",
+    "AUDIT-AUTH-001",
+    "AUDIT-DOC-001",
+    "AUDIT-DOC-002",
+    "AUDIT-GEN-001",
+    "AUDIT-GEN-002",
+    "AUDIT-GEN-003",
+    "AUDIT-INFRA-001",
+    "AUDIT-NAME-001"
+  ]
+}

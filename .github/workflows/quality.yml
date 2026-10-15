@@ -81,6 +81,9 @@ jobs:
   backend:
     needs: classify
     if: needs.classify.outputs.backend == 'true'
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -90,9 +93,19 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
         with:
-          go-version-file: backend/go.mod
-          cache-dependency-path: backend/go.mod
+          go-version: '1.26.9'
+          cache-dependency-path: backend/go.sum
       - run: bash backend/ci/check.sh
+        env:
+          YUNKA_ARTIFACT_TOKEN: ${{ secrets.YUNKA_ARTIFACT_TOKEN || github.token }}
+      - name: Retain actual backend qualification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: quality-backend-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cs-biz-backend-evidence/
+          if-no-files-found: warn
+          retention-days: 7
 
   frontend:
     needs: classify
