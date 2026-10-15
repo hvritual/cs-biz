@@ -1,0 +1,35 @@
+{
+  "components": {
+    "schemas": {
+      "runtime_v1_InspectRequest": {
+        "properties": {},
+        "type": "object",
+        "x-yunka-proto-full-name": "runtime.v1.InspectRequest"
+      },
+      "runtime_v1_InspectResponse": {
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "x-yunka-proto-full-name": "runtime.v1.InspectResponse"
+      }
+    }
+  },
+  "info": {
+    "title": "yunka API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {},
+  "x-yunka-contract-version": 5,
+  "x-yunka-rpc-methods": [
+    {
+      "operationId": "runtime.v1.RuntimeService.Inspect",
+      "request": "runtime.v1.InspectRequest",
+      "response": "runtime.v1.InspectResponse",
+      "rpcPath": "/runtime.v1.RuntimeService/Inspect"
+    }
+  ]
+}

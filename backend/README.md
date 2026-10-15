@@ -1,16 +1,16 @@
 # Backend
 
-当前已经引入 Go 1.23 标准库实现的 **V2 通用权限基础库**：`internal/platform/authz/`。它包括 Operation Registry、衍生 Permission Catalog、当前成员/Grant 抽象、Operation 授权、对象范围辅助检查及受保护的 `net/http` Router。**没有真实 API 服务器、认证、持久化、数据库迁移或生产服务。**
+当前包含 **V2 通用权限基础库**（`internal/platform/authz/`）和 F1 固定 Yunka Consumer / loopback gRPC 只读技术探针。工具链为Go1.26.9；生成、运行、遥测与验收入口见 [Yunka Consumer](doc/YUNKA-CONSUMER.md)。没有业务API、真实认证/持久化、数据库迁移或生产服务。
 
 本阶段实现为独立可回退的 S02 权限前置切片；不等于完成 S02 身份/租户服务或 S03 SaaS 业务闭环。框架不依赖 Commercial Guard、Entitlement Resolver、PlanVersion 或商业 ModuleCatalog。已有 SaaS“租户应用开通”需求仍是将来独立业务域的条件，不可因此跳过。
 
 | 路径 | 职责 |
 | --- | --- |
-| `go.mod` | 独立 Go 模块 `github.com/hvritual/cs-biz/backend`（Go 1.23） |
+| `go.mod` | 独立模块 `github.com/hvritual/cs-biz/backend`，语言1.26.0 / 工具链1.26.9与四个固定外部模块 |
 | `internal/platform/authz/` | 当前已实现的纯 Go 授权基础库和单元负例 |
 | [doc/AUTHORIZATION-V2.md](doc/AUTHORIZATION-V2.md) | 真实实现与未实现边界 |
 | [doc/FEATURE-ONBOARDING-V2.md](doc/FEATURE-ONBOARDING-V2.md) | 新增业务功能接入流程 |
-| [ci/check.sh](ci/check.sh) | Go Test / Vet / Race |
+| [ci/check.sh](ci/check.sh) | 固定工具、生成/依赖/源码/装配、build/unit/vet/race/security、真实本地Trace查询 |
 | [deploy](deploy/README.md) | 未来部署与凭证边界（尚无可部署服务） |
 
 运行真实代码检查：

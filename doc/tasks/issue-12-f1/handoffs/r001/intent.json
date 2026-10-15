@@ -1,0 +1,109 @@
+{
+  "protocol": "intent-design-v2",
+  "status": "DESIGN_REVIEW",
+  "objective": "完成 cs-biz Issue #12 的固定 Consumer、零漂移生成/装配和本地可查询遥测基础，不扩展业务权限",
+  "expected_outcome": "干净 checkout 可验证锁、生成与实际运行 Trace；通过精确候选和 main 验证后才关闭 Issue",
+  "raw_sources": [
+    {
+      "path": "raw-user.txt",
+      "source_ref": "current conversation: 开始完成下一独立任务"
+    },
+    {
+      "path": "raw-issue-12.md",
+      "source_ref": "https://github.com/hvritual/cs-biz/issues/12",
+      "updated_at": "2026-10-15T06:32:44Z"
+    }
+  ],
+  "scope": [
+    "backend Consumer/toolchain/contracts/generation/assembly",
+    "本地只读技术探针与固定 Provider、Collector/Jaeger",
+    "实际测试与必要 CI 接线"
+  ],
+  "exclusions": [
+    "真实 IAM/DB/租户业务 API",
+    "前端变更",
+    "其他开放 PR 合并",
+    "生产部署",
+    "F0 已封存设计修改"
+  ],
+  "hard_constraints": [
+    "外部四模块/CLI 必须匹配 F0 r005",
+    "无 replace/浮动 main/第二 Runtime",
+    "生成文件只读",
+    "无 Token/Session/PII 日志",
+    "不下调既有断言或门禁"
+  ],
+  "authorization": {
+    "design": "本轮开始下一独立任务；Issue12 规划/审查",
+    "implementation": "待本轮完整设计确认后，按当前用户请求与限定路径执行",
+    "push_merge": "承接既有授权；仍须设计与真实门禁条件",
+    "deploy": "none"
+  },
+  "risk_tags": [
+    "T3: dependencies/execution boundary/telemetry",
+    "no business side effects"
+  ],
+  "requirements": [
+    "固定四外部模块与工具链",
+    "typed PB 生成/二次零漂移",
+    "源码/依赖/装配/真实 Go 验证",
+    "Provider+JSON stdout",
+    "真实 Trace 查询及不可达负例",
+    "环境配置与有界退出",
+    "兼容与 DB/IdP 阻塞保留",
+    "独立 PR/质量回执/main核验"
+  ],
+  "decision_tree": [
+    {
+      "id": "D1",
+      "trigger": "已有F0精确审批",
+      "question": "消费策略/工具链是否重选",
+      "result": "不重问；继承F0外部锁+Go1.26.9",
+      "source": "F0 handoffs/r005/approval.json"
+    },
+    {
+      "id": "D2",
+      "trigger": "F1当前缺具体实现设计审批",
+      "question": "采用只读本地技术探针完成F1，业务API/DB留后续阶段？",
+      "options": [
+        "A:固定Consumer+只读探针+本地遥测",
+        "B:等待业务API/DB决策齐全后重新安排F1"
+      ],
+      "recommendation": "A",
+      "answer": null,
+      "blocking": true,
+      "source": "待本轮Human同版本确认"
+    },
+    {
+      "id": "D3",
+      "trigger": "DB/IdP未决",
+      "result": "BLOCKED_F3；不当成F1具备DB、不删除原验收",
+      "owner": "Human"
+    },
+    {
+      "id": "D4",
+      "trigger": "本会话无Docker/protoc",
+      "result": "实施模型在隔离CI验证同一本地栈，实际不可运行则阻断资格",
+      "owner": "executing_model"
+    },
+    {
+      "id": "D5",
+      "trigger": "无业务UI、批量对象与生产动作",
+      "result": "UX/导入/产品demo/生产预算不适用；不编造接口"
+    }
+  ],
+  "alternative_interpretations": [
+    "本轮直接实现：被仓库同版设计确认边界阻断，先交可审设计",
+    "整合所有开放PR：超出单独Issue范围，不采用"
+  ],
+  "acceptance_ids": [
+    "AC01",
+    "AC02",
+    "AC03",
+    "AC04",
+    "AC05",
+    "AC06",
+    "AC07",
+    "AC08"
+  ]
+}

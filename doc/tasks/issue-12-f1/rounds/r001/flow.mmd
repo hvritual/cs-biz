@@ -1,0 +1,14 @@
+flowchart TD
+    Lock["F0 固定模块与 CLI"] --> Verify{"摘要、版本、环境匹配"}
+    Verify -->|否| Stop["阻断并保留失败证据"]
+    Verify -->|是| PB["cs-biz typed PB"]
+    PB --> Gen["生成契约、适配器与装配"]
+    Gen --> Check{"二次零漂移与只读检查"}
+    Check -->|否| Stop
+    Check -->|是| Run["唯一运行路径与 Provider"]
+    Run --> Log["JSON stdout 无敏感数据"]
+    Run --> Export{"OTLP 开关与可达性"}
+    Export -->|关闭或不可达| Local["本地可用，导出状态明确"]
+    Export -->|可用| Trace["Collector 与 Trace Backend"]
+    Trace --> Query["按本次 TraceID 精确回读"]
+    Run --> Exit["有界 Flush 与 Shutdown"]

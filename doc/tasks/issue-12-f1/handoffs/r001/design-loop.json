@@ -1,0 +1,271 @@
+{
+  "protocol": "intent-design-v2",
+  "task_ref": "https://github.com/hvritual/cs-biz/issues/12",
+  "revision": "r001",
+  "raw": {
+    "path": "raw-issue-12.md",
+    "sha256": "3cb46038cebc9e7b0259208d1f7535df0ebe8b31bd1ce0e62922c6323d8661fe",
+    "source_ref": "https://github.com/hvritual/cs-biz/issues/12"
+  },
+  "optimized_prompt": {
+    "path": "optimized-prompt.md",
+    "sha256": "ef81a15d5f095d24980488fd0a13048f4fb1c22a95b0c6ac662be00fcdd5f720"
+  },
+  "intent": {
+    "path": "intent.json",
+    "sha256": "18046b55313a7cd2df24979877e3717449a91df16b73fff67b877cc47f0ac9a4"
+  },
+  "trace": [
+    {
+      "requirement_id": "R1",
+      "raw_quote": "引入锁定的 Yunka 模块版本",
+      "intent_ref": "/requirements/0",
+      "acceptance_ids": [
+        "AC01"
+      ],
+      "design_refs": [
+        "requirements.md",
+        "design.md",
+        "journey.md"
+      ]
+    },
+    {
+      "requirement_id": "R2",
+      "raw_quote": "proto→OperationPlan/OpenAPI/TS Client/Adapter/AssemblyPlan",
+      "intent_ref": "/requirements/1",
+      "acceptance_ids": [
+        "AC02"
+      ],
+      "design_refs": [
+        "requirements.md",
+        "design.md",
+        "journey.md"
+      ]
+    },
+    {
+      "requirement_id": "R3",
+      "raw_quote": "source/dependency/assembly 检查真实通过",
+      "intent_ref": "/requirements/2",
+      "acceptance_ids": [
+        "AC03"
+      ],
+      "design_refs": [
+        "requirements.md",
+        "design.md",
+        "journey.md"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "raw_quote": "复用 `framework/observability.Provider`",
+      "intent_ref": "/requirements/3",
+      "acceptance_ids": [
+        "AC04"
+      ],
+      "design_refs": [
+        "requirements.md",
+        "design.md",
+        "journey.md"
+      ]
+    },
+    {
+      "requirement_id": "R5",
+      "raw_quote": "可在本地按 TraceID 找到 span",
+      "intent_ref": "/requirements/4",
+      "acceptance_ids": [
+        "AC05"
+      ],
+      "design_refs": [
+        "requirements.md",
+        "design.md",
+        "journey.md"
+      ]
+    },
+    {
+      "requirement_id": "R6",
+      "raw_quote": "确定进程 Shutdown/Flush 有界行为",
+      "intent_ref": "/requirements/5",
+      "acceptance_ids": [
+        "AC06"
+      ],
+      "design_refs": [
+        "requirements.md",
+        "design.md",
+        "journey.md"
+      ]
+    },
+    {
+      "requirement_id": "R7",
+      "raw_quote": "保留现有前端与 Authz V2 仅作受控兼容",
+      "intent_ref": "/requirements/6",
+      "acceptance_ids": [
+        "AC07"
+      ],
+      "design_refs": [
+        "requirements.md",
+        "design.md",
+        "journey.md"
+      ]
+    },
+    {
+      "requirement_id": "R8",
+      "raw_quote": "CI 跑次、独立审阅、main 回读",
+      "intent_ref": "/requirements/7",
+      "acceptance_ids": [
+        "AC08"
+      ],
+      "design_refs": [
+        "requirements.md",
+        "design.md",
+        "journey.md"
+      ]
+    }
+  ],
+  "knowledge": [
+    {
+      "path": "backend/go.mod",
+      "commit": "e05569db8332ad395911d53b667830989923019d",
+      "sha256": "6c03418ff1ceac02bc9e710a8360c1016237f14348f31ea35ff830227245a435",
+      "locator": "go 1.23.0",
+      "relevance": "实际Consumer尚未接入",
+      "status": "documented",
+      "use": "background"
+    },
+    {
+      "path": "backend/ci/check.sh",
+      "commit": "e05569db8332ad395911d53b667830989923019d",
+      "sha256": "763dff90308e28a3167772eed670028f717dfbce51a68602fe0d084bfbffd905",
+      "locator": "全部命令",
+      "relevance": "当前仅authz unit/race/vet",
+      "status": "documented",
+      "use": "background"
+    },
+    {
+      "path": "doc/tasks/issue-11-f0/handoffs/r005/approval.json",
+      "commit": "e05569db8332ad395911d53b667830989923019d",
+      "sha256": "a38a4dcbb4d53437dba2c561512294019ea4da519d9aac03af422a24fabf2d43",
+      "locator": "Human确认与内容摘要",
+      "relevance": "批准F0完整版本而非F1实现",
+      "status": "accepted",
+      "use": "constraint"
+    },
+    {
+      "path": "doc/tasks/issue-11-f0/rounds/r005/versions.md",
+      "commit": "e05569db8332ad395911d53b667830989923019d",
+      "sha256": "4460ddc5d1b295c32b8ffb5bb5d2f0a048978c501a5251cadb58c0ddf9c75c64",
+      "locator": "固定输入与实际制品",
+      "relevance": "F1锁定来源；结合真实批准读取",
+      "status": "documented",
+      "use": "background"
+    },
+    {
+      "path": "doc/architecture/adr/0003-yunka-f0-consumer-contract.md",
+      "commit": "e05569db8332ad395911d53b667830989923019d",
+      "sha256": "a72454a882eb74087ddab54f573b4595ec97115728f815a33ef89be7336fcf95",
+      "locator": "单一权威/阶段出口",
+      "relevance": "封存proposed叙述由同版批准补充，不改原ADR",
+      "status": "proposed",
+      "use": "background"
+    }
+  ],
+  "conditions": [
+    {
+      "id": "C1",
+      "status": "available",
+      "blocking": false,
+      "source_ref": "F0 r005 approval+versions; 制品使用前必须重新核验"
+    },
+    {
+      "id": "C2",
+      "status": "missing",
+      "blocking": false,
+      "source_ref": "本会话command -v docker/protoc无输出；阻塞本地运行证据，非设计",
+      "owner": "executing_model",
+      "next_action": "在隔离Linux CI执行并提供本机复现入口；失败不资格化"
+    },
+    {
+      "id": "C3",
+      "status": "unknown",
+      "blocking": false,
+      "source_ref": "F0 D2/D3；BLOCKED_F3，非F1设计",
+      "owner": "Human",
+      "next_action": "F3前确认真实DB/IdP与测试资源"
+    },
+    {
+      "id": "C4",
+      "status": "not_applicable",
+      "blocking": false,
+      "source_ref": "本轮范围",
+      "reason": "没有UI变更/业务批量对象/生产部署"
+    }
+  ],
+  "preferences": [
+    {
+      "id": "P1",
+      "status": "available",
+      "blocking": false,
+      "source_ref": "既有用户要求：系统能自动完成则自动，Human聚焦核心判断；由solution.md限定权限"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D2",
+      "trigger": "F1缺同版实现方案确认",
+      "question": "采用只读本地技术探针完成F1，业务API/DB留后续阶段？",
+      "options": [
+        "A:固定Consumer+只读探针+本地遥测",
+        "B:等待业务API/DB决策齐全后重新安排F1"
+      ],
+      "recommendation": "A:固定Consumer+只读探针+本地遥测",
+      "answer": "A:固定Consumer+只读探针+本地遥测",
+      "answer_ref": "approval.json; actual conversation 2026-10-16T07:26:29+08:00"
+    }
+  ],
+  "frontend_change": false,
+  "artifacts": {
+    "solution.md": "f54ddce87d7e3356b72e2cc125c5a61873c8dd00d80aa0fe1a1f1c656cffa13a",
+    "requirements.md": "deffee6697afddfc215750611a123835d14f869ab7676e33edb53fbb76b23ebb",
+    "design.md": "9d783fd33d2916c534c6d7621e4d63a0e5b431f52f561ab49356ae3c8fb037b5",
+    "journey.md": "b2e854e1325cf14ab01af37d37673a87b0c01646fd2c788ba43a7b7b7ef96e4a",
+    "flow.mmd": "735817e33ef7400f4ce0a58d69656d9f231782c9a48a00f6cf721d1599655c85"
+  },
+  "preview": {
+    "kind": "not_applicable",
+    "reason": "纯backend基础设施与生成协议，无现有前端设计变更；技术流程不冒充产品demo"
+  },
+  "handoff": {
+    "owner": "executing_model_outside_workflow",
+    "allowed_paths": [
+      "backend/**",
+      "doc/contracts/**",
+      "doc/tasks/issue-12-f1/**",
+      ".github/workflows/quality.yml"
+    ],
+    "forbidden_paths": [
+      "frontend/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/architecture/adr/0003-yunka-f0-consumer-contract.md",
+      "doc/ci/**",
+      ".agents/**"
+    ],
+    "acceptance_ids": [
+      "AC01",
+      "AC02",
+      "AC03",
+      "AC04",
+      "AC05",
+      "AC06",
+      "AC07",
+      "AC08"
+    ],
+    "execution_authority_ref": "本轮用户开始下一独立任务；待r001同版设计确认，必要workflow接线不能改变门禁语义",
+    "auto_execute": false
+  },
+  "review": {
+    "decision": "approved",
+    "scope": "design",
+    "revision": "r001",
+    "record_ref": "approval.json",
+    "content_sha256": "1bcc46be4b664865c10a7ad1993fd56eedfd5ef3e946e9ffa53181aebb447925"
+  }
+}

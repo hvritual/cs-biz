@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 5,
+  "files": [
+    {
+      "name": "runtime/v1/runtime.proto",
+      "package": "runtime.v1",
+      "syntax": "proto3",
+      "goPackage": "github.com/hvritual/cs-biz/backend/contracts/runtime/v1;runtimev1",
+      "externalDependencies": [
+        "yunka/dsl/v1/options.proto"
+      ],
+      "domain": {
+        "name": "runtime",
+        "version": "v1"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "name": "InspectRequest",
+      "fullName": "runtime.v1.InspectRequest",
+      "sourceFile": "runtime/v1/runtime.proto",
+      "fields": null,
+      "dto": {
+        "kind": "input"
+      }
+    },
+    {
+      "name": "InspectResponse",
+      "fullName": "runtime.v1.InspectResponse",
+      "sourceFile": "runtime/v1/runtime.proto",
+      "fields": [
+        {
+          "name": "status",
+          "jsonName": "status",
+          "number": 1,
+          "kind": "scalar",
+          "type": "string"
+        }
+      ],
+      "dto": {
+        "kind": "output"
+      }
+    }
+  ],
+  "enums": null,
+  "services": [
+    {
+      "name": "RuntimeService",
+      "fullName": "runtime.v1.RuntimeService",
+      "sourceFile": "runtime/v1/runtime.proto",
+      "domain": "runtime",
+      "application": {
+        "name": "probe"
+      },
+      "methods": [
+        {
+          "name": "Inspect",
+          "fullName": "runtime.v1.RuntimeService.Inspect",
+          "sourceFile": "runtime/v1/runtime.proto",
+          "request": "runtime.v1.InspectRequest",
+          "response": "runtime.v1.InspectResponse",
+          "operation": {
+            "id": "runtime.inspect",
+            "useCase": "inspect",
+            "permissionMode": "all",
+            "public": true,
+            "execution": {
+              "transaction": "none",
+              "idempotency": "none"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "profiles": [
+    {
+      "name": "linux",
+      "goos": "linux",
+      "goarch": "amd64",
+      "cgo": false,
+      "tags": []
+    }
+  ],
+  "modules": [
+    {
+      "path": ".",
+      "workspace": "off",
+      "profiles": [
+        "linux"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "name": "project",
+      "path": ".",
+      "kind": "production",
+      "allow": [],
+      "allowExternal": true
+    }
+  ]
+}

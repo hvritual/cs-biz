@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "identity": "root",
+  "applications": [
+    {
+      "id": "runtime/probe",
+      "domain": "runtime",
+      "name": "probe",
+      "evidence": {
+        "ownership": "reused",
+        "source": "manifest.json",
+        "ref": "applications/runtime/probe"
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "runtime.inspect",
+      "application": "runtime/probe",
+      "bindings": [
+        {
+          "operationId": "runtime.inspect",
+          "transport": "rpc",
+          "index": 0,
+          "evidence": {
+            "ownership": "reused",
+            "source": "operation-plans.json",
+            "ref": "operations/runtime.inspect/bindings/rpc"
+          }
+        }
+      ],
+      "evidence": {
+        "ownership": "reused",
+        "source": "operation-plans.json",
+        "ref": "operations/runtime.inspect"
+      }
+    }
+  ],
+  "modules": [
+    {
+      "name": "runtime",
+      "version": "v0.1.0",
+      "requirements": {},
+      "evidence": {
+        "ownership": "reused",
+        "source": "generated-module-source",
+        "ref": "runtime/zz_yunka_module_gen.go"
+      }
+    }
+  ],
+  "targets": [
+    {
+      "name": "root",
+      "applications": [
+        "runtime/probe"
+      ],
+      "modules": [
+        "runtime"
+      ],
+      "externalOperations": [
+        "runtime.inspect"
+      ],
+      "evidence": {
+        "ownership": "derived",
+        "source": "assemblyplan",
+        "ref": "targets/root"
+      }
+    }
+  ]
+}
