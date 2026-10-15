@@ -39,3 +39,6 @@ Executor must not silently edit approved Intent, Design, Acceptance, CI judges, 
 
 ## Handoff
 Use the project task template. Report: original required outcomes, approved scope changes, completed AC with evidence, remaining AC, candidate and real qualification, blocker, one authorized next action.
+
+## Original-format proof adapter
+For v0.4 `build-loop.json` use `python3 doc/ci/check_build_v04.py --task .sdlc/tasks/<id>`. It checks current Design/Plan bindings, R/AC coverage, TDD phase identities, allowed paths, final candidate and declared CI references, with cs-biz non-TDD modes. The result is `PASS_STATIC_ONLY`, not authenticated CI or independent review. Project No-Stall remains the real qualification authority. See `doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md`.
