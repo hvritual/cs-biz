@@ -1,0 +1,55 @@
+name: O1-P1 Yunka dependency qualification
+
+# READ-ONLY CI: the tidy output is printed for a reviewed GitHub commit;
+# no CI worker can auto-commit, auto-merge, or upload a production secret.
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/observability-yunka-dependency-probe.yml'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/observability-yunka-dependency-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: o1-p1-deps-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  yunka-dependencies:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Go toolchain from Consumer
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
+        with:
+          go-version-file: backend/go.mod
+          cache: false
+      - name: Resolve immutable Yunka Consumer dependencies
+        working-directory: backend
+        run: |
+          set -euo pipefail
+          go mod tidy
+          echo 'BEGIN_LOCK_GO_MOD'
+          base64 -w0 go.mod
+          echo
+          echo 'END_LOCK_GO_MOD'
+          echo 'BEGIN_LOCK_GO_SUM'
+          base64 -w0 go.sum
+          echo
+          echo 'END_LOCK_GO_SUM'
+      - name: Go tests, race and static checks against resolved graph
+        working-directory: backend
+        run: |
+          go test -count=1 ./...
+          go test -race -count=1 ./internal/platform/traceprobe/...
+          go vet ./...
