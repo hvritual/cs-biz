@@ -1,0 +1,189 @@
+# cs-biz 身份/成员旅程可执行逻辑契约（候选）
+# 本文件是 ID-01/ID-02 的状态与验收源，**不是**已发布 OpenAPI/数据库。
+schema_version: "identity-journeys/1.0-draft"
+source:
+  target_repository: hvritual/cs-biz
+  base_commit: af021df9721d745920d4147763e895c982ee601d
+  origin_repository: hvritual/biz
+  origin_commit: a8a2368f03d8f8ce53d6adcb431fb3ba55df1184
+  source_documents:
+    - ../journeys/ID-01-member-lifecycle.md
+    - ../journeys/ID-02-login-workspace.md
+
+authority:
+  global_account: backend.access.account
+  tenant_membership: backend.access.membership
+  credential: approved_idp_and_access
+  account_session: backend.bff
+  tab_workspace_context: backend.bff_and_access
+  action_authorization: backend.internal.platform.authz
+  resource_scope: business_domain_repository
+  application_availability: tenant_application_domain
+  ui_navigation: server_access_projection_with_local_view_registry
+
+status_axes:
+  tenant: [pending, active, suspended, closed]
+  membership: [invited, active, suspended, removed]
+  account: [active, disabled]
+  activation: [pending, consumed, expired, revoked]
+  account_session: [valid, expired, revoked]
+  workspace_context: [none, selected, invalidated]
+  delivery: [queued, accepted, delivered, failed, unknown]
+
+member_transitions:
+  - id: member.invite
+    from: absent
+    to: invited
+    actor_permission: tenant.member.create
+    requires: [trusted_tenant, valid_account_link, valid_role_scope, idempotency_key]
+    effects: [membership_write, activation_challenge, protected_outbox, audit]
+    readback: [membership_status, membership_version, notification_state]
+  - id: member.activate
+    from: invited
+    to: active
+    requires: [one_time_activation_proof, active_tenant, current_invite, valid_credential_policy]
+    effects: [consume_challenge, membership_write, audit]
+    readback: [membership_status, membership_version]
+  - id: member.suspend
+    from: active
+    to: suspended
+    actor_permission: tenant.member.manage
+    requires: [reason, expected_version, no_self_deactivate, last_owner_protected]
+    effects: [membership_write, revoke_target_tenant_contexts, audit]
+    readback: [membership_status, membership_version]
+  - id: member.resume
+    from: suspended
+    to: active
+    actor_permission: tenant.member.manage
+    requires: [expected_version, valid_current_roles_and_scope]
+    effects: [membership_write, audit]
+    readback: [membership_status, membership_version]
+    rule: revoked_sessions_never_resurrect
+  - id: member.remove
+    from: [invited, active, suspended]
+    to: removed
+    actor_permission: tenant.member.manage
+    requires: [reason, expected_version, no_self_deactivate, last_owner_protected]
+    effects: [membership_write, revoke_target_tenant_contexts, audit]
+    readback: [membership_status, membership_version]
+  - id: member.restore
+    from: removed
+    to: active
+    actor_permission: tenant.member.manage
+    requires: [reason, expected_version, reevaluate_roles_and_business_scope, current_membership_policy]
+    effects: [membership_write, audit]
+    readback: [membership_status, membership_version]
+    rule: fresh_login_required
+
+login_entry:
+  account_verified_required: true
+  privacy_gate_required: true
+  account_session_cookie: [HttpOnly, Secure, SameSite]
+  token_in_browser_persistent_storage: forbidden
+  eligible_tenant_rule: account_active_and_membership_active_and_tenant_active
+  choices:
+    "0": no_tenant_recovery
+    "1": direct_unique_tenant
+    "2+": explicit_choice
+  last_used_tenant_is_authority: false
+  tab_scoped_workspace_context: true
+  tenant_switch_cannot_change_other_tabs: true
+  platform_actor_has_implicit_tenant_membership: false
+  protected_request:
+    requires: [account_session, current_tab_workspace_context, current_active_membership, current_operation_grant]
+    when_applicable: [module_availability, business_resource_scope, object_state, quota]
+    mutation: [csrf, stable_idempotency_key, expected_version_if_applicable]
+  session_revocation:
+    current_tab_logout: revoke_current_account_session_according_to_approved_policy
+    membership_suspend_remove: invalidate_target_tenant_workspace_contexts
+    account_password_rotate: revoke_all_account_sessions
+    restore_membership: cannot_resurrect_revoked_sessions
+
+critical_invariants:
+  - account_identity_not_same_as_membership
+  - current_tenant_never_from_untrusted_header_alone
+  - operation_scope_bound_to_its_own_permission
+  - module_entitlement_not_same_as_iam_grant
+  - platform_actor_not_tenant_owner
+  - tenant_a_member_action_does_not_mutate_tenant_b_relationship
+  - last_owner_cannot_be_deactivated_or_removed
+  - password_otp_activation_secret_never_returned_to_manager
+  - result_accepted_not_equal_to_business_completed
+  - unknown_external_write_result_must_readback_before_retry
+  - no_stale_tenant_data_visible_after_workspace_switch
+  - no_real_provider_never_claim_delivered
+
+errors:
+  INVALID_CREDENTIALS: { category: unauthenticated, recovery: verify_identifier_or_recover }
+  TENANT_CHOICE_REQUIRED: { category: needs_choice, recovery: choose_eligible_tenant }
+  NO_ACTIVE_MEMBERSHIP: { category: tenantless, recovery: contact_tenant_admin_or_switch_account }
+  MEMBER_SUSPENDED: { category: forbidden, recovery: choose_another_tenant_or_appeal }
+  LAST_OWNER: { category: conflict, recovery: appoint_another_active_owner }
+  VERSION_CONFLICT: { category: conflict, recovery: refresh_compare_and_confirm }
+  WORKSPACE_CONTEXT_CHANGED: { category: conflict, recovery: refresh_server_context_before_write }
+  MODULE_INACTIVE: { category: business_unavailable, recovery: request_activation }
+  RESULT_UNKNOWN: { category: uncertain, recovery: query_stable_operation_id }
+  EXTERNAL_DELIVERY_UNAVAILABLE: { category: dependency, recovery: keep_pending_and_retry_safely }
+
+journey_tasks:
+  - id: ID-01.member-invite
+    actor: tenant_owner_or_delegate
+    object: tenant_membership
+    understand: [tenant_name, member_identity, role_permission_scope, activation_channel]
+    action: create_invitation
+    result: [receipt, member_readback, delivery_state]
+    recovery: [idempotent_recovery, channel_unavailable, duplicate_membership, capacity]
+  - id: ID-01.member-deactivation
+    actor: tenant_owner_or_delegate
+    object: tenant_membership
+    understand: [affected_tenant, member_status, owner_protection, audit_reason]
+    action: suspend_or_remove
+    result: [membership_version, session_invalidation_readback]
+    recovery: [version_conflict, last_owner, unknown_result]
+  - id: ID-02.account-login
+    actor: account
+    object: account_session
+    understand: [identifier_method, privacy_policy, current_identity]
+    action: credential_and_consent
+    result: [account_session_verified, eligible_tenants]
+    recovery: [bad_credentials, otp_expired, throttled, provider_unavailable]
+  - id: ID-02.tenant-entry
+    actor: verified_account
+    object: tab_workspace_context
+    understand: [tenant_name, tenant_status, account_identity]
+    action: choose_when_multiple
+    result: [context_version, authoritative_permissions, allowed_route]
+    recovery: [tenantless, member_suspended, stale_context, role_revocation]
+
+acceptance_scenarios:
+  - ID01_invited_requires_activation_proof
+  - ID01_resume_does_not_resurrect_revoked_session
+  - ID01_last_owner_and_self_protected
+  - ID01_cross_tenant_shared_account_isolation
+  - ID01_lost_reply_idempotency_and_readback
+  - ID02_zero_one_multiple_active_tenants
+  - ID02_two_tabs_different_tenants_without_crosstalk
+  - ID02_stale_tenant_handle_denies_sensitive_api
+  - ID02_role_revoke_next_request_denied
+  - ID02_otp_unavailable_no_false_send_or_login
+  - ID02_auth_code_nonce_pkce_replay_denied
+
+delivery:
+  current:
+    frontend_preview: partial
+    backend_identity_rules: implemented_without_persistence
+    backend_operation_authorization: existing_kernel
+    real_idp: not_implemented
+    bff_sessions: not_implemented
+    persistent_access: not_implemented
+    real_activation_provider: not_implemented
+    cross_end_live_e2e: not_implemented
+  production_done_requires:
+    - approved_identity_and_security_policy
+    - published_openapi
+    - real_idp_bff_and_database
+    - real_membership_write_and_readback
+    - real_current_authorization_integration
+    - real_browser_api_mysql_negative_tests
+    - independent_review
+    - exact_commit_gate_evidence
