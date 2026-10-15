@@ -53,3 +53,12 @@ Read `doc/workflow/SDLC-ADOPTION.md` for stage artifact contracts and verified/u
 ## Original-SDLC artifact verification (compatibility subset)
 
 Read `doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md` before using v0.4-style `intent-spec.json`, `design-revisions.json` or `build-loop.json`. Run the matching `doc/ci/check_intent_v02.py`, `check_revision_v04.py` and `check_build_v04.py`. The prior `check_sdlc_workflow.py` uses simplified legacy task artifacts; **do not combine the two protocols** or represent static compatibility checks as externally authenticated approvals, CI, or business tests.
+
+## 当前三权与 Yunka 迁移权威（2026-10-15）
+
+- 必须在权限、Access、用户旅程、Go 操作、合同/代码生成或跨端切片前先读 `doc/architecture/adr/0002-yunka-runtime-adoption.md`、`doc/contracts/three-rights-v3.md`、`doc/tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md`、`doc/roadmap.md` 和真实关联 Issue [#10–#17](https://github.com/hvritual/cs-biz/issues/10)。
+- **事实与目标分开**：当前 main 仍用 Go V2 `internal/platform/authz` 与 S01 Mock；PR #7/#8 未合并，Yunka 是目标架构、尚未安装/执行；不能因为文档优先级覆盖已存在的 Go 代码事实。
+- Console Menu 独立；无后台 Menu、有营销 Function 仍可营销。Menu 不作后端 API 授权；Function 是 Operation 授权，Data 是该 Function 经 Guard 注入且由 Domain 真 SQL 强制的 Scope。
+- 新业务的**目标可写操作合同**为 Yunka typed PB，在 F1 导入并通过 Consumer 编译后生效；之前仍维持现有 Go V2 CI，不能同时以两套生产 `HTTPRouter/Gateway` 放行同一 Operation。
+- [Feature Onboarding V3](doc/templates/feature-onboarding-v3.yaml) 是任务审阅清单不是运行时 IAM；旧 V2 模板只用于历史切片。Yunka 工具链/真实身份/DB/Scope SQL/发布门禁在对应 Issue 中实际完成后才能标记 PASS。
+- 原 `AGENTS.md` 的独立授权、Desktop 规范、Skill/No-Stall 门禁、不可静默合并/部署等所有现有要求继续生效。

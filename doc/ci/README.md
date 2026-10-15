@@ -37,3 +37,7 @@ S01 已增加前端真实 job；S02/S03 引入后端与跨端运行代码时继�
 ## Fast Gate / Full Gate (2026-10)
 
 Read [No-Stall Delivery Gates](NO-STALL-GATES.md). The fast path is `bash doc/ci/check.sh --fast`; `bash doc/ci/check.sh --full` (default) is reserved for qualification. On UI changes, use a targeted browser probe before Full. The GitHub Fast push workflow and Full review-ready PR workflow are deliberately separated; PRs left Draft are not Full-qualified. Old descriptions of unconditional push+PR full E2E no longer apply.
+
+## 2026-10-15 门禁现状与 Yunka 目标
+
+此页早期部分描述 S00/S01 阶段，Go V2 的 `backend/ci/check.sh` 已在 main 并可执行，不能再说“后端门禁不存在”。[No-Stall](NO-STALL-GATES.md) 是当前有效的 Fast→Targeted→Full 过程；[PR #9](https://github.com/hvritual/cs-biz/pull/9) 仅提议 Full 人工触发且仍 open/unmerged，不能写作已实行。Yunka 消费者的 `generate/check`、source/assembly/contract 零漂移、实际 HTTP/gRPC + MySQL 权限验收属于 [F1–F6](../tasks/YUNKA-MIGRATION-F0-F6.md) **未来新增门禁**，目前不可计作 PASS。

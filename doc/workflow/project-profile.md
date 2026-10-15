@@ -31,3 +31,7 @@ This file binds shared task-progression and sdlc-build methods to **hvritual/cs-
 
 ## Pilot acceptance
 First pilot is one **existing approved and genuinely unverified** slice. Audit before selection. If the candidate outcome is already verified, record it and select the next missing AC. Do not create a fake defect. No business code edits under this workflow-only integration change.
+
+## Yunka 功能权限阶段的项目绑定（目标，还未导入）
+
+当前任务和审批源仍是 Issue/Task + `AGENTS.md` + 原 SDLC Skill；[Issue #10](https://github.com/hvritual/cs-biz/issues/10) 有独立 F0–F6 子 Issue。若任务涉及新增权限或 Go Operation，应阅读 [Access V3](../contracts/three-rights-v3.md) 与 [Yunka Developer SOP](../tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)：Intent/Design 先确认 Actor/入口、Menu/Function/Data 与负例，Build 先产生 RED，F1 真实引入后补 Yunka `generate/check` 与真 DB/Scope，再走 cs-biz Fast/Targeted/Full。不得自发修改 Yunka 框架库来规避消费者缺口；Go 1.25.13、protoc 3.21.12 和模块锁需经 F0/F1 验证。

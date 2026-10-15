@@ -1,4 +1,9 @@
 # cs-biz V2 功能接入审查索引（非权限策略、非实时 IAM 配置）
+
+# legacy-v2: 本模板是 cs-biz 旧 Go Registry/HTTPRouter 功能接入历史基线，不是 Yunka 目标的当前模板。
+# 未来切片使用 feature-onboarding-v3.yaml 与 doc/tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md。
+# 保留本文件原始流程字段以供 PR #4 等旧工作流回读；本模板不授予运行时权限。
+
 # 仅引用 canonical Operation/Permission 以及真实证据，不自行授权。
 schema_version: 2
 kind: feature_onboarding_review

@@ -1,5 +1,8 @@
 # S00：新仓库结构与 SaaS 设计基线
 
+> **Historical S00 record（2026-10-15 校正）：** 该任务发生于仓库建立阶段，其中 PR #1 未合并/未来目录的文字只对应当时快照；现 PR #1 已合并 main。当前结构、Go V2、三权和 Yunka 条件引入路线以 [Roadmap](../roadmap.md)、[ADR-0002](../architecture/adr/0002-yunka-runtime-adoption.md) 为准。保留原任务背景与证据，不改写历史实测结果。
+
+
 ## 范围与来源
 
 - 目标仓库：[hvritual/cs-biz](https://github.com/hvritual/cs-biz)。
