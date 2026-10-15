@@ -24,10 +24,7 @@ Full adds the actual production build and all Playwright journeys.
 - `.github/workflows/frontend.yml`: **Frontend Fast Gate**, automatic on
   internal branch push and external PR, no browser installation. A duplicate
   PR hook for an internal push is skipped.
-- `.github/workflows/frontend-full.yml`: **Frontend Full Gate**, only when
-  PR is ready for review (not Draft); includes browser and artifact uploads.
-  Stale attempts cancel on new PR revisions. Manual dispatch requires workflow
-  to be present on default branch.
+- `.github/workflows/frontend-full.yml`: **Frontend Full Gate** is **Human-only manual workflow_dispatch**, never PR/Push-triggered. Human chooses Actions → Frontend Full Gate → Run workflow, selects **main** and provides the open non-Draft `pr_number` and exact 40-character `candidate_sha`. A trusted preflight checks PR head; independent receipt signer checks it again after successful tests. Configure required reviewers and main-only branch restriction on the `full-ci-human-approval` environment in repository Settings; this cannot be done by the Skill text. The Full run receipt is an artifact, not a PR-head required status; read it independently before merge. Without a trusted attestation bridge, GitHub required-check rules for the previous PR-triggered `frontend-validation` job need admin reconciliation; do not weaken merge safety.
 - `.github/workflows/repository.yml`: cheap structure validation; duplicate
   internal PR job skipped; external fork PRs are checked.
 
