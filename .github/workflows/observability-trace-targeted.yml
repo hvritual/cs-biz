@@ -1,0 +1,86 @@
+name: Observability Trace Targeted
+
+# One live Browser → Go probe; never the Human-only Full Browser gate.
+on:
+  push:
+    paths:
+      - 'backend/cmd/traceprobe/**'
+      - 'backend/internal/platform/traceprobe/**'
+      - 'backend/ci/check.sh'
+      - 'frontend/apps/console/src/platform/trace-request*'
+      - 'frontend/tests/trace-smoke/**'
+      - 'frontend/ci/playwright-trace.config.ts'
+      - 'frontend/package.json'
+      - '.github/workflows/observability-trace-targeted.yml'
+  pull_request:
+    paths:
+      - 'backend/cmd/traceprobe/**'
+      - 'backend/internal/platform/traceprobe/**'
+      - 'backend/ci/check.sh'
+      - 'frontend/apps/console/src/platform/trace-request*'
+      - 'frontend/tests/trace-smoke/**'
+      - 'frontend/ci/playwright-trace.config.ts'
+      - 'frontend/package.json'
+      - '.github/workflows/observability-trace-targeted.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: obs-trace-targeted-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: '1'
+  DO_NOT_TRACK: '1'
+
+jobs:
+  trace-targeted:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Source evidence
+        run: git rev-parse HEAD HEAD^{tree}
+      - name: Go
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
+        with:
+          go-version-file: backend/go.mod
+          cache: false
+      - name: Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - name: Activate pinned package manager
+        working-directory: frontend
+        run: |
+          corepack enable
+          corepack install
+      - name: Install locked frontend dependencies
+        working-directory: frontend
+        run: corepack pnpm install --frozen-lockfile
+      - name: Actual Go probe tests
+        working-directory: backend
+        run: go test -race -count=1 ./internal/platform/traceprobe/...
+      - name: Install Chromium for the single smoke
+        working-directory: frontend
+        run: corepack pnpm exec playwright install --with-deps chromium
+      - name: Real Chromium to live localhost Go
+        working-directory: frontend
+        run: corepack pnpm test:e2e:trace
+      - name: Retain one-scenario evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: observability-trace-targeted-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            frontend/test-results-trace/
+            frontend/playwright-report-trace/
+          retention-days: 7
+          if-no-files-found: warn
