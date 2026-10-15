@@ -19,6 +19,8 @@ on:
       - "frontend/ci/check-delivery-policy.mjs"
       - "doc/ci/manual_full_dispatch.py"
       - "doc/ci/test_manual_full_dispatch.py"
+      - "doc/ci/check_human_full_policy.py"
+      - "doc/ci/test_human_full_policy.py"
       - "doc/ci/NO-STALL-GATES.md"
       - "frontend/ci/README.md"
       - "AGENTS.md"
@@ -40,6 +42,8 @@ on:
       - "frontend/ci/check-delivery-policy.mjs"
       - "doc/ci/manual_full_dispatch.py"
       - "doc/ci/test_manual_full_dispatch.py"
+      - "doc/ci/check_human_full_policy.py"
+      - "doc/ci/test_human_full_policy.py"
       - "doc/ci/NO-STALL-GATES.md"
       - "frontend/ci/README.md"
       - "AGENTS.md"
@@ -71,4 +75,6 @@ jobs:
       - name: Manual Full CI policy and negative fixtures
         run: |
           python3 -m unittest discover -s doc/ci -p 'test_manual_full_dispatch.py' -v
+          python3 doc/ci/check_human_full_policy.py
+          python3 -m unittest discover -s doc/ci -p 'test_human_full_policy.py' -v
           node frontend/ci/check-delivery-policy.mjs
