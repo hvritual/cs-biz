@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/hvritual/yunka.io/framework/observability"
 )
@@ -107,4 +108,45 @@ func TestYunkaInvalidTraceAndRemoteCallFailClosed(t *testing.T) {
 	if w.Code != http.StatusForbidden {
 		t.Fatalf("foreign origin not rejected: %d", w.Code)
 	}
+}
+
+
+// A failed telemetry destination cannot be allowed to turn a business-safe
+// HTTP response into a failed request, or suppress the required stdout log.
+// Export failure is an operational signal, not a gateway auth decision.
+func TestUnavailableCollectorPreservesHTTPAndStdout(t *testing.T) {
+	t.Setenv("OTEL_TRACES_EXPORTER", "otlp")
+	t.Setenv("OTEL_METRICS_EXPORTER", "none")
+	t.Setenv("OTEL_EXPORTER_OTLP_PROTOCOL", "http/protobuf")
+	t.Setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("OTEL_EXPORTER_OTLP_TIMEOUT", "1000")
+	t.Setenv("OTEL_BSP_SCHEDULE_DELAY", "100")
+
+	var output bytes.Buffer
+	p, err := observability.New(context.Background(), observability.Config{
+		ServiceName: "cs-biz-traceprobe-offline-test",
+		Environment: "test",
+		LogOutput: &output,
+		IncludeIdentity: false,
+		InstallGlobal: false,
+	})
+	if err != nil {
+		t.Fatalf("collector outage must not block provider startup: %v", err)
+	}
+	req := requestFor("/__dev/otel")
+	req.Header.Set("traceparent", validParent)
+	rec := httptest.NewRecorder()
+	NewHandlerWithOTel(&output, p).ServeHTTP(rec, req)
+	if rec.Code != http.StatusOK || rec.Header().Get("X-Trace-ID") != "0123456789abcdef0123456789abcdef" {
+		t.Fatalf("collector outage changed HTTP outcome: %d", rec.Code)
+	}
+	if !strings.Contains(output.String(), "\"msg\":\"traceprobe.otel.success\"") ||
+		!strings.Contains(output.String(), "\"trace_id\":\"0123456789abcdef0123456789abcdef\"") {
+		t.Fatalf("stdout trace lost without collector: %s", output.String())
+	}
+	closeCtx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	// A bounded failure during flush is expected; it cannot erase stdout or
+	// retroactively change the already-committed HTTP response.
+	_ = p.Shutdown(closeCtx)
 }
