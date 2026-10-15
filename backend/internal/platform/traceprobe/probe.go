@@ -16,6 +16,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/hvritual/yunka.io/framework/observability"
 )
 
 const (
@@ -94,7 +96,7 @@ func allowedOrigin(origin string) bool {
 	return origin == "http://127.0.0.1:5777" || origin == "http://127.0.0.1:5778"
 }
 func allowedPath(path string) bool {
-	return path == "/__dev/trace" || path == "/__dev/trace/failure" || path == "/__dev/ready"
+	return path == "/__dev/trace" || path == "/__dev/trace/failure" || path == "/__dev/otel" || path == "/__dev/otel/failure" || path == "/__dev/ready"
 }
 func isLoopbackRemote(remoteAddr string) bool {
 	host, _, err := net.SplitHostPort(remoteAddr)
@@ -108,6 +110,15 @@ func isLoopbackRemote(remoteAddr string) bool {
 // NewHandler intentionally exposes only non-business, non-authenticated probe
 // routes. The production API server must never mount this handler.
 func NewHandler(output io.Writer) http.Handler {
+	return buildHandler(output, nil)
+}
+
+// NewHandlerWithOTel uses the Yunka provider without changing P0 routes.
+func NewHandlerWithOTel(output io.Writer, provider *observability.Provider) http.Handler {
+	return buildHandler(output, provider)
+}
+
+func buildHandler(output io.Writer, provider *observability.Provider) http.Handler {
 	if output == nil {
 		output = os.Stdout
 	}
@@ -185,6 +196,10 @@ func NewHandler(output io.Writer) http.Handler {
 	})
 	mux.HandleFunc("GET /__dev/trace", run(false))
 	mux.HandleFunc("GET /__dev/trace/failure", run(true))
+	if provider != nil {
+		mux.HandleFunc("GET /__dev/otel", runWithOTel(provider, false))
+		mux.HandleFunc("GET /__dev/otel/failure", runWithOTel(provider, true))
+	}
 	return http.HandlerFunc(func(w http.ResponseWriter, request *http.Request) {
 		// Defense in depth even if a caller accidentally binds another listener.
 		if !isLoopbackRemote(request.RemoteAddr) {
