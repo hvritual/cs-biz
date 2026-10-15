@@ -14,6 +14,7 @@ __pycache__/
 dist.zip
 test-results/
 playwright-report/
+.e2e/
 # Checked-in application defaults contain no credentials.
 !frontend/apps/console/.env
 !frontend/apps/console/.env.development

@@ -2,10 +2,10 @@
 
 ## 状态与来源
 
-- 当前：**DESIGN_HANDOFF / WAITING_HUMAN_FULL**；r005 完整设计已由 Human 确认，Issue [#11](https://github.com/hvritual/cs-biz/issues/11) 保持 open，交付门禁尚未齐全。
+- 当前：**DESIGN_HANDOFF / READY_FOR_DELIVERY**；r005 完整设计已确认，本轮按已生效风险门禁完成 PR #27 文档交付收口。Issue [#11](https://github.com/hvritual/cs-biz/issues/11) 仅在精确候选门禁、合并、main 回读及合并后检查通过后关闭；最终状态见 PR/Issue 实际回执。
 - 用户本次原文：“启用工作流，开始完成cs-biz仓库里面的issue”。按当前工作流选择依赖链起点，一次一个独立 Issue；其他 11 个开放 Issue 全部保留在 [本轮 intake 快照](issue-11-f0/rounds/r001/intake-snapshot.json)。
-- main 基线：`da5494d03c362ab873465c1793e7aba7e4e3a7cc`；分支 `codex/issue-11-f0-design`；2026-10-15 Asia/Shanghai。
-- 当前授权：当前 Issue 的检索、设计/文档、验证和可审阅候选；不扩大为 F1 Runtime、其他 PR 合并、Full、生产数据或部署权限。
+- 本轮交付 main 基线：`f1d06cffa998824c5e393253aa79ee3e46fd35ca`；既有设计/交接源 `c5ff66bd817380000fc14b4253bf03273171c7f7`，原设计研究基线 `da5494d03c362ab873465c1793e7aba7e4e3a7cc` 保留其历史身份；继续使用 PR #27 / `codex/issue-11-f0-design`。
+- 当前授权：用户再次要求启用工作流推进 Issue，结合既有推送/合并授权和现行风险门禁，执行本 F0 的文档核验、合并、main 回读与满足验收后的 Issue 关闭；不扩大为 F1 Runtime、其他功能 PR、生产数据或部署权限。
 - 既有工作：PR #18 是路线/方向草案，不重复搬入全库；#7/#8 仅冻结为未合并候选事实。
 
 ## 目标、成果和同轮设计包
@@ -33,7 +33,7 @@ R1–R8 / AC-01–AC-08 由 [本轮需求](issue-11-f0/rounds/r005/requirements.
 
 ## Human 决策与继续条件
 
-D1 已由 Human 选择 A，详见 [r002 决策与资格核实](issue-11-f0/rounds/r002/qualification.md)。当前不重复征询 D1；当前上游限定资格见r005；完整方案审阅、制品使用条件和本项目后续准入分别保留。可提供 D2/D3 的既有组织条件，资源缺口有明确 Owner/阶段。完整本轮确认之后再建立 DESIGN_HANDOFF，并由模型在已批准范围内、工作流之外接手真实实施与门禁。缺 Human Full 决策、独立审阅或合并权限时保持实际等待，不延用旧豁免。
+D1 已由 Human 选择 A，详见 [r002 决策与资格核实](issue-11-f0/rounds/r002/qualification.md)，无需重复决定。完整同版本确认与交接已经记录；D2/D3 的组织资源缺口保留 Owner/阶段。模型在批准范围内、工作流之外核实并交付；按 [现行风险门禁](../ci/RISK-BASED-GATES.md) 分类、核验实际结果和独立精确回执，本轮纯文档无需 Human Full 决定或旧豁免。材料性设计选择、实际保护及失败/缺失证据仍阻断。
 
 ## 交付记录
 
@@ -57,4 +57,4 @@ Human 原文“按照推荐A进行推进”绑定首轮 PR #27 `8065dade6348743e
 
 [当前资格与下一动作](issue-11-f0/rounds/r005/qualification.md) 已记录Yunka #245/#243整合与候选/独立main全门禁通过、#244完成关闭、实际制品摘要/平台/安装根/到期条件。r003/r004的待决或待资格措辞是历史检查点，当前不再阻塞于Go决定或上游资格。
 
-完整方案、设计、需求、技术旅程/图、46条来源与全部R/AC已整合为r005。Human 已确认该完整版本，原r001–r005不改。当前等待最终候选的独立审阅/Full决定，未进入F1、未合并本PR、不关闭#11。跨仓库前置修复来自单独授权，其完成不扩大本F0的消费仓代码范围。
+完整方案、设计、需求、技术旅程/图、46条来源与全部R/AC已整合为r005。Human 已确认该完整版本，原r001–r005及同版交接不改。原“等待 Human Full”已被后续风险门禁取代；当前交付条件与逐项验收见 [交付核验](issue-11-f0/delivery/closure.md)。跨仓库前置修复来自单独授权，其完成不扩大本F0的消费仓代码范围；未进入 F1。

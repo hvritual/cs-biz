@@ -16,6 +16,7 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   reporter: [
     ['list'],
+    ['json', { outputFile: process.env.PLAYWRIGHT_JSON_OUTPUT_FILE || resolve(frontendRoot, 'test-results/legacy-results.json') }],
     ['html', { outputFolder: process.env.PLAYWRIGHT_REPORT_DIR || resolve(frontendRoot, 'playwright-report'), open: 'never' }],
   ],
   use: {

@@ -39,6 +39,10 @@
 
 ## Human Full CI 决策（仅引用真实 GitHub 记录）
 
+当前请优先记录 `doc/ci/RISK-BASED-GATES.md` 的 base/head/tier、真实所选 job、quality-gate 和 receipt、内容审阅、main 回读。自动风险门禁通过后不再要求以下逐 PR Human Full/豁免字段；它们仅用于可选手动诊断或真实例外。Human 设计/价值/不可逆事项审批仍分别保留。
+
+先按 `doc/ci/DOCS-AUTO-DELIVERY.md` 分类：符合条件的文档 PR 记录 base/head、分类/内容核验及适用检查，使用 DOCS_AUTO_QUALIFIED / NOT_REQUIRED_DOCS，无需 Human 审核或豁免。以下 Human 决策字段仅适用于非文档自动交付候选。设计确认与产品决定不在豁免范围内。
+
 - 决策：RUN_FULL / WAIVE_FULL（仅严格限定的治理/文档/Skill 类）/ DEFER。
 - PR 号、完整 head SHA、Human 在 GitHub 的实际身份与批准记录：
 - RUN_FULL：主分支手动 Run ID / attempt、Frontend Full 结果、独立 receipt 与测试环境：
@@ -63,7 +67,7 @@ Before a frontend implementation, read **doc/design/desktop-ui.md**. Record UI p
 
 ## Required delivery gate for any new frontend task
 
-Use **doc/ci/NO-STALL-GATES.md**. Record the smallest failing assertion and source ownership; the Fast Gate outcome; targeted Desktop verification for visible UI work; then the frozen head SHA and the **Human-triggered Full Gate** evidence (dispatching actor, PR number, exact SHA, run ID/attempt, approved environment, independent receipt and conclusion). Ready for review does not start Full. No Human Full decision/receipt means awaiting Human action; an exact-SHA authorized governance waiver is recorded separately as HUMAN_WAIVED, never PASS. No per-push full-browser validation, unverified test changes, duplicate CI conclusions or merging a red/pending/unavailable Full Gate. GitHub branch protection requires admin configuration and cannot be inferred from a successful workflow.
+Use **doc/ci/RISK-BASED-GATES.md**. Record failing assertion/source, Fast and focused UI proof, then final exact base/head/tier, all selected jobs, browser reports/counts, independent quality receipt and review. Wait for real results, not a repeated Human dispatch. No unverified assertion changes, stale/duplicate conclusions or merging a red/pending/unavailable required gate. GitHub protection requires actual admin configuration and cannot be inferred from a successful workflow.
 
 ## Intent / Design 交接（新任务）
 

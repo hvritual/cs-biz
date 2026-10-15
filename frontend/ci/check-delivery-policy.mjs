@@ -16,14 +16,29 @@ const sources = {
   shell: load('frontend/apps/console/src/layouts/basic.vue'),
   overlay: load('frontend/apps/console/src/components/EnterpriseCenterOverlay.vue'),
   css: load('frontend/apps/console/src/styles/desktop.css'),
+  targeted: load('.github/workflows/frontend-targeted.yml'),
 };
-function problems({ pkg, fast, full, shell, overlay, css }) {
+function problems({ pkg, fast, full, shell, overlay, css, targeted }) {
   const errors = [];
   const scripts = pkg.scripts ?? {};
+  if (pkg.devDependencies?.e2e !== '0.20.0' || pkg.devDependencies?.['@e2e-dev/web'] !== '0.14.0' ||
+      scripts['test:e2e'] !== 'pnpm test:e2e:journey && pnpm test:e2e:legacy' ||
+      scripts['test:e2e:journey'] !== 'e2e run' ||
+      scripts['test:e2e:legacy'] !== 'playwright test --config ci/playwright.config.ts' ||
+      !scripts['check:fast']?.includes('pnpm check:e2e:types')) {
+    errors.push('Pinned tester-army runner, E2E type checks and retained Playwright coverage are required');
+  }
+  for (const workflow of [full, targeted]) {
+    if (!workflow.includes('corepack pnpm exec e2e-web install --with-deps chromium') ||
+        !workflow.includes('frontend/.e2e/report.json') || !workflow.includes('include-hidden-files: true') ||
+        !workflow.includes("E2E_TELEMETRY_DISABLED: '1'")) {
+      errors.push('Browser gates must install the pinned tester-army browser, disable telemetry and retain its evidence');
+    }
+  }
   if (!scripts['check:fast']?.includes('pnpm typecheck') ||
       !scripts['check:fast']?.includes('pnpm lint') ||
       !scripts['check:fast']?.includes('pnpm test:unit') ||
-      /(?:pnpm build|pnpm test:e2e)(?![:\w-])/.test(scripts['check:fast'] ?? '')) {
+      /(?:pnpm build(?![:\w-])|pnpm test:e2e|\be2e run)/.test(scripts['check:fast'] ?? '')) {
     errors.push('Fast Gate must run static/unit checks without build or E2E');
   }
   if (!scripts['check:full']?.includes('pnpm check:fast') ||
@@ -31,9 +46,9 @@ function problems({ pkg, fast, full, shell, overlay, css }) {
       !scripts['check:full']?.includes('pnpm test:e2e')) {
     errors.push('Full Gate must include fast checks, build and all E2E');
   }
-  if (scripts.check !== 'pnpm check:fast') errors.push('Default check must remain Fast; Full requires an explicit Human action');
+  if (scripts.check !== 'pnpm check:fast') errors.push('Default check must remain Fast; final candidate qualification is separate');
   if (!fast.includes('corepack pnpm check:fast') ||
-      fast.includes('playwright install') || fast.includes('corepack pnpm check:full')) {
+      fast.includes('playwright install') || fast.includes('e2e-web install') || fast.includes('corepack pnpm check:full')) {
     errors.push('Push workflow must never install a browser or run the full gate');
   }
   const fullEvents = full.slice(0, full.indexOf('\npermissions:'));
@@ -69,6 +84,12 @@ function problems({ pkg, fast, full, shell, overlay, css }) {
 const failures = problems(sources);
 // Negative fixtures: the policy checker must actually detect the old failure.
 for (const [name, broken] of [
+  ['removed retained Playwright coverage', { ...sources, pkg: { ...sources.pkg, scripts: { ...sources.pkg.scripts, 'test:e2e': 'pnpm test:e2e:journey' } } }],
+  ['missing tester-army browser', { ...sources, targeted: sources.targeted.replace('e2e-web install --with-deps chromium', 'echo missing browser') }],
+  ['missing tester-army evidence', { ...sources, full: sources.full.replace('candidate/frontend/.e2e/', 'candidate/frontend/missing-report/') }],
+  ['hidden evidence excluded by upload-artifact', { ...sources, targeted: sources.targeted.replace('include-hidden-files: true', 'include-hidden-files: false') }],
+  ['browser install in Fast', { ...sources, fast: sources.fast + '\n# e2e-web install chromium' }],
+  ['new browser journey hidden in Fast', { ...sources, pkg: { ...sources.pkg, scripts: { ...sources.pkg.scripts, 'check:fast': sources.pkg.scripts['check:fast'] + ' && pnpm test:e2e:journey' } } }],
   ['legacy 76/208 sizing', { ...sources, shell: sources.shell.replace("'is-collapsed': collapsed", "'not-collapsed': collapsed") }],
   ['full CI on each push', { ...sources, fast: sources.fast.replace('corepack pnpm check:fast', 'corepack pnpm check:full') }],
   ['missing required E2E', { ...sources, pkg: { ...sources.pkg, scripts: { ...sources.pkg.scripts, 'check:full': 'pnpm check:fast' } } }],
@@ -84,5 +105,5 @@ if (failures.length) {
   console.error('FAIL: delivery policy\n' + failures.join('\n'));
   process.exitCode = 1;
 } else {
-  console.log('PASS: automatic Fast, Human-only Full, candidate receipt, collapse tokens and negative fixtures');
+  console.log('PASS: Fast default, retained manual Full safety, E2E coverage, collapse tokens and negative fixtures');
 }

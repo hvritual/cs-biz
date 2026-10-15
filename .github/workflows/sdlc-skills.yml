@@ -1,57 +1,7 @@
 name: SDLC Skills Contract
 
 on:
-  push:
-    paths:
-      - ".agents/skills/**"
-      - "doc/workflow/**"
-      - "doc/templates/task.md"
-      - "frontend/AGENTS.md"
-      - "doc/ci/check_*workflow.py"
-      - "doc/ci/check_revision_v04.py"
-      - "doc/ci/check_intent_v02.py"
-      - "doc/ci/check_build_v04.py"
-      - "doc/ci/test_*workflow.py"
-      - "doc/ci/test_revision_v04.py"
-      - "doc/ci/test_intent_v02.py"
-      - "doc/ci/test_build_v04.py"
-      - ".github/workflows/sdlc-skills.yml"
-      - ".github/workflows/frontend-full.yml"
-      - ".github/workflows/frontend.yml"
-      - "frontend/ci/check-delivery-policy.mjs"
-      - "doc/ci/manual_full_dispatch.py"
-      - "doc/ci/test_manual_full_dispatch.py"
-      - "doc/ci/check_human_full_policy.py"
-      - "doc/ci/test_human_full_policy.py"
-      - "doc/ci/NO-STALL-GATES.md"
-      - "frontend/ci/README.md"
-      - "AGENTS.md"
-  pull_request:
-    paths:
-      - ".agents/skills/**"
-      - "doc/workflow/**"
-      - "doc/templates/task.md"
-      - "frontend/AGENTS.md"
-      - "doc/ci/check_*workflow.py"
-      - "doc/ci/check_revision_v04.py"
-      - "doc/ci/check_intent_v02.py"
-      - "doc/ci/check_build_v04.py"
-      - "doc/ci/test_*workflow.py"
-      - "doc/ci/test_revision_v04.py"
-      - "doc/ci/test_intent_v02.py"
-      - "doc/ci/test_build_v04.py"
-      - ".github/workflows/sdlc-skills.yml"
-      - ".github/workflows/frontend-full.yml"
-      - ".github/workflows/frontend.yml"
-      - "frontend/ci/check-delivery-policy.mjs"
-      - "doc/ci/manual_full_dispatch.py"
-      - "doc/ci/test_manual_full_dispatch.py"
-      - "doc/ci/check_human_full_policy.py"
-      - "doc/ci/test_human_full_policy.py"
-      - "doc/ci/NO-STALL-GATES.md"
-      - "frontend/ci/README.md"
-      - "AGENTS.md"
-
+  workflow_dispatch:
 permissions:
   contents: read
 

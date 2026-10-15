@@ -1,10 +1,10 @@
 # 当前推进投影：Issue #11 / F0（2026-10-15）
 
-核验 main `da5494d03c362ab873465c1793e7aba7e4e3a7cc`：#26 的 Intent/Design v2 已合入；Go Authz V2 和 Vue/Vben/Element Plus Mock 已存在。PR #7、#8、#18、#21、#23、#25 仍未合并。不能从旧表的“未启动”推断没有基础库，也不能从开放候选推断主线已具备真实身份或 Yunka。
+本轮交付基线 main `f1d06cffa998824c5e393253aa79ee3e46fd35ca`：#26 的 Intent/Design v2、#29 tester-army 接入和 #30 风险门禁均已合入。Go Authz V2 和 Vue/Vben/Element Plus Mock 已存在；PR #7/#8/#18 仍为原精确头的未合并候选。不能从旧表“未启动”推断没有基础库，也不能从开放候选推断主线具备真实身份或 Yunka。
 
-本次推进 [#11 F0](https://github.com/hvritual/cs-biz/issues/11)，当前 **DESIGN_HANDOFF / WAITING_HUMAN_FULL**。D1=A与Go1.26.9安全前置已批准，Yunka #245/#243已整合并通过候选与独立main全部门禁，#244已完成。Human 于2026-10-15 21:14:54 +08确认完整r005，见[同版交接](tasks/issue-11-f0/handoffs/r005/HANDOFF.md)；原设计与输入摘要不变。本项目F1尚未运行，最终候选的独立审阅/Full决定仍须取得。完整任务见[F0冻结任务](tasks/F0-yunka-freeze.md)。#10依赖链保持F0 #11 → F1 #12 → F2 #13 / F3 #14 → F4 #15 → F5 #16 → F6 #17；#19/#20/#24可观测性和#22持续目标任务均保留原验收/人审边界。一次一个独立Issue，不批量实现或合并。
+本次推进 [#11 F0](https://github.com/hvritual/cs-biz/issues/11)，当前 **DESIGN_HANDOFF / READY_FOR_DELIVERY**。D1=A、Go1.26.9 和完整 r005 设计已获确认；见 [同版交接](tasks/issue-11-f0/handoffs/r005/HANDOFF.md) 与 [本次逐项交付核验](tasks/issue-11-f0/delivery/closure.md)。原设计、交接及内容摘要不变，旧 Human Full 等待已由 [风险门禁](ci/RISK-BASED-GATES.md) 取代。PR #27 经精确候选和 main 门禁、回读后才关闭 #11；最终状态以 PR/Issue 回执为准。本项目 F1 尚未实施。#10 依赖链保持 F0 #11 → F1 #12 → F2 #13 / F3 #14 → F4 #15 → F5 #16 → F6 #17；其余可观测性/持续目标 Issue 保留原验收。一次一个独立 Issue，不批量合并功能候选。
 
-PR #18 的架构方向尚为提案，不在本次整体导入；本轮只补事实/版本/权责冻结。后续真实 API、身份、DB、模块资格未完成。下文保留原 S00/S01 路线和阶段设计作为历史规划，其旧状态和旧命令顺序不得盖过当前源码、上述投影与实际 No-Stall/Human Full 规则。
+PR #18 的架构方向尚为提案，不在本次整体导入；本轮只完成 F0 冻结的交付。后续真实 API、身份、DB、Consumer 资格未完成。下文 S00/S01 为历史规划，旧状态/命令不得盖过当前源码、上述投影与现行风险门禁；封存 F0 产物中的旧门禁措辞同样只表示被审时状态。
 
 ---
 
@@ -35,7 +35,7 @@ S01 的访问检查用于验证前端行为，真实认证、后端 API、数据
 | 输出 | 可运行应用、单一 API 契约、真实权限与恢复证据 |
 | 允许改动 | `frontend/**`、`backend/**`、相应 `doc/**`、必要 `.github/workflows/**`，每个切片进一步收窄 |
 | 禁止改动 | 其他仓库、生产数据、未经本任务授权的迁移或发布、未锁定的上游源 |
-| 当前可用验收命令 | 仓库根执行 `python3 doc/ci/check_repository.py`；`frontend` 内执行 `corepack pnpm check`，顺序运行 typecheck、lint、check:copy、test:unit、build、test:e2e；独立运行方式见前端 CI 文档 |
+| 当前可用验收命令 | 仓库根执行 `python3 doc/ci/check_repository.py`；`frontend` 内 `corepack pnpm check` 仅 Fast（类型/lint/copy/Desktop/policy/E2E类型/单测），不含 build/E2E；最终候选按 `doc/ci/RISK-BASED-GATES.md` 在统一 CI 中选择 docs/backend/full，前端完整回归单次构建并运行新旧全部 E2E |
 | 后续验收命令 | 若后端采用 Go，则建立 `go test ./...`、`go vet ./...`；真实 DB/API 与跨端 E2E 入口须随 S02/S03 实现提交，当前前端 Mock 测试不替代这些门禁 |
 | 风险 | 上游模板耦合、上下文竞态、把菜单控制误当鉴权、跨租户资源关联 |
 | 是否可由 Codex 一次完成 | S00、S01、S02 按独立交付单元推进；整个 MVP 按依赖和可观察旅程分步验收 |

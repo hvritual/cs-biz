@@ -1,5 +1,7 @@
 # Human-controlled Full CI — decision and one-time migration
 
+**Current policy:** [Risk-based Gates](RISK-BASED-GATES.md) supersedes unconditional Human Full decisions and per-PR waivers. Automatic `quality.yml` may execute final Full after trusted selection and issues its own exact-SHA receipt. This document and its checker now govern only the retained optional manual Full endpoint; they do not prohibit the new automatic quality pipeline. Historical one-time migrations below are not current task instructions.
+
 **Authoritative baseline:** [NO-STALL-GATES.md](NO-STALL-GATES.md). This is an implementation guide, not a second task database or a new authority to approve merges.
 
 ## Invariants
@@ -13,6 +15,8 @@
 7. Main has no active branch protection/ruleset in the observed baseline. Real merge enforcement is **not achieved** until the repository owner configures it. Workflow names and docs do not create server-side protection.
 
 ## Human Full decision for each candidate
+
+**Documentation exception:** [Docs Auto Delivery](DOCS-AUTO-DELIVERY.md) applies first. Classified, verified documentation-only PRs need neither Human review nor an authenticated waiver; Full is `NOT_REQUIRED_DOCS`. The Human choices and waiver requirements below apply to non-qualifying changes. No automatic Full dispatch is introduced.
 
 Human retains three explicit choices, bound to one PR HEAD SHA:
 

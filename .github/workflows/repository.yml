@@ -1,10 +1,7 @@
 name: Repository structure
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
-
 permissions:
   contents: read
 
@@ -25,3 +22,5 @@ jobs:
           persist-credentials: false
       - name: Check repository structure and documentation
         run: python3 doc/ci/check_repository.py
+      - name: Documentation classification negative fixtures
+        run: python3 -m unittest discover -s doc/ci -p 'test_docs_only.py' -v
