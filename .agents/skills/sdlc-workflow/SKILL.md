@@ -37,3 +37,6 @@ Evidence missing -> bounded readonly research; design change -> sdlc-design; goa
 `python3 doc/ci/check_sdlc_workflow.py --mode design --task .sdlc/tasks/<id>`
 `python3 doc/ci/check_sdlc_workflow.py --mode build --task .sdlc/tasks/<id>`
 Checks fail closed for missing artifacts/invalid scope; they cannot authenticate approvals, prove semantics or substitute for existing CI.
+
+## Original runtime compatibility
+Before claiming an original v0.4-like gate, read `doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md`. For original-form artifacts use, in stage order: `check_intent_v02.py`, `check_revision_v04.py`, `check_build_v04.py`. The earlier `check_sdlc_workflow.py` file validates a **different lightweight task schema** and is NOT original v0.4 workflow equivalence. The original revision CAS store, full workflow gate, actual GitHub verifier, and all inherited regression fixtures remain separate work. Never infer actual Human acceptance from local hashes.
