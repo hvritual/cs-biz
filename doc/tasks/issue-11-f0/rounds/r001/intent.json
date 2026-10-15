@@ -1,0 +1,104 @@
+{
+  "protocol": "intent-design-v2-intent",
+  "objective": "冻结 #11 的来源、身份/三权与 Consumer 准入，形成可确认方案而非假定 Runtime 已接入",
+  "expected_outcome": "Human 和执行模型可从固定证据判断 F1/F3 准入、原始验收、未决条件与责任",
+  "original_user_request": "启用工作流，开始完成cs-biz仓库里面的issue",
+  "source_issue": "https://github.com/hvritual/cs-biz/issues/11",
+  "source_parent": "https://github.com/hvritual/cs-biz/issues/10",
+  "scope": [
+    "当前 F0 文档/ADR/基线冻结",
+    "同轮技术流程与决策"
+  ],
+  "exclusions": [
+    "业务实现与前端变更",
+    "Yunka Runtime/生产配置",
+    "自动 Full/合并/部署",
+    "批量关闭其他 Issue"
+  ],
+  "authorization": "draft_only",
+  "hard_constraints": [
+    "不新建 IAM",
+    "不改当前运行语义",
+    "不混用未合并候选与 main",
+    "不拿框架 CI/Mock 作为 Consumer 或生产证据",
+    "保留 #26 工作流与 Human 决策边界"
+  ],
+  "requirements": {
+    "R1": {
+      "raw_quote": "固定 current main/候选/源码证据及差异矩阵",
+      "acceptance_ids": [
+        "AC-01"
+      ]
+    },
+    "R2": {
+      "raw_quote": "框架与 cs-biz 单一执行权威表",
+      "acceptance_ids": [
+        "AC-02"
+      ]
+    },
+    "R3": {
+      "raw_quote": "明确 Go 1.23→1.25.13、protoc 3.21.12、Yunka framework/gateway/infras/app 的版本选择及保留前端规则",
+      "acceptance_ids": [
+        "AC-03"
+      ]
+    },
+    "R4": {
+      "raw_quote": "不接生产凭据、不新建一套 IAM、不改现有登录演示语义",
+      "acceptance_ids": [
+        "AC-04"
+      ]
+    },
+    "R5": {
+      "raw_quote": "锁定 MKT-01/CON-01/CON-02/TEN/REV/REC 验收",
+      "acceptance_ids": [
+        "AC-05"
+      ]
+    },
+    "R6": {
+      "raw_quote": "发现全部未知决策，Owner/Human 判定",
+      "acceptance_ids": [
+        "AC-06"
+      ]
+    },
+    "R7": {
+      "raw_quote": "明确 W3C `traceparent/tracestate`、浏览器/BFF 跨域头与响应 `x-trace-id` 的行为",
+      "acceptance_ids": [
+        "AC-07"
+      ]
+    },
+    "R8": {
+      "raw_quote": "不拿旧框架 CI 给新 Consumer 盖章",
+      "acceptance_ids": [
+        "AC-08"
+      ]
+    }
+  },
+  "unresolved_decisions": [
+    "D1 消费方式与模块/CLI资格策略"
+  ],
+  "future_decisions": [
+    "D2 数据库组织约束，F3前",
+    "D3 IdP/账号权威，F3前",
+    "Session/邀请/恢复政策，F3前",
+    "legacy group，F4前",
+    "Trace查询/留存/SLO，F6前"
+  ],
+  "risk_tags": [
+    "authorization_migration",
+    "supply_chain",
+    "toolchain",
+    "identity",
+    "data_scope"
+  ],
+  "alternative_interpretations": [
+    {
+      "option": "直接按所有开放 Issue 进入批量实现",
+      "rejected_because": "依赖和材料性决策尚未满足，原始工作流要求每个独立任务守住设计和验收边界"
+    },
+    {
+      "option": "把本轮当 F1 接入",
+      "rejected_because": "#11 明确是冻结与审查，不包含 Runtime"
+    }
+  ],
+  "decision": "NEEDS_DECISION"
+}

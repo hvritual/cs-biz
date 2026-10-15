@@ -1,3 +1,13 @@
+# 当前推进投影：Issue #11 / F0（2026-10-15）
+
+本轮交付基线 main `f1d06cffa998824c5e393253aa79ee3e46fd35ca`：#26 的 Intent/Design v2、#29 tester-army 接入和 #30 风险门禁均已合入。Go Authz V2 和 Vue/Vben/Element Plus Mock 已存在；PR #7/#8/#18 仍为原精确头的未合并候选。不能从旧表“未启动”推断没有基础库，也不能从开放候选推断主线具备真实身份或 Yunka。
+
+本次推进 [#11 F0](https://github.com/hvritual/cs-biz/issues/11)，当前 **DESIGN_HANDOFF / READY_FOR_DELIVERY**。D1=A、Go1.26.9 和完整 r005 设计已获确认；见 [同版交接](tasks/issue-11-f0/handoffs/r005/HANDOFF.md) 与 [本次逐项交付核验](tasks/issue-11-f0/delivery/closure.md)。原设计、交接及内容摘要不变，旧 Human Full 等待已由 [风险门禁](ci/RISK-BASED-GATES.md) 取代。PR #27 经精确候选和 main 门禁、回读后才关闭 #11；最终状态以 PR/Issue 回执为准。本项目 F1 尚未实施。#10 依赖链保持 F0 #11 → F1 #12 → F2 #13 / F3 #14 → F4 #15 → F5 #16 → F6 #17；其余可观测性/持续目标 Issue 保留原验收。一次一个独立 Issue，不批量合并功能候选。
+
+PR #18 的架构方向尚为提案，不在本次整体导入；本轮只完成 F0 冻结的交付。后续真实 API、身份、DB、Consumer 资格未完成。下文 S00/S01 为历史规划，旧状态/命令不得盖过当前源码、上述投影与现行风险门禁；封存 F0 产物中的旧门禁措辞同样只表示被审时状态。
+
+---
+
 # 实施路线与当前状态
 
 本文件记录阶段目标与实际状态，不把后续路线自动视为批量执行授权。当前独立交付单元为 [S01 前端应用与有状态 Mock](tasks/S01-frontend-mock.md)。S00 的 PR #1 尚未合并，S01 以其设计分支为基础增量交付；最新提交、检查与 PR 状态统一见 [S01 验证记录](evidence/S01-validation.md)。

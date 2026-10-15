@@ -1,0 +1,45 @@
+{
+  "prior_rounds_preserved": true,
+  "records": [
+    {
+      "revision": "r002",
+      "file": "decision.json",
+      "sha256": "969033629becdd197b2c1fbf69039fc3b80e62069c618a0b0fba3155d21d6580"
+    },
+    {
+      "revision": "r002",
+      "file": "manifest.json",
+      "sha256": "ebd5755f03633e3b37362c40e769b544c3745bc15e60db8c9728fc9f5b1bcad8"
+    },
+    {
+      "revision": "r002",
+      "file": "raw-feedback.txt",
+      "sha256": "0c0fdb6a8713fc5dc84a8db6eec3ec27f56ae0728c75afa737a78a6b3a71517f"
+    },
+    {
+      "revision": "r003",
+      "file": "manifest.json",
+      "sha256": "cacfe72a57471904d075f1ecd24097856622fbad2d978c55fe7bd0c53dca0afe"
+    },
+    {
+      "revision": "r003",
+      "file": "raw-feedback.txt",
+      "sha256": "bbc5d43fb95fc8401f5a4f761fe915209177d90164319a364ec9e0a0ec3ef6b5"
+    },
+    {
+      "revision": "r004",
+      "file": "decision.json",
+      "sha256": "da48817892dd2b7ffec2fbb400c566a2043144e5843fbc1eda4a3fbd7784f194"
+    },
+    {
+      "revision": "r004",
+      "file": "manifest.json",
+      "sha256": "8c5923b7e454fe5ac312f90204090f8d8188e3345d60b9d3c5e4d3dd6ff48c8c"
+    },
+    {
+      "revision": "r004",
+      "file": "raw-feedback.txt",
+      "sha256": "b6f4b57ade409674cb0a60c9d9a67eb714f0c6bc2bfc9878f15547e39b444533"
+    }
+  ]
+}

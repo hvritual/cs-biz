@@ -1,0 +1,29 @@
+{
+  "revision": "r004",
+  "kind": "partial-toolchain-condition-approval",
+  "receivedAt": "2026-10-15T19:39:44+08:00",
+  "raw": "raw-feedback.txt",
+  "target": {
+    "issue": "hvritual/yunka.io#244",
+    "producerPR": 243,
+    "producerHead": "28ec46df6b649edb8e724e126ad8968a10bd79ad",
+    "consumerPR": 27,
+    "consumerHead": "9ab05d14724125285de2ff087657744bd423a1ad"
+  },
+  "decision": {
+    "compiler": "Go 1.26.9",
+    "networkModule": "golang.org/x/net v0.60.0",
+    "language": "go 1.26.0 required by approved dependency",
+    "protoc": "3.21.12",
+    "rpcPlugins": "unchanged upstream pins",
+    "route": "A unchanged"
+  },
+  "scope": "security prerequisite implementation and subsequent qualification; not full design approval, Human Full waiver, release publication or deployment",
+  "approvalSource": "User conversation; not a GitHub APPROVED review",
+  "candidate": {
+    "PR": 245,
+    "head": "bc7c0e1dd6b4e815951130c7acfbf60371445453",
+    "tree": "4e3ae46845f96f520ef913bc956f6a5f458ff144",
+    "state": "qualification pending"
+  }
+}

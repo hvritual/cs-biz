@@ -1,0 +1,26 @@
+{
+  "revision": "r005",
+  "kind": "complete-design-review-pack-not-approved-handoff",
+  "assets": {
+    "acceptance-matrix.md": "bcd159be3ea30c04d4415fd433dea57d47a2b09c23a29c981b60af5c1eb43046",
+    "decisions.md": "829583fc5c46616968c4b1b38c8414dc51c12a7f2de8c1bb40ae899548dcc386",
+    "design-loop.json": "1e80baf06d9317cf27a17b8cb77d567e8f0a35f22954e29468322dd913020db2",
+    "design.md": "1b0fa5b454d4b6535d0ed066b9c1911ce890448c8a4ad16d4bf8349105d2346c",
+    "flow.mmd": "6ba58612b54671bfb4556beee9573e96218803a99d4e7f70be5c87bea1241a75",
+    "intake-snapshot.json": "6380f76036755ab0ce587be88dea765d0bbb3fcccc3a110579be426f85c15ff5",
+    "intent.json": "0422ccd3f22b04eeddfa32347c7fa714bed2eca5152207c4c7b733e69879d647",
+    "journey.md": "49262858f15c6a0495634c695839ee9abfd7196f377f7c268333f6653ceec3f8",
+    "optimized-prompt.md": "0e496c191e2af39eb3b8d451026b63c40982a74063ec5b795b19c42439e01cf7",
+    "producer-record.json": "951067f1ea871e9d008b0a333af5d779b41edde28372bb7389af83552f9ca727",
+    "qualification.md": "b71c5157ebb8f5ef8a22991ee95daa98dd9a80730862b71b1cadbd66c97ba35a",
+    "raw-followups.json": "43e297c11398b4aad433c61d534d54369293befa2ef2b4720b93e6c1f8412c29",
+    "raw-issue-10.md": "b03e115922bfc90dc22a3fb74eadec89c22696d93169917cf6860791d5596df2",
+    "raw-issue-11.md": "643afb519a1b8d4af22d45ef114c7b603b04ce985eba89de63d8d8c8b3573e7b",
+    "raw-user.txt": "67caf8a92718378d1e4249605010951f7fd1594632fd3d0d1200479435773e48",
+    "requirements.md": "ab1e5af3ed2c83098c2a20f47be50def7177caa3b1292a960269a8ab5cacbdbf",
+    "solution.md": "f954ea7d9101c379b16e7c5a73afc1857095ad1e0ea48ed366f205fd31020ba0",
+    "sources.json": "08b713b535d5a7013a9213eb21e5875ea9b2882e68ea4f39341f3d2774df106b",
+    "validation.md": "bf0f1e3fb2d920c5791cd65fc26a5c57bbad288cb2452f1c48bbf9cdafa0ac91",
+    "versions.md": "4460ddc5d1b295c32b8ffb5bb5d2f0a048978c501a5251cadb58c0ddf9c75c64"
+  }
+}

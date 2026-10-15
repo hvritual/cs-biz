@@ -1,0 +1,511 @@
+{
+  "evaluated_commit": "3527488325030fbf86fe52804140c936e9d937a4",
+  "releases": {
+    "endpoint": "https://api.github.com/repos/hvritual/yunka.io/releases?per_page=100",
+    "response": []
+  },
+  "infras_ref": {
+    "endpoint": "https://api.github.com/repos/hvritual/yunka.io/git/ref/tags/infras/v0.1.0",
+    "response": {
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND",
+      "error_data": {
+        "message": "Not Found",
+        "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+        "status": "404"
+      }
+    }
+  },
+  "artifact_listing": {
+    "response": {
+      "error": "HTTPError: 400: GitHub Fetch URL is not an allowed public GitHub repository or search endpoint. (Response: None)",
+      "error_code": "INVALID_ARGUMENT"
+    },
+    "interpretation": "Connector rejected endpoint; no assertion of artifact absence"
+  },
+  "upstream_issue234": {
+    "number": 234,
+    "url": "https://github.com/hvritual/yunka.io/issues/234",
+    "state": "open",
+    "body": "父任务：#227。**Full Runtime（扩展契约）/ P1 / 独立任务**。关联已有 [#121](https://github.com/hvritual/yunka.io/issues/121)（分离版本 `infras`）、[#124](https://github.com/hvritual/yunka.io/issues/124)（Typed Capability 绑定）、[#188](https://github.com/hvritual/yunka.io/issues/188) / [#178](https://github.com/hvritual/yunka.io/issues/178)（typed dependency starter + 第三个干净场景）。这不是重做上述已完成能力，也不抢 #188 的未完成实现范围。\n\n## 为什么需要独立任务\nYunka 已规定基础设施模块通过 `infras`、`framework/core/modulecatalog` 的静态 descriptor/Provides 与 `CapabilityExporter` 扩展，并在 bootstrap 注入 typed dependencies。历史经验表明 Go `go.work` 内的成功不意味着模块在独立版本/依赖下成功；缺少端到端兼容资格会在 Consumer 升级、模块跨版本组合时重复暴露问题。\n\n## 目标 / Non-goals\n- **复用** ModuleCatalog/typed binding；定义可检验的 module descriptor/Go contract/API 版本兼容规则与实际可重现构建组合，特别是缺失、重复、类型不匹配、未声明的 capability 等。\n- 完整证明 Consumer 只新增合规可选 Provider/Module 和声明/装配，不需要修改 Executor/Authz/UoW/Contract runtime。\n- 引用 #188 的第三干净 domain 场景作为相邻依赖，不另造第二份同职责 fixture；补上独立 module boundary 的 `GOWORK=off` 构建/版本漂移检查。\n- 不强制发布缺失的 `infras/vX.Y.Z` tag；发布必须为另行授权动作；不发明 provider registration 之外的 runtime service locator 或 Go `.so` 动态插件。\n\n## 输入 → 输出\n输入：精确 `infras` / `framework` / `pkg` module versions、现有 descriptor/Provides/Exporter、Application PB capability declarations 和 CLI/生成 assembly。输出：版本与依赖资格矩阵、合法扩展的最小第三方 Go 使用样例、负向诊断、必要时新版本化契约的最小建议（不是提前宣称 API 稳定）。\n\n## 改动边界\n优先 `infras/**`、`framework/core/modulecatalog/**/*test.go`、`app/cmd/**` 相关装配资格测试、example/文档；若有实际 ABI/API 不兼容，先提交最小反例并单开 Runtime/Contract pressure，不顺手重写 `framework/operation/**`、Authz、UoW 或 Biz/IoT 业务逻辑。\n\n## 验收\n1. 在普通 workspace 与 **`GOWORK=off` 的真实独立模块模式**均能完成编译、类型检查与可选 Module 的 bootstrap/health/shutdown。\n2. 合法 `Provides` 必须注入预期 interface；重复注册、漏声明、类型不匹配、错误 lifecycle owner 在 startup/编译时明确 fail closed。\n3. 重复 generate/check 零漂移、既有生产者行为不变；定向 `go test`、`make verify`、适用 `make verify-production`，加真实 Consumer 精确版本 pin 的正反例。\n4. 应用依赖依然 narrow、source-edge child 能力不被扩大；#188 未完成时本任务保持 blocked，不以 mock 替代其最终资格。\n\n**风险**：模块单独发布版本尚不保证所有组合可用；给出明确支持矩阵，不把 `go.work` 的局部成功宣称为独立分发兼容。**Codex 一次完成**：建议拆成独立模块/GOWORK=off 兼容资格与真实 Consumer reverse qualification 两批。"
+  },
+  "files": [
+    {
+      "path": "tools/module-release.env",
+      "encoding": "utf-8",
+      "sha": "3bb1ce2c7bac603384d8b7f850d981993cbf605b",
+      "display_url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/tools/module-release.env",
+      "display_title": "module-release.env",
+      "sha256": "230bdc8ad770a2bc1402eb2850e489b7024e7a3c707dcda480312b30883d9dbf",
+      "excerpts": [
+        {
+          "line": 1,
+          "text": "YUNKA_MODULE_RELEASE=v0.1.0"
+        },
+        {
+          "line": 2,
+          "text": "YUNKA_PKG_MODULE=github.com/hvritual/yunka.io/pkg"
+        },
+        {
+          "line": 3,
+          "text": "YUNKA_FRAMEWORK_MODULE=github.com/hvritual/yunka.io/framework"
+        },
+        {
+          "line": 4,
+          "text": "YUNKA_GATEWAY_MODULE=github.com/hvritual/yunka.io/gateway"
+        },
+        {
+          "line": 5,
+          "text": "YUNKA_INFRAS_MODULE=github.com/hvritual/yunka.io/infras"
+        }
+      ],
+      "hash_scope": "full UTF-8 file fetched at evaluated_commit; excerpts retain original line numbers"
+    },
+    {
+      "path": "tools/module-release-check.sh",
+      "encoding": "utf-8",
+      "sha": "4f388dd1980fd7fe9e870235e60860823883df1d",
+      "display_url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/tools/module-release-check.sh",
+      "display_title": "module-release-check.sh",
+      "sha256": "e544d54a7f71d80bd214a693e4018cbc0f8532cbe9fa6ce1453c830fed1fe366",
+      "excerpts": [
+        {
+          "line": 1,
+          "text": "#!/usr/bin/env bash"
+        },
+        {
+          "line": 2,
+          "text": "set -euo pipefail"
+        },
+        {
+          "line": 3,
+          "text": "ROOT=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/..\" && pwd -P)\""
+        },
+        {
+          "line": 4,
+          "text": "source \"$ROOT/tools/module-release.env\""
+        },
+        {
+          "line": 5,
+          "text": "version=\"${YUNKA_RELEASE_VERSION:-$YUNKA_MODULE_RELEASE}\""
+        },
+        {
+          "line": 6,
+          "text": "fail() { echo \"module-release-check: $*\" >&2; exit 1; }"
+        },
+        {
+          "line": 7,
+          "text": "check_module() {"
+        },
+        {
+          "line": 8,
+          "text": "  local rel=\"$1\" expected=\"$2\""
+        },
+        {
+          "line": 9,
+          "text": "  local actual"
+        },
+        {
+          "line": 10,
+          "text": "  actual=\"$(cd \"$ROOT/$rel\" && GOWORK=off go list -m -f '{{.Path}}')\""
+        },
+        {
+          "line": 11,
+          "text": "  [[ \"$actual\" == \"$expected\" ]] || fail \"$rel declares $actual, expected $expected\""
+        },
+        {
+          "line": 12,
+          "text": "  if grep -q '^replace ' \"$ROOT/$rel/go.mod\"; then"
+        },
+        {
+          "line": 13,
+          "text": "    fail \"$rel/go.mod contains a release-invalid replace directive\""
+        },
+        {
+          "line": 14,
+          "text": "  fi"
+        },
+        {
+          "line": 15,
+          "text": "  (cd \"$ROOT/$rel\" && GOWORK=off go list -m all >/dev/null)"
+        },
+        {
+          "line": 16,
+          "text": "}"
+        },
+        {
+          "line": 17,
+          "text": "check_module pkg \"$YUNKA_PKG_MODULE\""
+        },
+        {
+          "line": 18,
+          "text": "check_module framework \"$YUNKA_FRAMEWORK_MODULE\""
+        },
+        {
+          "line": 19,
+          "text": "check_module gateway \"$YUNKA_GATEWAY_MODULE\""
+        },
+        {
+          "line": 20,
+          "text": "check_module infras \"$YUNKA_INFRAS_MODULE\""
+        },
+        {
+          "line": 21,
+          "text": "tmp=\"$(mktemp -d)\""
+        },
+        {
+          "line": 22,
+          "text": "trap 'rm -rf \"$tmp\"' EXIT"
+        },
+        {
+          "line": 23,
+          "text": "cd \"$tmp\""
+        },
+        {
+          "line": 24,
+          "text": "GOWORK=off go mod init yunka-release-probe >/dev/null"
+        },
+        {
+          "line": 25,
+          "text": "GOWORK=off go get \"$YUNKA_PKG_MODULE@$version\""
+        },
+        {
+          "line": 26,
+          "text": "GOWORK=off go get \"$YUNKA_FRAMEWORK_MODULE@$version\""
+        },
+        {
+          "line": 27,
+          "text": "GOWORK=off go get \"$YUNKA_GATEWAY_MODULE@$version\""
+        },
+        {
+          "line": 28,
+          "text": "GOWORK=off go get \"$YUNKA_INFRAS_MODULE@$version\""
+        },
+        {
+          "line": 29,
+          "text": "GOWORK=off go list -m all >/dev/null"
+        },
+        {
+          "line": 30,
+          "text": "echo \"module-release-check: external consumer resolved $version\""
+        }
+      ],
+      "hash_scope": "full UTF-8 file fetched at evaluated_commit; excerpts retain original line numbers"
+    },
+    {
+      "path": "README.md",
+      "encoding": "utf-8",
+      "sha": "3d339d7f5a9743c296e71b9412cdc937c5471252",
+      "display_url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/README.md",
+      "display_title": "README.md",
+      "sha256": "b52db483271e806010740b11d10d9aea3da4e70668798bf16b6e6d4a07297bed",
+      "excerpts": [
+        {
+          "line": 27,
+          "text": ""
+        },
+        {
+          "line": 28,
+          "text": "The modules are joined by the root `go.work`. `app` intentionally uses the distinct module"
+        },
+        {
+          "line": 29,
+          "text": "path `yunka.io/app`; `framework`, `gateway`, and `infras` use the public module paths"
+        },
+        {
+          "line": 30,
+          "text": "`github.com/hvritual/yunka.io/framework`, `github.com/hvritual/yunka.io/gateway`, and"
+        },
+        {
+          "line": 31,
+          "text": "`github.com/hvritual/yunka.io/infras`. Public multi-module releases use their module tag"
+        },
+        {
+          "line": 32,
+          "text": "namespaces, including `infras/vX.Y.Z` for infrastructure plugins."
+        },
+        {
+          "line": 33,
+          "text": ""
+        }
+      ],
+      "hash_scope": "full UTF-8 file fetched at evaluated_commit; excerpts retain original line numbers"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "encoding": "utf-8",
+      "sha": "4ea24151368f0e9b58d3db4ab774fcb7ee402415",
+      "display_url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/docs/STATUS.md",
+      "display_title": "STATUS.md",
+      "sha256": "703a601b716821528a8f9908444869d6e596fbde1af783f88cc0c7ac6f888443",
+      "excerpts": [
+        {
+          "line": 139,
+          "text": "| Distributed execution trace closure | **Complete / production-qualified / merged** | issue #118 / PR #119; exact candidate `19bed965852d9dc2ef39e91dcadd7fb6bea4c871` passed CI #418 and production #178 and was merged unchanged into `main` |"
+        },
+        {
+          "line": 140,
+          "text": "| Separately versioned infrastructure extension module | **Complete / production-qualified / merged** | issue #121 / PR #122; exact candidate `fc09f296cccb14ae18891bc43642d5efe43bd484` passed CI #430 and production #190, then merged as `70611d6cee5dd4e37ae6a803bcb38b938acd59c9`; independent `infras/vX.Y.Z` tag surface exists, but no `infras/v0.1.0` release tag is claimed yet |"
+        },
+        {
+          "line": 141,
+          "text": "| Typed infrastructure capability export / binding | **Complete / production-qualified / merged** | issue #124 / PR #131; exact candidate `c3123fb4a3e7731f0edf5539c3d8003fc0e41bc7` passed CI #475 and production #233 after synchronization with AX6 main, merged as `d06a6330db9093e0bc586decb6bdc00122b4aa99`, and exact-main push CI #476 / production #234 also passed |"
+        },
+        {
+          "line": 142,
+          "text": "| Engineering Quality / human-reviewable AI code | **Complete / globally qualified / merged** | issue #192 global acceptance passed on exact behavioral main `fe63375b84be89c068ad57b81cc7def578cf30fc` after #220 evidence-integrity repair through PR #222; exact-main CI `35162731142`, Production `35162731126`, source-policy `35162731168`, template `35162731173`, and global acceptance `35127746651` passed |"
+        },
+        {
+          "line": 334,
+          "text": ""
+        },
+        {
+          "line": 335,
+          "text": "The merged delivery adds root Go module `github.com/hvritual/yunka.io/infras` to the workspace and canonical repository gates. Its public releases use the independent module tag namespace `infras/vX.Y.Z`, analogous to the separately versioned `gateway` module."
+        },
+        {
+          "line": 336,
+          "text": ""
+        },
+        {
+          "line": 337,
+          "text": "Dependency direction is intentionally one-way:"
+        },
+        {
+          "line": 356,
+          "text": ""
+        },
+        {
+          "line": 357,
+          "text": "The independent release/tag mechanism is now part of the repository contract, but this status does **not** claim that an `infras/v0.1.0` tag or release has already been published. Publication is a separate release action."
+        },
+        {
+          "line": 358,
+          "text": ""
+        },
+        {
+          "line": 359,
+          "text": "## Typed infrastructure capability binding"
+        }
+      ],
+      "hash_scope": "full UTF-8 file fetched at evaluated_commit; excerpts retain original line numbers"
+    },
+    {
+      "path": "docs/waves/C10.5-release-qualification.md",
+      "encoding": "utf-8",
+      "sha": "d2038b24c33fa76b614c2af1f4f1b28620625583",
+      "display_url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/docs/waves/C10.5-release-qualification.md",
+      "display_title": "C10.5-release-qualification.md",
+      "sha256": "51e73e503b73021c64bbb1031285f9731eec095a415f91f5038a98020ca7407b",
+      "excerpts": [
+        {
+          "line": 8,
+          "text": "- Original qualified release head: `4c4beb72ffde79d97a28cf5c3b083c756b729d27`"
+        },
+        {
+          "line": 9,
+          "text": "- Qualified real consumer: `hvritual/biz@1818f1328189fbe6060ecccb8c658f2583b67cb8`"
+        },
+        {
+          "line": 10,
+          "text": "- Final pre-merge release qualification: run `33295800494` / job `99215120947`"
+        },
+        {
+          "line": 11,
+          "text": ""
+        },
+        {
+          "line": 72,
+          "text": ""
+        },
+        {
+          "line": 73,
+          "text": "## Real consumer merge boundary"
+        },
+        {
+          "line": 74,
+          "text": ""
+        },
+        {
+          "line": 75,
+          "text": "The qualified Biz C10 consumer remains `hvritual/biz@1818f1328189fbe6060ecccb8c658f2583b67cb8`. Biz PR #5 is intentionally not merged by the Yunka C10 stack merge because its C9.9 base is 79 commits ahead of the current Biz `main`; merging that consumer history is a separate repository-release decision."
+        },
+        {
+          "line": 76,
+          "text": ""
+        },
+        {
+          "line": 77,
+          "text": "## Rollback"
+        }
+      ],
+      "hash_scope": "full UTF-8 file fetched at evaluated_commit; excerpts retain original line numbers"
+    },
+    {
+      "path": "docs/waves/C11.7-C-final-real-consumer-qualification.md",
+      "encoding": "utf-8",
+      "sha": "252d6c6022f7f6881fbfa71ed29336d28c949c90",
+      "display_url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/docs/waves/C11.7-C-final-real-consumer-qualification.md",
+      "display_title": "C11.7-C-final-real-consumer-qualification.md",
+      "sha256": "41074c9f2bb282c5325ded6ea6e40e68fe6fdec0c955e8045d37b32eda906265",
+      "excerpts": [
+        {
+          "line": 6,
+          "text": ""
+        },
+        {
+          "line": 7,
+          "text": "- Yunka: `main@d9bc214a0485a48fefae0826051142d741e54257`"
+        },
+        {
+          "line": 8,
+          "text": "- Biz: `main@df3a8ed8d0bf1c1eb0e75889675bd7291b0dd1d8`"
+        },
+        {
+          "line": 9,
+          "text": ""
+        },
+        {
+          "line": 10,
+          "text": "## Purpose"
+        },
+        {
+          "line": 43,
+          "text": ""
+        },
+        {
+          "line": 44,
+          "text": "1. Both repositories are checked out by exact commit SHA; no branch-name resolution is accepted as qualification evidence."
+        },
+        {
+          "line": 45,
+          "text": "2. Biz's pinned `yunka/dsl/v1/options.proto` is byte-identical to the Yunka candidate contract dependency."
+        },
+        {
+          "line": 46,
+          "text": "3. The first and second C11 happy-path generations produce identical generated-file digests and zero tracked drift."
+        },
+        {
+          "line": 49,
+          "text": "6. AssemblyPlan SHA256 remains `1d2d31c9b0c723aaadaede2ed0eb8d627a1684a74f1c5988b1b4d1468cdb5514`."
+        },
+        {
+          "line": 50,
+          "text": "7. A VCS-stamped Yunka CLI starts the real Biz process through bare `yunka dev`."
+        },
+        {
+          "line": 51,
+          "text": "8. Runtime evidence reaches Ready only through the existing DevRuntime readiness/diagnostics path."
+        },
+        {
+          "line": 52,
+          "text": "9. `yunka dev status --closure --format json` proves one `biz` process owns the three canonical Application nodes."
+        }
+      ],
+      "hash_scope": "full UTF-8 file fetched at evaluated_commit; excerpts retain original line numbers"
+    },
+    {
+      "path": ".github/workflows/c11-7-c-final-real-consumer.yml",
+      "encoding": "utf-8",
+      "sha": "11bac83663c4641454d1fd1a2a9a1e964b626aca",
+      "display_url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/.github/workflows/c11-7-c-final-real-consumer.yml",
+      "display_title": "c11-7-c-final-real-consumer.yml",
+      "sha256": "0e3399ea6bfac7cea51f8c618fab83271a28191b7c16e5c8b005a0a5594b60ce",
+      "excerpts": [
+        {
+          "line": 29,
+          "text": "    env:"
+        },
+        {
+          "line": 30,
+          "text": "      C117_BIZ_SHA: df3a8ed8d0bf1c1eb0e75889675bd7291b0dd1d8"
+        },
+        {
+          "line": 31,
+          "text": "      C10_OPERATION_SHA256: 903905a8bea81901f9682f487809e57d635991b0689c36c1aee9c08a990ee35a"
+        },
+        {
+          "line": 32,
+          "text": "      C10_ASSEMBLY_SHA256: 1d2d31c9b0c723aaadaede2ed0eb8d627a1684a74f1c5988b1b4d1468cdb5514"
+        },
+        {
+          "line": 44,
+          "text": ""
+        },
+        {
+          "line": 45,
+          "text": "      - name: Checkout exact qualified Biz main"
+        },
+        {
+          "line": 46,
+          "text": "        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262"
+        },
+        {
+          "line": 47,
+          "text": "        with:"
+        },
+        {
+          "line": 106,
+          "text": ""
+        },
+        {
+          "line": 107,
+          "text": "      - name: Build VCS-stamped Yunka CLI"
+        },
+        {
+          "line": 108,
+          "text": "        shell: bash"
+        },
+        {
+          "line": 109,
+          "text": "        run: |"
+        },
+        {
+          "line": 110,
+          "text": "          set -euo pipefail"
+        },
+        {
+          "line": 111,
+          "text": "          (cd yunka.io/app && go build -buildvcs=true -o \"$RUNNER_TEMP/yunka\" ./cmd)"
+        },
+        {
+          "line": 112,
+          "text": "          test -x \"$RUNNER_TEMP/yunka\""
+        },
+        {
+          "line": 113,
+          "text": "          echo \"$RUNNER_TEMP\" >> \"$GITHUB_PATH\""
+        }
+      ],
+      "hash_scope": "full UTF-8 file fetched at evaluated_commit; excerpts retain original line numbers"
+    }
+  ],
+  "observed_at": "2026-10-15T10:42:25Z",
+  "tag_listing": [
+    {
+      "tag": "framework/v0.1.0",
+      "commit": "3de678338a08c0dfa9e65184c9f87e2f4f0089cf"
+    },
+    {
+      "tag": "framework/v0.1.0-c41rc7",
+      "commit": "be910794324d3a8f918a627648c6f83ed44641cd"
+    },
+    {
+      "tag": "gateway/v0.1.0",
+      "commit": "eaee9d50bdb0b87c9b6a63a05f10a9f80f131c93"
+    },
+    {
+      "tag": "gateway/v0.1.0-c41rc7",
+      "commit": "e25f33dd1ace88972551859c4af89072ad22132b"
+    },
+    {
+      "tag": "pkg/v0.1.0",
+      "commit": "94113e9fb9fd021f773efd626dba49489b5b2071"
+    },
+    {
+      "tag": "pkg/v0.1.0-c41rc7",
+      "commit": "abdcc78c571b68e3ece4fed0014c20f75cf163ec"
+    }
+  ],
+  "tag_listing_command": "git ls-remote --tags https://github.com/hvritual/yunka.io.git"
+}
