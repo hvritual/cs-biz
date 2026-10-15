@@ -34,7 +34,7 @@ type traceParent struct {
 // Reject zero IDs, malformed lengths and unsupported versions; never promote
 // trace headers, baggage or an X-Trace-ID into authentication authority.
 func parseTraceparent(value string) (traceParent, bool) {
-	if len(value) != 55 || value[:3] != "00-" || value[35] != '-' || value[52] != '-' {
+	if len(value) != 55 || value != strings.ToLower(value) || value[:3] != "00-" || value[35] != '-' || value[52] != '-' {
 		return traceParent{}, false
 	}
 	traceID, errTrace := hex.DecodeString(value[3:35])
