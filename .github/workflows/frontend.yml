@@ -63,6 +63,7 @@ jobs:
         working-directory: frontend
         run: corepack pnpm install --frozen-lockfile
       - name: Manual Full dispatch regression fixtures
+        working-directory: .
         run: |
           python3 -m unittest discover -s doc/ci -p 'test_manual_full_dispatch.py' -v
           python3 doc/ci/check_human_full_policy.py
