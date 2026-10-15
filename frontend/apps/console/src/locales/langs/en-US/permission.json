@@ -27,5 +27,7 @@
       "read": "View applications",
       "request": "Request application activation"
     }
-  }
+  },
+  "marketing.campaign.read": "View campaigns",
+  "marketing.campaign.execute": "Execute campaign"
 }

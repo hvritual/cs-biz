@@ -1,12 +1,14 @@
 /** `group` narrows a record set to the acting member's own department. */
 export type DataScope = 'all' | 'group' | 'own';
-export type ModuleCode = 'crm';
+export type ModuleCode = 'crm' | 'marketing';
 export type MembershipStatus = 'active' | 'disabled';
 export type CustomerStatus = 'active' | 'prospect' | 'paused';
 export type CustomerKind = 'company' | 'retail' | 'hospitality' | 'studio';
 
 export type PermissionCode =
   | 'workspace.read'
+  | 'marketing.campaign.read'
+  | 'marketing.campaign.execute'
   | 'crm.customer.read'
   | 'crm.customer.create'
   | 'crm.customer.update'
@@ -24,7 +26,7 @@ export interface PermissionDefinition {
   code: PermissionCode;
   labelKey: string;
   moduleCode?: ModuleCode;
-  /** Menus this permission makes visible; the read permission of a menu drives its switch. */
+  /** Editor grouping only. This never grants a Console route. */
   menu?: MenuKey;
   scopes: DataScope[];
 }
@@ -39,7 +41,8 @@ export type MenuKey =
   | 'workspace.roles'
   | 'workspace.company'
   | 'workspace.profile'
-  | 'workspace.apps';
+  | 'workspace.apps'
+  | 'marketing.functions';
 
 export interface MenuCatalogEntry {
   key: MenuKey;
@@ -67,6 +70,11 @@ export const MENU_CATALOG: MenuCatalogEntry[] = [
     ],
   },
   {
+    key: 'marketing.functions',
+    labelKey: 'menu.marketing',
+    children: [],
+  },
+  {
     key: 'workspace.company',
     labelKey: 'menu.company',
     children: [
@@ -78,6 +86,8 @@ export const MENU_CATALOG: MenuCatalogEntry[] = [
 
 export const PERMISSIONS: PermissionDefinition[] = [
   { code: 'workspace.read', labelKey: 'permission.workspace.read', menu: 'workspace.overview', scopes: ['all'] },
+  { code: 'marketing.campaign.read', labelKey: 'permission.marketing.campaign.read', menu: 'marketing.functions', moduleCode: 'marketing', scopes: ['all','own'] },
+  { code: 'marketing.campaign.execute', labelKey: 'permission.marketing.campaign.execute', menu: 'marketing.functions', moduleCode: 'marketing', scopes: ['all','own'] },
   { code: 'crm.customer.read', labelKey: 'permission.crm.customer.read', moduleCode: 'crm', menu: 'crm.customer.list', scopes: ['all', 'group', 'own'] },
   { code: 'crm.customer.create', labelKey: 'permission.crm.customer.create', moduleCode: 'crm', menu: 'crm.customer.list', scopes: ['all', 'group', 'own'] },
   { code: 'crm.customer.update', labelKey: 'permission.crm.customer.update', moduleCode: 'crm', menu: 'crm.customer.list', scopes: ['all', 'group', 'own'] },
@@ -121,12 +131,17 @@ export interface Grant {
   scope: DataScope;
 }
 
+/** Route whitelist: editor groups such as marketing.functions are not Console menus. */
+export type ConsoleMenuKey = Exclude<MenuKey, 'marketing.functions' | 'crm.customers' | 'workspace.team' | 'workspace.company'>;
+export const CONSOLE_MENUS: ConsoleMenuKey[] = ['workspace.overview','crm.customer.list','workspace.members','workspace.roles','workspace.profile','workspace.apps'];
+
 export interface Role {
   id: string;
   tenantId: string;
   name: string;
   description: string;
   grants: Grant[];
+  menuGrants: ConsoleMenuKey[];
   isSystem: boolean;
   isOwner: boolean;
 }
@@ -146,6 +161,14 @@ export interface MemberView extends Membership {
   roles: Role[];
   isOwner: boolean;
   canManage: boolean;
+}
+
+export interface Campaign {
+  id: string;
+  tenantId: string;
+  name: string;
+  ownerId: string;
+  executions: number;
 }
 
 export interface CustomerInput {
@@ -211,6 +234,8 @@ export interface AccessContext {
   membership: MemberView;
   entitlements: Entitlement[];
   permissions: PermissionCode[];
+  menuGrants: ConsoleMenuKey[];
+  dataScopes: Grant[];
   navigation: NavigationItem[];
 }
 
@@ -245,6 +270,7 @@ export interface RoleInput {
   name: string;
   description: string;
   grants: Grant[];
+  menuGrants?: ConsoleMenuKey[];
 }
 
 export interface TenantInput {
@@ -286,6 +312,7 @@ export interface MockDatabase {
   memberships: Membership[];
   roles: Role[];
   customers: Customer[];
+  campaigns: Campaign[];
   entitlements: Record<string, Entitlement[]>;
   accessVersions: Record<string, number>;
   activationRequests: ActivationRequest[];
@@ -300,6 +327,8 @@ export interface MockService {
   listTenants(options?: RequestOptions): Promise<Tenant[]>;
   getAccessContext(context: RequestContext): Promise<AccessContext>;
   listCustomers(context: RequestContext): Promise<CustomerView[]>;
+  listCampaigns(context: RequestContext): Promise<Campaign[]>;
+  executeCampaign(context: RequestContext, id: string, key: string): Promise<Campaign>;
   listCustomerOwners(context: RequestContext, action: CustomerOwnerAction): Promise<CustomerOwner[]>;
   getCustomer(context: RequestContext, id: string): Promise<CustomerView>;
   createCustomer(context: RequestContext, input: CustomerInput, key: string): Promise<CustomerView>;

@@ -27,7 +27,7 @@
   "scopeOwn": "Assigned to self",
   "scopeTenant": "Business-wide",
   "selectScope": "Select scope",
-  "scopeHelp": "Enable each menu to set its visibility, then choose function access. For data access, “same group” means records in the member's own department.",
+  "scopeHelp": "Configure Console menus, actions and each action’s data scope independently; marketing requires no Console menu.",
   "save": "Save permission set",
   "created": "Permission set created",
   "updated": "Permission set updated",
@@ -36,8 +36,9 @@
   "deleteDescription": "Delete “{name}”? If members are using this permission set, assign them another one first.",
   "deleted": "Permission set deleted",
   "nameRequired": "Enter a permission set name",
-  "grantsRequired": "Select at least one work permission",
+  "grantsRequired": "Select at least one menu or function",
   "emptyTitle": "No permission sets yet",
   "emptyDescription": "Create permission sets to clarify responsibilities across your team.",
-  "noResults": "No permission sets match your search"
+  "noResults": "No permission sets match your search",
+  "externalMenu": "Not a Console menu"
 }

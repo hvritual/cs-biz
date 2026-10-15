@@ -12,5 +12,6 @@
   "notFound": "Page not found",
   "company": "Company settings",
   "customerList": "Customer list",
-  "team": "Team and permissions"
+  "team": "Team and permissions",
+  "marketing": "Marketing functions"
 }

@@ -27,7 +27,7 @@
   "scopeOwn": "本人负责",
   "scopeTenant": "企业范围",
   "selectScope": "选择范围",
-  "scopeHelp": "按菜单启用可见范围，再勾选功能权限。数据权限中「同组」指与该成员同一部门的记录。",
+  "scopeHelp": "后台菜单、功能及每项功能的数据范围独立配置；营销能力不要求后台菜单。",
   "save": "保存权限集",
   "created": "权限集已创建",
   "updated": "权限集已更新",
@@ -36,8 +36,9 @@
   "deleteDescription": "确定删除「{name}」吗？正在使用此权限集时，请先调整相关成员的权限。",
   "deleted": "权限集已删除",
   "nameRequired": "请填写权限集名称",
-  "grantsRequired": "请至少选择一项工作权限",
+  "grantsRequired": "请至少选择一项菜单或功能权限",
   "emptyTitle": "还没有权限集",
   "emptyDescription": "建立权限集，让团队职责更加清晰。",
-  "noResults": "没有找到符合条件的权限集"
+  "noResults": "没有找到符合条件的权限集",
+  "externalMenu": "不属于后台菜单"
 }

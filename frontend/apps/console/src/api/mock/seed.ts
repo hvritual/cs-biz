@@ -1,8 +1,10 @@
-import type { Grant, MockDatabase, Role } from './types';
+import type { ConsoleMenuKey, Grant, MockDatabase, Role } from './types';
 
 import { PERMISSIONS } from './types';
 
 const ownerGrants: Grant[] = PERMISSIONS.map(({ code }) => ({ action: code, scope: 'all' }));
+const ownerMenus: ConsoleMenuKey[] = ['workspace.overview','crm.customer.list','workspace.members','workspace.roles','workspace.profile','workspace.apps'];
+const viewerMenus: ConsoleMenuKey[] = ['workspace.overview','crm.customer.list','workspace.profile','workspace.apps'];
 const viewerGrants: Grant[] = [
   { action: 'workspace.read', scope: 'all' },
   { action: 'crm.customer.read', scope: 'all' },
@@ -12,13 +14,13 @@ const viewerGrants: Grant[] = [
 
 function rolesFor(tenantId: string): Role[] {
   return [
-    { id: `${tenantId}-owner`, tenantId, name: '企业负责人', description: '管理企业、成员与工作空间', grants: ownerGrants.map((grant) => ({ ...grant })), isSystem: true, isOwner: true },
-    { id: `${tenantId}-viewer`, tenantId, name: '客户观察员', description: '查看全部客户及企业基本资料', grants: viewerGrants.map((grant) => ({ ...grant })), isSystem: false, isOwner: false },
+    { id: `${tenantId}-owner`, tenantId, name: '企业负责人', description: '管理企业、成员与工作空间', grants: ownerGrants.map((grant) => ({ ...grant })), menuGrants: [...ownerMenus], isSystem: true, isOwner: true },
+    { id: `${tenantId}-viewer`, tenantId, name: '客户观察员', description: '查看全部客户及企业基本资料', grants: viewerGrants.map((grant) => ({ ...grant })), menuGrants: [...viewerMenus], isSystem: false, isOwner: false },
     { id: `${tenantId}-specialist`, tenantId, name: '客户负责人', description: '建立客户并维护自己负责的客户', grants: [
       { action: 'crm.customer.create', scope: 'own' },
       { action: 'crm.customer.update', scope: 'own' },
       { action: 'crm.customer.archive', scope: 'own' },
-    ], isSystem: false, isOwner: false },
+    ], menuGrants: [], isSystem: false, isOwner: false },
   ];
 }
 
@@ -59,8 +61,12 @@ export function createSeedDatabase(): MockDatabase {
       { id: 'yl-bailu', tenantId: 'yunlan', company: '白露文化', kind: 'studio', contact: '白露', phone: '13900001003', ownerId: 'chen', status: 'active', notes: '文化活动与内容创作团队。', updatedAt: '2026-10-06T06:00:00.000Z' },
       { id: 'yl-jianshan', tenantId: 'yunlan', company: '见山工坊', kind: 'studio', contact: '宋见', phone: '13900001004', ownerId: 'chen', status: 'paused', notes: '工作空间翻新，暂缓日常补给。', updatedAt: '2026-10-05T05:00:00.000Z' },
     ],
+    campaigns: [
+      { id: 'qh-marketing-chen', tenantId: 'qinghe', name: '园区咖啡福利', ownerId: 'chen', executions: 0 },
+      { id: 'qh-marketing-zhou', tenantId: 'qinghe', name: '客户回访活动', ownerId: 'zhou', executions: 0 },
+    ],
     entitlements: {
-      qinghe: [{ moduleCode: 'crm', status: 'active', activatedAt: '2026-03-18T02:00:00.000Z' }],
+      qinghe: [{ moduleCode: 'crm', status: 'active', activatedAt: '2026-03-18T02:00:00.000Z' }, { moduleCode: 'marketing', status: 'active', activatedAt: '2026-03-18T02:00:00.000Z' }],
       yunlan: [{ moduleCode: 'crm', status: 'inactive' }],
     },
     accessVersions: { qinghe: 1, yunlan: 1 },

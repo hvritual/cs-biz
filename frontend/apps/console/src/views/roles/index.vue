@@ -28,7 +28,7 @@ const deleting = ref('');
 const formError = ref('');
 const formRef = ref<FormInstance>();
 let confirmationOpen = false;
-const form = reactive<RoleInput>({ name: '', description: '', grants: [] });
+const form = reactive<RoleInput>({ name: '', description: '', grants: [], menuGrants: [] });
 const canManage = computed(() => workspace.can('tenant.role.manage'));
 const readonly = computed(() => !canManage.value || Boolean(editing.value?.isSystem));
 const visibleRoles = computed(() => {
@@ -39,7 +39,7 @@ const rules = computed<FormRules>(() => ({ name: [{ required: true, whitespace: 
 
 function openRole(role?: Role) {
   editing.value = role ?? null;
-  Object.assign(form, role ? { name: role.name, description: role.description, grants: role.grants.map((grant) => ({ ...grant })) } : { name: '', description: '', grants: [] });
+  Object.assign(form, role ? { name: role.name, description: role.description, grants: role.grants.map((grant) => ({ ...grant })), menuGrants: [...role.menuGrants] } : { name: '', description: '', grants: [], menuGrants: [] });
   formError.value = '';
   drawer.value = true;
 }
@@ -48,13 +48,13 @@ async function saveRole() {
   if (saving.value || readonly.value || !workspace.context || workspace.loading) return;
   const captured = workspace.capture();
   const roleId = editing.value?.id;
-  const input: RoleInput = { name: form.name.trim(), description: form.description.trim(), grants: form.grants.map((grant) => ({ ...grant })) };
+  const input: RoleInput = { name: form.name.trim(), description: form.description.trim(), grants: form.grants.map((grant) => ({ ...grant })), menuGrants: [...(form.menuGrants ?? [])] };
   saving.value = true;
   formError.value = '';
   try {
     const valid = await formRef.value?.validate().catch(() => false);
     if (!valid || !captured.isCurrent() || readonly.value) return;
-    if (input.grants.length === 0) { formError.value = t('roles.grantsRequired'); return; }
+    if (input.grants.length === 0 && !input.menuGrants?.length) { formError.value = t('roles.grantsRequired'); return; }
     if (roleId) await api.updateRole(captured.context, roleId, input);
     else await api.createRole(captured.context, input);
     if (!captured.isCurrent()) return;
@@ -125,7 +125,7 @@ onBeforeUnmount(() => { if (confirmationOpen) ElMessageBox.close(); });
       </ElForm>
       <h2 class="section-title permissions-title">{{ t('roles.permissions') }}</h2>
       <p class="muted role-help">{{ t('roles.scopeHelp') }}</p>
-      <PermissionSetEditor v-model="form.grants" :disabled="saving || readonly" />
+      <PermissionSetEditor v-model="form.grants" v-model:menu-grants="form.menuGrants" :disabled="saving || readonly" />
       <template #footer><div class="form-actions"><ElButton :disabled="saving" @click="drawer = false">{{ t(readonly ? 'common.close' : 'common.cancel') }}</ElButton><ElButton v-if="!readonly" type="primary" :loading="saving" @click="saveRole">{{ t('roles.save') }}</ElButton></div></template>
     </ElDrawer>
   </div>

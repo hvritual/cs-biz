@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreateMemberInput, Grant, MemberView, Role } from '#/api/mock/types';
+import type { ConsoleMenuKey, CreateMemberInput, Grant, MemberView, Role } from '#/api/mock/types';
 import type { FormInstance, FormRules } from 'element-plus';
 
 import { computed, reactive, ref, watch } from 'vue';
@@ -47,6 +47,7 @@ const permissionMode = ref<'import' | 'custom'>('import');
 const importMemberId = ref('');
 const selectedRoleIds = ref<string[]>([]);
 const customGrants = ref<Grant[]>([]);
+const customMenuGrants = ref<ConsoleMenuKey[]>([]);
 const customSetName = ref('');
 const creationKey = ref(crypto.randomUUID());
 
@@ -56,8 +57,8 @@ const importSource = computed(() => data.value.members.find((m) => m.id === impo
 
 const importedGrantsSnapshot = ref('');
 
-function grantsFingerprint(grants: Grant[]): string {
-  return grants.map((g) => `${g.action}:${g.scope}`).sort().join('|');
+function grantsFingerprint(grants: Grant[], menus: ConsoleMenuKey[]): string {
+  return grants.map((g) => `${g.action}:${g.scope}`).concat(menus.map((key) => `menu:${key}`)).sort().join('|');
 }
 
 watch(importMemberId, (id) => {
@@ -65,7 +66,7 @@ watch(importMemberId, (id) => {
   if (source) {
     selectedRoleIds.value = [...source.roleIds];
     importedGrantsSnapshot.value = grantsFingerprint(
-      source.roles.flatMap((r) => r.grants),
+      source.roles.flatMap((r) => r.grants), source.roles.flatMap((r) => r.menuGrants),
     );
   } else {
     selectedRoleIds.value = [];
@@ -89,15 +90,16 @@ watch(selectedRoleIds, (ids) => {
     seen.add(k);
     return true;
   });
+  customMenuGrants.value = [...new Set(data.value.roles.filter((r) => ids.includes(r.id)).flatMap((r) => r.menuGrants))];
   customSetName.value = ids.length === 1
     ? (data.value.roles.find((r) => r.id === ids[0])?.name ?? '')
     : '';
 });
 
 const matchedExistingRole = computed(() => {
-  if (permissionMode.value !== 'custom' || customGrants.value.length === 0) return null;
-  const fp = grantsFingerprint(customGrants.value);
-  return data.value.roles.find((r) => grantsFingerprint(r.grants) === fp) ?? null;
+  if (permissionMode.value !== 'custom' || (customGrants.value.length === 0 && customMenuGrants.value.length === 0)) return null;
+  const fp = grantsFingerprint(customGrants.value, customMenuGrants.value);
+  return data.value.roles.find((r) => grantsFingerprint(r.grants, r.menuGrants) === fp) ?? null;
 });
 
 const rules = computed<FormRules>(() => ({
@@ -159,9 +161,9 @@ async function submit() {
   if (permissionMode.value === 'custom' && !matchedExistingRole.value) {
     const setName = customSetName.value.trim();
     if (!setName) { formError.value = t('members.setNameRequired'); return; }
-    if (customGrants.value.length === 0) { formError.value = t('members.setGrantsRequired'); return; }
+    if (customGrants.value.length === 0 && customMenuGrants.value.length === 0) { formError.value = t('members.setGrantsRequired'); return; }
     try {
-      const created = await api.createRole(captured.context, { name: setName, description: '', grants: customGrants.value.map((g) => ({ ...g })) });
+      const created = await api.createRole(captured.context, { name: setName, description: '', grants: customGrants.value.map((g) => ({ ...g })), menuGrants: [...customMenuGrants.value] });
       input.roleIds = [...new Set([...input.roleIds, created.id])].sort();
     } catch (cause) {
       if (captured.isCurrent()) formError.value = errorMessage(cause);
@@ -279,7 +281,7 @@ watch(() => workspace.generation, () => {
             <ElFormItem :label="t('members.setName')" class="cl-inline-set-name">
               <ElInput v-model="customSetName" :maxlength="60" />
             </ElFormItem>
-            <PermissionSetEditor v-model="customGrants" />
+            <PermissionSetEditor v-model="customGrants" v-model:menu-grants="customMenuGrants" />
             <ElAlert v-if="matchedExistingRole" :title="t('members.reuseExisting', { name: matchedExistingRole.name })" type="info" :closable="false" show-icon />
           </div>
         </div>
