@@ -18,7 +18,7 @@ assertion, turn off security checks, or claim a skipped check passed.
    one-line pushes and CI-wait loops. Once clean, freeze the candidate SHA.
 5. Promote the PR from Draft to **Ready for review** to obtain review readiness, **not** to start Full. Human alone chooses when to run `Frontend Full Gate` via GitHub Actions `Run workflow` on **main**, entering exact `pr_number` and `candidate_sha`. Do not dispatch Full from Agent, bot, automatic PR workflow or a push. Configure `full-ci-human-approval` environment with required Human reviewers and allow main as the only deployment branch. This is an admin setting; the environment name by itself does NOT enforce human identity.
    Full checks the current PR head before test and again on an isolated receipt signer after the tests; the Full run must succeed and emit `frontend-manual-full-receipt-<run_id>-<run_attempt>`. Any new head invalidates the old receipt. No automatic repeat or cancellation of prior Human-started Full runs.
-6. Before stating "done" or requesting merge, independently read the exact PR/head, Human-dispatched Full run and its receipt artifact, executed jobs, skipped/failing tests and screenshots. A Draft/Ready transition or successful Fast does not satisfy Full. This manual workflow runs from main and does **not automatically create a required PR check on the candidate SHA**; do not infer merge protection. Merge and deployment remain separately authorized.
+6. Before stating "done" or requesting merge, independently read the exact PR/head and **Human Full decision**: either (a) a Human-dispatched Full run and authenticated exact-SHA receipt, or (b) an independently reviewed Human waiver **only for an authorized narrow governance/doc/Skill change**, bound to this exact SHA, with applicable Fast/Targeted evidence. Without either, stay WAITING_HUMAN_FULL. A Draft/Ready transition or successful Fast never makes Full pass. This manual workflow runs from main and does **not automatically create a required PR check on the candidate SHA**; do not infer merge protection. Merge and deployment remain separately authorized.
 
 ### Gate map
 | Phase | Trigger | Executed | Excluded | Evidence |
@@ -30,7 +30,11 @@ assertion, turn off security checks, or claim a skipped check passed.
 
 Human manual dispatch becomes available once the revised workflow is merged into default branch. A PR must be non-Draft for this process, but merely marking Ready does not start Full. The `workflow_dispatch` event and Human event sender check are insufficient to prevent an automation from using a Human account token; enable environment required reviewers, restrict allowed branches and protect settings. Only the real GitHub run/artifact/approval evidence supports qualification.
 
-### Time and scope budget
+### Human decision authority
+
+Read [Human Full Control](HUMAN-FULL-CONTROL.md). Human may RUN_FULL, explicitly WAIVE_FULL in the narrowly authorized governance/doc/Skill case, or DEFER. The waiver is NOT an automatic skip, not equivalent to Full success, and never covers unreviewed product/runtime changes. Any candidate change invalidates both decisions. Agent cannot initiate Full or approve a waiver. Project-level GitHub protection must be configured by an administrator; process checks alone do not prevent a direct unprotected merge.
+
+## Time and scope budget
 - Before editing, name the **one failing assertion** and source owner.
 - If only CSS changed, do not modify API, auth or tenant data.
 - Use one batched candidate for all identified failures; no multiple concurrent
@@ -52,5 +56,5 @@ Repository admins must require appropriate automatic checks and enforce the sepa
 - Fast red: stop, repair Fast; do not run Full.
 - Targeted red: repair UI cause; do not run Full.
 - Full red: not qualified; fix grouped root cause, run Fast again, then request a **new Human decision** for another Full on the new SHA. Never auto-dispatch or reuse an earlier green head.
-- Human did not start Full: `WAITING_HUMAN_FULL`; do not claim qualified or auto-trigger it.
+- Human has neither issued an exact-SHA waiver nor triggered Full: `WAITING_HUMAN_FULL`; do not claim qualified or auto-trigger it.
 - Missing tool/infrastructure: record **unavailable** rather than pass.
