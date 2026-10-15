@@ -2,7 +2,7 @@
 
 - 状态：**proposed / DESIGN_REVIEW，未批准，未实施 Runtime**。
 - 日期：2026-10-15；当前消费仓库 main `da5494d03c362ab873465c1793e7aba7e4e3a7cc`。
-- 来源：[Issue #11](https://github.com/hvritual/cs-biz/issues/11)、父 [#10](https://github.com/hvritual/cs-biz/issues/10)，本轮 [方案/设计包](../../tasks/issue-11-f0/rounds/r001/solution.md)。
+- 来源：[Issue #11](https://github.com/hvritual/cs-biz/issues/11)、父 [#10](https://github.com/hvritual/cs-biz/issues/10)，本轮 [方案/设计包](../../tasks/issue-11-f0/rounds/r005/solution.md)。
 - 继承：[PR #18 ADR-0002 固定草案](https://github.com/hvritual/cs-biz/blob/a5dccbd074236e31d0628a01e01a7dfb534b981e/doc/architecture/adr/0002-yunka-runtime-adoption.md)。它仍 proposed；本 ADR 不假装它已合入或批准。
 
 ## 需要决策的问题
@@ -11,21 +11,21 @@
 
 ## 消费策略（D1 已选 A；完整 ADR 仍待审阅）
 
-Human 已在首轮候选上明确选择 A，原文与范围见 [r002 决策](../../tasks/issue-11-f0/rounds/r002/decision.json)。优先经核实的发布模块/CLI 制品锁，记录 module path、version、commit、sum/制品摘要；若缺合格发布则保持 F1 的资格阻塞，先修上游或明确消费方式。只有 Human 接受维护与供应链成本时，才改为仓库内固定源码快照和可重建 CLI；禁止宿主机路径、浮动 main 和复制第二 Runtime。具体选项见 [D1](../../tasks/issue-11-f0/rounds/r001/decisions.md)。
+Human 已在首轮候选上明确选择 A，原文与范围见 [r002 决策](../../tasks/issue-11-f0/rounds/r002/decision.json)。优先经核实的发布模块/CLI 制品锁，记录 module path、version、commit、sum/制品摘要；若缺合格发布则保持 F1 的资格阻塞，先修上游或明确消费方式。只有 Human 接受维护与供应链成本时，才改为仓库内固定源码快照和可重建 CLI；禁止宿主机路径、浮动 main 和复制第二 Runtime。具体选项见 [D1](../../tasks/issue-11-f0/rounds/r005/decisions.md)。
 
 经 [r004 部分决定](../../tasks/issue-11-f0/rounds/r004/qualification.md)，目标工具链为 Go 1.26.9（x/net v0.60.0 要求语言版本 go 1.26.0）、protoc 3.21.12、上游锁定 plugins；F0 不改当前 Go 1.23.0 或依赖。F1 必须在真正 Consumer 上验证旧 Authz 兼容、生成/装配二次零漂移与依赖/源码治理。
 
 ## 不可省略的权威与安全边界
 
-完整表只在 [design.md](../../tasks/issue-11-f0/rounds/r001/design.md) 维护：Access 持有真实成员/Role/Menu/Permission+Scope；typed PB 是目标 Operation 合同唯一可写源；Yunka Authorizer/OperationGuard/Executor 持有其执行职责；Domain 强制 Tenant AND Scope、业务状态/回执/恢复；商业可用性和 Trace 不产生权限。原 Router 保留受控对照，切换前不得形成同操作双授权生产入口。
+完整表只在 [design.md](../../tasks/issue-11-f0/rounds/r005/design.md) 维护：Access 持有真实成员/Role/Menu/Permission+Scope；typed PB 是目标 Operation 合同唯一可写源；Yunka Authorizer/OperationGuard/Executor 持有其执行职责；Domain 强制 Tenant AND Scope、业务状态/回执/恢复；商业可用性和 Trace 不产生权限。原 Router 保留受控对照，切换前不得形成同操作双授权生产入口。
 
 不采纳旧 @yunka 注释 DSL 及 legacy 角色表为新 Consumer 权威；不将 ScopeKey.With 或生成物存在当作授权。根幂等抑制不承诺响应重放。`group` 的领域含义尚未确权，当前不能转换扩大范围。
 
-Trace/Log 目标由 [本轮合同](../../tasks/issue-11-f0/rounds/r001/design.md) 冻结：W3C 传播、受控 CORS/x-trace-id、默认 JSON stdout、无敏感身份字段、RPC/异步因果链、开发/CI 可查询 Collector/Jaeger、SLS 选配。查询默认最小暴露，生产环境/租户/人员权限、采样/留存/删除策略须 F3/F6 有组织 Owner 和真实审批；没有 Span 不能伪造查询成功。
+Trace/Log 目标由 [本轮合同](../../tasks/issue-11-f0/rounds/r005/design.md) 冻结：W3C 传播、受控 CORS/x-trace-id、默认 JSON stdout、无敏感身份字段、RPC/异步因果链、开发/CI 可查询 Collector/Jaeger、SLS 选配。查询默认最小暴露，生产环境/租户/人员权限、采样/留存/删除策略须 F3/F6 有组织 Owner 和真实审批；没有 Span 不能伪造查询成功。
 
 ## 未决条件与阶段出口
 
-D1 已解决为 A；[发布资格核实](../../tasks/issue-11-f0/rounds/r002/qualification.md) 证明 infras/v0.1.0 缺失、CLI 发行锁证据不足，F1 保持阻塞；D2 数据库和 D3 IdP 的组织条件、Session/邀请/恢复政策、legacy group、诊断留存等分别记录 owner 与阻塞阶段。F0 可以冻结“尚未具备”的事实，不能借此宣称 F1/F3 已可实施。
+D1已解决为A；[r005资格](../../tasks/issue-11-f0/rounds/r005/qualification.md)已冻结安全SDK源、CLI producer与实际已合格CI制品。r002缺失旧infras标签是历史事实，不再泛化为外部版本不可用。Go1.26.9 / x-net0.60.0 / go1.26.0来自r004的部分批准，完整ADR仍proposed。D2数据库、D3 IdP、Session/邀请/恢复、legacy group与诊断留存仍按原owner/阶段阻塞，不从上游资格推断F1/F3已实施。
 
 F0 关闭需精确版本设计确认、来源/兼容/负例/条件完整、结构与真实候选检查、独立评审及 main 回读。Go/API/DB/Browser/生产证据由真正实施阶段提供，不用框架 CI 或 Mock 抵扣。Full、合并与部署按当前规则分别控制；#26 豁免只属于 #26。
 
@@ -40,3 +40,7 @@ F0 关闭需精确版本设计确认、来源/兼容/负例/条件完整、结�
 ## 当前条件决定补充（r004）
 
 Human 已批准独立安全基线升级；[新轮记录](../../tasks/issue-11-f0/rounds/r004/qualification.md) 优先于 r003 的待决状态，未更改旧轮。Yunka #245 候选仍须完整门禁/main 回读，之后 PR #243 刷新 SDK/CLI 资格；完整 ADR 仍 proposed，非完整设计或 Full 批准。
+
+## 当前r005准入输入
+
+Yunka #245/#243均已整合且候选/独立main资格通过；#244已全验收关闭。具体外部模块版本/sums、SDK源bc7c0e1、CLI producer3e46ec4、平台/Go根/到期与实际制品摘要只在[r005版本矩阵](../../tasks/issue-11-f0/rounds/r005/versions.md)和机器记录维护。当前等待r005完整Human设计确认，尚未DESIGN_HANDOFF或F1。
