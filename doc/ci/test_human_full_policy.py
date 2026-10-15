@@ -44,7 +44,12 @@ class HumanFullPolicyTests(unittest.TestCase):
 
     def test_auto_fast_workflow_cannot_call_full(self):
         self.mutate(AUTO[0], "corepack pnpm check:fast","corepack pnpm check:full")
-        self.expect("AUTO_WORKFLOW_RUNS_FULL")
+        self.expect("OTHER_WORKFLOW_RUNS_FULL")
+
+    def test_new_workflow_automatically_runs_full_fails(self):
+        new = self.root / ".github/workflows/unregistered.yml"
+        new.write_text("name: New workflow\\non:\\n  push:\\njobs:\\n  wrong:\\n    runs-on: ubuntu-latest\\n    steps:\\n      - run: corepack pnpm check:full\\n", encoding="utf-8")
+        self.expect("OTHER_WORKFLOW_RUNS_FULL")
 
     def test_missing_manual_receipt_fails(self):
         self.mutate(FULL, "manual_full_dispatch.py receipt","echo receipt success")
