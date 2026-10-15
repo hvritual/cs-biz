@@ -8,10 +8,10 @@ Pinned toolchain: Node 22.18+ or 24.x, pnpm 10.33.4 from Corepack.
 ```sh
 corepack enable && corepack install
 corepack pnpm install --frozen-lockfile       # once per lockfile version
-corepack pnpm check:fast                      # every iteration
+corepack pnpm check:fast                      # every iteration and default 'pnpm check'
 corepack pnpm exec playwright install chromium  # once, only when UI browser work requires it
 corepack pnpm check:desktop:runtime           # UI-only: one build, targeted Desktop E2E
-corepack pnpm check:full                      # once for the frozen release candidate
+corepack pnpm check:full                      # explicit Human-only; not for Agent iteration
 ```
 
 Do not reinstall Chromium or rerun all customer/tenant journeys after every CSS
@@ -29,7 +29,7 @@ Full adds the actual production build and all Playwright journeys.
   internal PR job skipped; external fork PRs are checked.
 
 Run `bash doc/ci/check.sh --fast` from the root for a structural preflight
-plus Fast; default `bash doc/ci/check.sh` remains Full for compatibility.
+plus Fast; default `bash doc/ci/check.sh` is **Fast**. Full is only an explicit Human decision; see [Human Full Control](../../doc/ci/HUMAN-FULL-CONTROL.md).
 
 ## Stop conditions
 
