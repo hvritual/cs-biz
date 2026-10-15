@@ -1,5 +1,8 @@
 # ADR-0001：前端底座采用 Vben Admin 5 + Element Plus
 
+> **当前状态补充（2026-10-15）：** Vben + Element Plus 已导入 main，ADR-0001 的前端决定保持生效。最新三权业务定义见 [Access V3](../../contracts/three-rights-v3.md)，引入 Yunka 只影响服务端 Operation 运行/TS Client 生成，不替换当前前端样式或组件底座。[PR #8](https://github.com/hvritual/cs-biz/pull/8) 未合并，不应作为 main 已实现描述。
+
+
 - 状态：`accepted`，随用户授权的 S01 技术实施采纳；验证与合并状态另行记录。
 - 日期：2026-10-12
 - 已明确要求：Vue、成熟组件库、动态换肤、国际化、动态菜单、权限管理。

@@ -1,5 +1,8 @@
 # Frontend
 
+> **2026-10-15 现状：** 本文件描述 main 的 S01 本地 Mock 和 Vben 前端。纯营销成员无 Console Menu 仍可使用营销 Function 的三权页面及交互在 [PR #8](https://github.com/hvritual/cs-biz/pull/8) 候选，尚未合并。业务前端的未来 Function 目录以 Yunka typed PB 生成 TS Client/权限投影为目标（F1 之后），菜单/按钮/数据范围独立；当前无真实 IdP/后端 API。见 [三权 V3](../doc/contracts/three-rights-v3.md) 和 [Developer SOP](../doc/tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)。
+
+
 S01 提供一个 Vue 3 + Vben Admin 5 + Element Plus 的企业工作空间。应用位于 `apps/console`，由有状态的浏览器本地 Mock 服务支持客户、成员、角色、企业资料和应用开通交互；支持主题切换、中文/英文、动态菜单和响应式权限展示。
 
 来源为 Vben `v5.7.0` 的 `apps/web-ele`，固定提交 `63a38dce49ba109f61607994e21ba921d8e970e9`。上游许可保留于 [LICENSE.vben](LICENSE.vben)。目录保留实际使用的 Vben workspace 包与构建工具；应用代码统一放入 `apps/console`。
