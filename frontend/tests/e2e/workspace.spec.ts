@@ -122,8 +122,10 @@ test('roles and members: create, persist, change access, protect the last owner'
   await page.getByRole('button', { name: '新建权限集', exact: true }).click();
   const drawer = page.getByRole('dialog');
   await drawer.getByRole('textbox', { name: /权限集名称$/ }).fill('客户协作');
+  await drawer.locator('.pse-row', { hasText: '工作台' }).locator('.pse-menu .el-switch').click();
   await drawer.getByText('查看工作台', { exact: true }).click();
   await expect(drawer.getByRole('checkbox', { name: '查看工作台', exact: true })).toBeChecked();
+  await drawer.locator('.pse-row', { hasText: '客户列表' }).locator('.pse-menu .el-switch').click();
   await drawer.getByText('查看客户', { exact: true }).click();
   await expect(drawer.getByRole('checkbox', { name: '查看客户', exact: true })).toBeChecked();
   await shot(page, info, 'role-scope-editor');
@@ -202,6 +204,7 @@ test('member creation configures and binds a new permission set inline', async (
   await expect(page.getByText('请至少启用一个菜单', { exact: true })).toBeVisible();
   const crmRow = page.locator('.pse-row', { hasText: '客户列表' });
   await crmRow.locator('.pse-menu .el-switch').click();
+  await crmRow.getByRole('checkbox', { name: '查看客户', exact: true }).click();
   await expect(page.getByRole('checkbox', { name: '查看客户', exact: true })).toBeChecked();
   await crmRow.getByText('同组', { exact: true }).click();
   await expect(crmRow.getByRole('radio', { name: '同组', exact: true })).toBeChecked();

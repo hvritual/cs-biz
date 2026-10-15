@@ -1,6 +1,5 @@
 import type {
   AccessContext,
-  Campaign,
   ConsoleMenuKey,
   Customer,
   CustomerInput,
@@ -715,13 +714,16 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     async platformSetModule(tenantId, moduleCode, enabled) {
       (await begin())();
       requirePlatform();
-      if (moduleCode !== 'crm') return fail('MODULE_NOT_FOUND', 404);
+      if (moduleCode !== 'crm' && moduleCode !== 'marketing') return fail('MODULE_NOT_FOUND', 404);
       if (typeof enabled !== 'boolean') return fail('INVALID_INPUT', 422, { field: 'enabled' });
       platformTenant(tenantId);
       const next = clone(state);
       const existing = next.entitlements[tenantId]?.find((entry) => entry.moduleCode === moduleCode);
       if (existing?.status === (enabled ? 'active' : 'inactive')) return platformTenant(tenantId);
-      next.entitlements[tenantId] = [{ moduleCode, status: enabled ? 'active' : 'inactive', ...(enabled ? { activatedAt: now() } : {}) }];
+      next.entitlements[tenantId] = [
+        ...(next.entitlements[tenantId] ?? []).filter((item) => item.moduleCode !== moduleCode),
+        { moduleCode, status: enabled ? 'active' : 'inactive', ...(enabled ? { activatedAt: now() } : {}) },
+      ];
       if (enabled) {
         for (const request of next.activationRequests) {
           if (request.tenantId === tenantId && request.moduleCode === moduleCode && request.status === 'pending') {

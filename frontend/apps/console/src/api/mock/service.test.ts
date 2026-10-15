@@ -434,3 +434,65 @@ describe('member bulk operation remains atomic', () => {
     expect((await api.listMembers(context())).find((row) => row.id === owner.id)?.status).toBe('active');
   });
 });
+
+
+describe('V2.2 independent Menu / Function / Data grants', () => {
+  it('allows marketing-only membership while denying Console navigation and unrelated APIs', async () => {
+    const api = service();
+    const role = await api.createRole(context(), { name: '营销执行员', description: '仅负责指定营销活动',
+      menuGrants: [], grants: [
+        { action: 'marketing.campaign.read', scope: 'own' },
+        { action: 'marketing.campaign.execute', scope: 'own' },
+      ] });
+    await api.updateMembership(context(), 'qinghe-zhou', { roleIds: [role.id] });
+    api.selectUser('zhou');
+    const ctx = context('zhou');
+    const access = await api.getAccessContext(ctx);
+    expect(access.menuGrants).toEqual([]);
+    expect(access.navigation).toEqual([]);
+    expect(access.permissions).toContain('marketing.campaign.execute');
+    const campaigns = await api.listCampaigns(ctx);
+    expect(campaigns.map((c) => c.id)).toEqual(['qh-marketing-zhou']);
+    await expect(api.listCustomers(ctx)).rejects.toMatchObject({ code: 'PERMISSION_DENIED' });
+    await expect(api.executeCampaign(ctx, 'qh-marketing-chen', 'cross-owner')).rejects.toMatchObject({ code: 'PERMISSION_DENIED' });
+    const first = await api.executeCampaign(ctx, 'qh-marketing-zhou', 'same-operation');
+    const retry = await api.executeCampaign(ctx, 'qh-marketing-zhou', 'same-operation');
+    expect(first.executions).toBe(1);
+    expect(retry.executions).toBe(1);
+  });
+
+  it('preserves per-function scope when editing a different function and blocks unowned menus', async () => {
+    const api = service();
+    const role = await api.createRole(context(), { name: '读全部改本人', description: '',
+      menuGrants: ['crm.customer.list'],
+      grants: [{ action: 'crm.customer.read', scope: 'all' }, { action: 'crm.customer.update', scope: 'own' }] });
+    const changed = await api.updateRole(context(), role.id, { grants: [
+      { action: 'crm.customer.read', scope: 'own' }, { action: 'crm.customer.update', scope: 'own' },
+    ] });
+    expect(changed.menuGrants).toEqual(['crm.customer.list']);
+    expect(changed.grants.find((g) => g.action === 'crm.customer.update')?.scope).toBe('own');
+    expect(changed.grants.find((g) => g.action === 'crm.customer.read')?.scope).toBe('own');
+    await expect(api.createRole(context(), { name: '非法菜单', description: '', menuGrants: ['marketing.functions' as never], grants: [] }))
+      .rejects.toMatchObject({ code: 'INVALID_PERMISSION' });
+    const noMenu = await api.createRole(context(), { name: '仅查看功能', description: '', menuGrants: [],
+      grants: [{ action: 'crm.customer.read', scope: 'all' }] });
+    await api.updateMembership(context(), 'qinghe-yu', { roleIds: [noMenu.id] });
+    api.selectUser('yu');
+    expect((await api.getAccessContext(context('yu'))).navigation).toEqual([]);
+    expect(await api.listCustomers(context('yu'))).toHaveLength(8);
+  });
+
+  it('treats marketing availability as business gate without revoking IAM grants', async () => {
+    const api = service();
+    const before = await api.getAccessContext(context());
+    expect(before.permissions).toContain('marketing.campaign.execute');
+    api.selectUser('platform');
+    await api.platformSetModule('qinghe', 'marketing', false);
+    api.selectUser('chen');
+    const after = await api.getAccessContext(context());
+    expect(after.permissions).not.toContain('marketing.campaign.execute');
+    expect((await api.listRoles(context())).find((r) => r.id === 'qinghe-owner')?.grants.some((g) => g.action === 'marketing.campaign.execute')).toBe(true);
+    await expect(api.listCampaigns(context())).rejects.toMatchObject({ code: 'MODULE_INACTIVE' });
+    expect(await api.listCustomers(context())).toHaveLength(8);
+  });
+});

@@ -38,7 +38,7 @@ async function execute(campaign: Campaign) {
       <p v-if="actionError" role="alert">{{ actionError }}</p>
       <p v-if="error" role="alert">{{ errorMessage(error) }}</p>
       <ElButton v-if="error" @click="refresh()">{{ $t('common.tryAgain') }}</ElButton>
-      <ElTable v-else :data="data" :v-loading="loading" data-testid="marketing-campaigns" row-key="id">
+      <ElTable v-else :data="data" v-loading="loading" data-testid="marketing-campaigns" row-key="id">
         <ElTableColumn prop="name" :label="$t('marketing.name')" />
         <ElTableColumn prop="executions" :label="$t('marketing.executions')" width="130" />
         <ElTableColumn :label="$t('marketing.actions')" width="160">

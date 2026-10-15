@@ -28,7 +28,7 @@ const deleting = ref('');
 const formError = ref('');
 const formRef = ref<FormInstance>();
 let confirmationOpen = false;
-const form = reactive<RoleInput>({ name: '', description: '', grants: [], menuGrants: [] });
+const form = reactive<Required<RoleInput>>({ name: '', description: '', grants: [], menuGrants: [] });
 const canManage = computed(() => workspace.can('tenant.role.manage'));
 const readonly = computed(() => !canManage.value || Boolean(editing.value?.isSystem));
 const visibleRoles = computed(() => {
