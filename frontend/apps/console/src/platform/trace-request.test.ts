@@ -42,7 +42,7 @@ describe('W3C browser → Go trace transport bridge', () => {
   });
 
   it('never accepts a missing or mismatched server trace identity', async () => {
-    for (const badHeaders of [{}, { 'x-trace-id': 'deadbeef', 'x-span-id': '2222222222222222' }]) {
+    for (const badHeaders of [new Headers(), new Headers({ 'x-trace-id': 'deadbeef', 'x-span-id': '2222222222222222' })]) {
       await expect(fetchWithTrace('/test', {}, async () => new Response('', { headers: badHeaders })))
         .rejects.toMatchObject({ code: 'TRACE_CONTEXT_MISMATCH', traceId: expect.stringMatching(/^[0-9a-f]{32}$/) });
     }
