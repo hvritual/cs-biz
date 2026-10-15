@@ -19,5 +19,6 @@ govulncheck v1.7.0扫描实际Consumer，结果No vulnerabilities found。局部
 ## 仍须实证，不得标PASS
 
 本会话没有Docker可用，真实Collector/Jaeger查询必须在隔离CI完成。上游artifact匿名下载实际401，CI只读token能否跨仓下载须读真实结果；若无权限，负责方为仓库Owner，补齐限定Actions read的YUNKA_ARTIFACT_TOKEN或另行批准正式不可变分发方式，不能换浮动源或跳过检查。
+首次实际候选ebe02d2的run38825149120中，固定制品身份/字节/到期/工具根检查已通过，下载权限在该CI身份下不是阻塞。backend在冷缓存source audit阶段失败（57条INCOMPLETE）；审计器明确禁网，本地已缓存而CI仅取得module manifests，缺少依赖源码。修复为先go mod download物化固定依赖，再做禁网只读审计，并保留失败JSON/stderr；不更改source policy或审计要求。旧run不作为通过证据。
 最终候选Full、准确base/head/tier、所有所选job、独立receipt、内容审阅、授权合并与main门禁均以实际PR回执记录，当前不提前宣布通过/合并/完成。设计静态校验PASS_STATIC_ONLY不认证Human或运行。
 真实IAM/DB/租户SQL、业务API、生产部署和其余开放PR不在本轮实现；原DB/IdP验收保留BLOCKED_F3，不用Mock或上游测试抵扣。

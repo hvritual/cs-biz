@@ -76,9 +76,15 @@ def qualify(destination, evidence):
         require(download.get("Origin",{}).get("Hash")==LOCK["sdk"]["sdkSourceCommit"],"SDK source Origin mismatch")
     (evidence/"dependency-graph.json").write_text(graph_output)
     run(["go","mod","verify"])
-    audit=json.loads(run([cli,"audit","source","--root",str(ROOT),"--format","agent-json","--timeout","10m"]))
+    # The source auditor deliberately disables network access. A cold CI runner
+    # must materialize the locked module sources before that read-only phase.
+    run(["go","mod","download"])
+    audit_run=subprocess.run([cli,"audit","source","--root",str(ROOT),"--format","agent-json","--timeout","10m"],cwd=ROOT,capture_output=True,text=True)
+    (evidence/"source-audit.json").write_text(audit_run.stdout)
+    (evidence/"source-audit.stderr.log").write_text(audit_run.stderr)
+    require(audit_run.returncode==0,"source audit failed; see source-audit.json and stderr evidence")
+    audit=json.loads(audit_run.stdout)
     require(audit.get("status")=="PASS" and audit.get("sourceUnchanged") is True and audit["analysis"]["uncoveredGoFiles"]==0,"source audit incomplete")
-    (evidence/"source-audit.json").write_text(json.dumps(audit,indent=2)+"\n")
     run([cli,"assembly","check","--proto-path",str(destination/"include"),"--code-out","internal","--code-import","github.com/hvritual/cs-biz/backend/internal"])
     require(snapshot()==before,"read-only qualification changed source")
     # Destructive negatives run only in a disposable copy, never the source tree.
