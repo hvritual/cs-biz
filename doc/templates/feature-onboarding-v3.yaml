@@ -1,0 +1,81 @@
+# cs-biz / Yunka 目标 Function Onboarding 审查模板 V3
+# 非授权事实/非动态 IAM 配置；仅供 Issue/PR 的任务准入、变更契约和证据回读。
+# 只有 F1 实际锁定 Yunka Consumer 版本后方可将生成命令视为可用门禁。
+schema_version: 3
+kind: permission_onboarding_review
+status: PROPOSED
+issue_ref: "REPLACE_WITH_ISSUE"
+parent_roadmap: "https://github.com/hvritual/cs-biz/issues/10"
+repository: hvritual/cs-biz
+base_commit: "REPLACE_WITH_VERIFIED_SHA"
+framework_ref: ""
+actor:
+  audience: tenant_human  # tenant_human | platform | service | worker | public
+  trusted_credential_source_ref: ""
+  membership_source_ref: ""
+  per_tab_workspace_source_ref: ""
+business:
+  goal_ref: ""
+  journey_ref: ""
+  resource_owner_ref: ""
+  result_and_recovery_ref: ""
+  module_availability_domain_ref: ""
+menu:
+  required_for_console: false
+  menu_keys: []              # 仅管理后台导航，营销 Function-only 不需 Console 菜单
+  view_key_registry_ref: ""
+function:
+  canonical_proto_operation_refs: []
+  reused_operation_ids: []
+  new_operation_ids: []
+  required_permission_keys: []
+  permission_mode: all       # all | any，必须与 typed PB 显式匹配
+  transport_bindings: []
+  audience_and_authentication_approval_ref: ""
+data:
+  # 注意：每个 Permission 的 Scope 必须独立定义；未确权 group 禁止映射至 tenant/assigned
+  grants_per_permission: []
+  tenant_scope_source_ref: ""
+  resource_facts_source_ref: ""
+  operation_guard_ref: ""
+  domain_query_filter_ref: ""
+  group_legacy_policy_ref: ""
+execution:
+  unit_of_work_policy_ref: ""
+  idempotency_contract_ref: ""
+  audit_receipt_readback_ref: ""
+  no_second_runtime_proof_ref: ""
+reuse_and_ownership:
+  existing_access_authority_ref: ""
+  grant_resolver_adapter_ref: ""
+  generated_contract_artifact_ref: ""
+  allowed_files: []
+  forbidden_files: []
+acceptance:
+  locked_acceptance_ref: ""
+  required:
+    - no_console_menu_marketing_function_allowed
+    - menu_without_function_direct_api_denied
+    - read_tenant_update_self_separate
+    - cross_tenant_and_out_of_scope_denied
+    - denial_has_no_side_effect
+    - member_revocation_affects_next_request
+    - spoofed_identity_and_empty_tenant_denied
+    - module_disabled_keeps_grant_but_blocks_business
+    - lost_reply_idempotency_readback
+    - generated_contract_and_single_execution_path
+    - real_database_tenant_and_scope_queries
+verification:
+  code_candidate_sha: ""
+  yunka_version_and_toolchain_lock_ref: ""
+  generate_check_zero_drift_receipt: ""
+  go_test_and_race_receipt: ""
+  browser_fast_and_desktop_receipt: ""
+  full_browser_receipt: ""
+  actual_api_and_db_receipt: ""
+  independent_review_ref: ""
+  main_readback_sha: ""
+  result: NOT_VERIFIED
+release:
+  human_approval_ref: ""
+  production_evidence_ref: ""

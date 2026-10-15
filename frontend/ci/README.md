@@ -1,5 +1,8 @@
 # Frontend validation — Fast/Full gates
 
+> **2026-10-15 最新状态：** 此文描述当前 GitHub main 的 Fast/Targeted/Full；[PR #9](https://github.com/hvritual/cs-biz/pull/9) 还未合并，故 Full 手动触发只能作为提案。未来 Yunka Consumer 生成/真实 Go/DB 门禁独立追加，保留 Desktop 范围与既有权限反例。见 [路线](../../doc/roadmap.md)。
+
+
 Authoritative process: [No-Stall Delivery Gates](../../doc/ci/NO-STALL-GATES.md).
 Pinned toolchain: Node 22.18+ or 24.x, pnpm 10.33.4 from Corepack.
 

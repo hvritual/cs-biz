@@ -68,3 +68,7 @@ This change installs *method and structural checks only*. No change to real auth
 ## Validation boundaries and missing assurance
 
 File hash can detect a changed copy but not attest a Human decision or prevent a fully privileged process rewriting both file and digest. Structural checks cannot guarantee semantically correct intent, screenshots or interaction. Remote CI and reviewer evidence must be read independently. Do not claim the original complete v0.4.0 engine's exhaustive revision store and historical eval suite was copied into this repository.
+
+## Yunka 目标开发流程接入（路线方向，非当前运行能力）
+
+[Issue #10](https://github.com/hvritual/cs-biz/issues/10) 和 [ADR-0002](../architecture/adr/0002-yunka-runtime-adoption.md) 决定有条件使用 Yunka Operation/Executor，保留三权独立：Console Menu 只在前端，Function 由 typed PB/Gateway 授权，Data Scope 由 cs-biz OperationGuard/Domain 过滤。Skill 的 Intent/Design/Build 不变，但自 F1 **真实引入后**，Build 切片需加 `yunka generate/check` 零漂移和安全/DB/跨端负例，并保留 Fast→Targeted→Full/审批的现行 No-Stall 纪律。具体操作步骤：[Yunka Developer SOP](../tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)，历史 V2 步骤：[backend 功能接入说明](../../backend/doc/FEATURE-ONBOARDING-V2.md)。F0 文档与 Issue 建档不产生新的编译/生产 PASS。

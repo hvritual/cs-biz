@@ -1,5 +1,8 @@
 # S01：可运行的前端应用与有状态 Mock
 
+> **Historical S01 record（2026-10-15 校正）：** S01 有状态前端 Mock 已在 main（PR #3 合并）；此文中“待合并”一类字样对应旧任务时点。身份与三权新行为属于尚未合并的 PR #7/#8，Yunka 未接入。请使用 [Roadmap](../roadmap.md) 区分当前实码、候选与目标，遵循 [V3 三权](../contracts/three-rights-v3.md) 而不是把旧 Mock 的菜单/读取功能绑定作为今后规则。
+
+
 ## 状态与来源
 
 - 状态：implemented-and-validated（本地实现与验收完成；增量 PR 独立审阅，尚未合并或部署）。

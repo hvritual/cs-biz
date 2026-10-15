@@ -1,5 +1,8 @@
 # 前端应用设计与开发约定
 
+> **目标变更/当前事实：** 当前 main 的 `PermissionSetEditor.vue` 仍是 S01 旧本地权限演示；[PR #8](https://github.com/hvritual/cs-biz/pull/8) 的 V2.2 独立 `menuGrants`／Function+Data、营销无 Console 页面仅为未合并候选。此文件下方描述当前 S01 代码行为，不再决定未来权限授权语义。未来代码应按 [三权 V3](../../doc/contracts/three-rights-v3.md) 与 [Yunka Developer SOP](../../doc/tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md) 迁移，不替换 Vben/Element Plus Desktop 视觉契约。
+
+
 S01 已在固定 Vben Admin `v5.7.0` / Element Plus 底座上实现唯一 console 应用。开发入口见 [Frontend](../README.md)，本地账户与数据见 [Mock 数据说明](mock-data.md)，页面规范与截图比对见 [界面设计](design.md)。验证与交付状态以 [S01 证据](../../doc/evidence/S01-validation.md) 为准。
 
 ## 实际分层
@@ -65,3 +68,10 @@ The single source is **doc/design/desktop-ui.md** (relative link: [desktop contr
 `apps/console/src/styles/coffeelink-tokens.css`，`desktop.css` 与
 原有 `business.css` 只消费语义 Token；租户品牌仍由 Vben/Element Plus
 偏好驱动。业务页面不重复复制尺寸或颜色数值。
+
+## 计划中的三权消费接口
+
+- MenuGrant：仅决定 Console `viewKey`、菜单和深链接；普通营销功能不是 Console 菜单。
+- Function：按真实 Yunka typed PB 生成 Permission/TS Client 的当前授权投影控制按钮，不能把菜单开关当读取权限。
+- Data：逐功能 Scope 展示和可缩小筛选；所有后端查询由 Domain 强制过滤，UI 不构成安全边界。
+- 每标签页 WorkspaceContext、Role/Grant/模块变化需清理由旧访问版本产生的路由、按钮与业务缓存。具体采纳分阶段见 [F0–F6](../../doc/tasks/YUNKA-MIGRATION-F0-F6.md)，**当前尚未接入真 API**。

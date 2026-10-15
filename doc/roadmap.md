@@ -1,87 +1,64 @@
-# 实施路线与当前状态
+# cs-biz 最新路线与真实进展（2026-10-15）
 
-本文件记录阶段目标与实际状态，不把后续路线自动视为批量执行授权。当前独立交付单元为 [S01 前端应用与有状态 Mock](tasks/S01-frontend-mock.md)。S00 的 PR #1 尚未合并，S01 以其设计分支为基础增量交付；最新提交、检查与 PR 状态统一见 [S01 验证记录](evidence/S01-validation.md)。
+本文件是 **current roadmap / status projection**。任务执行权威为 [Yunka 引入主线 #10](https://github.com/hvritual/cs-biz/issues/10) 及子任务 #11–#17。详细 scope、依赖、不得修改文件、检查与 Human 决策见 [F0–F6 任务书](tasks/YUNKA-MIGRATION-F0-F6.md)。
 
-## 一、MVP Roadmap
+## 当前 main 与候选事实
 
-目标：一个真实租户完成模块开通、成员授权与一次受权限约束的业务使用。
-
-| 切片 | 输入 → 输出 | 依赖 | 验收出口 | 当前状态 |
-| --- | --- | --- | --- | --- |
-| S00 结构与设计 | 用户约束、空仓库、GitHub 主源 → 目录、选型、架构、旅程、模板、结构门禁 | 无 | 根目录要求满足，结构检查通过，设计有源码证据 | 设计基线已提交草稿 PR #1，尚未合并 |
-| S01 前端应用与 Mock | 固定 Vben/Element Plus 来源 → 一个 Vue Console 与有状态本地服务 | S00 | 主题、语言、动态菜单、权限变化、深链接、保存恢复的构建与浏览器证据 | 前端与 Mock 已实现；验证和增量 PR 状态见证据 |
-| S02 身份与租户访问契约 | 认证与存储决策 → 真实用户、租户、成员、权限上下文及 API | S00；可与 S01 按冻结契约协作 | A/B 租户真实存储和 API 授权矩阵通过 | 未启动 |
-| S03 租户开通与成员使用 | S01 + S02 → SAAS-01 完整闭环、审计与恢复 | S01、S02 | 实际 UI + API + 持久化 + 撤权/幂等/切租户反例通过 | 未启动 |
-
-S01 当前包含工作台、客户、成员、角色、企业资料、应用中心、平台运营与个人偏好八类页面，以及本地账户选择入口。种子提供两个企业和不同权限身份；客户、成员、角色及应用状态的操作可在浏览器中保存与恢复。界面采用业务语言，Mock 实现与限制说明放在 [前端文档](../frontend/doc/mock-data.md)。
-
-S01 的访问检查用于验证前端行为，真实认证、后端 API、数据库事务与租户隔离仍属于 S02/S03。首个完整业务成果的定义保持不变，不能用浏览器本地持久化替代其真实服务端出口。
-
-| 阶段字段 | MVP 约定 |
+| 能力 | 本次核对结果 |
 | --- | --- |
-| 目标 | 租户、模块开通、成员与权限共同成立，而非四套独立演示 |
-| 排除范围 | 真实支付、复杂订阅、历史迁移、全部经营模块、分布式微服务 |
-| 输入 | 首期技术决策、测试身份与数据、模块/权限字典、明确授权范围 |
-| 输出 | 可运行应用、单一 API 契约、真实权限与恢复证据 |
-| 允许改动 | `frontend/**`、`backend/**`、相应 `doc/**`、必要 `.github/workflows/**`，每个切片进一步收窄 |
-| 禁止改动 | 其他仓库、生产数据、未经本任务授权的迁移或发布、未锁定的上游源 |
-| 当前可用验收命令 | 仓库根执行 `python3 doc/ci/check_repository.py`；`frontend` 内执行 `corepack pnpm check`，顺序运行 typecheck、lint、check:copy、test:unit、build、test:e2e；独立运行方式见前端 CI 文档 |
-| 后续验收命令 | 若后端采用 Go，则建立 `go test ./...`、`go vet ./...`；真实 DB/API 与跨端 E2E 入口须随 S02/S03 实现提交，当前前端 Mock 测试不替代这些门禁 |
-| 风险 | 上游模板耦合、上下文竞态、把菜单控制误当鉴权、跨租户资源关联 |
-| 是否可由 Codex 一次完成 | S00、S01、S02 按独立交付单元推进；整个 MVP 按依赖和可观察旅程分步验收 |
+| S00/S01 | 仓库结构和 Vue 3/Vben Admin 5/Element Plus Desktop、本地有状态 Mock 在 main；历史 PR #1、#3 已合并（过往快照不能再说 PR #1 未合并） |
+| Go Authz V2 | `backend/internal/platform/authz` 纯 Go 内核已由 PR #4 合并 main；仅 Fake Authority/测试，非真实 API/IdP/DB |
+| SDLC | 六 Skills 由 PR #6 已合并；遵循工作流/意图/设计/Build/任务推进分层 |
+| 登录和成员 | [PR #7](https://github.com/hvritual/cs-biz/pull/7) 开放未合并；含登录后企业选择、Go 纯生命周期决策，仍非真实身份 |
+| 三权分离 | [PR #8](https://github.com/hvritual/cs-biz/pull/8) 开放未合并并依赖 #7；含权限三列、独立营销和 Go TrustedScope；Full [20 passed/1 skipped](https://github.com/hvritual/cs-biz/actions/runs/38684708487) 仅证明该候选 |
+| Yunka | 本次仅完成**评估/路线/Issue/文档同步**，尚未在 cs-biz 引入依赖、typed PB 或 Runtime |
+| CI | 当前仓库实际工作流有效；[PR #9](https://github.com/hvritual/cs-biz/pull/9) “Full 手动”未合并前不得认为已生效 |
+
+固定 baseline `cs-biz main@f088a90fd5a0305cc00a5679e368306dce62167f`；Yunka 评估 `main@3527488325030fbf86fe52804140c936e9d937a4`。这两个 SHA 是**本次评估快照**，不是永不变化的最新 HEAD；实施每轮都须重新核查。详见 [源证据](evidence/yunka-permission-plan-2026-10-15.md)。
+
+## 一、MVP Roadmap（实现一条真实安全业务纵向链）
+
+目标：真实账户验证、有效租户/成员、Menu/Function/Data 三权；营销成员无后台菜单仍能执行受 Scope 约束的营销操作，全部请求经唯一 Yunka Operation Gateway、真实存储过滤与结果回读。不能以 Mock 为终点。
+
+| 顺序/Issue | 最小用户/技术结果 | 当前状态 |
+| --- | --- | --- |
+| **F0 [#11](https://github.com/hvritual/cs-biz/issues/11)** | 冻结 PR #7/#8、三权契约、Yunka ADR、API/数据/身份负例与工具链兼容决策 | Issue 已建立；实际阶段未完成 |
+| **F1 [#12](https://github.com/hvritual/cs-biz/issues/12)** | 锁定 Go 1.25.13/protoc 3.21.12 与 Yunka modules；PB/OperationPlan/OpenAPI/TS/Assembly 的 Consumer 生成/零漂移 | NOT_IMPLEMENTED |
+| **F2 [#13](https://github.com/hvritual/cs-biz/issues/13)** | Function-only 营销真实 Operation，经 Yunka Gateway + Access GrantResolver + cs-biz Scope Guard | NOT_IMPLEMENTED |
+| **F3 [#14](https://github.com/hvritual/cs-biz/issues/14)** | 真实 IdP/BFF/Session/CSRF、Account、Membership、Menu/Function+Scope 持久授权、两个标签页独立企业与撤权 | NOT_IMPLEMENTED |
+
+MVP 与现有客户/成员/权限管理的交付仍相关，不能为进入新框架而重头制作替代 Demo。MVP 验收需要真 REST/gRPC（适用时）、持久数据库、浏览器以及租户隔离和无副作用拒绝证据。
+
+**MVP 交付字段：** 目标 = 可真实使用的权限闭环；不做 = 真实支付与多业务大批量建设；输入 = 已批准的 IdP/DB/工具链/数据归属/成员生命周期；输出 = 真经授权的营销或 CRM 操作、可解释权限与回读；允许改动 = 各 Issue 精确定义的 `backend/**`/`frontend/**`/`doc/**`；禁止 = 生产数据、其他仓库、绕过 CI、改生成文件和两套生产授权；风险 = 工具链升级、数据隔离、可信身份、跨标签会话；能否 Codex 一次 = **按 F0–F3 的独立子切片，不一次性整阶段**。
 
 ## 二、Full Runtime Roadmap
 
-目标：逐步兑现日常经营工作，复用已经验证的企业与访问基础。
-
-| 顺序 | 业务成果 | 开始条件 |
+| 顺序/Issue | 输出 | 准入 |
 | --- | --- | --- |
-| R01 | 客户/点位/设备关联，让运营数据有明确业务归属 | SAAS-01 已完成；确认资源与数据范围 |
-| R02 | 租赁合同、投放、服务工单等形成日常任务闭环 | 上一步持久化数据与角色职责成立 |
-| R03 | 用量、费用、应收应付、操作参与者的可核对记录 | 确认金额/时间/变更规则与真实来源 |
-| R04 | 真实套餐与订阅变更，额度与有效期可追踪 | 商业决策、支付边界与幂等恢复定义完毕 |
-| R05 | IoT/通知/支付等集成与开放 API | 真实接口/凭据/测试环境，重试与事件契约 |
+| **F4 [#15](https://github.com/hvritual/cs-biz/issues/15)** | CRM/Marketing 真 Domain SQL Data Scope：列表/详情/写入/分页/导出/统计/批量，支持 `read=tenant/update=self` | F2/F3 真链 |
+| **F5 [#16](https://github.com/hvritual/cs-biz/issues/16)** | REST/gRPC/Worker/内部子 Operation 统一唯一执行路径，下线旧 HTTPRouter 的生产入口并可回滚 | F4 覆盖证据 |
 
-| 阶段字段 | Full Runtime 约定 |
-| --- | --- |
-| 目标 | 让租户用户完成实际日常工作并看到可信结果 |
-| 排除范围 | 未明确市场/商业规则的功能堆积、虚构业务数据、自动操作生产设备 |
-| 输入 | 按业务旅程确认的 PRD、真实接口、业务样本、S03 运行证据 |
-| 输出 | 各旅程 UI/API/数据一致，错误、重试、审计与授权可解释 |
-| 允许改动 | 当前业务模块、被证明必要的共享扩展、契约与旅程 |
-| 禁止改动 | 为一个模块无理由重写公共壳层；未经批准改动已发布契约/历史账务 |
-| 验收命令 | 各任务提交可执行的 E2E、接口、集成与回归命令；此阶段尚未实现，不能预报通过 |
-| 风险 | 数据语义失真、授权范围扩张、计费/变更混同、外部依赖缺失 |
-| 是否可由 Codex 一次完成 | 每条有边界且依赖齐全的旅程可独立交付；整阶段需要连续多个任务 |
+完成 F5 后再扩大到客户—点位—设备、租赁合同、服务工单、财务流转、运营报表、实际营销、通知及 IoT 集成；这些业务模块使用同一 Operation/Grant/Scope、UoW/审计/回执开发流程。新业务须先有用户旅程、资源归属、模块可用性、正反例，不能把批量代码生成等同产品交付。
+
+**Full Runtime 字段：** 目标 = 多领域可复用与安全读写；不做 = 无场景的大型框架改造；输入 = MVP 真链、真实业务数据/职责；输出 = 多领域一致的 Scope/Action/API；允许 = 当前领域与必要生成/策略；禁止 = 第二 IAM/无界 SQL；验收 = 真 DB+跨租户+并发+数据核验；风险 = 数据范围语义偏移与迁移破坏；Codex = 单 Domain 独立切片可实现，阶段不可一次完成。
 
 ## 三、Production Roadmap
 
-目标：可持续上线、升级、恢复和运营，且每项承诺有运行证据。
-
-| 方向 | 出口 |
+| 顺序/Issue | 输出与验收 |
 | --- | --- |
-| 可靠性 | 可观测性、告警、超时/重试、运行故障恢复、可复核 SLO |
-| 发布 | 固定构建、环境管理、数据库迁移演练、灰度与回滚 |
-| 安全与租户隔离 | 当前版本授权回归、依赖与秘密检查、审计与策略失效验证 |
-| 性能 | 用真实负载模型验证容量；目标基于场景而非模板宣称 |
-| 数据保护 | 备份/恢复演练、导出和留存、跨租户关系和删除语义 |
-| 客户上线 | 市场语言与时区、租户开通流程、运行手册、用户可用性验收 |
+| **F6 [#17](https://github.com/hvritual/cs-biz/issues/17)** | 固定 Yunka/Consumer/DB/IdP版本，真实 MySQL 安全与并发、CSRF/身份、撤权、操作幂等与 lost-reply readback、Outbox、审计、压测、备份/回滚、可观测性、明确上线审核与生产结果回读 |
 
-| 阶段字段 | Production 约定 |
-| --- | --- |
-| 输入 | Full Runtime 已验证能力、目标环境、可度量 SLO、数据规模、运维资源 |
-| 输出 | 发布与恢复证据、隔离与性能报告、主线/环境回读 |
-| 排除范围 | 无授权生产部署/设备操作、无备份数据迁移、未经确认的容量承诺 |
-| 允许改动 | 当前发布/运行任务限定的 deploy/ci/config/observability 及必要修复 |
-| 禁止改动 | 凭据入仓库、绕过真实门禁、隐式改变业务规则或生产数据 |
-| 验收命令 | 随真实环境建立性能、部署、恢复、安全与烟雾入口，记录固定版本和原始结果 |
-| 风险 | 环境差异、不可逆迁移、真实外部系统副作用、多实例策略缓存 |
-| 是否可由 Codex 一次完成 | 独立环境任务可限定推进；生产验收取决于真实环境、外部资源和已有授权 |
+**Production 字段：** 目标 = 真实客户可信运行；不做 = 无授权部署/无证据承诺；输入 = Full Runtime、目标环境、SLO/业务审批；输出 = 真资格/回滚/运行手册；允许 = 受控部署/CI/环境配置与修复；禁止 = 秘钥入仓/未经批准写生产数据或合并；验收 = 真实 API/DB/Browser 与独立安全复核、精确 SHA、发布回读；风险 = 不可逆迁移、外部渠道与数据泄露；Codex = 需要分环境人审，不能一次全自动完成。
 
-## 自检结果
+## 已锁定的三权核心不变量
 
-- Scope：S00 建立结构与设计；S01 已导入前端应用及本地 Mock，后端与生产部署仍未实现。
-- Dependency：S03 依赖 S01/S02；真实订阅与集成另有商业和外部输入。
-- Consistency：目录、架构、访问契约与 SAAS-01 采用同一租户/成员/权益语义。
-- Evidence：结构检查、前端类型/单元/浏览器检查分别记录；具体命令结果引用版本对应的验证证据，不用 Mock 证明生产授权。
-- Progress：每个后续任务以旅程出口衡量完成，不按文件数或页面数统计业务进展。
+**Menu** 只控制 Console 页面；**Function** 是业务 Operation 的唯一授权；**Data** 是该 Function 的强制 Domain Scope。不因无菜单拒绝合法营销 API，不因有菜单授予读/写功能，不因读取全部给更新全部，不因商业模块开通而自动创建权限。旧 `group` 没有已批准的业务 SQL 等价，不能自动变 `assigned/tenant`。
+
+目标合同：[Access V3](contracts/three-rights-v3.md)，统一执行：[ADR-0002](architecture/adr/0002-yunka-runtime-adoption.md)，完整开发流程：[Yunka SOP](tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)。
+
+## 自检
+
+- Scope：Issue 是规划、文档为目标，未修改实际 YAML/Go/数据库；
+- Dependency：F0→F1→F2/F3→F4→F5→F6，PR #8 需保留 #7 依赖；
+- Consistency：将早期“OpenAPI 独立结构源”“S02 尚未开始”“PR #1 未合并”等过期主张更正；
+- Evidence：任何 `VERIFIED` 都要在精确 SHA 上回读相应 CI，前端 Mock 与 Yunka 自身资格都不能代替 cs-biz 生产。

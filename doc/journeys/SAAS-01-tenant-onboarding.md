@@ -1,3 +1,5 @@
+> **2026-10-15 修订：** 本文为真实 SaaS 业务闭环旅程**目标**，目前 S01 有本地 Mock，但完整身份/持久 API/DB/Yunka 尚未实现；PR #7/#8 为未合并候选。菜单可见、功能可用、数据可见分别授权，**没有 Console 菜单的营销普通成员仍可使用营销 Function**。独立正反例见 [MKT-01](MKT-01-function-without-console.md)，技术边界见 [Access V3](../contracts/three-rights-v3.md)。
+
 # SAAS-01：租户开通、成员授权与实际使用
 
 - 状态：设计完成，运行未实现。
@@ -48,3 +50,14 @@
 ## 完成证据
 
 需要固定前后端版本、数据库迁移版本、测试命令、API 结果、浏览器证据及独立评审。每个测试数据必须明确租户与主体。当前只有旅程定义，不能将该清单作为已通过的结果。
+
+## V3 新增检查：菜单和 Function 不等价
+
+| Screen ID | 用户 | 预期结果 | 阻断反例 |
+| --- | --- | --- | --- |
+| S01-15 | 普通营销成员登录、选择可用企业 | 没有 Console 菜单也能使用营销入口并执行本人营销活动 | 直达后台任何业务页面拒绝，非本人活动 API 拒绝 |
+| S01-16 | 有客户管理菜单但无 customer.read | 后台页面入口可见，但数据请求明确拒绝 | 菜单不能自动发出 Read/Update Function |
+| S01-17 | 客户读取全部、更新本人 | 可读当前租户全部客户、只能更新本人负责的客户 | 不得把 read=tenant 注入 update=self |
+| S01-18 | 平台关闭 CRM 或营销模块 | 对应业务拒绝，角色本身 IAM Grants 保留 | 不修改已授权 Permission 作为模块开关副作用 |
+
+这些新增条目是**目标验收**；不能把 [PR #8](https://github.com/hvritual/cs-biz/pull/8) 的 Mock 浏览器结果当真实执行证据。统一开发流程见 [Yunka SOP](../tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)。

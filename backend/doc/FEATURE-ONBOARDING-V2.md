@@ -1,3 +1,5 @@
+> **历史规范 / LEGACY V2（2026-10-15）：** 本文适用于 main 已实现的旧 Go Registry/HTTPRouter 单元内核，历史操作步骤保持以便安全对照；**不再是引入 Yunka 后新 Operation 的目标开发流程**。新功能从现在起按 [Yunka Developer SOP](../../doc/tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md) 定义三权，F1 实际引入 typed PB/生成、F2–F5 受控迁移；不把未来技术计划误写成已实现。审核模板改用 [V3](../../doc/templates/feature-onboarding-v3.yaml)；旧 [V2](../../doc/templates/feature-onboarding-v2.yaml) 仅供旧任务记录。
+
 # 新业务功能接入流程 V2.0（无 Commercial Guard）
 
 状态：**项目开发规范**；当前只完成 authz 基础库与测试，并没有真实业务 API/DB。

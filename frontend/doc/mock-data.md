@@ -1,5 +1,8 @@
 # S01 本地数据与操作说明
 
+> **历史 S01 本地状态：** 此文描述 main 的固定 S01 Mock 种子/功能，不应覆盖 V3 目标三权设计。未合并 [PR #8](https://github.com/hvritual/cs-biz/pull/8) 另外实现可演示的 `menuGrants` 与 `marketing` 功能；其 seed、账号数/模块数和当前 main 不相同，请勿混合这些来源统计。权威区分见 [2026-10-15 状态证据](../../doc/evidence/yunka-permission-plan-2026-10-15.md)。营销无后台的真实运行是 [MKT-01](../../doc/journeys/MKT-01-function-without-console.md) 的**目标验收**，不是当前本地 Mock 可以证明的生产权限。
+
+
 本文描述当前前端的有状态 Mock 实现，用于开发、审阅和复现用户操作。业务界面只呈现业务文案；本说明面向仓库维护者，可以使用实现术语。
 
 数据源为 [seed.ts](../apps/console/src/api/mock/seed.ts)，请求和操作实现为 [service.ts](../apps/console/src/api/mock/service.ts)，结构定义为 [types.ts](../apps/console/src/api/mock/types.ts)。本阶段边界见 [S01 任务](../../doc/tasks/S01-frontend-mock.md)，访问语义沿用 [Access Context 契约](../../doc/contracts/access-context.md)。

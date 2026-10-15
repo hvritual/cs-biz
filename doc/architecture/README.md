@@ -1,85 +1,50 @@
-# 全局架构设计
+# 全局架构设计（当前基线与 Yunka 目标）
 
-状态：`proposed`。该文档描述目标边界，不描述已经存在的服务。
+## 事实与目标不可混同
 
-## 1. 产品与技术分层
+- **当前 main 已实现**：Vue 3/Vben Admin 5/Element Plus 桌面端与本地 S01 Mock、纯 Go 1.23 `backend/internal/platform/authz` Operation 授权基础库。真实 IdP、BFF、IAM Store、业务 REST/SQL、Yunka Runtime **未实现**。
+- **尚未合并候选**：[PR #7](https://github.com/hvritual/cs-biz/pull/7) 身份/企业选择、[PR #8](https://github.com/hvritual/cs-biz/pull/8) Menu/Function/Data 三权和营销无后台准入；有其独立版本 CI，不能算 main 事实。
+- **下一阶段目标**：有条件导入 Yunka（[ADR-0002](adr/0002-yunka-runtime-adoption.md)），使用 typed Protobuf/OperationPlan/Gateway/OperationGuard/Executor/Assembly 的**单一执行路径**，保留 cs-biz Access/Domain 为真实业务权威。[主线 #10](https://github.com/hvritual/cs-biz/issues/10)。
 
-建议先使用一个前端应用和一个 Go 模块化后端。平台运营与租户使用者共享必要基础能力，使用独立权限域和工作界面。先把租户、模块开通、成员与权限做成一个完整闭环，再逐步接入经营业务。
+## 架构层次
 
 ```mermaid
 flowchart TD
-    Platform["平台工作区"] --> API["受认证的 API"]
-    Tenant["租户工作区"] --> API
-    API --> Context["身份与租户上下文"]
-    Context --> Policy["权益、权限和数据范围"]
-    Policy --> Core["租户与成员业务"]
-    Policy --> Business["客户、点位等业务模块"]
-    Core --> Storage["带租户约束的存储"]
-    Business --> Storage
-    API --> Audit["操作与授权审计"]
+ Console["Console 菜单/页面"] --> Menu["cs-biz Access MenuGrant 投影"]
+ Marketing["Marketing 独立入口"] --> BFF["可信 IdP/BFF + 按标签页 Tenant"]
+ Console --> BFF
+ BFF --> Adapter["Yunka generated REST/gRPC"]
+ Adapter --> Gateway["Yunka Gateway Authorizer / canonical Function"]
+ Gateway --> IAM["cs-biz Membership + Function/Scope Grants"]
+ Gateway --> Guard["cs-biz OperationGuard：当前 Function Data"]
+ Guard --> Domain["Domain：强制 tenant + scope 过滤"]
+ Domain --> Availability["独立 ApplicationAvailability"]
+ Domain --> Storage["DB / UoW / 审计 / Readback"]
 ```
 
-两个工作区可以先属于同一前端构建，但这不构成安全隔离。后端必须针对每个操作验证权限域与资源范围。
+以上为**目标图**；当前 Go V2 是独立的内核单测实现，尚未有真实服务入口。更详见 [Yunka 目标架构](yunka-access-runtime.md)。
 
-## 2. 能力所有权
+## 单一责任表
 
-| 能力 | 负责什么 | 不应混入的责任 |
+| Owner | 负责 | 不负责 |
 | --- | --- | --- |
-| Identity | 账户、登录、会话、认证提供方 | 租户套餐是否开通 |
-| Tenancy | 租户生命周期、成员关系、租户上下文 | 菜单组件导入 |
-| Entitlements | 租户有效模块、额度、时段 | 成员角色和具体资源授权 |
-| Access | 动作权限、数据范围、授权决定 | 报价与扣费 |
-| Navigation | 已构建页面的导航与可见性 | 任意远程代码执行、最终 API 授权 |
-| Preferences | 用户语言、外观与允许覆盖的租户品牌 | 权限和业务状态 |
-| Audit | 操作者、租户、目标、操作结果、关联 ID | 把未完成操作记录为成功 |
-| Domain modules | 客户、点位、设备、服务等业务规则 | 各自再造身份和租户系统 |
+| IdP/BFF | Account 凭据、受信 Session、每标签页 Tenant、CSRF 与撤销 | 通过客户端 ID 宣称身份 |
+| cs-biz Tenancy/Access | Tenant/Membership/Role、MenuGrants、实际 Permission+Scope Grants | 自造第二个通用 Operation Executor |
+| Console/Marketing | Menu 路由与 Function 按钮、Data Scope 展示 | API 最终授权 |
+| Yunka PB/Compiler | Operation、Permission/ALL-ANY、Auth、Transport、ExecutionPolicy 的唯一可写合同及派生产物 | 客户 SQL、浏览器菜单与业务状态 |
+| Yunka Gateway Authz | 当前 Function 的一次授权，消费 cs-biz GrantResolver | Role/Menu 的另一套 DB |
+| cs-biz OperationGuard | 从当前授权 Grants 解释业务数据范围，注入可信 Scope | 伪造 Principal、替 Domain 执行安全 SQL |
+| cs-biz Domain | 资源所有权、强制 Tenant+Scope SQL、状态、模块可用性、回执/审计 | 重复计算角色 Permission |
+| Yunka Executor/ExecutionScope | 统一 Operation 调度、显式事务/幂等、Root UoW | 自动替业务提供 OTP/短信/响应回放 |
 
-“租户模块已开通”“成员有某个动作权限”“资源属于允许的数据范围”是独立条件。菜单树只是授权结果的表现之一。
+## 核心三权语义
 
-## 3. 四类核心对象
+`MenuGrant` = Console 页面可见；`Function Permission` = 受保护 Operation 的功能可用；`Data Scope` = 该 Permission 的数据可见/可写范围。菜单不成为 API 判定项。有营销 Function、无 Console 菜单的普通成员可使用营销，但不可进入后台；有 Menu、无 Function 的成员不能直调受保护 API。不同 Function 的 Scope 不得交叉扩权，`group` 语义另需真实领域证据。
 
-| 对象 | 示例 | 关键约束 |
-| --- | --- | --- |
-| 用户 | 某员工的全局账户 | 账户可关联多个租户，不共享各租户角色 |
-| 租户成员 | 用户在租户 A 的成员关系 | 有独立状态、角色与数据范围 |
-| 租户权益 | A 已开通客户管理，到某日期有效 | 生效权益与套餐目录分开，不以菜单是否显示判断 |
-| 业务资源 | 客户、点位、设备、合同 | 具有明确租户归属和资源状态 |
+未来结构合同见 [Access V3](../contracts/three-rights-v3.md)，先前 [Access Context](../contracts/access-context.md) 的会话/失败/幂等规则继续保留；如早期“OpenAPI 自己作为可写源”与本方向冲突，以 typed PB 作为目标 Operation 合同源。
 
-跨租户合作、经销/服务/租赁等经营身份，后续建为业务关系与授权范围，不直接等同于系统安全角色。
+## 工程边界与条件
 
-## 4. 访问机制
+首选 Go 模块化应用与真实关系型数据库，但固定 Yunka 版本、DB、IdP、TLS/Session TTL、Audience/Worker 与资源策略仍需 F0–F3 冻结。当前没有生产发布。Go 工具链预计从 1.23 升到 Yunka 锁定 Go 1.25.13、protoc 3.21.12，并且必须独立 Consumer 编译/依赖/生成测试才能宣称兼容。
 
-对于租户内某项业务动作，建议服务端执行：
-
-```text
-允许执行 = 有效会话
-        AND 有效租户/成员关系
-        AND 本动作要求的模块权益有效
-        AND 存在允许本动作且覆盖本资源范围的有效授权
-        AND 资源状态允许本次操作
-```
-
-这是不同约束之间的交集。多个角色可按策略合并授权，同一动作的范围可以按策略扩大，但必须保留动作与范围的绑定，不能扩大租户权益，也不能把读取全部资源的范围套用到仅允许修改部分资源的权限上。未订阅租户仍需可访问企业设置、已授权的开通入口等基础能力；它们不被不存在的业务模块权益锁死。
-
-平台操作单独判断平台权限、目标租户范围与审计要求。默认不给平台身份隐含的租户业务访问权。
-
-完整语义、示例和恢复策略见 [Access Context](../contracts/access-context.md)。
-
-## 5. 技术建议与未决项
-
-| 项目 | 建议 | 当前承诺范围 |
-| --- | --- | --- |
-| 前端 | Vue 3 + Vben 5 + Element Plus + TypeScript | 推荐草案；未导入依赖 |
-| 组织方式 | 单一 console 应用，必要上游包，后端动态菜单 | 不承诺任意切换组件库无成本 |
-| 后端 | Go 模块化单体 | Web 框架尚未选择 |
-| 数据库 | 优先评估 PostgreSQL 的事务与租户约束 | 未建立数据库，无容量实测 |
-| HTTP 契约 | OpenAPI 作为结构源；生成 TS 类型 | 目前只有语义设计，无已发布接口 |
-| 认证 | 浏览器首期优先同源会话，写操作明确 CSRF；保留认证提供方适配 | 在 S02 固定 ADR 并实现，不能直接沿用演示凭据 |
-| 事件 | 先用明确事务边界，必要时加 outbox | 不预先堆入分布式消息系统 |
-| SaaS 起点 | 平台开通租户模块 → 成员获得相应权限 | 首期人工授权开通作为推荐；没有真实支付承诺 |
-
-## 6. 与已有系统的关系
-
-本轮只核验 `cs-biz`。没有读取或迁移其他业务仓库，所以不能断言旧实现已被替代、某个历史 Issue 已解决，或旧数据可直接迁移。
-
-在启动迁移前，需要给每项资产记录来源仓库、固定提交、契约与数据兼容要求，区分复用、适配、重写和保留。重建前端骨架不能自动修复业务闭环缺失；应通过 [SAAS-01 用户旅程](../journeys/SAAS-01-tenant-onboarding.md) 证明新系统兑现了结果。
+阅读：[F0–F6](../tasks/YUNKA-MIGRATION-F0-F6.md)、[权限定义 SOP](../tasks/YUNKA-DEVELOPER-PERMISSION-FLOW.md)、[SAAS-01](../journeys/SAAS-01-tenant-onboarding.md)、[MKT-01](../journeys/MKT-01-function-without-console.md)。
