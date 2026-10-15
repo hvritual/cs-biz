@@ -23,7 +23,8 @@
     "check:full": "pnpm check:fast && pnpm build && pnpm test:e2e",
     "test:e2e:desktop": "playwright test --config ci/playwright.config.ts desktop-ui.spec.ts",
     "check:desktop:runtime": "pnpm build && pnpm test:e2e:desktop",
-    "test:e2e:trace": "playwright test --config ci/playwright-trace.config.ts"
+    "test:e2e:trace": "playwright test --config ci/playwright-trace.config.ts",
+    "test:e2e:otel": "playwright test --config ci/playwright-otel.config.ts"
   },
   "devDependencies": {
     "@changesets/changelog-github": "catalog:",
