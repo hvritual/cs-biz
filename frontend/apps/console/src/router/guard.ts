@@ -11,11 +11,20 @@ export function createRouterGuard(router: Router) {
       return to.path === '/forbidden' ? true : { path: '/forbidden', replace: true };
     }
     if (to.path === '/auth/login') {
-      if (workspace.user && to.query.choose !== '1') return getWorkspaceHome();
+      if (workspace.user && to.query.choose !== '1')
+        return workspace.context || workspace.isPlatform ? getWorkspaceHome() : '/auth/tenants';
+      return true;
+    }
+    if (to.path === '/auth/tenants') {
+      if (!workspace.user) return { path: '/auth/login', replace: true };
+      if (workspace.context || workspace.isPlatform) return getWorkspaceHome();
       return true;
     }
     if (!workspace.user) {
       return { path: '/auth/login', query: isSafeLocalPath(to.fullPath) ? { redirect: to.fullPath } : {}, replace: true };
+    }
+    if (!workspace.isPlatform && !workspace.context && !workspace.error) {
+      return { path: '/auth/tenants', query: isSafeLocalPath(to.fullPath) ? { redirect: to.fullPath } : {}, replace: true };
     }
     if ((isWorkspacePath(to.path) || to.path === '/platform') && !canVisitPath(to.path)) {
       return { path: '/forbidden', query: { from: to.path }, replace: true };
