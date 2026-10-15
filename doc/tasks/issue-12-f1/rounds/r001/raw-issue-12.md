@@ -23,5 +23,3 @@ Go build/test/vet、Yunka generate/check、二次生成零漂移、source/depend
 **F1 输出**：在 Yunka 固定 Consumer 中复用 `framework/observability.Provider`，以 `slog` JSON stdout 为默认日志，操作/服务资源字段统一；接入本地可查询 OTel Collector/Trace Backend，所有配置由部署环境提供，SLS 默认关闭且不是服务启动依赖。确定进程 Shutdown/Flush 有界行为。
 
 **F1 验收**：OTLP exporter 开关与 collector 可用/不可用均有明确结果；终端始终可读 `trace_id` 关联日志（存在有效 Trace Context 时），禁 Token/Session/PII；可在本地按 TraceID 找到 span。不能把 Yunka 框架自身测试冒充 cs-biz Consumer 连通性。
-
-

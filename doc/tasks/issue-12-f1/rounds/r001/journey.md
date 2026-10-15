@@ -12,4 +12,3 @@ Actor：开发者/执行模型。对象：当前 cs-biz backend、锁定制品�
 | S06 交付 | 模型执行候选Full、内容审阅、receipt、合并后回读 | 未合格不合并/关闭；Human仅决定设计/例外/生产风险 | 07–08 |
 
 本轮无可运行 cs-biz Consumer，S01–S06 为待实施验收旅程，不是执行记录。真实 DB/IdP 仍 BLOCKED_F3；Trace UI 查询不替代权限和持久化证明。
-

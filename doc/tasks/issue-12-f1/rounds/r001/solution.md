@@ -31,4 +31,3 @@ DB/IdP/Session/legacy group 保持后续阶段阻塞，不选默认。F1 无持�
 
 保留供应链 artifact 到期、工具安装根约束、上游固定 cloud.provider=alibaba_cloud 的事实；本地 Jaeger span 不证明 SLS 或云部署。日志使用允许字段，不记录请求体、原始 URL/query、Token/Session/PII。
 坏配置启动明确失败；collector 不可达时业务探针与 stdout 可用但导出失败明确可见，不谎称查询成功；Shutdown/Flush 用有上限 context。不存在 DB 回滚；停止进程/本地容器、还原 F1 提交即可，不触碰生产数据。
-

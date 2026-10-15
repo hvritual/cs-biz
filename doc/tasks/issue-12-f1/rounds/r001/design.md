@@ -23,4 +23,3 @@ backend/deploy/observability 使用仅 loopback 暴露的 Collector/Jaeger，镜
 允许实施：backend/**；必要 doc/contracts/**、doc/tasks/issue-12-f1/**；仅确有必要的 quality.yml backend 工具/遥测验证接线及超时，不修改门禁判定。
 禁止：F0封存目录/ADR、其他 Skill/治理规则、frontend业务源码、其他任务候选、生产数据/凭据。
 实施前再核对 main；若 approved design/AC 改变，建立新轮，不暗改本轮。回退仅撤销 F1 提交与本地临时运行资源，无数据迁移。
-
