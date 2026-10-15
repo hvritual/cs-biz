@@ -1,0 +1,113 @@
+name: O1-P1 Yunka OTel Collector Targeted
+
+# Bounded real export/query verification. It must not invoke the Human-only
+# Frontend Full Gate or touch any production/SLS credentials.
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - 'frontend/tests/otel-smoke/**'
+      - 'frontend/ci/playwright-otel.config.ts'
+      - 'frontend/package.json'
+      - '.github/workflows/observability-otel-targeted.yml'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'frontend/tests/otel-smoke/**'
+      - 'frontend/ci/playwright-otel.config.ts'
+      - 'frontend/package.json'
+      - '.github/workflows/observability-otel-targeted.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: o1-p1-otel-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  OTEL_TRACES_EXPORTER: otlp
+  OTEL_METRICS_EXPORTER: none
+  OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://127.0.0.1:4318
+  OTEL_BSP_SCHEDULE_DELAY: '250'
+  OTEL_EXPORTER_OTLP_TIMEOUT: '5000'
+  TURBO_TELEMETRY_DISABLED: '1'
+  DO_NOT_TRACK: '1'
+
+jobs:
+  otel-collector-targeted:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact consumer head
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Record source and pinned Yunka module
+        run: |
+          git rev-parse HEAD HEAD^{tree}
+          grep -F 'github.com/hvritual/yunka.io/framework v0.1.1-0.20261008054254-352748832503' backend/go.mod
+      - name: Go 1.25.13 consumer toolchain
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
+        with:
+          go-version-file: backend/go.mod
+          cache: false
+      - name: Node and locked pnpm
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - name: Activate Corepack
+        working-directory: frontend
+        run: |
+          corepack enable
+          corepack install
+      - name: Install frozen frontend dependencies
+        working-directory: frontend
+        run: corepack pnpm install --frozen-lockfile
+      - name: Go traceprobe test with real Yunka Provider
+        working-directory: backend
+        env:
+          OTEL_TRACES_EXPORTER: none
+        run: |
+          go test -race -count=1 ./internal/platform/traceprobe/...
+          go vet ./...
+      - name: Start LOCAL Collector and queryable Jaeger
+        run: |
+          set -euo pipefail
+          docker compose -f backend/deploy/observability/compose.yaml up -d
+          ready=0
+          for attempt in $(seq 1 55); do
+            if curl -fsS --max-time 2 http://127.0.0.1:13133/ >/dev/null &&
+               curl -fsS --max-time 2 http://127.0.0.1:16686/ >/dev/null; then
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+          test "$ready" = "1" || { docker compose -f backend/deploy/observability/compose.yaml logs --tail=150; exit 1; }
+      - name: Install Chromium for one narrow O1-P1 smoke
+        working-directory: frontend
+        run: corepack pnpm exec playwright install --with-deps chromium
+      - name: Browser to actual Yunka OTel to Collector to Jaeger readback
+        working-directory: frontend
+        run: corepack pnpm test:e2e:otel
+      - name: Retain query and exporter evidence
+        if: always()
+        run: |
+          docker compose -f backend/deploy/observability/compose.yaml logs --no-color > o1-p1-collector-jaeger.log 2>&1 || true
+          docker compose -f backend/deploy/observability/compose.yaml down -v --remove-orphans || true
+      - name: Upload scoped evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: o1-p1-otel-query-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            o1-p1-collector-jaeger.log
+            frontend/test-results-otel/
+            frontend/playwright-report-otel/
+          retention-days: 7
+          if-no-files-found: warn

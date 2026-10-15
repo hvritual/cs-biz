@@ -34,19 +34,14 @@ jobs:
         with:
           go-version-file: backend/go.mod
           cache: false
-      - name: Resolve immutable Yunka Consumer dependencies
+      - name: Verify pinned dependency metadata has zero drift
         working-directory: backend
         run: |
           set -euo pipefail
+          go mod verify
           go mod tidy
-          echo 'BEGIN_LOCK_GO_MOD'
-          base64 -w0 go.mod
-          echo
-          echo 'END_LOCK_GO_MOD'
-          echo 'BEGIN_LOCK_GO_SUM'
-          base64 -w0 go.sum
-          echo
-          echo 'END_LOCK_GO_SUM'
+          git diff --exit-code -- go.mod go.sum
+          test -z "$(git status --short -- go.mod go.sum)"
       - name: Go tests, race and static checks against resolved graph
         working-directory: backend
         run: |
