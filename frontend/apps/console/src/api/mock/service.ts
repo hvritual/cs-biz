@@ -491,7 +491,7 @@ export function createMockService(options: MockServiceOptions = {}): MockService
     async listCustomerOwners(context, action) {
       (await begin(context, context.subjectId))();
       if (action !== 'crm.customer.create' && action !== 'crm.customer.update') return fail('INVALID_PERMISSION', 422);
-      authorize(context, action);
+      authorizeBusiness(context, action);
       // Candidates come from active membership, including people without any
       // customer yet. Match the requested write action's own scope, never read scope.
       return state.memberships.filter((member) => member.tenantId === context.tenantId && member.status === 'active'
