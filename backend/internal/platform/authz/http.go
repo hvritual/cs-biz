@@ -49,6 +49,16 @@ func (r *HTTPRouter) HandleOperation(operationID string, h HTTPHandler) (err err
 				writeDenial(w, authErr)
 				return
 			}
+			// Inject per-Operation Data Scope after Function authorization, never Menu Grant.
+			// The owning Domain must still enforce tenant and scope in its queries.
+			if op.ResourceType != "" {
+				trusted, scopeErr := d.InjectDataScope(req.Context())
+				if scopeErr != nil {
+					writeDenial(w, scopeErr)
+					return
+				}
+				req = req.WithContext(trusted)
+			}
 			h(w, req, d)
 		})
 	}
