@@ -6,7 +6,9 @@ on:
       - ".agents/skills/**"
       - "doc/workflow/**"
       - "doc/ci/check_*workflow.py"
+      - "doc/ci/check_revision_v04.py"
       - "doc/ci/test_*workflow.py"
+      - "doc/ci/test_revision_v04.py"
       - ".github/workflows/sdlc-skills.yml"
       - "AGENTS.md"
   pull_request:
@@ -14,7 +16,9 @@ on:
       - ".agents/skills/**"
       - "doc/workflow/**"
       - "doc/ci/check_*workflow.py"
+      - "doc/ci/check_revision_v04.py"
       - "doc/ci/test_*workflow.py"
+      - "doc/ci/test_revision_v04.py"
       - ".github/workflows/sdlc-skills.yml"
       - "AGENTS.md"
 
@@ -37,4 +41,6 @@ jobs:
           python3 doc/ci/check_build_workflow.py
           python3 doc/ci/check_sdlc_workflow.py --mode structure
       - name: Negative fixtures
-        run: python3 -m unittest discover -s doc/ci -p 'test_*workflow.py' -v
+        run: |
+          python3 -m unittest discover -s doc/ci -p 'test_*workflow.py' -v
+          python3 -m unittest discover -s doc/ci -p 'test_revision_v04.py' -v
