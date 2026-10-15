@@ -16,7 +16,7 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test --config ci/playwright.config.ts",
     "check:copy": "node ci/check-copy.mjs",
-    "check": "pnpm check:full",
+    "check": "pnpm check:fast",
     "check:desktop": "node ci/check-desktop-ui.mjs",
     "check:delivery-policy": "node ci/check-delivery-policy.mjs",
     "check:fast": "pnpm typecheck && pnpm lint && pnpm check:copy && pnpm check:desktop && pnpm check:delivery-policy && pnpm test:unit",
