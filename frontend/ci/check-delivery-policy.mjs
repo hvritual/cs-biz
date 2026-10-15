@@ -31,13 +31,15 @@ function problems({ pkg, fast, full, shell, overlay, css }) {
       !scripts['check:full']?.includes('pnpm test:e2e')) {
     errors.push('Full Gate must include fast checks, build and all E2E');
   }
-  if (scripts.check !== 'pnpm check:full') errors.push('Legacy check must remain the full gate');
+  if (scripts.check !== 'pnpm check:fast') errors.push('Default check must remain Fast; Full requires an explicit Human action');
   if (!fast.includes('corepack pnpm check:fast') ||
       fast.includes('playwright install') || fast.includes('corepack pnpm check:full')) {
     errors.push('Push workflow must never install a browser or run the full gate');
   }
   const fullEvents = full.slice(0, full.indexOf('\npermissions:'));
-  if (!/^on:\s*\n\s{2}workflow_dispatch:/m.test(fullEvents) ||
+  const triggers = [...fullEvents.matchAll(/^  ([a-zA-Z_-]+):\s*$/gm)].map((match) => match[1]);
+  if (triggers.length !== 1 || triggers[0] !== 'workflow_dispatch' ||
+      !/^on:\s*\n\s{2}workflow_dispatch:/m.test(fullEvents) ||
       /^\s{2}(?:push|pull_request|pull_request_target|schedule|workflow_run|repository_dispatch):/m.test(fullEvents) ||
       !fullEvents.includes('pr_number:') || !fullEvents.includes('candidate_sha:') ||
       !full.includes('corepack pnpm check:full') ||
@@ -70,7 +72,9 @@ for (const [name, broken] of [
   ['legacy 76/208 sizing', { ...sources, shell: sources.shell.replace("'is-collapsed': collapsed", "'not-collapsed': collapsed") }],
   ['full CI on each push', { ...sources, fast: sources.fast.replace('corepack pnpm check:fast', 'corepack pnpm check:full') }],
   ['missing required E2E', { ...sources, pkg: { ...sources.pkg, scripts: { ...sources.pkg.scripts, 'check:full': 'pnpm check:fast' } } }],
+  ['default check secretly runs Full', { ...sources, pkg: { ...sources.pkg, scripts: { ...sources.pkg.scripts, check: 'pnpm check:full' } } }],
   ['automatic PR full trigger', { ...sources, full: sources.full.replace('on:\n  workflow_dispatch:', 'on:\n  pull_request:\n  workflow_dispatch:') }],
+  ['workflow_call indirect automatic Full', { ...sources, full: sources.full.replace('on:\n  workflow_dispatch:', 'on:\n  workflow_call:\n  workflow_dispatch:') }],
   ['missing Human candidate binding', { ...sources, full: sources.full.replace('candidate_sha:', 'unbound_sha:') }],
   ['missing manual receipt', { ...sources, full: sources.full.replace('doc/ci/manual_full_dispatch.py receipt', 'echo fabricated receipt') }],
 ]) {
