@@ -43,6 +43,11 @@ async function account(page: Page, id: string) {
     // New account entry is not permission to choose the first of several tenants.
     await expect(page).toHaveURL(/\/auth\/tenants/);
     await page.getByTestId('tenant-choice-qinghe').click();
+    // A click dispatch is not a completed asynchronous workspace switch.
+    // Wait for the authorized tenant shell, not for a loading node which
+    // does not exist on the standalone tenant chooser.
+    await expect(page.locator('.cs-tenant-select')).toContainText('青禾咖啡');
+    await expect(page).not.toHaveURL(/\/auth\/tenants/);
   }
   await expect(page.locator('.cs-workspace-loading')).toHaveCount(0);
 }
