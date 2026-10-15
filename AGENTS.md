@@ -39,16 +39,17 @@ For implementation task start/resume, slice admission, material failure, slice c
 For approved development slices, use `.agents/skills/sdlc-build/SKILL.md` (acceptance-driven short loop). These Skills are methods, not new approval authorities or substitutes for `doc/ci/NO-STALL-GATES.md`.
 Reuse the existing task template and actual CI results. Missing Skill, locked acceptance, tool or evidence means not verified; never claim auto-enforced gates from this instruction alone.
 
-## Unified SDLC Skill composition
+## Intent / Design workflow and executing model
 
-For any end-to-end intent/design/build/review task, first load `.agents/skills/sdlc-workflow/SKILL.md` and `doc/workflow/project-profile.md`. Delegate to peer Skills, not independent competing orchestrators:
-- `prompt-optimizer` recovers IntentSpec, checks uncertainty and human decisions; it never implements.
-- `sdlc-design` delivers preview demo/flow/journey for Human confirmation, then controlled revision and approved requirements/design.
-- `task-progression` preserves all original/unfinished outcomes and authorized scope.
-- `sdlc-build` runs acceptance-driven, risk-appropriate fast loops and project CI.
-- `engineering-language` checks prose semantics at handoff without changing user intent.
+For raw intent, discovery and design, first load `.agents/skills/sdlc-workflow/SKILL.md`, `doc/workflow/project-profile.md` and `doc/workflow/INTENT-DESIGN-WORKFLOW.md`.
+- `prompt-optimizer` preserves raw intent, automatically cites bounded relevant ADR/doc/current source, guides Human decisions on usable conditions/resources/preferences, and produces traceable IntentSpec.
+- `sdlc-design` delivers a designed solution and navigable project-based Preview demo together in every review round, with requirements/design/journey/flow, versioned feedback and exact-version Human confirmation.
+- UI designs must read `.agents/skills/b2b-product-ux/SKILL.md` and its cs-biz binding. Prefer authorized deterministic automation; evaluate pasted text/bulk selection with matching, ambiguity, effects and recovery. Preview must use the existing `frontend/apps/console` application and current design system, with isolated fixtures and no production preview exposure. Standalone demo.html or screenshots alone do not qualify.
+- `engineering-language` checks expression without changing intent or approving anything.
 
-Read `doc/workflow/SDLC-ADOPTION.md` for stage artifact contracts and verified/unverified boundaries. Use `python3 doc/ci/check_sdlc_workflow.py --mode structure` for read-only structural checks. No Skill or static checker authorizes code change, approves itself, weakens tests, or replaces real GitHub CI and Human review. Treat the approved Design and Acceptance as read-only for the implementer. Do not silently advance from review-ready Prompt to execution.
+The workflow ends at design handoff. **The executing model owns planning, implementation, actual verification and delivery gates outside that workflow**, using `task-progression` and `sdlc-build` within existing authority. Do not require Human to perform ordinary implementation steps. Design approval does not grant execution, Full, merge or deployment rights. Preserve all repository controls and return to Design/Intent when meaning changes.
+
+Read `doc/workflow/SDLC-ADOPTION.md` for current/legacy contracts. `python3 doc/ci/check_sdlc_workflow.py --mode structure` checks wiring; `python3 doc/ci/check_design_workflow.py --task <task-dir> --repo-root .` checks v2 handoff bindings. Static checks never authenticate approvals or prove runtime/business results. Approved solution/Design/Acceptance are read-only for the implementer.
 
 ## Original-SDLC artifact verification (compatibility subset)
 

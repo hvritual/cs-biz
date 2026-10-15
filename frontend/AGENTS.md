@@ -4,4 +4,8 @@ The canonical product UI contract is **doc/design/desktop-ui.md** in the repo ro
 
 ## Fast/Full acceptance
 
-All frontend changes follow **doc/ci/NO-STALL-GATES.md**: first `corepack pnpm check:fast`; for UI behavior use `corepack pnpm check:desktop:runtime` locally; then qualify one frozen commit using `corepack pnpm check:full` on review-ready PR. The fold/expand layout must consume the same CSS tokens used by the flyout and page gutter. CI red is not a reason to suppress tests.
+All frontend changes follow **doc/ci/NO-STALL-GATES.md**: first `corepack pnpm check:fast`; for UI behavior use `corepack pnpm check:desktop:runtime` locally; then freeze a candidate and await the Human-only Full decision. Full is dispatched manually by Human on main for the exact PR/SHA under the root agreement; Agents must not invoke local check:full as a substitute. The fold/expand layout must consume the same CSS tokens used by the flyout and page gutter. CI red is not a reason to suppress tests.
+
+## Design Preview
+
+For design changes read `doc/workflow/INTENT-DESIGN-WORKFLOW.md` and `.agents/skills/b2b-product-ux/SKILL.md`. Create task-scoped Preview inside this application using current shell/tokens/i18n/components; isolate fixture data/writes and keep preview entry/routes out of production builds. Record candidate source hashes, reproducible route/command, scenarios and actual browser evidence. Human reviews the same-version solution and full journey together. Bulkable tasks evaluate text import for rapid selection, with validation/deduplication/scoped matching/ambiguity/final scope/effects/recovery. Selection never executes. No production feature implementation is authorized by a design-only task.

@@ -31,3 +31,8 @@ This file binds shared task-progression and sdlc-build methods to **hvritual/cs-
 
 ## Pilot acceptance
 First pilot is one **existing approved and genuinely unverified** slice. Audit before selection. If the candidate outcome is already verified, record it and select the next missing AC. Do not create a fake defect. No business code edits under this workflow-only integration change.
+
+## Intent / Design v2 binding
+Read [Intent/Design workflow](INTENT-DESIGN-WORKFLOW.md) and [handoff contract](DESIGN-HANDOFF-CONTRACT.md). Historical knowledge starts at `doc/architecture/adr/` and task-relevant doc/source; inspect actual status and supersession, not a stale roadmap status. The current frontend is `frontend/apps/console` with Vben/Element Plus; Preview reuses it rather than creating another app. Use the cs-biz binding in `.agents/skills/b2b-product-ux/PROJECT-INTEGRATION.md`.
+
+The workflow stops at the full design/Preview handoff. The executing model continues planning/implementation/verification/gates under existing task authority outside that workflow; no automatic Build/Full/merge authority is added. Preserve existing task/Goal/Resume refs if present. New handoffs use `python3 doc/ci/check_design_workflow.py --task <task-dir> --repo-root .`; earlier artifact protocols remain historical compatibility only.

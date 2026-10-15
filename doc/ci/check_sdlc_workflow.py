@@ -14,7 +14,7 @@ from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[2]
 SKILLS = ("prompt-optimizer", "sdlc-design", "sdlc-build",
-          "task-progression", "engineering-language", "sdlc-workflow")
+          "task-progression", "engineering-language", "sdlc-workflow", "b2b-product-ux")
 AUTH = ("read_only", "draft_only", "code_change", "external_action")
 STAGES = ("intent", "design", "build")
 
@@ -49,14 +49,17 @@ def structure(root: Path) -> list[str]:
         elif not re.search(r"(?m)^name: " + re.escape(skill) + r"\s*$", f.read_text(encoding="utf-8")):
             errors.append(f"invalid frontmatter: {skill}")
     for name in ["AGENTS.md", "doc/workflow/project-profile.md",
-                 "doc/ci/NO-STALL-GATES.md", "doc/templates/task.md"]:
+                 "doc/ci/NO-STALL-GATES.md", "doc/templates/task.md",
+                 "doc/workflow/INTENT-DESIGN-WORKFLOW.md",
+                 "doc/workflow/DESIGN-HANDOFF-CONTRACT.md",
+                 "doc/ci/check_design_workflow.py"]:
         if not (root / name).is_file():
             errors.append(f"missing project authority: {name}")
     guide = root / "AGENTS.md"
     if guide.is_file():
         content = guide.read_text(encoding="utf-8")
         for name in ["sdlc-workflow", "prompt-optimizer", "sdlc-design", "sdlc-build",
-                     "task-progression", "engineering-language"]:
+                     "task-progression", "engineering-language", "b2b-product-ux"]:
             if name not in content:
                 errors.append(f"AGENTS missing skill routing: {name}")
     return errors
