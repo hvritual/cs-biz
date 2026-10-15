@@ -15,3 +15,9 @@
 不预先拆分多个部署进程；授权与资源校验必须发生在服务端可信边界。一个 Account 可关联多个 Tenant，但不能把客户端 `tenantId` 当可信主体，不能通过角色名推断无界数据访问。
 
 Go 包仅选择语言与最小接口，不代表已锁定 HTTP 框架、数据库、认证供应商或 OpenAPI 结构。跨端 OpenAPI 仍由 [全局契约](../../doc/contracts/README.md) 在 S02 建立唯一来源；业务前端不直接复用测试 Fake 或菜单当授权器。
+
+## S02-ID 独立身份规则切片
+
+新增 `backend/internal/access/identity/`：Account/成员四态、0/1/N 企业入口、CAS/最后 Owner 与租户会话拒绝逻辑的**纯 Go 决策层**。后端的 `internal/platform/authz/` 仍是唯一 Operation 权限内核。当前没有凭据验证、真实 Session、数据库迁移、受保护 HTTP 服务或通知送达，不能把纯规则测试称为生产登录。
+
+产品与跨端规范：[ID-01](../../doc/journeys/ID-01-member-lifecycle.md)、[ID-02](../../doc/journeys/ID-02-login-workspace.md)、[S02-ID 任务](../../doc/tasks/S02-identity-journeys.md)。
