@@ -1,5 +1,7 @@
 # 文档 PR 自动交付
 
+当前调度与资格统一遵循 [风险分级门禁](RISK-BASED-GATES.md)。文档免 Human 审核规则保留；使用同一 trusted-base 分类与 quality-gate/receipt，混合及未知内容升级 Full。下文提及非文档必须 Human Full 的旧规则已由风险分级取代。
+
 2026-10-15 Human 明确授权：文档类型 PR 自动完成，无需 Human 审核。
 本规则优先于旧文档中针对所有候选的 WAITING_HUMAN_FULL、人工豁免及独立人工 PR 审核要求。
 

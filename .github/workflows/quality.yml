@@ -1,0 +1,210 @@
+name: Risk-based Quality
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: quality-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: '1'
+  DO_NOT_TRACK: '1'
+  E2E_TELEMETRY_DISABLED: '1'
+
+jobs:
+  classify:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      tier: ${{ steps.plan.outputs.tier }}
+      backend: ${{ steps.plan.outputs.backend }}
+      frontend: ${{ steps.plan.outputs.frontend }}
+      base: ${{ steps.plan.outputs.base }}
+      head: ${{ steps.plan.outputs.head }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Classify with trusted baseline or bootstrap Full
+        id: plan
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          base="$BASE_SHA"
+          if ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            test "$EVENT_NAME" = 'workflow_dispatch' || { echo 'Invalid event base' >&2; exit 2; }
+            base="$(git rev-parse HEAD^)"
+          fi
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+          git merge-base --is-ancestor "$base" "$HEAD_SHA"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+          echo "head=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          if git show "$base:doc/ci/select_quality.py" > "$RUNNER_TEMP/trusted_selector.py" 2>/dev/null; then
+            python3 "$RUNNER_TEMP/trusted_selector.py" --base "$base" --head "$HEAD_SHA" --output quality-plan.json --github-output "$GITHUB_OUTPUT"
+          else
+            echo 'tier=full' >> "$GITHUB_OUTPUT"
+            echo 'backend=true' >> "$GITHUB_OUTPUT"
+            echo 'frontend=true' >> "$GITHUB_OUTPUT"
+            python3 -c 'import json,sys; print(json.dumps(dict(base=sys.argv[1],head=sys.argv[2],tier="full",backend=True,frontend=True,reason="trusted selector unavailable: conservative bootstrap")))' "$base" "$HEAD_SHA" > quality-plan.json
+          fi
+      - name: Install pinned static parser
+        run: python3 -m pip install --disable-pip-version-check -r doc/ci/requirements.txt
+      - name: Static and governance contracts
+        run: |
+          python3 doc/ci/check_repository.py
+          python3 doc/ci/check_build_workflow.py
+          python3 doc/ci/check_sdlc_workflow.py --mode structure
+          python3 doc/ci/check_human_full_policy.py
+          python3 doc/ci/check_quality_policy.py
+          python3 -m unittest discover -s doc/ci -p 'test_*.py' -v
+          node frontend/ci/check-delivery-policy.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: quality-plan-${{ github.run_id }}-${{ github.run_attempt }}
+          path: quality-plan.json
+          if-no-files-found: error
+
+  backend:
+    needs: classify
+    if: needs.classify.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.classify.outputs.head }}
+          persist-credentials: false
+      - uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.mod
+      - run: bash backend/ci/check.sh
+
+  frontend:
+    needs: classify
+    if: needs.classify.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.classify.outputs.head }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - name: Activate package manager
+        working-directory: frontend
+        run: |
+          corepack enable
+          corepack install
+      - name: Locate pnpm store
+        id: store
+        working-directory: frontend
+        run: echo "path=$(corepack pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.store.outputs.path }}
+          key: pnpm-${{ runner.os }}-node24-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+      - name: Install once
+        working-directory: frontend
+        run: corepack pnpm install --frozen-lockfile --prefer-offline
+      - name: Fast once
+        working-directory: frontend
+        run: corepack pnpm check:fast
+      - name: Build once
+        working-directory: frontend
+        run: corepack pnpm build
+      - name: Install both pinned browser engines
+        working-directory: frontend
+        run: |
+          corepack pnpm exec playwright install --with-deps chromium
+          corepack pnpm exec e2e-web install --with-deps chromium
+      - name: All required browser journeys once
+        working-directory: frontend
+        run: corepack pnpm test:e2e
+      - name: Verify each runner evidence and coverage
+        env:
+          HEAD_SHA: ${{ needs.classify.outputs.head }}
+        run: python3 doc/ci/check_browser_evidence.py --frontend frontend --head "$HEAD_SHA"
+      - name: Retain browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: quality-browser-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            frontend/playwright-report/
+            frontend/test-results/
+            frontend/.e2e/report.json
+            frontend/.e2e/junit.xml
+            frontend/.e2e/summary.md
+            frontend/.e2e/results/
+            frontend/.e2e/artifacts/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  quality-gate:
+    needs: [classify, backend, frontend]
+    if: always() && (github.event_name != 'pull_request' || !github.event.pull_request.draft)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify required results and current candidate independently
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ needs.classify.outputs.base }}
+          HEAD_SHA: ${{ needs.classify.outputs.head }}
+          TIER: ${{ needs.classify.outputs.tier }}
+          CLASSIFY_RESULT: ${{ needs.classify.result }}
+          BACKEND_RESULT: ${{ needs.backend.result }}
+          FRONTEND_RESULT: ${{ needs.frontend.result }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, urllib.request
+          e = os.environ
+          tier = e['TIER']
+          assert tier in ('docs', 'backend', 'full'), 'unknown tier'
+          assert e['CLASSIFY_RESULT'] == 'success', 'classification/static gate failed'
+          assert e['BACKEND_RESULT'] == ('skipped' if tier == 'docs' else 'success'), 'backend missing/failed'
+          assert e['FRONTEND_RESULT'] == ('success' if tier == 'full' else 'skipped'), 'frontend missing/failed'
+          assert all(re.fullmatch('[0-9a-f]{40}', e[k]) for k in ('BASE_SHA', 'HEAD_SHA')), 'invalid SHA'
+          def get(path):
+              req = urllib.request.Request('https://api.github.com/repos/' + e['REPOSITORY'] + path, headers={'Authorization': 'Bearer ' + e['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
+              with urllib.request.urlopen(req) as r: return json.load(r)
+          main = get('/git/ref/heads/main')['object']['sha']
+          if e.get('PR_NUMBER'):
+              pr = get('/pulls/' + e['PR_NUMBER'])
+              assert pr['state'] == 'open' and not pr['draft'], 'PR not ready'
+              assert pr['base']['ref'] == 'main' and pr['head']['sha'] == e['HEAD_SHA'], 'candidate moved'
+              assert main == e['BASE_SHA'], 'main moved: update candidate and revalidate'
+          else:
+              assert main == e['HEAD_SHA'], 'main moved'
+          receipt = {k: e[k] for k in ('REPOSITORY', 'PR_NUMBER', 'BASE_SHA', 'HEAD_SHA', 'TIER', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT')}
+          receipt.update(result='QUALIFIED', backend=e['BACKEND_RESULT'], frontend=e['FRONTEND_RESULT'])
+          with open('quality-receipt.json', 'w') as f: json.dump(receipt, f, indent=2)
+          print(json.dumps(receipt))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: quality-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: quality-receipt.json
+          if-no-files-found: error
+          retention-days: 30

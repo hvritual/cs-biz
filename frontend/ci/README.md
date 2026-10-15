@@ -1,5 +1,7 @@
 # Frontend validation — Fast/Full gates
 
+**Current delivery:** [Risk-based Gates](../../doc/ci/RISK-BASED-GATES.md) replaces the historical duplicate Fast/Targeted and Human-only merge wait described below. `quality.yml` runs final frontend Fast/build/all browser suites once and produces an independent exact-SHA receipt; old workflows are manual diagnostics only. Default local check stays Fast. No test coverage is retired.
+
 Authoritative process: [No-Stall Delivery Gates](../../doc/ci/NO-STALL-GATES.md).
 Pinned toolchain: Node ^22.22.3 or ^24.8.0, pnpm 10.33.4 from Corepack.
 New E2E uses [tester-army/e2e](../doc/e2e.md); existing Playwright coverage remains required during migration.

@@ -1,5 +1,7 @@
 # Human-controlled Full CI — decision and one-time migration
 
+**Current policy:** [Risk-based Gates](RISK-BASED-GATES.md) supersedes unconditional Human Full decisions and per-PR waivers. Automatic `quality.yml` may execute final Full after trusted selection and issues its own exact-SHA receipt. This document and its checker now govern only the retained optional manual Full endpoint; they do not prohibit the new automatic quality pipeline. Historical one-time migrations below are not current task instructions.
+
 **Authoritative baseline:** [NO-STALL-GATES.md](NO-STALL-GATES.md). This is an implementation guide, not a second task database or a new authority to approve merges.
 
 ## Invariants

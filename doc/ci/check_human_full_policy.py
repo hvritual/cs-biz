@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Fail-closed *static* checks for Human-controlled Full CI policy.
+"""Fail-closed static checks for the retained optional manual Full endpoint.
+
+Automatic risk-based quality is governed by check_quality_policy.py; these
+checks retain manual dispatch/receipt safety and the local Fast default.
 
 No actual Human identity, Environment reviewer setting or GitHub ruleset can be
 attested by a repository file. This is a source-safety checker, NOT a merge permit.

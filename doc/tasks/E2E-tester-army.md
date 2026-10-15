@@ -21,7 +21,7 @@ T0 测试基础设施切片：新框架成为新旅程标准及聚合入口的�
 | E5 | 精确候选 CI 能留存两种报告 | Targeted/Full 浏览器安装、.e2e 与旧制品上传 |
 
 实际命令结果、最终 SHA/tree、远端 run 与主线状态记录在本任务独立 PR，不能把静态检查或 Mock 旅程当生产证明。
-本次非文档 PR，Full 决策仍按现有 Human 控制流程，不把框架使用指令推定为 Full dispatch 或 waiver。
+本次非文档 PR，现按 Human 后续明确授权的 [风险门禁](../ci/RISK-BASED-GATES.md) 纳入独立治理候选，自动执行完整回归并核验精确 receipt；旧 PR29 等待 Human Full 的状态是历史记录。
 
 ## 风险与回退
 

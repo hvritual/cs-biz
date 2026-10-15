@@ -23,7 +23,7 @@ Read AGENTS.md, doc/workflow/project-profile.md, doc/workflow/INTENT-DESIGN-WORK
 6. DESIGN_HANDOFF: record the same-version full design pack, preview reproduction/evidence, Human decision ref, R/AC, invariants, allowed/forbidden paths, resources, risk and separate execution authority. Partial review or missing conditions/evidence cannot be labeled handoff-ready.
 
 ## Executing model after handoff
-Continue authorized work using task-progression and sdlc-build: slice plan, implementation, actual verification, Fast/applicable Targeted, independent review and evidence readback. These are not workflow stages, and are not delegated to Human as ordinary engineering work. Design disagreement returns to Design Loop; intent/authority disagreement returns to optimizer/Human. Preserve Human-only Full control, separate merge/deploy authority and exact-SHA evidence.
+Continue authorized work using task-progression and sdlc-build: slice plan, implementation, actual verification, Fast/applicable Targeted, independent review and evidence readback. These are not workflow stages, and are not delegated to Human as ordinary engineering work. Design disagreement returns to Design Loop; intent/authority disagreement returns to optimizer/Human. Follow the current project risk-based delivery policy, separate merge/deploy authority and exact-SHA evidence; do not infer a universal Human Full wait from legacy records.
 
 ## Checks and compatibility
 `python3 doc/ci/check_sdlc_workflow.py --mode structure` checks wiring.

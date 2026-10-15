@@ -6,7 +6,7 @@
 
 Raw Intent 原文与来源 → Prompt Optimizer（自动 ADR/doc/当前源码研究、条件/资源/偏好决策树）→ IntentSpec（逐项追溯与材料性 Human 选择）→ Design Loop（方案、设计、旅程、现有工程 Preview 同轮）→ Human 反馈修订/同版本确认 → 设计交接。
 
-工作流到此结束。执行模型在已有授权范围内接手计划、落地、核实、Fast/适用 Targeted、独立审查与真实证据回读，继续使用 `task-progression` 和 `sdlc-build`。Full 始终由 Human 控制，合并和发布另行授权；工作流外仍受仓库治理约束，不把常规工程职责丢给 Human。
+工作流到此结束。执行模型在已有授权范围内接手计划、落地、核实、Fast/适用 Targeted、独立审查与真实证据回读，继续使用 `task-progression` 和 `sdlc-build`。最终候选按 [风险门禁](../ci/RISK-BASED-GATES.md) 自动运行所需检查及 Full，核验独立回执后在授权范围内合并；发布另行授权，不把常规工程职责丢给 Human。
 
 UI 设计使用当前 Vue/Vben/Element Plus 工程、壳层和 Token；不能用独立 demo.html 代替。每轮交付 solution.md / requirements.md / design.md / journey.md / flow.mmd / ux-analysis.yaml、项目预览源码/入口/场景/运行证据及 design-loop.json。Human 同时检查方案和可操作旅程；不是先批准孤立预览再看到方案。系统负责可确定且已授权的工作；批量场景评估文本导入快速选定，保留权限、消歧、影响确认和安全恢复。
 
@@ -24,4 +24,4 @@ b2b 核心、模板和上游设计示例已引入，项目绑定/检查入口已
 
 ## 本治理候选的验证
 
-执行 `python3 doc/ci/check_repository.py`、`python3 doc/ci/check_build_workflow.py`、SDLC 结构与 Python 正反例，随后运行仓库 Fast。真实 UI 任务需模型运行项目预览与适用 Desktop，缺工具则 unavailable；Full 决策遵循 [Human 控制](../ci/HUMAN-FULL-CONTROL.md)。本候选不修改业务 UI，没有实际业务预览或用户旅程完成声明。结果见 [W02 验证](../evidence/W02-validation.md)。
+执行 `python3 doc/ci/check_repository.py`、`python3 doc/ci/check_build_workflow.py`、SDLC 结构与 Python 正反例，随后运行仓库 Fast。真实 UI 任务需模型运行项目预览与适用 Desktop，缺工具则 unavailable；最终 Full 遵循 [风险门禁](../ci/RISK-BASED-GATES.md)。W02 历史候选未修改业务 UI，没有实际业务预览或用户旅程完成声明。历史结果见 [W02 验证](../evidence/W02-validation.md)。

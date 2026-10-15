@@ -3,18 +3,7 @@ name: Frontend Targeted Desktop
 # Cloud equivalent of the existing local targeted probe. This is not Full.
 # Fast precedes Desktop plus the two evidence-backed repaired member journeys.
 on:
-  push:
-    paths:
-      - 'frontend/**'
-      - 'doc/design/**'
-      - '.github/workflows/frontend-targeted.yml'
-  pull_request:
-    paths:
-      - 'frontend/**'
-      - 'doc/design/**'
-      - '.github/workflows/frontend-targeted.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

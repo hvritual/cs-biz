@@ -11,7 +11,7 @@
 | 页面/组件 | `frontend/apps/console/src/views/`、`components/` 与实际消费者；不存在上游的 Page Contract/源码索引命令时用 rg 检索，不假定已安装 |
 | 导航/权限/数据 | 当前 `frontend/apps/console/src/platform/`、router 与真实服务；前端 Mock 不证明后端鉴权 |
 | 预览 | 当前应用内任务限定的设计入口；隔离 fixture、生产不暴露；见 Intent/Design 协议 |
-| 执行/证据 | 模型在工作流外按 `doc/ci/NO-STALL-GATES.md` 执行 Fast/Targeted、回读与独立审查；Full 只由 Human 控制 |
+| 执行/证据 | 模型在工作流外按 `doc/ci/RISK-BASED-GATES.md` 执行 Fast/适用 Targeted、最终自动风险门禁、回读与独立审查；Human 保留方案/价值/不可逆事项决策 |
 
 在九维 interaction_cost / decision_load / error_recoverability 下，评估系统自动完成可确定工作；适用批量选择时设计文本粘贴/导入、去重、权限内匹配、未匹配/歧义处理、最终选定范围、影响预览和逐项恢复。选定不执行；危险确认不因减少点击而删除。优先让用户判断核心业务，避免重复录入和反复跳页。
 

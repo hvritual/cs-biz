@@ -46,7 +46,7 @@ function problems({ pkg, fast, full, shell, overlay, css, targeted }) {
       !scripts['check:full']?.includes('pnpm test:e2e')) {
     errors.push('Full Gate must include fast checks, build and all E2E');
   }
-  if (scripts.check !== 'pnpm check:fast') errors.push('Default check must remain Fast; Full requires an explicit Human action');
+  if (scripts.check !== 'pnpm check:fast') errors.push('Default check must remain Fast; final candidate qualification is separate');
   if (!fast.includes('corepack pnpm check:fast') ||
       fast.includes('playwright install') || fast.includes('e2e-web install') || fast.includes('corepack pnpm check:full')) {
     errors.push('Push workflow must never install a browser or run the full gate');
@@ -105,5 +105,5 @@ if (failures.length) {
   console.error('FAIL: delivery policy\n' + failures.join('\n'));
   process.exitCode = 1;
 } else {
-  console.log('PASS: automatic Fast, Human-only Full, candidate receipt, collapse tokens and negative fixtures');
+  console.log('PASS: Fast default, retained manual Full safety, E2E coverage, collapse tokens and negative fixtures');
 }

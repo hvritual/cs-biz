@@ -1,5 +1,7 @@
 # E2E：tester-army/e2e
 
+当前门禁以 [风险分级](../../doc/ci/RISK-BASED-GATES.md) 为准：Full 在最终候选按风险自动运行，无需逐 PR Human dispatch；下文 Human-only 的描述仅为旧手动诊断入口。正常 CI 为 quality.yml，一次 Fast/build/两套完整 E2E。
+
 2026-10-15 Human 指定 E2E 使用 tester-army/e2e。原输入 `tester-amy/e2e` 按已核对的上游名称更正。
 
 ## 固定来源与边界
@@ -28,8 +30,8 @@ E2E_TELEMETRY_DISABLED=1 corepack pnpm test:e2e:journey
 ```
 
 `test:e2e` 顺序执行新框架与全部旧回归，前者失败不能继续冒充通过；`check:full` 仍包含 Fast、build 和该聚合命令。
-Targeted Desktop 在原 Fast/build/Desktop 后执行新成员查询旅程，无需再构建。Full 仍严格由 Human 手动 GitHub dispatch，
-Agent 不运行 Full 或以本地全套替代。本次测试基础设施变更不适用文档自动交付例外。
+编辑时 Targeted Desktop 在 Fast/build 后运行；最终候选统一由 quality.yml 跑 Fast/build 和新旧全部旅程一次。
+Agent 按已授权风险门禁执行，无需再等待每个 PR 的 Human dispatch。本次测试基础设施变更不适用文档自动交付例外。
 
 Fast 新增配置/新用例类型检查及 runner/固定版本/制品收集的策略反例，不安装浏览器、不调用模型。
 输出 `.e2e/report.json`、`junit.xml`、`summary.md`、截图和失败 trace 由 Targeted/Full 上传；本地产物忽略不提交。
