@@ -55,10 +55,15 @@ jobs:
           node-version: '24.19.0'
           package-manager-cache: false
       - name: Activate pinned package manager
+        working-directory: frontend
         run: |
           corepack enable
           corepack install
       - name: Install locked dependencies
+        working-directory: frontend
         run: corepack pnpm install --frozen-lockfile
+      - name: Manual Full dispatch regression fixtures
+        run: python3 -m unittest discover -s doc/ci -p 'test_manual_full_dispatch.py' -v
       - name: Fast type, lint, copy, token, gate-policy and unit checks
+        working-directory: frontend
         run: corepack pnpm check:fast
