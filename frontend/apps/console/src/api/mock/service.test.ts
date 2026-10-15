@@ -496,3 +496,19 @@ describe('V2.2 independent Menu / Function / Data grants', () => {
     expect(await api.listCustomers(context())).toHaveLength(8);
   });
 });
+
+describe('V2.2 menu-only authorization', () => {
+  it('allows a Console route with no API Function and refuses direct data reads', async () => {
+    const api = service();
+    const role = await api.createRole(context(), { name: '菜单访问但不授予数据读取', description: '',
+      menuGrants: ['crm.customer.list'], grants: [] });
+    await api.updateMembership(context(), 'qinghe-yu', { roleIds: [role.id] });
+    api.selectUser('yu');
+    const ctx = context('yu');
+    const access = await api.getAccessContext(ctx);
+    expect(access.navigation.map((entry) => entry.path)).toEqual(['/customers']);
+    expect(access.permissions).not.toContain('crm.customer.read');
+    expect(access.dataScopes).toEqual([]);
+    await expect(api.listCustomers(ctx)).rejects.toMatchObject({ code: 'PERMISSION_DENIED' });
+  });
+});

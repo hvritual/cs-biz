@@ -204,7 +204,7 @@ test('member creation configures and binds a new permission set inline', async (
   await expect(page.getByText('请至少启用一个菜单', { exact: true })).toBeVisible();
   const crmRow = page.locator('.pse-row', { hasText: '客户列表' });
   await crmRow.locator('.pse-menu .el-switch').click();
-  await crmRow.getByRole('checkbox', { name: '查看客户', exact: true }).click();
+  await crmRow.getByText('查看客户', { exact: true }).click();
   await expect(page.getByRole('checkbox', { name: '查看客户', exact: true })).toBeChecked();
   await crmRow.getByText('同组', { exact: true }).click();
   await expect(crmRow.getByRole('radio', { name: '同组', exact: true })).toBeChecked();
@@ -490,11 +490,11 @@ test('V2.2: separate Console Menu grants from Function grants and retain per-fun
   const crm = dialog.locator('.pse-row', { hasText: '客户列表' });
   await crm.locator('.pse-menu .el-switch').click();
   await expect(crm.getByRole('checkbox', { name: '查看客户' })).not.toBeChecked();
-  await crm.getByRole('checkbox', { name: '查看客户' }).click();
-  await crm.getByRole('checkbox', { name: '编辑客户' }).click();
+  await crm.getByText('查看客户', { exact: true }).click();
+  await crm.getByText('编辑客户', { exact: true }).click();
   const cells = crm.locator('.pse-action-scope');
-  await cells.nth(0).getByRole('radio', { name: '所有' }).click();
-  await cells.nth(2).getByRole('radio', { name: '个人' }).click();
+  await cells.nth(0).getByText('所有', { exact: true }).click();
+  await cells.nth(2).getByText('个人', { exact: true }).click();
   await expect(cells.nth(0).getByRole('radio', { name: '所有' })).toBeChecked();
   await expect(cells.nth(2).getByRole('radio', { name: '个人' })).toBeChecked();
   await shot(page, info, 'three-rights-menu-function-scope');
