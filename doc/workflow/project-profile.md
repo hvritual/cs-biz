@@ -15,6 +15,7 @@ This file binds shared task-progression and sdlc-build methods to **hvritual/cs-
 - Repository skeleton: `python3 doc/ci/check_repository.py`
 - Default and Fast, after applicable focused tests: `bash doc/ci/check.sh` or `bash doc/ci/check.sh --fast`; `cd frontend && corepack pnpm check` also defaults to Fast.
 - Changed Desktop visuals/interaction: `cd frontend && corepack pnpm check:desktop:runtime`
+- E2E framework: tester-army/e2e; read `frontend/doc/e2e.md`. New journeys use `*.e2e.ts`. `test:e2e` must retain both the new runner and legacy Playwright regressions during migration; targeted `test:e2e:journey` runs after Fast/build. No implicit provider or Full permission.
 - Full CI: **Human manually triggers** GitHub Actions `Frontend Full Gate` on main with PR number and exact SHA. Do not call `bash doc/ci/check.sh --full`, `pnpm check:full` or GitHub dispatch from an Agent without Human's explicit action.
 - Frontend focused tests: choose an existing Vitest spec via `corepack pnpm exec vitest run <existing-spec>` from `frontend/`; verify actual spec.
 - Backend: use `backend/ci/check.sh` and real Go tests appropriate to affected packages; do not invent a missing test command.

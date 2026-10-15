@@ -4,6 +4,8 @@ The canonical product UI contract is **doc/design/desktop-ui.md** in the repo ro
 
 ## Fast/Full acceptance
 
+New E2E journeys use `tester-army/e2e` (`e2e` + `@e2e-dev/web`) with `e2e.config.ts` and `*.e2e.ts`. Read `frontend/doc/e2e.md`. Preserve existing `*.spec.ts` Playwright coverage until equivalent runtime evidence and explicit retirement authority exist. `test:e2e` includes both runners; missing providers or failed journeys must not be silently skipped. Framework selection does not grant Full dispatch authority.
+
 All frontend changes follow **doc/ci/NO-STALL-GATES.md**: first `corepack pnpm check:fast`; for UI behavior use `corepack pnpm check:desktop:runtime` locally; then freeze a candidate and await the Human-only Full decision. Full is dispatched manually by Human on main for the exact PR/SHA under the root agreement; Agents must not invoke local check:full as a substitute. The fold/expand layout must consume the same CSS tokens used by the flyout and page gutter. CI red is not a reason to suppress tests.
 
 ## Design Preview

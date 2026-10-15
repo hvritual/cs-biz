@@ -27,6 +27,8 @@
 
 ## Desktop design system
 
+E2E framework: use `tester-army/e2e` for new journeys; project configuration and migration boundary are in `frontend/doc/e2e.md`. Existing Playwright regressions remain required during migration. Do not confuse the framework's Playwright-based web engine with removal of existing coverage or changes to Human-only Full control.
+
 For every future UI task, read and comply with **doc/design/desktop-ui.md**. Use its shared tokens and Desktop browser checks, not page-local visual assumptions. Record screenshots from the exact changed commit.
 
 ## No-Stall Gate: mandatory for future tasks

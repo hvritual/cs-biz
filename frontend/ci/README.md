@@ -1,7 +1,8 @@
 # Frontend validation — Fast/Full gates
 
 Authoritative process: [No-Stall Delivery Gates](../../doc/ci/NO-STALL-GATES.md).
-Pinned toolchain: Node 22.18+ or 24.x, pnpm 10.33.4 from Corepack.
+Pinned toolchain: Node ^22.22.3 or ^24.8.0, pnpm 10.33.4 from Corepack.
+New E2E uses [tester-army/e2e](../doc/e2e.md); existing Playwright coverage remains required during migration.
 
 ## Local run (from frontend/)
 
@@ -10,6 +11,8 @@ corepack enable && corepack install
 corepack pnpm install --frozen-lockfile       # once per lockfile version
 corepack pnpm check:fast                      # every iteration and default 'pnpm check'
 corepack pnpm exec playwright install chromium  # once, only when UI browser work requires it
+corepack pnpm exec e2e-web install chromium      # pinned web-engine browser, independently versioned
+E2E_TELEMETRY_DISABLED=1 corepack pnpm test:e2e:journey  # targeted members journey, after build
 corepack pnpm check:desktop:runtime           # UI-only: one build, targeted Desktop E2E
 corepack pnpm check:full                      # explicit Human-only; not for Agent iteration
 ```
@@ -17,7 +20,7 @@ corepack pnpm check:full                      # explicit Human-only; not for Age
 Do not reinstall Chromium or rerun all customer/tenant journeys after every CSS
 edit. Fast includes typecheck, oxlint, bilingual product-copy checks, Desktop
 semantic Token checks, self-tested pipeline/collapse checks, and unit tests.
-Full adds the actual production build and all Playwright journeys.
+Full adds the actual production build, tester-army journeys and all retained Playwright journeys.
 
 ## GitHub workflows
 

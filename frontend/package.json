@@ -14,17 +14,22 @@
     "typecheck": "pnpm --filter @cs-biz/console typecheck",
     "lint": "oxlint apps/console/src --deny-warnings",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test --config ci/playwright.config.ts",
+    "test:e2e": "pnpm test:e2e:journey && pnpm test:e2e:legacy",
+    "test:e2e:journey": "e2e run",
+    "test:e2e:legacy": "playwright test --config ci/playwright.config.ts",
+    "check:e2e:types": "tsc --project tsconfig.e2e.json",
     "check:copy": "node ci/check-copy.mjs",
     "check": "pnpm check:fast",
     "check:desktop": "node ci/check-desktop-ui.mjs",
     "check:delivery-policy": "node ci/check-delivery-policy.mjs",
-    "check:fast": "pnpm typecheck && pnpm lint && pnpm check:copy && pnpm check:desktop && pnpm check:delivery-policy && pnpm test:unit",
+    "check:fast": "pnpm typecheck && pnpm lint && pnpm check:copy && pnpm check:desktop && pnpm check:delivery-policy && pnpm check:e2e:types && pnpm test:unit",
     "check:full": "pnpm check:fast && pnpm build && pnpm test:e2e",
     "test:e2e:desktop": "playwright test --config ci/playwright.config.ts desktop-ui.spec.ts",
     "check:desktop:runtime": "pnpm build && pnpm test:e2e:desktop"
   },
   "devDependencies": {
+    "e2e": "0.20.0",
+    "@e2e-dev/web": "0.14.0",
     "@changesets/changelog-github": "catalog:",
     "@changesets/cli": "catalog:",
     "@tsdown/css": "catalog:",
@@ -61,7 +66,7 @@
     "@playwright/test": "catalog:"
   },
   "engines": {
-    "node": "^22.18.0 || ^24.0.0",
+    "node": "^22.22.3 || ^24.8.0",
     "pnpm": ">=10.0.0"
   },
   "packageManager": "pnpm@10.33.4"
