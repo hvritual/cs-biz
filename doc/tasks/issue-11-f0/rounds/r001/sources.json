@@ -1,0 +1,1397 @@
+{
+  "schema": "f0-source-evidence/1",
+  "verified_at": "2026-10-15 Asia/Shanghai",
+  "consumer_baseline": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+  "yunka_evaluation_commit": "3527488325030fbf86fe52804140c936e9d937a4",
+  "issue_snapshot": {
+    "url": "https://github.com/hvritual/cs-biz/issues/11",
+    "updated_at": "2026-10-15T06:32:38Z",
+    "body_sha256": "643afb519a1b8d4af22d45ef114c7b603b04ce985eba89de63d8d8c8b3573e7b"
+  },
+  "records": [
+    {
+      "id": "S01",
+      "repository": "hvritual/cs-biz",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "path": "backend/go.mod",
+      "git_blob_sha": "cc52123cbc8c4fa48a7a1d8c7e1f2bdcbc0b8675",
+      "sha256": "6c03418ff1ceac02bc9e710a8360c1016237f14348f31ea35ff830227245a435",
+      "status": "current_source",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/da5494d03c362ab873465c1793e7aba7e4e3a7cc/backend/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/cs-biz/backend"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.23.0"
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "repository": "hvritual/cs-biz",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "path": "backend/README.md",
+      "git_blob_sha": "ac8b3ad6f20a2f02815803e9fde8fcde2be658f0",
+      "sha256": "32cc97700d5475d801a2fc046edf2078569466b9460fc51d62c8d9c8f353b399",
+      "status": "current_source",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/da5494d03c362ab873465c1793e7aba7e4e3a7cc/backend/README.md",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "# Backend"
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "repository": "hvritual/cs-biz",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "path": "backend/internal/platform/authz/authorize.go",
+      "git_blob_sha": "ae60d154e77f8cf4a88aa77b4539260dcfd38679",
+      "sha256": "0872efa8e9938940721e719145f1c7f99ab093a74d443eccfdf2da7db88a6d8d",
+      "status": "current_source",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/da5494d03c362ab873465c1793e7aba7e4e3a7cc/backend/internal/platform/authz/authorize.go",
+      "locators": [
+        {
+          "line": 35,
+          "quote": "type Scope string"
+        },
+        {
+          "line": 38,
+          "quote": "\tScopeTenant   Scope = \"tenant\""
+        },
+        {
+          "line": 39,
+          "quote": "\tScopeSelf     Scope = \"self\""
+        },
+        {
+          "line": 40,
+          "quote": "\tScopeAssigned Scope = \"assigned\""
+        },
+        {
+          "line": 41,
+          "quote": "\tScopeExplicit Scope = \"explicit\""
+        },
+        {
+          "line": 44,
+          "quote": "// Grant is an *operation-specific* permission/scope pair from the current IAM authority."
+        },
+        {
+          "line": 49,
+          "quote": "\tScope       Scope"
+        },
+        {
+          "line": 78,
+          "quote": "// current tenant/object predicates and the permission-specific scope."
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "repository": "hvritual/cs-biz",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "path": "backend/internal/platform/authz/http.go",
+      "git_blob_sha": "7a26b3d111aff773a181a505d06f9616ee0f205d",
+      "sha256": "d4b6891b1f5e8d830419ce712e54ef81e254f3194511388ee9e1bc9dc3a0be03",
+      "status": "current_source",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/da5494d03c362ab873465c1793e7aba7e4e3a7cc/backend/internal/platform/authz/http.go",
+      "locators": [
+        {
+          "line": 10,
+          "quote": "// operations it MUST additionally use RequireResource or an equivalent scoped"
+        },
+        {
+          "line": 22,
+          "quote": "\t\treturn nil, fmt.Errorf(\"authz: authorizer required\")"
+        },
+        {
+          "line": 77,
+          "quote": "\tstatus := http.StatusForbidden"
+        },
+        {
+          "line": 80,
+          "quote": "\t\tstatus = http.StatusUnauthorized"
+        },
+        {
+          "line": 82,
+          "quote": "\t\tstatus = http.StatusNotFound"
+        },
+        {
+          "line": 84,
+          "quote": "\t\tstatus = http.StatusServiceUnavailable"
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "repository": "hvritual/cs-biz",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "path": "doc/architecture/adr/0001-frontend.md",
+      "git_blob_sha": "54d1d037a09e28a4bc2589ae68ac53b030495999",
+      "sha256": "b5a28b94c110c7a67e420dbe132debc47dd759fde401a76f5b7e99d5d387b582",
+      "status": "accepted",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/da5494d03c362ab873465c1793e7aba7e4e3a7cc/doc/architecture/adr/0001-frontend.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "- 状态：`accepted`，随用户授权的 S01 技术实施采纳；验证与合并状态另行记录。"
+        },
+        {
+          "line": 10,
+          "quote": "选择 **Vben Admin 5 + Element Plus** 作为实现底座，以真实的 `apps/web-ele` 应用为来源，在 `frontend/` 内保留可构建的 pnpm workspace，仅交付一个 console 应用。沿用上游可用的布局、主题、国际化和访问适配；业务契约放在自己的模块中。"
+        },
+        {
+          "line": 12,
+          "quote": "选择依据是它已有组件库应用、主题状态与 UI 适配、动态路由和权限码能力，较适合需要多个租户工作区和长期扩展的后台。它并不提供本项目完整的租户权益、数据隔离或经营业务实现。"
+        },
+        {
+          "line": 22,
+          "quote": "| Vben Admin 5 + Ant Design Vue | 已有 Ant Design 组件资产或团队明确偏好 | 需评估当前稳定版本的发布间隔与本项目兼容需求，不能将 React antd 或其他派生库的维护状态套用过来 |"
+        },
+        {
+          "line": 23,
+          "quote": "| Pure Admin 国际化精简版 + Element Plus | 团队更熟悉 Element Plus，优先较直接的应用目录和二次开发 | 当前 i18n 精简分支仍为 6.2.0，不能把完整版 7.0 的维护状态直接套用；需评估补齐差异 |"
+        },
+        {
+          "line": 40,
+          "quote": "上游来源与实际依赖见 [来源记录](../../../frontend/doc/upstream.json)，真实命令和结果见 [S01 验证](../../evidence/S01-validation.md)。采纳技术方案、运行验证、PR 合并与部署是不同状态。"
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "repository": "hvritual/cs-biz",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "path": "doc/architecture/README.md",
+      "git_blob_sha": "42807f6dcd8af96d6abbb7dc027596e31f73b30e",
+      "sha256": "3a6f55897fadd99adb5a89dbf5cea974fce977578547722b36a3fd5418a92aae",
+      "status": "proposed",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/da5494d03c362ab873465c1793e7aba7e4e3a7cc/doc/architecture/README.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "状态：`proposed`。该文档描述目标边界，不描述已经存在的服务。"
+        },
+        {
+          "line": 33,
+          "quote": "| Preferences | 用户语言、外观与允许覆盖的租户品牌 | 权限和业务状态 |"
+        },
+        {
+          "line": 44,
+          "quote": "| 租户成员 | 用户在租户 A 的成员关系 | 有独立状态、角色与数据范围 |"
+        },
+        {
+          "line": 46,
+          "quote": "| 业务资源 | 客户、点位、设备、合同 | 具有明确租户归属和资源状态 |"
+        },
+        {
+          "line": 59,
+          "quote": "        AND 资源状态允许本次操作"
+        }
+      ]
+    },
+    {
+      "id": "S07",
+      "repository": "hvritual/cs-biz",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "path": "doc/workflow/INTENT-DESIGN-WORKFLOW.md",
+      "git_blob_sha": "96f630d437f95482d618dae8574d74a25040d29d",
+      "sha256": "5354f102265106a8c28ffa09f727bab350023e445512d160c78b846416018993",
+      "status": "documented",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/da5494d03c362ab873465c1793e7aba7e4e3a7cc/doc/workflow/INTENT-DESIGN-WORKFLOW.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "本协议落实 [W02 的六项要求](../tasks/W02-intent-design-workflow.md)。工作流的职责是把业务意图变成经 Human 确认、可交接的方案与项目预览；实施模型在工作流外负责计划、落地、核实和门禁。现有 Issue/任务仍是权威，不新增状态服务。"
+        },
+        {
+          "line": 23,
+          "quote": "工作流状态为 RAW_CAPTURED / NEEDS_EVIDENCE / NEEDS_DECISION / INTENT_READY / DESIGN_REVIEW / NEEDS_REBASE / DESIGN_HANDOFF。READY 只是可供审阅。允许的设计文件编辑与预览工程修改必须来自真实任务授权，加载 Skill 不产生权限。"
+        },
+        {
+          "line": 31,
+          "quote": "每项引用记录路径、完整 commit、内容摘要、定位、与当前任务的关系以及用途。ADR 区分 accepted / proposed / superseded / conflict；当前源码另标 current_source，普通文档标 documented，未知就是 unknown。历史 ADR 的 accepted 只说明当时采纳，仍须检查是否被后续 ADR 取代。proposed 不升级为约束；历史能力不升级为当前实现。冲突同时列出，权限或业务意义冲突交 Human，不能由模型暗中挑一个。"
+        },
+        {
+          "line": 45,
+          "quote": "每个决策节点保存 ID、触发条件、问题、事实/来源、选项及取舍、推荐依据、答案/来源、阻塞性和影响哪些产物。资源状态使用 available / missing / unknown / not_applicable；missing 与 unknown 保留 owner、补齐动作和阻塞范围。Mock 可用于设计，不能将依赖标成真实 available。可继续不受阻塞的设计，但不进入不具备条件的实施。"
+        },
+        {
+          "line": 54,
+          "quote": "| `requirements.md` | 编号 R/AC、保留项、角色/权限、成功/失败/恢复定义、非目标 |"
+        },
+        {
+          "line": 55,
+          "quote": "| `design.md` | 页面/交互、状态与契约、现有组件/服务复用、源码落点、边界、实现与验证建议；回答如何组织实现 |"
+        },
+        {
+          "line": 59,
+          "quote": "| `design-loop.json` | 以下引用与摘要的交接索引；不替代上述权威内容或任务状态 |"
+        },
+        {
+          "line": 78,
+          "quote": "默认不模糊自动选定，不把“选定”视为“执行”。明确当前页、当前筛选和显式集合；修改文本、身份、筛选或目标版本后重验范围。批量执行复用真实协议，不虚构逐项状态查询、幂等或回滚；无契约可做设计模拟并登记实施依赖。安全恢复时保留输入、区分已完成/失败/未知，未知先回读，不能整批盲重试。"
+        }
+      ]
+    },
+    {
+      "id": "S08",
+      "repository": "hvritual/cs-biz",
+      "commit": "d257fa8c57e35f3d972b5f2d281dafe94f0f32a0",
+      "path": "doc/tasks/S02-identity-journeys.md",
+      "git_blob_sha": "1143c1ce33eabc3eb06d37d90857cca0070b991b",
+      "sha256": "d04538ef6c0d3301c7f00547697cb935919fcdf3b7ea9d972ba580089244a12d",
+      "status": "proposed",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/d257fa8c57e35f3d972b5f2d281dafe94f0f32a0/doc/tasks/S02-identity-journeys.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "> 基线：`cs-biz main@af021df9721d745920d4147763e895c982ee601d`。来源：`biz@a8a2368f` 的生命周期与登录旅程，现已适配 `cs-biz` 的 Scope、Desktop 和按标签页独立企业选择规则。**本候选只包含可无凭据落地的前端旅程与纯 Go 决策；不是声称真实登录/邀请已实现。**"
+        },
+        {
+          "line": 11,
+          "quote": "- 规范源：[ID-01](../journeys/ID-01-member-lifecycle.md)、[ID-02](../journeys/ID-02-login-workspace.md)、[身份旅程 YAML 候选](../contracts/identity-journey-v1.yaml)。"
+        },
+        {
+          "line": 17,
+          "quote": "## 2. 当前实现状态与迁移差异"
+        },
+        {
+          "line": 25,
+          "quote": "| 权限 | V2 `internal/platform/authz` 已合入 | 不改 Kernel，只将身份规则加到 `internal/access/identity` | 真实 CurrentAuthority、账户、Role/Grant/Scope DB Adapter |"
+        },
+        {
+          "line": 33,
+          "quote": "| **S02-ID-01 本 PR** | 现有 Mock 账号及租户+来源用户旅程 | 0/1/N 企业选择页；登录后的 tenantless 区分；Go 纯成员状态/Session 判断；规格、单元/E2E 候选 | 不接真 IdP、DB、短信/邮件，不把 Mock 当真权限 | 默认预选/失败重定向/旧测试回归，需 Full Browser 证明 | 是，限制当前差量 |"
+        },
+        {
+          "line": 45,
+          "quote": "完成正式身份闭环后，再接客户/点位/设备管理、组织、租赁/工单和跨租户协作；所有新模块复用上述 Account→WorkspaceContext→Canonical Operation→ResourceScope→Readback，另由应用领域检查租户是否开通。对系统已有的 CRM 应采用真实跨租户列表/写入/批量/导出权限证据验证，不能只测试导航隐藏。"
+        },
+        {
+          "line": 53,
+          "quote": "- **投递**：Outbox、provider accepted vs delivered、重试预算、不可达通知的恢复；"
+        },
+        {
+          "line": 83,
+          "quote": "**Scope check：** 修改现有 Console 的选择路由和纯 Go 安全决策，不创建新框架或整套运行服务。**Dependency check：** 前端依赖现有预览服务；后端仅用标准库；真 API 需要另一个独立切片。**Authority check：** `platform/authz` 不变，CSRF/IdP/DB 不冒充存在。**Evidence check：** 只有 CI 对精确提交完成后才能报告 Fast/Full PASS；此文档本身是规范，不能自证验收通过。"
+        }
+      ]
+    },
+    {
+      "id": "S09",
+      "repository": "hvritual/cs-biz",
+      "commit": "d257fa8c57e35f3d972b5f2d281dafe94f0f32a0",
+      "path": "doc/contracts/identity-journey-v1.yaml",
+      "git_blob_sha": "7eb77408f8dbb4a3bdb9ac5c4afc6e096ebab7aa",
+      "sha256": "e1bda2c96cf8719b58e770778c9a9aad5f010831b090b1c700ce2d0fd0f52560",
+      "status": "proposed",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/d257fa8c57e35f3d972b5f2d281dafe94f0f32a0/doc/contracts/identity-journey-v1.yaml",
+      "locators": [
+        {
+          "line": 2,
+          "quote": "# 本文件是 ID-01/ID-02 的状态与验收源，**不是**已发布 OpenAPI/数据库。"
+        },
+        {
+          "line": 11,
+          "quote": "    - ../journeys/ID-02-login-workspace.md"
+        },
+        {
+          "line": 18,
+          "quote": "  tab_workspace_context: backend.bff_and_access"
+        },
+        {
+          "line": 20,
+          "quote": "  resource_scope: business_domain_repository"
+        },
+        {
+          "line": 30,
+          "quote": "  workspace_context: [none, selected, invalidated]"
+        },
+        {
+          "line": 31,
+          "quote": "  delivery: [queued, accepted, delivered, failed, unknown]"
+        },
+        {
+          "line": 38,
+          "quote": "    requires: [trusted_tenant, valid_account_link, valid_role_scope, idempotency_key]"
+        },
+        {
+          "line": 44,
+          "quote": "    requires: [one_time_activation_proof, active_tenant, current_invite, valid_credential_policy]"
+        }
+      ]
+    },
+    {
+      "id": "S10",
+      "repository": "hvritual/cs-biz",
+      "commit": "6d391604d8f07204a310201b3e7941f8c55cf15c",
+      "path": "doc/contracts/three-rights-v2.2.md",
+      "git_blob_sha": "cc89c815acb8e170405ef1d01289130c40bb4aba",
+      "sha256": "c39fadad7ddc71d578915975beeb54c2d7c68d55fe3876a7cab0b6b94d60c0e8",
+      "status": "proposed",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/6d391604d8f07204a310201b3e7941f8c55cf15c/doc/contracts/three-rights-v2.2.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "状态：**S01 + PR #7 身份切片上的 V2.2 本地数据与 Go Kernel 集成**；真实 IdP、BFF、持久化 Access 及 SQL Adapter 尚未交付。来源：仓库 `doc/contracts/access-context.md`、`backend/doc/AUTHORIZATION-V2.md`、V2.2 设计附件。"
+        },
+        {
+          "line": 9,
+          "quote": "- **DataGrant**：每个 Function 的 Scope，定义请求数据域；前端展示可信快照，后端 `Decision.InjectDataScope(ctx)` 生成 `TrustedScope`，业务 Domain 将可信 tenant 与该 Function Scope 编译为查询、更新、聚合、导出条件。"
+        },
+        {
+          "line": 11,
+          "quote": "- **主体类型**：Platform/Human/Service/Worker/Public，Platform 不继承企业身份；同 Account 跨 Tenant 的 Role/Menu/Scope 独立。"
+        },
+        {
+          "line": 22,
+          "quote": "  FunctionGrant --> DataGrant[\"Action-specific Data Scope\"]"
+        },
+        {
+          "line": 25,
+          "quote": "  DataGrant --> TrustedScope[\"TrustedScope injection\"]"
+        },
+        {
+          "line": 27,
+          "quote": "  TrustedScope --> Domain"
+        },
+        {
+          "line": 31,
+          "quote": "UI 临时类型：`Role.menuGrants: ConsoleMenuKey[]` 与 `Role.grants: {action,scope}[]`；`AccessContext.menuGrants`/`permissions`/`dataScopes`/`navigation` 共同来自同一访问版本。保留旧 S01 `grant.scope = all / group / own` 用于预览，**不得**将 group 默默映射到 Go V2 的 assigned、tenant。Go 后端权威 Scope 是 tenant/self/assigned/explicit；group 的真实查询语义需另立场景和验收。"
+        },
+        {
+          "line": 51,
+          "quote": "  Function --> Scope[注入相应 Function TrustedScope]"
+        }
+      ]
+    },
+    {
+      "id": "S11",
+      "repository": "hvritual/cs-biz",
+      "commit": "6d391604d8f07204a310201b3e7941f8c55cf15c",
+      "path": "backend/internal/platform/authz/scope_context.go",
+      "git_blob_sha": "d97d25961ac907e785cd70509919ecf1dbbde0f4",
+      "sha256": "f79c705f299b1c30ab8b414a8aff12790a3bce90ec071b3a7297862c8218bc9b",
+      "status": "candidate_source",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/6d391604d8f07204a310201b3e7941f8c55cf15c/backend/internal/platform/authz/scope_context.go",
+      "locators": [
+        {
+          "line": 7,
+          "quote": "// TrustedScope is a per-request data predicate derived ONLY from a successful"
+        },
+        {
+          "line": 9,
+          "quote": "type TrustedScope struct {"
+        },
+        {
+          "line": 18,
+          "quote": "type dataScopeContextKey struct{}"
+        },
+        {
+          "line": 20,
+          "quote": "// InjectDataScope is called by the secured HTTP operation handler before"
+        },
+        {
+          "line": 22,
+          "quote": "// constraint as a tenant-scoped query/write predicate (not in UI filtering)."
+        },
+        {
+          "line": 23,
+          "quote": "func (d Decision) InjectDataScope(ctx context.Context) (context.Context, error) {"
+        },
+        {
+          "line": 28,
+          "quote": "    s := TrustedScope{"
+        },
+        {
+          "line": 40,
+          "quote": "    return context.WithValue(ctx, dataScopeContextKey{}, s), nil"
+        }
+      ]
+    },
+    {
+      "id": "S12",
+      "repository": "hvritual/cs-biz",
+      "commit": "a5dccbd074236e31d0628a01e01a7dfb534b981e",
+      "path": "doc/architecture/adr/0002-yunka-runtime-adoption.md",
+      "git_blob_sha": "f1beda7b9072124137679ea8a048426e102daabe",
+      "sha256": "f740f7da40bcf71083dcab2c241b106b6a19b09b2aa8ae563c21f2eb3b213a4c",
+      "status": "proposed",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/a5dccbd074236e31d0628a01e01a7dfb534b981e/doc/architecture/adr/0002-yunka-runtime-adoption.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "**状态：Roadmap decision / proposed integration，尚未实施；待 F0 版本、身份及安全审批后才能进行真实消费。**"
+        },
+        {
+          "line": 11,
+          "quote": "- **DataGrant：**与**同一 Permission**绑定的可信 Scope；后端注入，Domain 在真实数据库查询/写入/批量/导出/统计前强制过滤。"
+        },
+        {
+          "line": 17,
+          "quote": "**Conditional Adopt：**将 Yunka 用作 Go 后端 canonical typed PB Operation → 编译期 OperationPlan、OpenAPI/TypeScript、统一 REST/gRPC 适配 → Gateway Authorizer → OperationGuard → Executor/ExecutionScope/UoW/幂等 → 生成装配/治理/质量门禁的目标基座。"
+        },
+        {
+          "line": 19,
+          "quote": "**不采纳：**将业务 Menu、成员、角色、Scope 资源关系迁到 Yunka 中通用的数据表/legacy button_permission；新建第二套 IAM/权限目录；Yunka 框架自行解释 CRM/营销/点位 SQL 过滤；引入第二个 supervisor/自建 Executor。"
+        },
+        {
+          "line": 24,
+          "quote": "3. `cs-biz Access` 是 Account、Membership、Role、MenuGrants、Permission+Scope Grants 的唯一**持久授权数据权威**，由 `gateway/authz.GrantResolver` 适配。旧 Authz V2 代码在 F2–F5 作为只读对照／受控兼容，单个生产 Operation **不得**双重放行。"
+        },
+        {
+          "line": 25,
+          "quote": "4. `cs-biz OperationGuard` 从授权通过的 Grants 生成类型化 Scope；`Domain/Repository` 对 tenant+scope 强制过滤，Yunka `ScopeKey.With` 本身不是身份／授权证明。"
+        },
+        {
+          "line": 26,
+          "quote": "5. Yunka 处理已明确 Operation 执行策略下的 root UoW/幂等；业务侧定义状态、审计、readback。重复执行抑制**不等于**回执丢失自动重放结果。"
+        },
+        {
+          "line": 38,
+          "quote": "- READ=tenant 与 UPDATE=self 并存时不可拼接 Scope 扩权；旧 Mock 的 `group`（同部门）不能自动映射 Yunka opaque `assigned` 或 `tenant`。"
+        }
+      ]
+    },
+    {
+      "id": "S13",
+      "repository": "hvritual/cs-biz",
+      "commit": "a5dccbd074236e31d0628a01e01a7dfb534b981e",
+      "path": "doc/contracts/three-rights-v3.md",
+      "git_blob_sha": "a70ce703a8f9490d9b4913951e4b3ae64bccf45b",
+      "sha256": "5a6ea51d7a11127189e2e79fba48b2524e454e5eb7f18913686bfebd43f70b05",
+      "status": "proposed",
+      "purpose": "主线事实或未合并候选；不得混同",
+      "url": "https://github.com/hvritual/cs-biz/blob/a5dccbd074236e31d0628a01e01a7dfb534b981e/doc/contracts/three-rights-v3.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "> 状态：**target contract（已纳入路线，真实 API/数据库未实现）**，源自 V2.2 设计与 PR #8；技术路线 [ADR-0002](../architecture/adr/0002-yunka-runtime-adoption.md)。旧 `access-context.md` 保留访问生命周期、失败/幂等设计，本文覆盖三权及唯一合同源的冲突部分。"
+        },
+        {
+          "line": 11,
+          "quote": "| **DataGrant** | cs-biz Access Grant.Permission + Grant.Scope | 显示范围信息、允许缩小筛选 | OperationGuard 注入当前 Permission 的 Scope；Domain 必须执行 SQL/写入过滤 |"
+        },
+        {
+          "line": 30,
+          "quote": "  \"dataScopes\": ["
+        },
+        {
+          "line": 31,
+          "quote": "    {\"permission\": \"crm.customer.read\", \"scope\": \"tenant\"},"
+        },
+        {
+          "line": 32,
+          "quote": "    {\"permission\": \"crm.customer.update\", \"scope\": \"self\"}"
+        },
+        {
+          "line": 40,
+          "quote": "这是目标业务接口**设计示意**，不得用作已发布 OpenAPI；其中 `menuGrants/permissions/dataScopes` 是同一逻辑版本的服务端投影；`dataScopes` 非授权输入。PR #8 的 S01 浏览器字段仍是 `Grant(action, scope)` 和 `all/group/own`，不是最终 SQL Scope 合同。正式接口字段须在 F1/F3 的固定 typed PB 和生成 TypeScript/OpenAPI 中审定并测试。"
+        },
+        {
+          "line": 46,
+          "quote": "- **独立业务可写事实**：菜单目录/本地 `viewKey` 白名单与 Access Role/Menu 权威；Role/Permission 的实际分配、Scope 的归属关系由 Access Store 持有；业务状态/模块可用性归 Domain，不写入 PB SQL 语义。"
+        },
+        {
+          "line": 47,
+          "quote": "- Yunka `gateway/authz.GrantResolver` 读取 cs-biz Access 当前 Membership、Permission+Scope；`OperationGuard` 解释为业务 Scope；此过程不读 Console Menu。"
+        }
+      ]
+    },
+    {
+      "id": "S14",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "framework/go.mod",
+      "git_blob_sha": "9a472735f57d2de14ada5a3eab508b4b48a22e60",
+      "sha256": "b23c1a93088d0521a2cfc33d3924a9c9819adff3b636df48c3acc37a5ef6e33a",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/framework/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/framework"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 28,
+          "quote": "require ("
+        }
+      ]
+    },
+    {
+      "id": "S15",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "gateway/go.mod",
+      "git_blob_sha": "8821e8c1d28783107497e17eb48249b3d334cb57",
+      "sha256": "7c6efabe0e3b638929655c02380e67971767c257f4c588faad43688ba229a426",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/gateway/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/gateway"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 23,
+          "quote": "require ("
+        }
+      ]
+    },
+    {
+      "id": "S16",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "infras/go.mod",
+      "git_blob_sha": "17c4b83e11a215125828a9a81bc0d3db1282e599",
+      "sha256": "b84dbbd322ce905a6b35134e91524879a38d43497599397e24145a6ce51059cd",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/infras/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/infras"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require github.com/hvritual/yunka.io/framework v0.1.0"
+        },
+        {
+          "line": 9,
+          "quote": "require ("
+        }
+      ]
+    },
+    {
+      "id": "S17",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "app/go.mod",
+      "git_blob_sha": "64cb4fe8246addb3c93ab89fe3425844d4cd8218",
+      "sha256": "8f140e2631e97d8b81c6edbe7141558c4afdd0bfb44945c6a3c104c9195eb6bb",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/app/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module yunka.io/app"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 16,
+          "quote": "require ("
+        }
+      ]
+    },
+    {
+      "id": "S18",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "pkg/go.mod",
+      "git_blob_sha": "171174ef0ba2b65bfa6c7be3b2daff8d28f56c6a",
+      "sha256": "ff4177da9ed624ac6e49f942fbeef951a70f2464c353ef5696c3fd1fdb164608",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/pkg/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/pkg"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 30,
+          "quote": "require ("
+        }
+      ]
+    },
+    {
+      "id": "S19",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "tools/toolchain.env",
+      "git_blob_sha": "c43f9bb190910ecd38cde931b4f0003fabfe4d8c",
+      "sha256": "2f3dd358b00195413560f9575a4470a5e621531d1b8f810407467ba99590d2d2",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/tools/toolchain.env",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "# C2 repository toolchain lock. This file is consumed by Make, CI, and yunka doctor."
+        },
+        {
+          "line": 2,
+          "quote": "GO_VERSION=1.25.13"
+        },
+        {
+          "line": 3,
+          "quote": "PROTOC_RELEASE=21.12"
+        },
+        {
+          "line": 4,
+          "quote": "PROTOC_VERSION=3.21.12"
+        },
+        {
+          "line": 5,
+          "quote": "PROTOC_LINUX_X86_64_SHA256=3a4c1e5f2516c639d3079b1586e703fc7bcfa2136d58bda24d1d54f949c315e8"
+        },
+        {
+          "line": 6,
+          "quote": "GOVULNCHECK_VERSION=v1.7.0"
+        },
+        {
+          "line": 7,
+          "quote": "PROTOC_GEN_GO_VERSION=v1.36.11"
+        },
+        {
+          "line": 8,
+          "quote": "PROTOC_GEN_GO_GRPC_VERSION=v1.6.2"
+        }
+      ]
+    },
+    {
+      "id": "S20",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "go.work",
+      "git_blob_sha": "786043ef316b22b88542e7738908f2d1838e16b3",
+      "sha256": "2385e77b28d7b3c9f03f53c1b447e970f2d30eaedb5729c1076c7cc2f3d853c5",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/go.work",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 3,
+          "quote": "toolchain go1.25.13"
+        }
+      ]
+    },
+    {
+      "id": "S21",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "tools/dependency-policy.json",
+      "git_blob_sha": "223753ac57eb5b345ed31a1eade47c89be7d8401",
+      "sha256": "1abc2404c242a572016c040b37af8789f94e44a9a6fd5c52ea0c1142eb923bf4",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/tools/dependency-policy.json",
+      "locators": [
+        {
+          "line": 15,
+          "quote": "  \"requiredModules\": ["
+        },
+        {
+          "line": 77,
+          "quote": "  \"workspaceModules\": [],"
+        },
+        {
+          "line": 82,
+          "quote": "  \"requiredLocalReplacements\": [],"
+        }
+      ]
+    },
+    {
+      "id": "S22",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "tools/source-policy/biz.json",
+      "git_blob_sha": "92bf966f19658330b83755438432c3fbec23dd85",
+      "sha256": "b8a54a036bc9d49f4412279bedea0463ba50894cf6f4ed95682655922b462eb2",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/tools/source-policy/biz.json",
+      "locators": [
+        {
+          "line": 24,
+          "quote": "      \"workspace\": \"off\","
+        },
+        {
+          "line": 56,
+          "quote": "  \"testSupportImports\": ["
+        }
+      ]
+    },
+    {
+      "id": "S23",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "docs/architecture/APPLICATION-SOURCE-POLICY.md",
+      "git_blob_sha": "edc481cbab20e1c3ebaebe7bf6cf06c8578e5f3c",
+      "sha256": "14200ad808dfaba69d40b2081b7f937c1bd30ebbb6b396bbaa5c2049e5770f88",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/docs/architecture/APPLICATION-SOURCE-POLICY.md",
+      "locators": [
+        {
+          "line": 13,
+          "quote": "already closes the imported hidden-package case for its one-module type audit;"
+        },
+        {
+          "line": 27,
+          "quote": "| `OpenPeeDeeP/depguard` | Import allow/deny policy and test-file selection | Not installed or copied; not a whole-module/workspace/build-coverage backend |"
+        },
+        {
+          "line": 28,
+          "quote": "| Native Go command + Go parser + pinned `x/mod/modfile` | Exact active source/import metadata, standard build constraints and module/workspace parsing | The one primary AG-05 backend |"
+        },
+        {
+          "line": 41,
+          "quote": "There is one source-policy input for component boundaries, module/profile scope,"
+        },
+        {
+          "line": 54,
+          "quote": "`--root` contains all owned modules, the policy and every local workspace/replace"
+        },
+        {
+          "line": 85,
+          "quote": "  \"modules\": [{\"path\": \".\", \"workspace\": \"off\", \"profiles\": [\"linux\", \"integration\"]}],"
+        },
+        {
+          "line": 102,
+          "quote": "A module selects an exact root-relative `go.work` or explicitly selects `off`."
+        },
+        {
+          "line": 103,
+          "quote": "Every discovered nonexcluded module must be declared. A Go-free aggregator may"
+        }
+      ]
+    },
+    {
+      "id": "S24",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "docs/authz.md",
+      "git_blob_sha": "b50264ba4f4354c698fd248e4711e76dccf95c42",
+      "sha256": "56cf6bb3e831c11e80eb2089ebed0d7cf934b856fd23a239c529fc5bcea26e02",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/docs/authz.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "`gateway/authz` is the canonical authorization boundary. Authentication produces a trusted `identity.Principal`; authorization evaluates a stable operation policy against tenant-scoped role permissions. UI buttons are never authorization principals or grants."
+        },
+        {
+          "line": 14,
+          "quote": "// @yunka.tenant_required true"
+        },
+        {
+          "line": 25,
+          "quote": "PB Method / Operation ──requires──> Permission <──granted── Tenant Role"
+        },
+        {
+          "line": 36,
+          "quote": "- Resource/data scope remains a separate evaluator seam; PB must not contain SQL predicates."
+        }
+      ]
+    },
+    {
+      "id": "S25",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "docs/domain-authoring.md",
+      "git_blob_sha": "75456dd86aa52721ebc655c0550a49f5fc69ab3b",
+      "sha256": "6455abd2d6201d8cc8926bb0fe7fce7f81f8ba2663e116c051d9da1f000b979d",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/docs/domain-authoring.md",
+      "locators": [
+        {
+          "line": 59,
+          "quote": "      tenant_required: true"
+        },
+        {
+          "line": 70,
+          "quote": "PB must not contain SQL, GORM tags, table names, repository implementation names, or data-scope predicates."
+        },
+        {
+          "line": 216,
+          "quote": "`domain.json` is Domain Manifest V3. It records only persistence/domain inventory such as table prefix, tenant scope, PO object/file/table identity, and mapped persistence fields. It contains no REST/RPC settings and no protobuf field numbers or reserved protobuf slots."
+        },
+        {
+          "line": 218,
+          "quote": "Old V1/V2 manifests are accepted only as deterministic migration input. New writes are V3."
+        },
+        {
+          "line": 237,
+          "quote": "- request-scope transaction participation;"
+        },
+        {
+          "line": 278,
+          "quote": "FindByStatus/Search/Aggregate queries"
+        },
+        {
+          "line": 284,
+          "quote": "data-scope evaluation"
+        },
+        {
+          "line": 294,
+          "quote": "PB Method / Operation ──requires──> Permission <──granted── Tenant Role"
+        }
+      ]
+    },
+    {
+      "id": "S26",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "docs/waves/C9.7-execution-semantics-closure.md",
+      "git_blob_sha": "c1053ae7abc99416b13d2d976695cd6ed2818d59",
+      "sha256": "d94afbce88dab1dca86f9eb6d14d425c801fec7737e37bec207b8732a1795de9",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/docs/waves/C9.7-execution-semantics-closure.md",
+      "locators": [
+        {
+          "line": 3,
+          "quote": "## Status"
+        },
+        {
+          "line": 13,
+          "quote": "C9.7 makes the root Operation execution scope the owner of transaction/UoW and durable idempotency semantics while keeping Application code focused on business decisions."
+        },
+        {
+          "line": 15,
+          "quote": "## Scope completed"
+        },
+        {
+          "line": 19,
+          "quote": "3. Root ExecutionScope and transaction lifecycle ownership."
+        },
+        {
+          "line": 20,
+          "quote": "4. Join-only RequestScope repository views."
+        },
+        {
+          "line": 23,
+          "quote": "7. Saga/Outbox staging through current ExecutionScope transaction."
+        },
+        {
+          "line": 25,
+          "quote": "9. Fixed Executor phase closure for security/idempotency/scope/application/transaction/outcome."
+        },
+        {
+          "line": 40,
+          "quote": "       -> root ExecutionScope / UoW"
+        }
+      ]
+    },
+    {
+      "id": "S27",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "gateway/authz/types.go",
+      "git_blob_sha": "701959b1ea18985c67bc4b941bfa86d27cabf2d3",
+      "sha256": "b0d4b4362fc2b99dd0dfdba0d74062b430e55e8939764455745f893a0ba73200",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/gateway/authz/types.go",
+      "locators": [
+        {
+          "line": 45,
+          "quote": "\tReasonTenantRequired           Reason = \"tenant_required\""
+        },
+        {
+          "line": 46,
+          "quote": "\tReasonRoleRequired             Reason = \"role_required\""
+        },
+        {
+          "line": 49,
+          "quote": "\tReasonGrantResolverUnavailable Reason = \"grant_resolver_unavailable\""
+        },
+        {
+          "line": 72,
+          "quote": "// GrantAuthorizer with GrantResolver."
+        },
+        {
+          "line": 77,
+          "quote": "\t\treturn nil, errors.New(\"gateway authz: permission checker is required\")"
+        },
+        {
+          "line": 108,
+          "quote": "\t\tdecision.Reason = ReasonGrantResolverUnavailable"
+        }
+      ]
+    },
+    {
+      "id": "S28",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "gateway/authz/scope_context.go",
+      "git_blob_sha": "1fde2234bf7d97f999be71cbd57e2c5c8785dc24",
+      "sha256": "07d7eb6a6c316e80eb529044a89516febac183ad79ceaaa7dbd93998883878d4",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/gateway/authz/scope_context.go",
+      "locators": [
+        {
+          "line": 10,
+          "quote": "var ErrAuthorizedScopeMissing = errors.New(\"gateway authz: authorized scope missing\")"
+        },
+        {
+          "line": 12,
+          "quote": "type ScopeKey[T any] struct{ name string }"
+        },
+        {
+          "line": 13,
+          "quote": "type scopeContextKey[T any] struct{ name string }"
+        },
+        {
+          "line": 15,
+          "quote": "func NewScopeKey[T any](name string) (ScopeKey[T], error) {"
+        },
+        {
+          "line": 18,
+          "quote": "\t\treturn ScopeKey[T]{}, errors.New(\"gateway authz: scope key name is required\")"
+        },
+        {
+          "line": 20,
+          "quote": "\treturn ScopeKey[T]{name: name}, nil"
+        },
+        {
+          "line": 23,
+          "quote": "func MustScopeKey[T any](name string) ScopeKey[T] {"
+        },
+        {
+          "line": 24,
+          "quote": "\tkey, err := NewScopeKey[T](name)"
+        }
+      ]
+    },
+    {
+      "id": "S29",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "app/cmd/assembly/command.go",
+      "git_blob_sha": "3af840240a83d2a7b01d0fb8ac7bc990ce7f4784",
+      "sha256": "e2d8c5ca7c4fc971a555c800372c52ed75c706a955a8c9968ae2dbbc61904bac",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/app/cmd/assembly/command.go",
+      "locators": [
+        {
+          "line": 19,
+          "quote": "\t\tName:  AppName,"
+        },
+        {
+          "line": 20,
+          "quote": "\t\tUsage: \"compile deterministic Runtime Assembly artifacts from canonical contract and generated module facts\","
+        },
+        {
+          "line": 31,
+          "quote": "\t\tcli.StringFlag{Name: \"sources\", Usage: \"canonical contract source inventory; when set, source sets are compiled independently\"},"
+        },
+        {
+          "line": 32,
+          "quote": "\t\tcli.StringFlag{Name: \"repo-root\", Value: \".\", Usage: \"repository root used to resolve --sources entries\"},"
+        },
+        {
+          "line": 33,
+          "quote": "\t\tcli.StringFlag{Name: \"proto-dir\", Value: \"./contracts/proto\", Usage: \"canonical contract proto root\"},"
+        },
+        {
+          "line": 34,
+          "quote": "\t\tcli.StringSliceFlag{Name: \"proto-path\", Usage: \"additional protoc import path; may be repeated\"},"
+        },
+        {
+          "line": 35,
+          "quote": "\t\tcli.StringSliceFlag{Name: \"file\", Usage: \"specific proto file relative to --proto-dir; may be repeated\"},"
+        },
+        {
+          "line": 36,
+          "quote": "\t\tcli.StringFlag{Name: \"protoc\", EnvVar: \"PROTOC\", Usage: \"protoc binary; defaults to PATH\"},"
+        }
+      ]
+    },
+    {
+      "id": "S30",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "app/cmd/generate/command.go",
+      "git_blob_sha": "82aefda1dd1175dd7e8e07580da49556c1ea2e96",
+      "sha256": "70bcc635c7e753010b558e347eca5160deb86859daa29b386e62da1c7ff11012",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/app/cmd/generate/command.go",
+      "locators": [
+        {
+          "line": 16,
+          "quote": "\t\tName:  AppName,"
+        },
+        {
+          "line": 19,
+          "quote": "\t\t\tcli.StringFlag{Name: \"root\", Value: \".\", Usage: \"project root\"},"
+        },
+        {
+          "line": 20,
+          "quote": "\t\t\tcli.StringFlag{Name: \"protoc\", EnvVar: \"PROTOC\", Usage: \"protoc binary; defaults to PATH\"},"
+        },
+        {
+          "line": 21,
+          "quote": "\t\t\tcli.StringSliceFlag{Name: \"proto-path\", Usage: \"additional protoc import path; expert escape hatch, may be repeated\"},"
+        },
+        {
+          "line": 22,
+          "quote": "\t\t\tcli.StringFlag{Name: \"format\", Value: dxoutput.FormatText, Usage: \"output format: text, json, or agent-json\"},"
+        },
+        {
+          "line": 23,
+          "quote": "\t\t\tcli.BoolFlag{Name: \"full\", Usage: \"ignore fast-feedback evidence and run canonical full generation\"},"
+        }
+      ]
+    },
+    {
+      "id": "S31",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "app/cmd/check/command.go",
+      "git_blob_sha": "caf6576495f4160eabfee378a17270621998a28a",
+      "sha256": "1b32c00e90a7490ab341b37499d71fc7884825128bdfbfa03ceb82a3ef95e66b",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/app/cmd/check/command.go",
+      "locators": [
+        {
+          "line": 16,
+          "quote": "\t\tName:  AppName,"
+        },
+        {
+          "line": 19,
+          "quote": "\t\t\tcli.StringFlag{Name: \"root\", Value: \".\", Usage: \"project root\"},"
+        },
+        {
+          "line": 20,
+          "quote": "\t\t\tcli.StringFlag{Name: \"protoc\", EnvVar: \"PROTOC\", Usage: \"protoc binary; defaults to PATH\"},"
+        },
+        {
+          "line": 21,
+          "quote": "\t\t\tcli.StringSliceFlag{Name: \"proto-path\", Usage: \"additional protoc import path; expert escape hatch, may be repeated\"},"
+        },
+        {
+          "line": 22,
+          "quote": "\t\t\tcli.StringFlag{Name: \"format\", Value: dxoutput.FormatText, Usage: \"output format: text, json, or agent-json\"},"
+        },
+        {
+          "line": 23,
+          "quote": "\t\t\tcli.BoolFlag{Name: \"full\", Usage: \"ignore fast-feedback evidence and run the canonical full check\"},"
+        }
+      ]
+    },
+    {
+      "id": "S32",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "deploy/observability/README.md",
+      "git_blob_sha": "0080888976f14179cc58f3e0729c019f6b06056d",
+      "sha256": "bab335df7e65232e3ef03594eb85de803cb42fd2f6ee475140f5c5f1d719029f",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/deploy/observability/README.md",
+      "locators": [
+        {
+          "line": 52,
+          "quote": "Prometheus and use the example Remote Write configuration. SLS requires HTTPS and BasicAuth where"
+        },
+        {
+          "line": 74,
+          "quote": "does not require global provider installation."
+        }
+      ]
+    },
+    {
+      "id": "S33",
+      "repository": "hvritual/yunka.io",
+      "commit": "3527488325030fbf86fe52804140c936e9d937a4",
+      "path": "docs/DISTRIBUTED_TRACE_ANALYSIS.md",
+      "git_blob_sha": "d3238bb51568bdbade38aea21a3b0a69cc42ceb8",
+      "sha256": "c4aa601dffcdaab8ac7e9c53b11b3e4a44529c6ebab386f2f361ee171e225a54",
+      "status": "upstream_source",
+      "purpose": "固定评估源码，未作 cs-biz Consumer 运行资格",
+      "url": "https://github.com/hvritual/yunka.io/blob/3527488325030fbf86fe52804140c936e9d937a4/docs/DISTRIBUTED_TRACE_ANALYSIS.md",
+      "locators": [
+        {
+          "line": 4,
+          "quote": "> Authority: current developer-facing distributed tracing, event causality, and TraceID analysis behavior  "
+        },
+        {
+          "line": 27,
+          "quote": "App-owned gRPC connections created by `framework/platform.GRPCFactory` automatically install unary and streaming propagation interceptors. A consumer using the canonical Platform RPC capability therefore does not need to remember a separate tracing interceptor merely to preserve `traceparent`/Baggage across a Yunka-to-Yunka call."
+        },
+        {
+          "line": 42,
+          "quote": "4. injects the configured propagation metadata such as `traceparent`, `tracestate`, and Baggage;"
+        },
+        {
+          "line": 73,
+          "quote": "`framework/observability.Middleware` installs a request-scoped Operation observer in the active `context.Context`. `framework/operation.Executor` consults both its explicitly configured observers and request-scoped observers."
+        },
+        {
+          "line": 100,
+          "quote": "`framework/diagnostics.TraceAnalyzer` is the vendor-neutral aggregation contract for a single TraceID."
+        },
+        {
+          "line": 120,
+          "quote": "`TraceAnalyzer.Analyze(ctx, traceID)` returns one `TraceReport` containing deterministic evidence ordering plus per-source status. A failed source is isolated so healthy sources may still return partial evidence. Evidence for a different TraceID is rejected instead of being mixed into the requested chain."
+        },
+        {
+          "line": 129,
+          "quote": "- remote access requires explicit enablement and a Bearer token;"
+        },
+        {
+          "line": 140,
+          "quote": "## What one TraceID can and cannot prove"
+        }
+      ]
+    },
+    {
+      "id": "S34",
+      "repository": "hvritual/yunka.io",
+      "commit": "3de678338a08c0dfa9e65184c9f87e2f4f0089cf",
+      "path": "framework/go.mod",
+      "git_blob_sha": "43d70961fd21bb45bb20d5a950985da25ce65266",
+      "sha256": "18ba64faf61c3fc3d5693d338fb680bfd6dd2ee282eb9e70de3cb8975c770093",
+      "status": "release_source",
+      "purpose": "模块 tag 身份与 go.mod；不是完整消费者兼容证明",
+      "url": "https://github.com/hvritual/yunka.io/blob/3de678338a08c0dfa9e65184c9f87e2f4f0089cf/framework/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/framework"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 28,
+          "quote": "require ("
+        }
+      ],
+      "observed_tag": "framework/v0.1.0"
+    },
+    {
+      "id": "S35",
+      "repository": "hvritual/yunka.io",
+      "commit": "eaee9d50bdb0b87c9b6a63a05f10a9f80f131c93",
+      "path": "gateway/go.mod",
+      "git_blob_sha": "e133e38aa3a2b009f1b9edefaf38a53ef3df188b",
+      "sha256": "fa100f0c1d7593a7a31e507ca2731b85b40795425fbeb2aae2612ffa399d8293",
+      "status": "release_source",
+      "purpose": "模块 tag 身份与 go.mod；不是完整消费者兼容证明",
+      "url": "https://github.com/hvritual/yunka.io/blob/eaee9d50bdb0b87c9b6a63a05f10a9f80f131c93/gateway/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/gateway"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 23,
+          "quote": "require ("
+        }
+      ],
+      "observed_tag": "gateway/v0.1.0"
+    },
+    {
+      "id": "S36",
+      "repository": "hvritual/yunka.io",
+      "commit": "94113e9fb9fd021f773efd626dba49489b5b2071",
+      "path": "pkg/go.mod",
+      "git_blob_sha": "e644361fcb46474c781c677b245a8017032654c7",
+      "sha256": "e6c6c4cafcf23efa6658f384e93b3d9f4fc127196f6f5c7b3f3d0535a7609ad0",
+      "status": "release_source",
+      "purpose": "模块 tag 身份与 go.mod；不是完整消费者兼容证明",
+      "url": "https://github.com/hvritual/yunka.io/blob/94113e9fb9fd021f773efd626dba49489b5b2071/pkg/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/pkg"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 31,
+          "quote": "require ("
+        }
+      ],
+      "observed_tag": "pkg/v0.1.0"
+    },
+    {
+      "id": "S37",
+      "repository": "hvritual/yunka.io",
+      "commit": "be910794324d3a8f918a627648c6f83ed44641cd",
+      "path": "framework/go.mod",
+      "git_blob_sha": "ab056cb7e5db5603b559a7c9c19d132be628341a",
+      "sha256": "f8f0348b0ae96e63400ddd152f6410e2a2a0ab05588e8f810cfc6879fcfe36f3",
+      "status": "release_source",
+      "purpose": "模块 tag 身份与 go.mod；不是完整消费者兼容证明",
+      "url": "https://github.com/hvritual/yunka.io/blob/be910794324d3a8f918a627648c6f83ed44641cd/framework/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/framework"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 28,
+          "quote": "require ("
+        }
+      ],
+      "observed_tag": "framework/v0.1.0-c41rc7"
+    },
+    {
+      "id": "S38",
+      "repository": "hvritual/yunka.io",
+      "commit": "e25f33dd1ace88972551859c4af89072ad22132b",
+      "path": "gateway/go.mod",
+      "git_blob_sha": "a92ec96b47b19d12ca3bda0eca173d816dfd029e",
+      "sha256": "b7ad0398cce2248a5302d27f3f50f464acaad2b1f8ed4bc3a39d91f56aacdf73",
+      "status": "release_source",
+      "purpose": "模块 tag 身份与 go.mod；不是完整消费者兼容证明",
+      "url": "https://github.com/hvritual/yunka.io/blob/e25f33dd1ace88972551859c4af89072ad22132b/gateway/go.mod",
+      "locators": [
+        {
+          "line": 1,
+          "quote": "module github.com/hvritual/yunka.io/gateway"
+        },
+        {
+          "line": 3,
+          "quote": "go 1.25.0"
+        },
+        {
+          "line": 5,
+          "quote": "toolchain go1.25.13"
+        },
+        {
+          "line": 7,
+          "quote": "require ("
+        },
+        {
+          "line": 23,
+          "quote": "require ("
+        }
+      ],
+      "observed_tag": "gateway/v0.1.0-c41rc7"
+    }
+  ],
+  "trust_boundary": "内容/Git blob/SHA256已复核；ADR状态含义、API兼容、真实Consumer运行与Human批准各自独立。未执行Yunka代码。"
+}

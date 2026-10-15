@@ -1,0 +1,13 @@
+flowchart TD
+    PB["Canonical typed PB"] --> Plan["生成 OperationPlan 与适配器"]
+    Session["可信 IdP/BFF 与当前 Workspace"] --> Auth["Yunka Function Authorizer"]
+    Plan --> Exec["唯一 Executor：Security/UoW/幂等相位"]
+    Exec --> Auth
+    Access["cs-biz 当前 Access Grants"] --> Auth
+    Auth --> Guard["OperationGuard 绑定 Tenant/Scope"]
+    Guard --> Domain["Domain/Repository 强制 Tenant AND Scope"]
+    Domain --> Receipt["业务回执、审计与结果回读"]
+    Domain --> Outbox["Outbox 与异步因果链"]
+    Exec -.-> Obs["OTel 与默认 JSON stdout"]
+    Receipt -.-> Obs
+    Outbox -.-> Obs

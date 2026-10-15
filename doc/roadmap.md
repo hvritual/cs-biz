@@ -1,3 +1,13 @@
+# 当前推进投影：Issue #11 / F0（2026-10-15）
+
+核验 main `da5494d03c362ab873465c1793e7aba7e4e3a7cc`：#26 的 Intent/Design v2 已合入；Go Authz V2 和 Vue/Vben/Element Plus Mock 已存在。PR #7、#8、#18、#21、#23、#25 仍未合并。不能从旧表的“未启动”推断没有基础库，也不能从开放候选推断主线已具备真实身份或 Yunka。
+
+本次开始 [#11 F0](https://github.com/hvritual/cs-biz/issues/11)，当前 **DESIGN_REVIEW / NEEDS_DECISION**。完整任务与同轮方案见 [F0 冻结任务](tasks/F0-yunka-freeze.md)。#10 的依赖链为 F0 #11 → F1 #12 → F2 #13 / F3 #14 → F4 #15 → F5 #16 → F6 #17；#19/#20/#24 可观测性和 #22 持续目标任务仍保留原验收与人审边界。一次只推进当前独立 Issue，不把这张路线当作批量实现/合并授权。
+
+PR #18 的架构方向尚为提案，不在本次整体导入；本轮只补事实/版本/权责冻结。后续真实 API、身份、DB、模块资格未完成。下文保留原 S00/S01 路线和阶段设计作为历史规划，其旧状态和旧命令顺序不得盖过当前源码、上述投影与实际 No-Stall/Human Full 规则。
+
+---
+
 # 实施路线与当前状态
 
 本文件记录阶段目标与实际状态，不把后续路线自动视为批量执行授权。当前独立交付单元为 [S01 前端应用与有状态 Mock](tasks/S01-frontend-mock.md)。S00 的 PR #1 尚未合并，S01 以其设计分支为基础增量交付；最新提交、检查与 PR 状态统一见 [S01 验证记录](evidence/S01-validation.md)。

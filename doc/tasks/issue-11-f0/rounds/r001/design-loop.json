@@ -1,0 +1,376 @@
+{
+  "protocol": "intent-design-v2",
+  "task_ref": "https://github.com/hvritual/cs-biz/issues/11",
+  "revision": "r001",
+  "raw": {
+    "path": "raw-issue-11.md",
+    "sha256": "643afb519a1b8d4af22d45ef114c7b603b04ce985eba89de63d8d8c8b3573e7b",
+    "source_ref": "https://github.com/hvritual/cs-biz/issues/11; snapshot 2026-10-15"
+  },
+  "raw_sources": [
+    {
+      "path": "raw-user.txt",
+      "sha256": "67caf8a92718378d1e4249605010951f7fd1594632fd3d0d1200479435773e48"
+    },
+    {
+      "path": "raw-issue-10.md",
+      "sha256": "b03e115922bfc90dc22a3fb74eadec89c22696d93169917cf6860791d5596df2"
+    }
+  ],
+  "optimized_prompt": {
+    "path": "optimized-prompt.md",
+    "sha256": "97ae167cb9738ad2486aa68a8a5ca0feb238fe3905d0d663b32eb0041d1ca0e9"
+  },
+  "intent": {
+    "path": "intent.json",
+    "sha256": "a81f5ada5e935ba228984b7f931185e51e5cdc1c298128292a56a5a7ef93209b"
+  },
+  "trace": [
+    {
+      "requirement_id": "R1",
+      "raw_quote": "固定 current main/候选/源码证据及差异矩阵",
+      "intent_ref": "/requirements/R1",
+      "acceptance_ids": [
+        "AC-01"
+      ],
+      "design_refs": [
+        "design.md",
+        "requirements.md",
+        "solution.md"
+      ]
+    },
+    {
+      "requirement_id": "R2",
+      "raw_quote": "框架与 cs-biz 单一执行权威表",
+      "intent_ref": "/requirements/R2",
+      "acceptance_ids": [
+        "AC-02"
+      ],
+      "design_refs": [
+        "design.md",
+        "requirements.md",
+        "solution.md"
+      ]
+    },
+    {
+      "requirement_id": "R3",
+      "raw_quote": "明确 Go 1.23→1.25.13、protoc 3.21.12、Yunka framework/gateway/infras/app 的版本选择及保留前端规则",
+      "intent_ref": "/requirements/R3",
+      "acceptance_ids": [
+        "AC-03"
+      ],
+      "design_refs": [
+        "design.md",
+        "requirements.md",
+        "solution.md"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "raw_quote": "不接生产凭据、不新建一套 IAM、不改现有登录演示语义",
+      "intent_ref": "/requirements/R4",
+      "acceptance_ids": [
+        "AC-04"
+      ],
+      "design_refs": [
+        "design.md",
+        "requirements.md",
+        "solution.md"
+      ]
+    },
+    {
+      "requirement_id": "R5",
+      "raw_quote": "锁定 MKT-01/CON-01/CON-02/TEN/REV/REC 验收",
+      "intent_ref": "/requirements/R5",
+      "acceptance_ids": [
+        "AC-05"
+      ],
+      "design_refs": [
+        "design.md",
+        "requirements.md",
+        "solution.md"
+      ]
+    },
+    {
+      "requirement_id": "R6",
+      "raw_quote": "发现全部未知决策，Owner/Human 判定",
+      "intent_ref": "/requirements/R6",
+      "acceptance_ids": [
+        "AC-06"
+      ],
+      "design_refs": [
+        "design.md",
+        "requirements.md",
+        "solution.md"
+      ]
+    },
+    {
+      "requirement_id": "R7",
+      "raw_quote": "明确 W3C `traceparent/tracestate`、浏览器/BFF 跨域头与响应 `x-trace-id` 的行为",
+      "intent_ref": "/requirements/R7",
+      "acceptance_ids": [
+        "AC-07"
+      ],
+      "design_refs": [
+        "design.md",
+        "requirements.md",
+        "solution.md"
+      ]
+    },
+    {
+      "requirement_id": "R8",
+      "raw_quote": "不拿旧框架 CI 给新 Consumer 盖章",
+      "intent_ref": "/requirements/R8",
+      "acceptance_ids": [
+        "AC-08"
+      ],
+      "design_refs": [
+        "design.md",
+        "requirements.md",
+        "solution.md"
+      ]
+    }
+  ],
+  "knowledge": [
+    {
+      "path": "backend/go.mod",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "sha256": "6c03418ff1ceac02bc9e710a8360c1016237f14348f31ea35ff830227245a435",
+      "locator": "L1; L3",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "current_source",
+      "use": "current_fact"
+    },
+    {
+      "path": "backend/README.md",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "sha256": "32cc97700d5475d801a2fc046edf2078569466b9460fc51d62c8d9c8f353b399",
+      "locator": "L1",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "current_source",
+      "use": "current_fact"
+    },
+    {
+      "path": "backend/internal/platform/authz/authorize.go",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "sha256": "0872efa8e9938940721e719145f1c7f99ab093a74d443eccfdf2da7db88a6d8d",
+      "locator": "L35; L38; L39; L40; L41; L44; L49; L78",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "current_source",
+      "use": "current_fact"
+    },
+    {
+      "path": "backend/internal/platform/authz/http.go",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "sha256": "d4b6891b1f5e8d830419ce712e54ef81e254f3194511388ee9e1bc9dc3a0be03",
+      "locator": "L10; L22; L77; L80; L82; L84",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "current_source",
+      "use": "current_fact"
+    },
+    {
+      "path": "doc/architecture/adr/0001-frontend.md",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "sha256": "b5a28b94c110c7a67e420dbe132debc47dd759fde401a76f5b7e99d5d387b582",
+      "locator": "L3; L10; L12; L22; L23; L40",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "accepted",
+      "use": "constraint"
+    },
+    {
+      "path": "doc/architecture/README.md",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "sha256": "3a6f55897fadd99adb5a89dbf5cea974fce977578547722b36a3fd5418a92aae",
+      "locator": "L3; L33; L44; L46; L59",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "proposed",
+      "use": "background"
+    },
+    {
+      "path": "doc/workflow/INTENT-DESIGN-WORKFLOW.md",
+      "commit": "da5494d03c362ab873465c1793e7aba7e4e3a7cc",
+      "sha256": "5354f102265106a8c28ffa09f727bab350023e445512d160c78b846416018993",
+      "locator": "L3; L23; L31; L45; L54; L55; L59; L78",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "documented",
+      "use": "background"
+    },
+    {
+      "path": "doc/tasks/S02-identity-journeys.md",
+      "commit": "d257fa8c57e35f3d972b5f2d281dafe94f0f32a0",
+      "sha256": "d04538ef6c0d3301c7f00547697cb935919fcdf3b7ea9d972ba580089244a12d",
+      "locator": "L3; L11; L17; L25; L33; L45; L53; L83",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "proposed",
+      "use": "background"
+    },
+    {
+      "path": "doc/contracts/identity-journey-v1.yaml",
+      "commit": "d257fa8c57e35f3d972b5f2d281dafe94f0f32a0",
+      "sha256": "e1bda2c96cf8719b58e770778c9a9aad5f010831b090b1c700ce2d0fd0f52560",
+      "locator": "L2; L11; L18; L20; L30; L31; L38; L44",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "proposed",
+      "use": "background"
+    },
+    {
+      "path": "doc/contracts/three-rights-v2.2.md",
+      "commit": "6d391604d8f07204a310201b3e7941f8c55cf15c",
+      "sha256": "c39fadad7ddc71d578915975beeb54c2d7c68d55fe3876a7cab0b6b94d60c0e8",
+      "locator": "L3; L9; L11; L22; L25; L27; L31; L51",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "proposed",
+      "use": "background"
+    },
+    {
+      "path": "backend/internal/platform/authz/scope_context.go",
+      "commit": "6d391604d8f07204a310201b3e7941f8c55cf15c",
+      "sha256": "f79c705f299b1c30ab8b414a8aff12790a3bce90ec071b3a7297862c8218bc9b",
+      "locator": "L7; L9; L18; L20; L22; L23; L28; L40",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "proposed",
+      "use": "background"
+    },
+    {
+      "path": "doc/architecture/adr/0002-yunka-runtime-adoption.md",
+      "commit": "a5dccbd074236e31d0628a01e01a7dfb534b981e",
+      "sha256": "f740f7da40bcf71083dcab2c241b106b6a19b09b2aa8ae563c21f2eb3b213a4c",
+      "locator": "L3; L11; L17; L19; L24; L25; L26; L38",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "proposed",
+      "use": "background"
+    },
+    {
+      "path": "doc/contracts/three-rights-v3.md",
+      "commit": "a5dccbd074236e31d0628a01e01a7dfb534b981e",
+      "sha256": "5a6ea51d7a11127189e2e79fba48b2524e454e5eb7f18913686bfebd43f70b05",
+      "locator": "L3; L11; L30; L31; L32; L40; L46; L47",
+      "relevance": "主线事实或未合并候选；不得混同",
+      "status": "proposed",
+      "use": "background"
+    }
+  ],
+  "external_knowledge_index": {
+    "path": "sources.json",
+    "sha256": "6295a8f426951266302ab99d4dddf41023ee1bb91d04630f53018ff122b741f7"
+  },
+  "conditions": [
+    {
+      "id": "C1",
+      "status": "available",
+      "blocking": true,
+      "source_ref": "sources.json：固定仓库/候选已读取"
+    },
+    {
+      "id": "C2",
+      "status": "unknown",
+      "blocking": true,
+      "source_ref": "decisions.md#D1",
+      "owner": "Human",
+      "next_action": "确认消费者交付/资格策略"
+    },
+    {
+      "id": "C3",
+      "status": "unknown",
+      "blocking": false,
+      "source_ref": "versions.md；F1资格尚未运行",
+      "owner": "框架维护者与Consumer执行模型",
+      "next_action": "按已批准方式验证模块/CLI组合，不得直接放行F1"
+    },
+    {
+      "id": "C4",
+      "status": "unknown",
+      "blocking": false,
+      "source_ref": "decisions.md：真实IdP/DB资源未知，阻塞F3",
+      "owner": "Human/身份/DB Owner",
+      "next_action": "在F3设计前提供组织约束与非生产资源方式"
+    }
+  ],
+  "preferences": [
+    {
+      "id": "P1",
+      "status": "available",
+      "blocking": false,
+      "source_ref": "accepted ADR-0001：保留现有Vue/Vben/Element Plus/Desktop工程"
+    },
+    {
+      "id": "P2",
+      "status": "unknown",
+      "blocking": true,
+      "source_ref": "decisions.md#D1：发布组合或源码快照的维护取舍",
+      "owner": "Human",
+      "next_action": "选择D1并确认本轮方案"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "trigger": "评估源码、模块tag和CLI消费身份不能互相替代",
+      "question": "首轮Consumer采用哪种交付与资格策略？",
+      "options": [
+        "A 发布模块/CLI 制品锁优先，未合格先修资格",
+        "B 固定仓库内源码快照与可重建 CLI，明确维护成本",
+        "C 暂缓 Yunka，不进入 F1"
+      ],
+      "recommendation": "A：发布身份/消费资格分别冻结，完整组合不合格就先修资格；避免业务工作区掩盖依赖缺口",
+      "answer": null,
+      "answer_ref": null
+    }
+  ],
+  "future_decisions_ref": "decisions.md",
+  "frontend_change": false,
+  "artifacts": {
+    "solution.md": "e8196f440705c4c75c846cf3dc861958ad4776f7ee62ef807e02e1f2e02137e3",
+    "requirements.md": "a308bd2a7cb9d854bc781cc392577e5ee9dfdbb6e135ba69871ad05c74950e74",
+    "design.md": "330d8f8765698645d138f823dc0a2ce6a1df7fce0b2e8aec6238516a8bedfd82",
+    "journey.md": "5e78e97199211844487fef9fe443ff0fa30016623af202ff4209361af380f118",
+    "flow.mmd": "6ba58612b54671bfb4556beee9573e96218803a99d4e7f70be5c87bea1241a75",
+    "versions.md": "7967f4c6fd221178ef543746c7ca026da2a742b21b42184e4a01e27837e8b403",
+    "decisions.md": "8bba8814a90c8c38b25e1a1b8a3b0e8ad0f350c770cd764822ba4909783bbbb1",
+    "acceptance-matrix.md": "bcd159be3ea30c04d4415fd433dea57d47a2b09c23a29c981b60af5c1eb43046",
+    "sources.json": "6295a8f426951266302ab99d4dddf41023ee1bb91d04630f53018ff122b741f7",
+    "intake-snapshot.json": "6380f76036755ab0ce587be88dea765d0bbb3fcccc3a110579be426f85c15ff5",
+    "raw-user.txt": "67caf8a92718378d1e4249605010951f7fd1594632fd3d0d1200479435773e48",
+    "raw-issue-10.md": "b03e115922bfc90dc22a3fb74eadec89c22696d93169917cf6860791d5596df2"
+  },
+  "related_repo_assets": {
+    "doc/architecture/adr/0003-yunka-f0-consumer-contract.md": "21b19713421c5efe8abba8468af974874bc83fb78734a01a6f5169fe836ccb59"
+  },
+  "preview": {
+    "kind": "not_applicable",
+    "reason": "Issue #11 是架构/来源/契约冻结；无产品页面/交互变化，不制造前端演示。技术journey/flow仅供设计审阅，不冒充运行UI。"
+  },
+  "handoff": {
+    "owner": "executing_model_outside_workflow",
+    "allowed_paths": [
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/F0-yunka-freeze.md",
+      "doc/architecture/adr/0003-yunka-f0-consumer-contract.md",
+      "doc/roadmap.md"
+    ],
+    "forbidden_paths": [
+      "frontend/**",
+      "backend/**",
+      ".github/**"
+    ],
+    "acceptance_ids": [
+      "AC-01",
+      "AC-02",
+      "AC-03",
+      "AC-04",
+      "AC-05",
+      "AC-06",
+      "AC-07",
+      "AC-08"
+    ],
+    "execution_authority_ref": "none: 未获本轮设计确认；不授权F1实施/合并/Full/部署",
+    "auto_execute": false
+  },
+  "review": {
+    "decision": "not_reviewed",
+    "scope": "design",
+    "revision": "r001",
+    "record_ref": null,
+    "content_sha256": "c8ec33d678e787d314c5dd4e1213149193e5530ed048f3086203ded6a8ee3cdc"
+  }
+}
