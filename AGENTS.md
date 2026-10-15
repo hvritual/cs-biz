@@ -32,3 +32,9 @@ For every future UI task, read and comply with **doc/design/desktop-ui.md**. Use
 ## No-Stall Gate: mandatory for future tasks
 
 Read **doc/ci/NO-STALL-GATES.md**. Run Fast before any full qualification; UI work runs one targeted Desktop journey before promotion. Do not launch a full browser suite on each push or edit test expectations without runtime evidence. Source-of-truth layout/token rules remain in doc/design/desktop-ui.md. Never describe an unprotected branch as GitHub merge-protected.
+
+## Reusable task and Build workflow
+
+For implementation task start/resume, slice admission, material failure, slice close and handoff, read `.agents/skills/task-progression/SKILL.md` and `doc/workflow/project-profile.md`.
+For approved development slices, use `.agents/skills/sdlc-build/SKILL.md` (acceptance-driven short loop). These Skills are methods, not new approval authorities or substitutes for `doc/ci/NO-STALL-GATES.md`.
+Reuse the existing task template and actual CI results. Missing Skill, locked acceptance, tool or evidence means not verified; never claim auto-enforced gates from this instruction alone.
