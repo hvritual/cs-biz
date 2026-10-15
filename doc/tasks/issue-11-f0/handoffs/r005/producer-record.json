@@ -1,0 +1,1878 @@
+{
+  "schema": "f0-qualified-producer/2",
+  "sdk": {
+    "schemaVersion": 1,
+    "sdkSourceCommit": "bc7c0e1dd6b4e815951130c7acfbf60371445453",
+    "modules": [
+      {
+        "path": "github.com/hvritual/yunka.io/pkg",
+        "version": "v0.1.1-0.20261015114616-bc7c0e1dd6b4",
+        "sum": "h1:P0LA7djSxLu5SHXhpDK1ZdDisKwZkqg+TJ/QdTMRfHY=",
+        "goModSum": "h1:TIdo3jxP61ZD0Ufb/3iE79dYJ+Ei01ZtqiCbAC5l3Zk="
+      },
+      {
+        "path": "github.com/hvritual/yunka.io/framework",
+        "version": "v0.1.1-0.20261015114616-bc7c0e1dd6b4",
+        "sum": "h1:If6azFUDuiin4fSBL7krJxgF1a+AyfuXKUSbUzkYUqc=",
+        "goModSum": "h1:ttZKb+PA8ox9GC86K4nbNIaUZdXYSEKOc7YtrokYdqI="
+      },
+      {
+        "path": "github.com/hvritual/yunka.io/gateway",
+        "version": "v0.1.1-0.20261015114616-bc7c0e1dd6b4",
+        "sum": "h1:AzdGbdqQVYUuVmW2xyh0WL0moqZEye/ZkQ3ic03TDwI=",
+        "goModSum": "h1:bJRMgHz5Nj6SSNZLHEiXdVOwaa05MBL/gI3Gwqx68IY="
+      },
+      {
+        "path": "github.com/hvritual/yunka.io/infras",
+        "version": "v0.0.0-20261015114616-bc7c0e1dd6b4",
+        "sum": "h1:NNV0VGd9FPnlqAIGdIR1chL7bofV2V1TNt+yIX82E8w=",
+        "goModSum": "h1:GbQWBjfd8IRCYaEWfDxP4ZanwJmzpNZnelGg+s41YR0="
+      }
+    ]
+  },
+  "producer": {
+    "commit": "3e46ec4d51b9c31bd9f687bb4f773b314cd57451",
+    "tree": "097a1c9e471e065700425dcfc059877e787361f3"
+  },
+  "artifact": {
+    "run": 38734324861,
+    "artifact": 11971414833,
+    "zipSha256": "5aece1d69b7708dfede53406d634dbc03aafb234ebe71d3df7f8a911b4ae69fd",
+    "tarSha256": "8efe0a8bac8f0e5ce9fe941c2077effe6c8c476e6bf8132c6991e1c1f528a2ec",
+    "manifestSha256": "fe327f37ab873f8e73931aa34767cc49690dc841ad538dfe076f3df44875a6fa",
+    "commands": [
+      {
+        "label": "clean-before",
+        "argv": [
+          "git",
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "commit",
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "tree",
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD^{tree}"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "sdk-source-delta",
+        "argv": [
+          "git",
+          "diff",
+          "--name-only",
+          "bc7c0e1dd6b4e815951130c7acfbf60371445453",
+          "3e46ec4d51b9c31bd9f687bb4f773b314cd57451",
+          "--",
+          "pkg",
+          "framework",
+          "gateway",
+          "infras",
+          "contracts/proto",
+          ":(exclude)**/go.mod",
+          ":(exclude)**/go.sum",
+          ":(exclude)**/*.md"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "go-version",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "env",
+          "GOVERSION"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "go-platform",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "env",
+          "GOOS",
+          "GOARCH"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "protoc-version",
+        "argv": [
+          "protoc",
+          "--version"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "protoc-gen-go-version",
+        "argv": [
+          "protoc-gen-go",
+          "--version"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "protoc-gen-go-grpc-version",
+        "argv": [
+          "protoc-gen-go-grpc",
+          "--version"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "download-pkg",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "download",
+          "-json",
+          "github.com/hvritual/yunka.io/pkg@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "download-framework",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "download",
+          "-json",
+          "github.com/hvritual/yunka.io/framework@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "download-gateway",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "download",
+          "-json",
+          "github.com/hvritual/yunka.io/gateway@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "download-infras",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "download",
+          "-json",
+          "github.com/hvritual/yunka.io/infras@v0.0.0-20261015114616-bc7c0e1dd6b4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-build-framework",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-build-gateway",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-build-infras",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-pkg",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-framework",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-gateway",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-infras",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-app",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "go-root",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "env",
+          "GOROOT"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "cli-build",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "-buildvcs=true",
+          "-ldflags=-X main.releaseVersion=0.0.0-dev+3e46ec4d51b9",
+          "-o",
+          "/home/runner/work/_temp/consumer-release/bundle/bin/yunka",
+          "./cmd"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "cli-rebuild",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "-buildvcs=true",
+          "-ldflags=-X main.releaseVersion=0.0.0-dev+3e46ec4d51b9",
+          "-o",
+          "/home/runner/work/_temp/consumer-release/yunka-second",
+          "./cmd"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "cli-version",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/bundle/bin/yunka",
+          "--version"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "cli-build-info",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "version",
+          "-m",
+          "/home/runner/work/_temp/consumer-release/bundle/bin/yunka"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-module",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "module",
+          "new",
+          "--name",
+          "catalog",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer/modules",
+          "--no-config",
+          "--no-logger"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-init",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "init",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-generate-first",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "generate",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--proto-path",
+          "/home/runner/work/_temp/consumer-release/installed/include",
+          "--full",
+          "--format",
+          "json"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-generate-second",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "generate",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--proto-path",
+          "/home/runner/work/_temp/consumer-release/installed/include",
+          "--full",
+          "--format",
+          "json"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-check",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "check",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--proto-path",
+          "/home/runner/work/_temp/consumer-release/installed/include",
+          "--full",
+          "--format",
+          "json"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-tidy",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "tidy"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-graph",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "list",
+          "-m",
+          "-json",
+          "all"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-verify",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "verify"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-build",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-buildvcs=false",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-tests",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "test",
+          "-buildvcs=false",
+          "-mod=readonly",
+          "-count=1",
+          "-v",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-vet",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "vet",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-security",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-source-audit",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "audit",
+          "source",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--format",
+          "agent-json",
+          "--timeout",
+          "10m"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-reject-generated-drift",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "check",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--proto-path",
+          "/home/runner/work/_temp/consumer-release/installed/include",
+          "--full",
+          "--format",
+          "json"
+        ],
+        "exitCode": 1,
+        "expectedExitCode": 1
+      },
+      {
+        "label": "clean-after",
+        "argv": [
+          "git",
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      }
+    ],
+    "expiresAt": "2026-11-14T12:26:20Z",
+    "fileHashesVerified": 10,
+    "sourceAudit": {
+      "status": "PASS",
+      "sourceUnchanged": true
+    }
+  },
+  "conditions": {
+    "platform": "linux/amd64",
+    "toolchain": {
+      "GO_VERSION": "1.26.9",
+      "PROTOC_RELEASE": "21.12",
+      "PROTOC_VERSION": "3.21.12",
+      "PROTOC_LINUX_X86_64_SHA256": "3a4c1e5f2516c639d3079b1586e703fc7bcfa2136d58bda24d1d54f949c315e8",
+      "GOVULNCHECK_VERSION": "v1.7.0",
+      "PROTOC_GEN_GO_VERSION": "v1.36.11",
+      "PROTOC_GEN_GO_GRPC_VERSION": "v1.6.2"
+    },
+    "requiredGoRoot": "/opt/hostedtoolcache/go/1.26.9/x64",
+    "GOROOT": "unset",
+    "licenseFiles": [],
+    "publication": "CI candidate artifact, not formal release",
+    "consumerScope": "independent four-module fixture, not cs-biz F1 or #234/#188"
+  },
+  "mainQualification": {
+    "source": {
+      "commit": "3e46ec4d51b9c31bd9f687bb4f773b314cd57451",
+      "tree": "097a1c9e471e065700425dcfc059877e787361f3"
+    },
+    "state": "PASS / all seven actual-main workflows; source ref and clean Production read back",
+    "runs": [
+      {
+        "name": "ci",
+        "run": 38734324854,
+        "conclusion": "success"
+      },
+      {
+        "name": "production",
+        "run": 38734324856,
+        "conclusion": "success"
+      },
+      {
+        "name": "branch-baseline-qualification",
+        "run": 38734324867,
+        "conclusion": "success"
+      },
+      {
+        "name": "ag04-consumer-types",
+        "run": 38734324821,
+        "conclusion": "success"
+      },
+      {
+        "name": "ag05-source-policy",
+        "run": 38734324808,
+        "conclusion": "success"
+      },
+      {
+        "name": "ag06-template-qualification",
+        "run": 38734324809,
+        "conclusion": "success"
+      },
+      {
+        "name": "consumer-release-qualification",
+        "run": 38734324861,
+        "conclusion": "success"
+      }
+    ],
+    "issue244": "closed completed after full acceptance",
+    "mainRefReadback": "3e46ec4d51b9c31bd9f687bb4f773b314cd57451"
+  },
+  "securityLogs": {
+    "logs/consumer-security.log": "No vulnerabilities found.\n",
+    "logs/isolated-security-app.log": "=== Symbol Results ===\n\nNo vulnerabilities found.\n\nYour code is affected by 0 vulnerabilities.\nThis scan also found 0 vulnerabilities in packages you import and 1\nvulnerability in modules you require, but your code doesn't appear to call these\nvulnerabilities.\nUse '-show verbose' for more details.\n",
+    "logs/isolated-security-framework.log": "No vulnerabilities found.\n",
+    "logs/isolated-security-gateway.log": "=== Symbol Results ===\n\nNo vulnerabilities found.\n\nYour code is affected by 0 vulnerabilities.\nThis scan also found 0 vulnerabilities in packages you import and 1\nvulnerability in modules you require, but your code doesn't appear to call these\nvulnerabilities.\nUse '-show verbose' for more details.\n",
+    "logs/isolated-security-infras.log": "No vulnerabilities found.\n",
+    "logs/isolated-security-pkg.log": "=== Symbol Results ===\n\nNo vulnerabilities found.\n\nYour code is affected by 0 vulnerabilities.\nThis scan also found 0 vulnerabilities in packages you import and 2\nvulnerabilities in modules you require, but your code doesn't appear to call\nthese vulnerabilities.\nUse '-show verbose' for more details.\ngo: downloading golang.org/x/vuln v1.7.0\ngo: downloading golang.org/x/telemetry v0.0.0-20260811182544-a038080d80e5\ngo: downloading golang.org/x/mod v0.39.0\ngo: downloading golang.org/x/tools v0.49.0\ngo: downloading golang.org/x/sync v0.22.0\n"
+  },
+  "manifest": {
+    "schemaVersion": 1,
+    "status": "CANDIDATE_NOT_PUBLISHED",
+    "cliModule": "yunka.io/app",
+    "version": "0.0.0-dev+3e46ec4d51b9",
+    "producerCommit": "3e46ec4d51b9c31bd9f687bb4f773b314cd57451",
+    "producerTree": "097a1c9e471e065700425dcfc059877e787361f3",
+    "sdkLock": {
+      "schemaVersion": 1,
+      "sdkSourceCommit": "bc7c0e1dd6b4e815951130c7acfbf60371445453",
+      "modules": [
+        {
+          "path": "github.com/hvritual/yunka.io/pkg",
+          "version": "v0.1.1-0.20261015114616-bc7c0e1dd6b4",
+          "sum": "h1:P0LA7djSxLu5SHXhpDK1ZdDisKwZkqg+TJ/QdTMRfHY=",
+          "goModSum": "h1:TIdo3jxP61ZD0Ufb/3iE79dYJ+Ei01ZtqiCbAC5l3Zk="
+        },
+        {
+          "path": "github.com/hvritual/yunka.io/framework",
+          "version": "v0.1.1-0.20261015114616-bc7c0e1dd6b4",
+          "sum": "h1:If6azFUDuiin4fSBL7krJxgF1a+AyfuXKUSbUzkYUqc=",
+          "goModSum": "h1:ttZKb+PA8ox9GC86K4nbNIaUZdXYSEKOc7YtrokYdqI="
+        },
+        {
+          "path": "github.com/hvritual/yunka.io/gateway",
+          "version": "v0.1.1-0.20261015114616-bc7c0e1dd6b4",
+          "sum": "h1:AzdGbdqQVYUuVmW2xyh0WL0moqZEye/ZkQ3ic03TDwI=",
+          "goModSum": "h1:bJRMgHz5Nj6SSNZLHEiXdVOwaa05MBL/gI3Gwqx68IY="
+        },
+        {
+          "path": "github.com/hvritual/yunka.io/infras",
+          "version": "v0.0.0-20261015114616-bc7c0e1dd6b4",
+          "sum": "h1:NNV0VGd9FPnlqAIGdIR1chL7bofV2V1TNt+yIX82E8w=",
+          "goModSum": "h1:GbQWBjfd8IRCYaEWfDxP4ZanwJmzpNZnelGg+s41YR0="
+        }
+      ]
+    },
+    "toolchain": {
+      "GO_VERSION": "1.26.9",
+      "PROTOC_RELEASE": "21.12",
+      "PROTOC_VERSION": "3.21.12",
+      "PROTOC_LINUX_X86_64_SHA256": "3a4c1e5f2516c639d3079b1586e703fc7bcfa2136d58bda24d1d54f949c315e8",
+      "GOVULNCHECK_VERSION": "v1.7.0",
+      "PROTOC_GEN_GO_VERSION": "v1.36.11",
+      "PROTOC_GEN_GO_GRPC_VERSION": "v1.6.2"
+    },
+    "requiredGoRoot": "/opt/hostedtoolcache/go/1.26.9/x64",
+    "platform": "linux/amd64",
+    "toolSha256": {
+      "go": "e90c4e12df236ea0c2e7536fd68da8a47fc0b585c19588bf6c1a70cfc296a0f9",
+      "protoc": "e6a75cf6660945fbfec0d321808442ce3649cd7820079eece1098c881b315f55",
+      "protoc-gen-go": "e2cdbc722a48371639d794564f400c8cbf352d88a7dc7d5f9c7f45d97bd67f02",
+      "protoc-gen-go-grpc": "d71db22f63254d578f4df5f4e81d771125ffac80948a086b43364f6a61660ed2"
+    },
+    "buildInfo": [
+      "\tpath\tyunka.io/app/cmd",
+      "\tmod\tyunka.io/app\t(devel)\t",
+      "\tdep\tgithub.com/buger/jsonparser\tv1.6.1\th1:I0phFv0PlbLHnM7TZAVjZ2MJ2/eWRTDyuO7GLR98IEs=",
+      "\tdep\tgithub.com/cpuguy83/go-md2man/v2\tv2.0.0-20190314233015-f79a8a8ca69d\th1:U+s90UTSYgptZMwQh2aRr3LuazLJIa+Pg3Kc1ylSYVY=",
+      "\tdep\tgithub.com/golang-jwt/jwt/v5\tv5.3.1\th1:kYf81DTWFe7t+1VvL7eS+jKFVWaUnK9cB1qbwn63YCY=",
+      "\tdep\tgithub.com/hvritual/yunka.io/pkg\tv0.1.1-0.20261015114616-bc7c0e1dd6b4\th1:P0LA7djSxLu5SHXhpDK1ZdDisKwZkqg+TJ/QdTMRfHY=",
+      "\tdep\tgithub.com/kataras/golog\tv0.1.5\th1:WbXu2rUc3yX/QB2mcNP5AjR64UlaaxkYrGMkO58T4Js=",
+      "\tdep\tgithub.com/kataras/pio\tv0.0.10\th1:b0qtPUqOpM2O+bqa5wr2O6dN4cQNwSmFd6HQqgVae0g=",
+      "\tdep\tgithub.com/pkg/errors\tv0.9.1\th1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=",
+      "\tdep\tgithub.com/rs/xid\tv1.2.1\th1:mhH9Nq+C1fY2l1XIpgxIiUOfNpRBYH1kKcr+qfKgjRc=",
+      "\tdep\tgithub.com/russross/blackfriday/v2\tv2.0.1\th1:lPqVAte+HuHNfhJ/0LC98ESWRz8afy9tM/0RK8m9o+Q=",
+      "\tdep\tgithub.com/shurcooL/sanitized_anchor_name\tv1.0.0\th1:PdmoCO6wvbs+7yrJyMORt4/BmY5IYyJwS/kOiWx8mHo=",
+      "\tdep\tgithub.com/urfave/cli\tv1.22.5\th1:lNq9sAHXK2qfdI8W+GRItjCEkI+2oR4d+MEHy1CKXoU=",
+      "\tdep\tgolang.org/x/crypto\tv0.57.0\th1:3ZVCjf8Ggz7zneR/EHRVx68Ctf+2pmIMP2UFhh9cC6M=",
+      "\tdep\tgolang.org/x/mod\tv0.41.0\th1:qJmnOUb4YB+FsEuM3HcWucdZASCPGhsX6uljO6pog0c=",
+      "\tdep\tgolang.org/x/sync\tv0.23.0\th1:KameEIfc1IkluZyXWLn39Wd4tURc6GbCiISGiZm2bQk=",
+      "\tdep\tgolang.org/x/tools\tv0.49.0\th1:3NI7VXzL9+1WZD52Dx2ttoPwD5DWrFGpl9mFZDlmisI=",
+      "\tbuild\t-buildmode=exe",
+      "\tbuild\t-compiler=gc",
+      "\tbuild\t-ldflags=\"-X main.releaseVersion=0.0.0-dev+3e46ec4d51b9\"",
+      "\tbuild\tCGO_ENABLED=1",
+      "\tbuild\tCGO_CFLAGS=",
+      "\tbuild\tCGO_CPPFLAGS=",
+      "\tbuild\tCGO_CXXFLAGS=",
+      "\tbuild\tCGO_LDFLAGS=",
+      "\tbuild\tGOARCH=amd64",
+      "\tbuild\tGOOS=linux",
+      "\tbuild\tGOAMD64=v1",
+      "\tbuild\tvcs=git",
+      "\tbuild\tvcs.revision=3e46ec4d51b9c31bd9f687bb4f773b314cd57451",
+      "\tbuild\tvcs.time=2026-10-15T12:14:40Z",
+      "\tbuild\tvcs.modified=false"
+    ],
+    "repositoryLicenseFiles": [],
+    "files": {
+      "bin/yunka": "2717bffd6386e0558cf9bb2e27d34bb4562500158469b80e78510296febf045e",
+      "include/gateway/api_common.proto": "0a87f7a1cd4f01bb291fa947eae1b2cc641d5fba2b188f00012179fe866d37fc",
+      "include/gateway/common.proto": "16468b8ea07d89ae98d133cc9cdfafc948d6325e7f3557acc6d292e707c35acc",
+      "include/gateway/gateway.proto": "a8604f53f96b6ab1456f0ade6b849b6908a5d605026d78aa5426925d5dbaba12",
+      "include/legacy/api.proto": "2d0ba0bbb36ae8410917d9894082469f2dd2661078aeae5348d5812c79180adb",
+      "include/legacy/api_common.proto": "37a6cd37036959347dc91d74d5d3b2ef3924fe5715b7b235ce3b26c21c74389f",
+      "include/legacy/common.proto": "cd9a3ef95abcc6434c505347c72b6c1147a4cb180eee73b5e52036494cf0e2e7",
+      "include/legacy/unit.proto": "afb1febba261ea571a494369484bd59bb0ea7c92284a20042338ba83d5a48889",
+      "include/yunka/dsl/v1/options.proto": "543e99aa71aa26ec3c918829620bc3fb11d8bdea43b5bcf38501d56d2a6bca11",
+      "sdk-lock.json": "e85d27980eb94e0c17e28aeda441a0f8a37928dc0d4897e2e34e562d547adb00"
+    }
+  },
+  "downloadedArtifactConsumerReceipt": {
+    "status": "PASS",
+    "producer": "3e46ec4d51b9c31bd9f687bb4f773b314cd57451",
+    "archiveSha256": "8efe0a8bac8f0e5ce9fe941c2077effe6c8c476e6bf8132c6991e1c1f528a2ec",
+    "requiredGoRoot": "/opt/hostedtoolcache/go/1.26.9/x64",
+    "readOnlyCheckAudit": true,
+    "commands": [
+      {
+        "label": "version",
+        "exitCode": 0
+      },
+      {
+        "label": "check",
+        "exitCode": 0
+      },
+      {
+        "label": "source-audit",
+        "exitCode": 0
+      }
+    ],
+    "fullBuildTestVetGenerateSecurityProof": "exact remote qualification run 38733182696; not claimed as repeated locally"
+  },
+  "priorCandidate": {
+    "producer": {
+      "commit": "fa4818b000708033692fdf21ca818408cd1b60e0",
+      "tree": "c244718b1130305d396a16e48061f56140d22f1a"
+    },
+    "qualification": {
+      "run": 38732146233,
+      "artifact": 11970942095,
+      "zipSha256": "fcb134445f38cfeacc923c40e8618486b6a9feb8f5949c60ac000e306804d4fb",
+      "tarSha256": "6846ab0d28afc3a3d568b813f0b232575a47a65a7440114fafda1ba8d9a37ea0",
+      "manifestSha256": "99543179c5a165c7e5b662e8c825c458c5212a4623cd903ccb686a9270d36fbf",
+      "commands": [
+        {
+          "label": "clean-before",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain",
+            "--untracked-files=all"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "commit",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "tree",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD^{tree}"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "sdk-source-delta",
+          "argv": [
+            "git",
+            "diff",
+            "--name-only",
+            "bc7c0e1dd6b4e815951130c7acfbf60371445453",
+            "fa4818b000708033692fdf21ca818408cd1b60e0",
+            "--",
+            "pkg",
+            "framework",
+            "gateway",
+            "infras",
+            "contracts/proto",
+            ":(exclude)**/go.mod",
+            ":(exclude)**/go.sum",
+            ":(exclude)**/*.md"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "go-version",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "env",
+            "GOVERSION"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "go-platform",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "env",
+            "GOOS",
+            "GOARCH"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "protoc-version",
+          "argv": [
+            "protoc",
+            "--version"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "protoc-gen-go-version",
+          "argv": [
+            "protoc-gen-go",
+            "--version"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "protoc-gen-go-grpc-version",
+          "argv": [
+            "protoc-gen-go-grpc",
+            "--version"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "download-pkg",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "mod",
+            "download",
+            "-json",
+            "github.com/hvritual/yunka.io/pkg@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "download-framework",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "mod",
+            "download",
+            "-json",
+            "github.com/hvritual/yunka.io/framework@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "download-gateway",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "mod",
+            "download",
+            "-json",
+            "github.com/hvritual/yunka.io/gateway@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "download-infras",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "mod",
+            "download",
+            "-json",
+            "github.com/hvritual/yunka.io/infras@v0.0.0-20261015114616-bc7c0e1dd6b4"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "isolated-build-framework",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "build",
+            "-p=4",
+            "-mod=readonly",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "isolated-build-gateway",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "build",
+            "-p=4",
+            "-mod=readonly",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "isolated-build-infras",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "build",
+            "-p=4",
+            "-mod=readonly",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "isolated-security-pkg",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "run",
+            "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "isolated-security-framework",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "run",
+            "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "isolated-security-gateway",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "run",
+            "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "isolated-security-infras",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "run",
+            "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "isolated-security-app",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "run",
+            "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "go-root",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "env",
+            "GOROOT"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "cli-build",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "build",
+            "-p=4",
+            "-mod=readonly",
+            "-buildvcs=true",
+            "-ldflags=-X main.releaseVersion=0.0.0-dev+fa4818b00070",
+            "-o",
+            "/home/runner/work/_temp/consumer-release/bundle/bin/yunka",
+            "./cmd"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "cli-rebuild",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "build",
+            "-p=4",
+            "-mod=readonly",
+            "-buildvcs=true",
+            "-ldflags=-X main.releaseVersion=0.0.0-dev+fa4818b00070",
+            "-o",
+            "/home/runner/work/_temp/consumer-release/yunka-second",
+            "./cmd"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "cli-version",
+          "argv": [
+            "/home/runner/work/_temp/consumer-release/bundle/bin/yunka",
+            "--version"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "cli-build-info",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "version",
+            "-m",
+            "/home/runner/work/_temp/consumer-release/bundle/bin/yunka"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-module",
+          "argv": [
+            "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+            "module",
+            "new",
+            "--name",
+            "catalog",
+            "--root",
+            "/home/runner/work/_temp/consumer-release/consumer/modules",
+            "--no-config",
+            "--no-logger"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-init",
+          "argv": [
+            "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+            "init",
+            "--root",
+            "/home/runner/work/_temp/consumer-release/consumer"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-generate-first",
+          "argv": [
+            "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+            "generate",
+            "--root",
+            "/home/runner/work/_temp/consumer-release/consumer",
+            "--proto-path",
+            "/home/runner/work/_temp/consumer-release/installed/include",
+            "--full",
+            "--format",
+            "json"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-generate-second",
+          "argv": [
+            "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+            "generate",
+            "--root",
+            "/home/runner/work/_temp/consumer-release/consumer",
+            "--proto-path",
+            "/home/runner/work/_temp/consumer-release/installed/include",
+            "--full",
+            "--format",
+            "json"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-check",
+          "argv": [
+            "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+            "check",
+            "--root",
+            "/home/runner/work/_temp/consumer-release/consumer",
+            "--proto-path",
+            "/home/runner/work/_temp/consumer-release/installed/include",
+            "--full",
+            "--format",
+            "json"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-tidy",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "mod",
+            "tidy"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-graph",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "list",
+            "-m",
+            "-json",
+            "all"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-verify",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "mod",
+            "verify"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-build",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "build",
+            "-buildvcs=false",
+            "-mod=readonly",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-tests",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "test",
+            "-buildvcs=false",
+            "-mod=readonly",
+            "-count=1",
+            "-v",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-vet",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "vet",
+            "-mod=readonly",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-security",
+          "argv": [
+            "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+            "run",
+            "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+            "./..."
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-source-audit",
+          "argv": [
+            "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+            "audit",
+            "source",
+            "--root",
+            "/home/runner/work/_temp/consumer-release/consumer",
+            "--format",
+            "agent-json",
+            "--timeout",
+            "10m"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        },
+        {
+          "label": "consumer-reject-generated-drift",
+          "argv": [
+            "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+            "check",
+            "--root",
+            "/home/runner/work/_temp/consumer-release/consumer",
+            "--proto-path",
+            "/home/runner/work/_temp/consumer-release/installed/include",
+            "--full",
+            "--format",
+            "json"
+          ],
+          "exitCode": 1,
+          "expectedExitCode": 1
+        },
+        {
+          "label": "clean-after",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain",
+            "--untracked-files=all"
+          ],
+          "exitCode": 0,
+          "expectedExitCode": 0
+        }
+      ],
+      "expiresAt": "2026-11-14T12:08:22Z",
+      "fileHashesVerified": 10,
+      "sourceAudit": {
+        "status": "PASS",
+        "sourceUnchanged": true
+      }
+    },
+    "downloadedArtifactConsumerReceipt": {
+      "status": "PASS",
+      "producer": "fa4818b000708033692fdf21ca818408cd1b60e0",
+      "version": "0.0.0-dev+fa4818b00070",
+      "archiveSha256": "6846ab0d28afc3a3d568b813f0b232575a47a65a7440114fafda1ba8d9a37ea0",
+      "requiredGoRoot": "/opt/hostedtoolcache/go/1.26.9/x64",
+      "generatedTwiceUnchanged": true,
+      "readOnlyCheck": true,
+      "sourceAudit": "PASS",
+      "commands": [
+        {
+          "label": "version",
+          "exitCode": 0
+        },
+        {
+          "label": "module",
+          "exitCode": 0
+        },
+        {
+          "label": "init",
+          "exitCode": 0
+        },
+        {
+          "label": "generate-first",
+          "exitCode": 0
+        },
+        {
+          "label": "generate-second",
+          "exitCode": 0
+        },
+        {
+          "label": "check",
+          "exitCode": 0
+        },
+        {
+          "label": "tidy",
+          "exitCode": 0
+        },
+        {
+          "label": "build",
+          "exitCode": 0
+        },
+        {
+          "label": "tests",
+          "exitCode": 0
+        },
+        {
+          "label": "vet",
+          "exitCode": 0
+        },
+        {
+          "label": "source-audit",
+          "exitCode": 0
+        },
+        {
+          "label": "security",
+          "exitCode": 0
+        }
+      ]
+    }
+  },
+  "finalPRArtifact": {
+    "run": 38733182696,
+    "artifact": 11971303569,
+    "zipSha256": "09c473f8192962df02d48ced8b55406b33d25df3623e32ba16f4e0a067363f06",
+    "tarSha256": "8efe0a8bac8f0e5ce9fe941c2077effe6c8c476e6bf8132c6991e1c1f528a2ec",
+    "manifestSha256": "fe327f37ab873f8e73931aa34767cc49690dc841ad538dfe076f3df44875a6fa",
+    "commands": [
+      {
+        "label": "clean-before",
+        "argv": [
+          "git",
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "commit",
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "tree",
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD^{tree}"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "sdk-source-delta",
+        "argv": [
+          "git",
+          "diff",
+          "--name-only",
+          "bc7c0e1dd6b4e815951130c7acfbf60371445453",
+          "3e46ec4d51b9c31bd9f687bb4f773b314cd57451",
+          "--",
+          "pkg",
+          "framework",
+          "gateway",
+          "infras",
+          "contracts/proto",
+          ":(exclude)**/go.mod",
+          ":(exclude)**/go.sum",
+          ":(exclude)**/*.md"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "go-version",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "env",
+          "GOVERSION"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "go-platform",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "env",
+          "GOOS",
+          "GOARCH"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "protoc-version",
+        "argv": [
+          "protoc",
+          "--version"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "protoc-gen-go-version",
+        "argv": [
+          "protoc-gen-go",
+          "--version"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "protoc-gen-go-grpc-version",
+        "argv": [
+          "protoc-gen-go-grpc",
+          "--version"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "download-pkg",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "download",
+          "-json",
+          "github.com/hvritual/yunka.io/pkg@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "download-framework",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "download",
+          "-json",
+          "github.com/hvritual/yunka.io/framework@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "download-gateway",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "download",
+          "-json",
+          "github.com/hvritual/yunka.io/gateway@v0.1.1-0.20261015114616-bc7c0e1dd6b4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "download-infras",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "download",
+          "-json",
+          "github.com/hvritual/yunka.io/infras@v0.0.0-20261015114616-bc7c0e1dd6b4"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-build-framework",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-build-gateway",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-build-infras",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-pkg",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-framework",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-gateway",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-infras",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "isolated-security-app",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "go-root",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "env",
+          "GOROOT"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "cli-build",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "-buildvcs=true",
+          "-ldflags=-X main.releaseVersion=0.0.0-dev+3e46ec4d51b9",
+          "-o",
+          "/home/runner/work/_temp/consumer-release/bundle/bin/yunka",
+          "./cmd"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "cli-rebuild",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-p=4",
+          "-mod=readonly",
+          "-buildvcs=true",
+          "-ldflags=-X main.releaseVersion=0.0.0-dev+3e46ec4d51b9",
+          "-o",
+          "/home/runner/work/_temp/consumer-release/yunka-second",
+          "./cmd"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "cli-version",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/bundle/bin/yunka",
+          "--version"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "cli-build-info",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "version",
+          "-m",
+          "/home/runner/work/_temp/consumer-release/bundle/bin/yunka"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-module",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "module",
+          "new",
+          "--name",
+          "catalog",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer/modules",
+          "--no-config",
+          "--no-logger"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-init",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "init",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-generate-first",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "generate",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--proto-path",
+          "/home/runner/work/_temp/consumer-release/installed/include",
+          "--full",
+          "--format",
+          "json"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-generate-second",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "generate",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--proto-path",
+          "/home/runner/work/_temp/consumer-release/installed/include",
+          "--full",
+          "--format",
+          "json"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-check",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "check",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--proto-path",
+          "/home/runner/work/_temp/consumer-release/installed/include",
+          "--full",
+          "--format",
+          "json"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-tidy",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "tidy"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-graph",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "list",
+          "-m",
+          "-json",
+          "all"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-verify",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "mod",
+          "verify"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-build",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "build",
+          "-buildvcs=false",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-tests",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "test",
+          "-buildvcs=false",
+          "-mod=readonly",
+          "-count=1",
+          "-v",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-vet",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "vet",
+          "-mod=readonly",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-security",
+        "argv": [
+          "/opt/hostedtoolcache/go/1.26.9/x64/bin/go",
+          "run",
+          "golang.org/x/vuln/cmd/govulncheck@v1.7.0",
+          "./..."
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-source-audit",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "audit",
+          "source",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--format",
+          "agent-json",
+          "--timeout",
+          "10m"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      },
+      {
+        "label": "consumer-reject-generated-drift",
+        "argv": [
+          "/home/runner/work/_temp/consumer-release/installed/bin/yunka",
+          "check",
+          "--root",
+          "/home/runner/work/_temp/consumer-release/consumer",
+          "--proto-path",
+          "/home/runner/work/_temp/consumer-release/installed/include",
+          "--full",
+          "--format",
+          "json"
+        ],
+        "exitCode": 1,
+        "expectedExitCode": 1
+      },
+      {
+        "label": "clean-after",
+        "argv": [
+          "git",
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        "exitCode": 0,
+        "expectedExitCode": 0
+      }
+    ],
+    "expiresAt": "2026-11-14T12:17:04Z",
+    "fileHashesVerified": 10,
+    "sourceAudit": {
+      "status": "PASS",
+      "sourceUnchanged": true
+    }
+  },
+  "actualMainArchiveMatchesPR": true,
+  "candidateRuns": [
+    {
+      "name": "ci",
+      "run": 38733182312,
+      "conclusion": "success"
+    },
+    {
+      "name": "production",
+      "run": 38733182848,
+      "conclusion": "success"
+    },
+    {
+      "name": "branch-baseline-qualification",
+      "run": 38733182871,
+      "conclusion": "success"
+    },
+    {
+      "name": "ag04-consumer-types",
+      "run": 38733182502,
+      "conclusion": "success"
+    },
+    {
+      "name": "ag05-source-policy",
+      "run": 38733182313,
+      "conclusion": "success"
+    },
+    {
+      "name": "ag06-template-qualification",
+      "run": 38733182394,
+      "conclusion": "success"
+    },
+    {
+      "name": "consumer-release-qualification",
+      "run": 38733182696,
+      "conclusion": "success"
+    }
+  ]
+}

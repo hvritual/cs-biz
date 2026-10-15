@@ -1,0 +1,15 @@
+{
+  "kind": "human-design-confirmation",
+  "raw_text": "确认",
+  "received_at": "2026-10-15T21:14:54+08:00",
+  "source": "User message in the current conversation, directly replying to the request to confirm PR #27 r005 complete design",
+  "target_pr": "https://github.com/hvritual/cs-biz/pull/27",
+  "target_commit": "caf3b8a4d52259838bb970525d5631b47a646ce2",
+  "target_tree": "12f64d6b39826e6a79e9a1bde0b1f474e591b2b1",
+  "revision": "r005",
+  "content_sha256": "b3b802d7f40c623870df24d94bbafb3e28537345675495e46bc9c1a3c9d828ab",
+  "decision": "approved",
+  "scope": "Complete F0 r005 solution, requirements, design, technical journey/flow, input conditions, preserved R1-R8/AC-01-AC-08 and explicitly non-UI preview boundary",
+  "excludes": ["Human Full waiver or dispatch", "GitHub APPROVED review", "F1 implementation", "production deployment", "closure before merge and required gates"],
+  "authentication_boundary": "Actual conversation Human confirmation; not a GitHub review, independently reviewed Full waiver, or Full receipt"
+}

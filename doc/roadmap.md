@@ -2,7 +2,7 @@
 
 核验 main `da5494d03c362ab873465c1793e7aba7e4e3a7cc`：#26 的 Intent/Design v2 已合入；Go Authz V2 和 Vue/Vben/Element Plus Mock 已存在。PR #7、#8、#18、#21、#23、#25 仍未合并。不能从旧表的“未启动”推断没有基础库，也不能从开放候选推断主线已具备真实身份或 Yunka。
 
-本次推进 [#11 F0](https://github.com/hvritual/cs-biz/issues/11)，当前 **DESIGN_REVIEW / WAITING_DESIGN_CONFIRMATION**。D1=A与Go1.26.9安全前置已批准，Yunka #245/#243已整合并通过候选与独立main全部门禁，#244已完成。完整[r005方案与资格](tasks/issue-11-f0/rounds/r005/qualification.md)绑定实际制品和使用条件；本项目F1尚未运行，完整设计/当前Full决定仍需分别取得。完整任务见[F0冻结任务](tasks/F0-yunka-freeze.md)。#10依赖链保持F0 #11 → F1 #12 → F2 #13 / F3 #14 → F4 #15 → F5 #16 → F6 #17；#19/#20/#24可观测性和#22持续目标任务均保留原验收/人审边界。一次一个独立Issue，不批量实现或合并。
+本次推进 [#11 F0](https://github.com/hvritual/cs-biz/issues/11)，当前 **DESIGN_HANDOFF / WAITING_HUMAN_FULL**。D1=A与Go1.26.9安全前置已批准，Yunka #245/#243已整合并通过候选与独立main全部门禁，#244已完成。Human 于2026-10-15 21:14:54 +08确认完整r005，见[同版交接](tasks/issue-11-f0/handoffs/r005/HANDOFF.md)；原设计与输入摘要不变。本项目F1尚未运行，最终候选的独立审阅/Full决定仍须取得。完整任务见[F0冻结任务](tasks/F0-yunka-freeze.md)。#10依赖链保持F0 #11 → F1 #12 → F2 #13 / F3 #14 → F4 #15 → F5 #16 → F6 #17；#19/#20/#24可观测性和#22持续目标任务均保留原验收/人审边界。一次一个独立Issue，不批量实现或合并。
 
 PR #18 的架构方向尚为提案，不在本次整体导入；本轮只补事实/版本/权责冻结。后续真实 API、身份、DB、模块资格未完成。下文保留原 S00/S01 路线和阶段设计作为历史规划，其旧状态和旧命令顺序不得盖过当前源码、上述投影与实际 No-Stall/Human Full 规则。
 

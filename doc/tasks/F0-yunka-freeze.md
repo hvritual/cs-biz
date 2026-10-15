@@ -2,7 +2,7 @@
 
 ## 状态与来源
 
-- 当前：**DESIGN_REVIEW / WAITING_DESIGN_CONFIRMATION**；Issue [#11](https://github.com/hvritual/cs-biz/issues/11) 保持 open，不宣称 F0 完成。
+- 当前：**DESIGN_HANDOFF / WAITING_HUMAN_FULL**；r005 完整设计已由 Human 确认，Issue [#11](https://github.com/hvritual/cs-biz/issues/11) 保持 open，交付门禁尚未齐全。
 - 用户本次原文：“启用工作流，开始完成cs-biz仓库里面的issue”。按当前工作流选择依赖链起点，一次一个独立 Issue；其他 11 个开放 Issue 全部保留在 [本轮 intake 快照](issue-11-f0/rounds/r001/intake-snapshot.json)。
 - main 基线：`da5494d03c362ab873465c1793e7aba7e4e3a7cc`；分支 `codex/issue-11-f0-design`；2026-10-15 Asia/Shanghai。
 - 当前授权：当前 Issue 的检索、设计/文档、验证和可审阅候选；不扩大为 F1 Runtime、其他 PR 合并、Full、生产数据或部署权限。
@@ -29,7 +29,7 @@
 
 R1–R8 / AC-01–AC-08 由 [本轮需求](issue-11-f0/rounds/r005/requirements.md) 和 [Intent 追溯](issue-11-f0/rounds/r005/intent.json) 绑定。每项事实均区分已核实源码、未批准目标、运行 not_run、Human 未审。
 
-实际命令/结果、结构回执、来源 hash、差额和交付 PR 记录在 [validation](issue-11-f0/rounds/r005/validation.md)。本轮 design-loop.json 保持未审，交接 checker 应拒绝提前交接；拒绝是正确的边界，不把推荐答案写为 approved 求绿。
+被审时的命令、来源和验证记录封存在 [r005 validation](issue-11-f0/rounds/r005/validation.md)。2026-10-15 21:14:54 +08 Human 已确认同版完整设计；[同版交接](issue-11-f0/handoffs/r005/HANDOFF.md) 绑定原文、精确提交和原内容摘要，不改旧轮、不把设计确认写为 Full 豁免。
 
 ## Human 决策与继续条件
 
@@ -57,4 +57,4 @@ Human 原文“按照推荐A进行推进”绑定首轮 PR #27 `8065dade6348743e
 
 [当前资格与下一动作](issue-11-f0/rounds/r005/qualification.md) 已记录Yunka #245/#243整合与候选/独立main全门禁通过、#244完成关闭、实际制品摘要/平台/安装根/到期条件。r003/r004的待决或待资格措辞是历史检查点，当前不再阻塞于Go决定或上游资格。
 
-完整方案、设计、需求、技术旅程/图、46条来源与全部R/AC已整合为r005；原r001–r004不改。当前只等待本轮完整设计确认及后续当前SHA的独立审阅/Full决定。未进入F1、未合并本PR、不关闭#11。跨仓库前置修复来自单独授权，其完成不扩大本F0的消费仓代码范围。
+完整方案、设计、需求、技术旅程/图、46条来源与全部R/AC已整合为r005。Human 已确认该完整版本，原r001–r005不改。当前等待最终候选的独立审阅/Full决定，未进入F1、未合并本PR、不关闭#11。跨仓库前置修复来自单独授权，其完成不扩大本F0的消费仓代码范围。
