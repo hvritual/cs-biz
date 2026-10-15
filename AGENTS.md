@@ -49,3 +49,7 @@ For any end-to-end intent/design/build/review task, first load `.agents/skills/s
 - `engineering-language` checks prose semantics at handoff without changing user intent.
 
 Read `doc/workflow/SDLC-ADOPTION.md` for stage artifact contracts and verified/unverified boundaries. Use `python3 doc/ci/check_sdlc_workflow.py --mode structure` for read-only structural checks. No Skill or static checker authorizes code change, approves itself, weakens tests, or replaces real GitHub CI and Human review. Treat the approved Design and Acceptance as read-only for the implementer. Do not silently advance from review-ready Prompt to execution.
+
+## Original-SDLC artifact verification (compatibility subset)
+
+Read `doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md` before using v0.4-style `intent-spec.json`, `design-revisions.json` or `build-loop.json`. Run the matching `doc/ci/check_intent_v02.py`, `check_revision_v04.py` and `check_build_v04.py`. The prior `check_sdlc_workflow.py` uses simplified legacy task artifacts; **do not combine the two protocols** or represent static compatibility checks as externally authenticated approvals, CI, or business tests.
