@@ -1,31 +1,29 @@
 ---
 name: sdlc-design
-description: Preview-first Design Loop with Human review, versioned feedback targets, frozen scoped revisions and preservation evidence. Do not implement production code.
+description: Design a complete solution and navigable journey preview inside the existing project frontend, with b2b-product-ux, source-grounded conditions and versioned Human feedback. Output a design handoff; production implementation and delivery checks belong to the executing model.
 ---
 
-# SDLC Design — preview and controlled revision
+# SDLC Design — solution and project Preview Loop
 
-Read accepted intent from prompt-optimizer, project design standards and approved task scope. UI design for cs-biz must use doc/design/desktop-ui.md. Keep design exploration distinct from changes to approved work.
+Read accepted Intent from prompt-optimizer, its ADR/doc evidence, condition/preference decisions, authorized task scope and doc/workflow/INTENT-DESIGN-WORKFLOW.md. For UI work read doc/design/desktop-ui.md and ../b2b-product-ux/SKILL.md with its cs-biz project binding. Unknown facts stay unknown. Missing design-scope write authority permits read-only analysis, not frontend edits.
 
-## Initial Design Loop
-1. Extract user journey, current and target states, constraints, decisions and boundary.
-2. Produce a navigable **nonproduction** preview/demo, Mermaid flow, key page/operation states, failure and recovery examples. Identify real-vs-Mock evidence clearly.
-3. Run engineering-language review on preview wording, preserve identifiers and decisions.
-4. Ask Human to review these preview assets BEFORE writing full requirements/design.
-5. If Human rejects, enter Revision Loop with explicit feedback. If Human approves exact preview version, produce requirements.md and design.md, including numbered R/AC, invariants, paths, API/data/tenant contract and failure behavior.
-6. Check detailed design completeness and obtain separate approval; preview approval is not final Design or Build authorization.
+## Each design round
+1. Reconcile original outcomes, current source and knowledge supersession. Derive role/task/entity/workflow/state/action/risk/decision; identify system/human/mixed work. System handles authorized deterministic work, Human handles material judgment and necessary confirmation.
+2. Draft solution.md (background, impact, objective, conditions, alternatives, module flow and chosen approach), requirements.md (R/AC/invariants) and design.md (interaction/contracts/reuse/file boundaries). Keep distinct purposes and a single source per business rule.
+3. Produce journey.md, flow.mmd, stable Screen/State IDs, key operations, empty/denied/error/partial/unknown/recovery states. Use the existing UX analysis template; evaluate nine dimensions without invented efficiency scores or claimed API truth.
+4. For batchable work, evaluate pasted text/CSV import for rapid **selection** and explain any rejection. Design parsing, normalization/deduplication, scoped exact matching, unmatched/ambiguous/invalid rows, explicit final selection, impact/necessary confirmation, per-item partial/unknown outcomes and safe recovery. Text is data; selection never executes. Do not bypass tenant/permission checks or invent retry/rollback contracts.
+5. Add Preview demo in the existing frontend application on a design branch/worktree. Reuse shell/routes/tokens/i18n/services/components; isolate fixture writes and gate preview from production builds. Do not build a separate application or use only demo.html/screenshots. Mark simulated capability in reviewer context; keep product copy in business language.
+6. Have the executing model run the bounded project preview and targeted browser journey under its existing authority; collect current source hashes, candidate commit, route/command, scenarios, screenshots and logs. This verification is the model's work, not a workflow CI scheduler. Runtime unavailable => NEEDS_EVIDENCE, never a fake screenshot/receipt.
+7. Present solution + design + project preview **together in the same round**. Human confirms actual usable conditions/preferences, complete journey and recovery. Record exact-version feedback and approval; partial approval cannot become complete Design approval. Use engineering-language before review, never to rewrite raw/approved meaning.
 
-## Revision Loop — no rewriting from scratch by default
-- Locate feedback by base revision, snapshot SHA256, stable object_id and scenario/page/state. Coordinates alone do not identify an object. Feedback for an obsolete revision => NEEDS_REBASE; do not apply blindly.
-- Freeze a change contract BEFORE editing: raw feedback, target elements, exact allowed files, preserved behavior/objects, expected changes, acceptance checks and impact edges. Do not weaken inherited preservations.
-- Use a new revision directory `rounds/rNNN/` containing immutable preview, journey, flow and design-object manifest. Never overwrite or retroactively edit a sealed prior round.
-- Compare candidate files with a trusted baseline and original preservation anchor, not only the immediately previous revision. Review the changed scope and previously accepted feedback in every following revision.
-- Collect feedback-specific verification and independent Human decisions bound to the revision/content hash. A checker's word PASS is not proof of user acceptance. Partial acceptance does not approve the complete Design.
-- A business/role/authorization or acceptance-meaning change returns to prompt-optimizer; only approved value changes reopen frozen intent.
+## Controlled revisions
+Locate feedback by base revision/hash, stable object_id and scenario/page/state; coordinates alone are insufficient. Obsolete base => NEEDS_REBASE. Freeze raw feedback, exact targets/allowed files, intended deltas, preserved objects/behavior and checks before editing.
+Seal rounds/rNNN assets and source snapshot refs in Git/protected history; never overwrite old rounds. Compare against original preservation anchor and approved feedback, not only the previous round. Local digests do not enforce immutable history or authenticate Human identity. Goal/rights/acceptance meaning changes return to optimizer/Human.
 
-## Approval and output
-Write in current task directory under `.sdlc/tasks/<id>/`; link approved requirements/Design to actual task authority in doc/tasks, do not create a duplicate status registry. Attach snapshot manifests and SHA256; file immutability requires protected history/permissions beyond local hashes.
-Report: preview version, feedback location, changed/preserved items, verification evidence, unresolved decisions, Human approval reference. No screenshots/automated visual tests claimed unless they were really run.
+## Mandatory handoff
+Deliver same-version solution.md, requirements.md, design.md, journey.md, flow.mmd, ux-analysis.yaml, project preview source/entry/reproduction/scenarios/runtime evidence, traceability, knowledge/conditions/preferences and exact-version Human decision reference in design-loop.json. Non-UI tasks must explicitly justify UI/UX inapplicability; they still deliver the solution and technical flow, never fabricate an interface.
+Persist approved references in the existing doc/tasks record, not only ignored .sdlc cache. Retain unresolved prerequisites with owners and implementation blockers. State DESIGN_HANDOFF only after design-blocking decisions are resolved and the complete round is reviewed. Static validation cannot grant approval.
+The executing model receives R/AC, preserved behavior, allowed/forbidden paths, resources/risks, verification suggestions and separate execution authority. It owns implementation, fact-checking and delivery gates outside this workflow using task-progression/sdlc-build; no self-approval, auto Full, merge or deployment.
 
-## Original controlled-revisions compatibility gate
-When `design-revisions.json` uses `controlled-revisions-v1`, run `python3 doc/ci/check_revision_v04.py --task .sdlc/tasks/<id>`. It checks ledger and snapshot integrity, parent lineage, allowed changes, frozen original preservations and acceptance. It is read-only: it does NOT provide original `revision_store.py` CAS writer; manual checks remain `NEEDS_EVIDENCE`. Do not mix this format with the older lightweight `design-preview.json` validator or rewrite sealed rounds.
+## Compatibility
+Use doc/ci/check_design_workflow.py for intent-design-v2. Historical controlled-revisions-v1 ledgers use check_revision_v04.py; earlier lightweight artifacts use check_sdlc_workflow.py --mode design. Preserve sealed history and do not mix formats. The original CAS writer and authenticated external evidence adapters remain unimplemented; a local PASS is never Human approval or business completion.

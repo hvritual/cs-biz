@@ -5,6 +5,9 @@ description: Deliver approved design outcomes through acceptance-driven, short B
 
 # SDLC Build — acceptance-driven short delivery loops
 
+## Execution responsibility outside the design workflow
+The executing model invokes this Skill after the Intent/Design handoff under separate, already granted implementation authority. It owns planning, implementation, verification and gates; sdlc-workflow does not schedule Build/CI. Preserve the approved solution and in-project preview bindings. Returning a design handoff does not mean business delivery is complete.
+
 ## Inputs and authority
 Read AGENTS.md, project-profile.md, current approved Design and locked Acceptance, approved implementation scope, and task-progression. If there is no approved implementation slice, perform read-only assessment and propose the slice; do not claim implementation authorization. Do not substitute a locally generated approval.
 

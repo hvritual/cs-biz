@@ -1,70 +1,27 @@
-# cs-biz 六 Skill SDLC 接入与阶段协议
+# cs-biz Intent / Design 接入与模型执行责任
 
-## 本次交付的定位
+当前协议见 [Intent/Design v2](INTENT-DESIGN-WORKFLOW.md)，交接字段见 [DESIGN-HANDOFF-CONTRACT](DESIGN-HANDOFF-CONTRACT.md)。本次按 Human 六项要求调整原六 Skill 的职责，接入固定来源的 b2b-product-ux；不增加后台调度器或任务数据库。
 
-使用 `prompt-optimizer`、`sdlc-design`、`sdlc-workflow`、`sdlc-build`、`task-progression`、`engineering-language` 六个 repository-local Skill，统一由 `$sdlc-workflow` 选择下一阶段。此为基于既有 v0.4.0 方法的 cs-biz 适配实现，并**非之前独立 ZIP 包的逐字节复刻**；受控轮次/语义审查的真实模型验证尚未完成。
+## 当前链路
 
-项目已有权威始终高于 Skill：
-- 仓库：`AGENTS.md`、`doc/roadmap.md`、相关实际 Issue／批准任务。
-- 设计：`doc/design/desktop-ui.md` 和当前绑定版本的 Human 反馈。
-- CI：`doc/ci/NO-STALL-GATES.md` 和真实 Github Workflow／artifact。
-- 状态与交接：既有 `doc/templates/task.md`，不再建立一个平行状态台账。
-- 真实服务端授权：不能由 Mock、前端菜单或文件中的 claimed PASS 代替。
+Raw Intent 原文与来源 → Prompt Optimizer（自动 ADR/doc/当前源码研究、条件/资源/偏好决策树）→ IntentSpec（逐项追溯与材料性 Human 选择）→ Design Loop（方案、设计、旅程、现有工程 Preview 同轮）→ Human 反馈修订/同版本确认 → 设计交接。
 
-## 顺序与责任
+工作流到此结束。执行模型在已有授权范围内接手计划、落地、核实、Fast/适用 Targeted、独立审查与真实证据回读，继续使用 `task-progression` 和 `sdlc-build`。Full 始终由 Human 控制，合并和发布另行授权；工作流外仍受仓库治理约束，不把常规工程职责丢给 Human。
 
-```text
-Original Request
- → prompt-optimizer: IntentSpec + decision tree (READY / NEEDS_EVIDENCE / NEEDS_DECISION / BLOCKED)
- → Human Intent decision where material
- → sdlc-design: preview demo + journey + Mermaid flow
- → Human reviews exact preview; revision rounds for feedback
- → requirements.md + design.md + acceptance/invariants
- → Human approves final Design + scope
- → approved slice plan
- → task-progression admit_slice
- → sdlc-build: acceptance gap → real RED → GREEN → optional REFACTOR → focused checks
- → cs-biz Fast → targeted Desktop if applicable → Human Full decision (manual run / narrow governance waiver / defer)
- → independent verification, human risk review, separate merge/deployment authority
- → runtime result evidence, new Intent if necessary
-```
+UI 设计使用当前 Vue/Vben/Element Plus 工程、壳层和 Token；不能用独立 demo.html 代替。每轮交付 solution.md / requirements.md / design.md / journey.md / flow.mmd / ux-analysis.yaml、项目预览源码/入口/场景/运行证据及 design-loop.json。Human 同时检查方案和可操作旅程；不是先批准孤立预览再看到方案。系统负责可确定且已授权的工作；批量场景评估文本导入快速选定，保留权限、消歧、影响确认和安全恢复。
 
-## Task-local artifacts (recommended; templates not approval authorities)
+## 权威与证据
 
-Keep project status in its original record. Task-local scratch artifacts may go to `.sdlc/tasks/<id>/` (ignored unless independently authorized and reviewed).
+AGENTS、实际任务/Issue、accepted ADR、当前源码、绑定版本 Human 决策与真实 CI 各司其职。历史 proposed ADR 不是技术约束；Mock 不是后端可用证据；作者填写批准引用不是身份认证。任务状态沿用 doc/tasks 和既有任务模板；产物必须有 Git 持久引用，不只放在 ignored .sdlc 缓存。
 
-| Artifact | Purpose | Version rule |
-| --- | --- | --- |
-| `intent.json` | Original request, objective, hard constraints, decision, allowed action level | Preserve original raw request; no silent rewrite |
-| `design-preview.json` | Intent hash, journey.md/flow.mmd/demo.html digests, revision manifest | Exact SHA256 per asset; do not overwrite old sealed round |
-| `rounds/rNNN/` | Immutable-by-contract preview round and protected items | Hash seal plus externally protected history recommended |
-| `design-approval.json` | Current preview hash, requirements/design hashes and Human approval *reference* | Must reread authentic approval via trusted external system |
-| `build-manifest.json` | Design approval hash, selected slices, acceptance IDs, candidate SHA and evidence references | Never substitute an author-written PASS for real CI |
-| Current task record | Task completion, PR, main verification, owner and remaining outcomes | Existing task template remains authority |
+`python3 doc/ci/check_sdlc_workflow.py --mode structure` 检查接线；`python3 doc/ci/check_design_workflow.py --task <task-dir> --repo-root .` 只检查 v2 交接结构/摘要/引用。结构通过不证明原意无偏差、九维语义、浏览器、生产隔离或 Human 身份。这些仍需执行模型核实并由独立 reviewer/实际证据验证。
 
-Read-only example: `python3 doc/ci/check_sdlc_workflow.py --mode structure`. For an actual task with documents: `--mode intent|design|build --task .sdlc/tasks/<id>`. This checks file/link/digest shape, **not** meaningful Design correctness, human identity or CI trust. Exit 0 means `PASS_STATIC_ONLY`, not a release or feature approval.
+b2b 核心、模板和上游设计示例已引入，项目绑定/检查入口已适配；未移植上游完整 YAML checker、Page Contract/源码索引或任何运行期业务能力。上游案例 URL 是背景，不证明 cs-biz 已实现对应功能。来源见 [固定提交记录](b2b-product-ux-source.json)。
 
-## Approval and revising behavior
+## 历史协议兼容
 
-A Design preview must be reviewed before detailed Design. Each feedback item references exact revision, stable UI object, intended delta, preserved features and verification. If old feedback cannot be safely rebased: stop with NEEDS_REBASE, do not guess. New business rule/tenant authority requires a new Intent decision. Partial approval is not overall Design approval. Already approved Design requirements/acceptance must not be rewritten inside Build to make tests green.
+旧 `intent.json` / `design-preview.json` / `design-approval.json` / `build-manifest.json` 和 `check_sdlc_workflow.py --mode intent|design|build` 保留用于历史任务。v0.2 / v0.4 兼容检查见 [运行验证边界](ORIGINAL-RUNTIME-VALIDATION.md)。旧 checker 所接受的 demo.html 不能满足 v2 UI 交接；不要混合协议或重写封存轮次。明确迁移时建立新轮和新批准。CAS、可信外部审批/CI 适配和真实端到端模型试点仍不由 Markdown 或离线检查补齐。
 
-## Build modes
+## 本治理候选的验证
 
-Use `tdd` for new behavior/bug fixes with valid RED; `preserve` for behavior-neutral refactor, `static` for documentation, `existing_verified` if already met, and `harness_required` if validation is impossible. Each slice must account for every original R/AC and protect already verified behavior. One failed check is not proof of a defect until classified by ownership, environment, spec and execution evidence.
-
-## cs-biz fast feedback and CI
-
-- `python3 doc/ci/check_repository.py`
-- `python3 doc/ci/check_build_workflow.py`
-- `python3 doc/ci/check_sdlc_workflow.py --mode structure`
-- `python3 -m unittest discover -s doc/ci -p 'test_*workflow.py'`
-- Real UI/Backend implementation: `bash doc/ci/check.sh --fast`; Desktop visible changes then `cd frontend && corepack pnpm check:desktop:runtime`; only one frozen candidate to a Human-controlled Full decision. Run only via GitHub Actions or a documented narrow governance waiver; see `doc/ci/HUMAN-FULL-CONTROL.md`.
-- PR and main receipt are different evidence. Draft PR/CI skipped is NOT qualified.
-
-## Scope boundaries for this integration
-
-This change installs *method and structural checks only*. No change to real auth, tenant data, billing, backend API, Desktop UI, CI skip rules, production configuration or deployed system. Real pilot must be separately tied to a task and approved Design; it should verify one truly missing and observable behavior, not fabricate test failures.
-
-## Validation boundaries and missing assurance
-
-File hash can detect a changed copy but not attest a Human decision or prevent a fully privileged process rewriting both file and digest. Structural checks cannot guarantee semantically correct intent, screenshots or interaction. Remote CI and reviewer evidence must be read independently. Do not claim the original complete v0.4.0 engine's exhaustive revision store and historical eval suite was copied into this repository.
+执行 `python3 doc/ci/check_repository.py`、`python3 doc/ci/check_build_workflow.py`、SDLC 结构与 Python 正反例，随后运行仓库 Fast。真实 UI 任务需模型运行项目预览与适用 Desktop，缺工具则 unavailable；Full 决策遵循 [Human 控制](../ci/HUMAN-FULL-CONTROL.md)。本候选不修改业务 UI，没有实际业务预览或用户旅程完成声明。结果见 [W02 验证](../evidence/W02-validation.md)。

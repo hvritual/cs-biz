@@ -64,3 +64,18 @@ Before a frontend implementation, read **doc/design/desktop-ui.md**. Record UI p
 ## Required delivery gate for any new frontend task
 
 Use **doc/ci/NO-STALL-GATES.md**. Record the smallest failing assertion and source ownership; the Fast Gate outcome; targeted Desktop verification for visible UI work; then the frozen head SHA and the **Human-triggered Full Gate** evidence (dispatching actor, PR number, exact SHA, run ID/attempt, approved environment, independent receipt and conclusion). Ready for review does not start Full. No Human Full decision/receipt means awaiting Human action; an exact-SHA authorized governance waiver is recorded separately as HUMAN_WAIVED, never PASS. No per-push full-browser validation, unverified test changes, duplicate CI conclusions or merging a red/pending/unavailable Full Gate. GitHub branch protection requires admin configuration and cannot be inferred from a successful workflow.
+
+## Intent / Design 交接（新任务）
+
+按 [工作流 v2](../workflow/INTENT-DESIGN-WORKFLOW.md) 与 [交接索引](../workflow/DESIGN-HANDOFF-CONTRACT.md) 记录，现有任务仍为唯一状态来源。
+
+- 原始要求原文/来源/摘要、优化提示、IntentSpec、逐项 raw → Intent → 设计/AC 追溯：
+- 自动引用的 ADR/doc/当前源码（路径、完整 commit、摘要、定位、accepted/proposed/superseded/conflict/current_source 等状态）：
+- 使用条件、可提供 API/数据/账号/环境、资源/预算、Human 偏好与决策树（依据、选项/代价、答案来源、未决项/责任方）：
+- 同轮 solution.md、requirements.md、design.md、journey.md、flow.mmd、UX 分析和 design-loop.json：
+- 前端 Preview 的项目内源码/复用组件、隔离方式、入口/命令、场景、精确候选、真实浏览器日志/截图；非 UI 须说明理由：
+- 自动完成哪些工作、Human 判断哪些工作；批量是否采用文本导入选定，去重/匹配/歧义/权限/范围/影响/部分结果/未知恢复：
+- Human 对同版本方案与旅程的真实审阅记录；partial 不视为 approved；旧版本修改后重新确认：
+- 交给工作流外执行模型的 R/AC、保留项、允许/禁止路径、资源/风险、验证建议、独立实施授权与退回条件：
+
+实施模型负责落地、核实、门禁和证据回读；Design 交接、Fast、Human Full、合并、部署与业务完成分别记。

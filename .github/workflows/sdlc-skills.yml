@@ -5,6 +5,8 @@ on:
     paths:
       - ".agents/skills/**"
       - "doc/workflow/**"
+      - "doc/templates/task.md"
+      - "frontend/AGENTS.md"
       - "doc/ci/check_*workflow.py"
       - "doc/ci/check_revision_v04.py"
       - "doc/ci/check_intent_v02.py"
@@ -28,6 +30,8 @@ on:
     paths:
       - ".agents/skills/**"
       - "doc/workflow/**"
+      - "doc/templates/task.md"
+      - "frontend/AGENTS.md"
       - "doc/ci/check_*workflow.py"
       - "doc/ci/check_revision_v04.py"
       - "doc/ci/check_intent_v02.py"

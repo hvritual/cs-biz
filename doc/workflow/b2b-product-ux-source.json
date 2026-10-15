@@ -1,0 +1,68 @@
+{
+  "repository": "hvritual/biz",
+  "commit": "a8a2368f03d8f8ce53d6adcb431fb3ba55df1184",
+  "source_path": ".agents/skills/b2b-product-ux",
+  "policy": "Repository-local adaptation; upstream examples are not cs-biz capabilities. Project binding and checking are replaced; core navigation and bulk design obligations are adapted.",
+  "files": [
+    {
+      "path": "CHECKING.md",
+      "upstream_blob_sha": "8cef634776c7ab5cbe0ed1d605a3319d22a70cff"
+    },
+    {
+      "path": "PROJECT-INTEGRATION.md",
+      "upstream_blob_sha": "7f32723a729ec828447623306cb9a2b11d09ec41"
+    },
+    {
+      "path": "SKILL.md",
+      "upstream_blob_sha": "fa8454aa3c6470baf3f89866bf352d280b0c54c4"
+    },
+    {
+      "path": "UX-CONTRACT.md",
+      "upstream_blob_sha": "e3f2f031c35efc455be57487f726d1976f2a35f3"
+    },
+    {
+      "path": "examples/customer-workspace.md",
+      "upstream_blob_sha": "b32f62ad4dbeddf37f0ed9fd03b971a5f6dd9f94"
+    },
+    {
+      "path": "examples/device-incident.md",
+      "upstream_blob_sha": "eea4176c2f516f512291fd6652ac7b16db6d196b"
+    },
+    {
+      "path": "examples/member-context-review.yaml",
+      "upstream_blob_sha": "c6ac8f1efec55493f9d2334900a71302579afb51"
+    },
+    {
+      "path": "examples/tenant-plan-upgrade.md",
+      "upstream_blob_sha": "2ea654c4d4f9ddd4d007236a2f7d04e385fb1658"
+    },
+    {
+      "path": "references/anti-patterns.md",
+      "upstream_blob_sha": "3f380732921e241df7eab5167ce54c6d332f317b"
+    },
+    {
+      "path": "references/b2b-interaction-patterns.md",
+      "upstream_blob_sha": "d1cb8b958d449764d02c98059fe5191b194718a4"
+    },
+    {
+      "path": "references/business-context.md",
+      "upstream_blob_sha": "cf043961d1aa3e9571e3fa39600af2fffda85807"
+    },
+    {
+      "path": "references/guidance-and-recovery.md",
+      "upstream_blob_sha": "15db6e71437266485b2316bf830a1a11eb07af50"
+    },
+    {
+      "path": "references/humanized-ux.md",
+      "upstream_blob_sha": "485412313b998bba02423f9ae290a8e87c62704a"
+    },
+    {
+      "path": "references/page-pattern-selection.md",
+      "upstream_blob_sha": "d2f9d22a00a4f16f44310ee275134862a171fff3"
+    },
+    {
+      "path": "templates/ux-contract.template.yaml",
+      "upstream_blob_sha": "15e1cbbcfab4b8cc4c711e5bc1e21f28fffc5fce"
+    }
+  ]
+}
