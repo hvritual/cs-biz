@@ -1,0 +1,26 @@
+{
+  "revision": "r002",
+  "kind": "decision_and_qualification_followup",
+  "base_revision": "r001",
+  "base_commit": "8065dade6348743eec5212ece5b9f1e275a4a2fc",
+  "object_id": "D1",
+  "decision": "A",
+  "raw_feedback": {
+    "path": "raw-feedback.txt",
+    "sha256": "0c0fdb6a8713fc5dc84a8db6eec3ec27f56ae0728c75afa737a78a6b3a71517f"
+  },
+  "provenance": {
+    "channel": "active ChatGPT conversation",
+    "actor": "Human user",
+    "received_at": "2026-10-15T18:38:02+08:00",
+    "github_review_id": null
+  },
+  "effect": "发布模块及CLI制品锁优先；未合格先修发布与独立消费资格；不采用B源码快照回退",
+  "scope": "D1消费策略选择及继续资格核实；不推断完整r001设计批准、Full豁免、上游发布授权或部署授权",
+  "preserved": [
+    "r001全部原始输入与8项R/AC",
+    "既有运行代码与所有其他Issue",
+    "D2/D3及后续阶段条件"
+  ],
+  "status": "D1_RESOLVED; F1_BLOCKED_PUBLICATION; DESIGN_REVIEW"
+}

@@ -9,9 +9,9 @@
 
 评估源码 `3527488325030fbf86fe52804140c936e9d937a4`、各 module tag 与实际 CLI/Consumer 输入不是同一件事。上游 go.work 能找到本地模块，不能证明外部消费组合可下载、编译或通过生成检查。现有事实不足以宣布任何完整组合已获资格。
 
-## 推荐决定（待 Human 确认）
+## 消费策略（D1 已选 A；完整 ADR 仍待审阅）
 
-优先经核实的发布模块/CLI 制品锁，记录 module path、version、commit、sum/制品摘要；若缺合格发布则保持 F1 的资格阻塞，先修上游或明确消费方式。只有 Human 接受维护与供应链成本时，才改为仓库内固定源码快照和可重建 CLI；禁止宿主机路径、浮动 main 和复制第二 Runtime。具体选项见 [D1](../../tasks/issue-11-f0/rounds/r001/decisions.md)。
+Human 已在首轮候选上明确选择 A，原文与范围见 [r002 决策](../../tasks/issue-11-f0/rounds/r002/decision.json)。优先经核实的发布模块/CLI 制品锁，记录 module path、version、commit、sum/制品摘要；若缺合格发布则保持 F1 的资格阻塞，先修上游或明确消费方式。只有 Human 接受维护与供应链成本时，才改为仓库内固定源码快照和可重建 CLI；禁止宿主机路径、浮动 main 和复制第二 Runtime。具体选项见 [D1](../../tasks/issue-11-f0/rounds/r001/decisions.md)。
 
 目标工具链为 Go 1.25.13（最低语言版本 go 1.25.0）、protoc 3.21.12、上游锁定 plugins；F0 不改当前 Go 1.23.0 或依赖。F1 必须在真正 Consumer 上验证旧 Authz 兼容、生成/装配二次零漂移与依赖/源码治理。
 
@@ -25,7 +25,7 @@ Trace/Log 目标由 [本轮合同](../../tasks/issue-11-f0/rounds/r001/design.md
 
 ## 未决条件与阶段出口
 
-D1 是当前设计关键选择；D2 数据库和 D3 IdP 的组织条件、Session/邀请/恢复政策、legacy group、诊断留存等分别记录 owner 与阻塞阶段。F0 可以冻结“尚未具备”的事实，不能借此宣称 F1/F3 已可实施。
+D1 已解决为 A；[发布资格核实](../../tasks/issue-11-f0/rounds/r002/qualification.md) 证明 infras/v0.1.0 缺失、CLI 发行锁证据不足，F1 保持阻塞；D2 数据库和 D3 IdP 的组织条件、Session/邀请/恢复政策、legacy group、诊断留存等分别记录 owner 与阻塞阶段。F0 可以冻结“尚未具备”的事实，不能借此宣称 F1/F3 已可实施。
 
 F0 关闭需精确版本设计确认、来源/兼容/负例/条件完整、结构与真实候选检查、独立评审及 main 回读。Go/API/DB/Browser/生产证据由真正实施阶段提供，不用框架 CI 或 Mock 抵扣。Full、合并与部署按当前规则分别控制；#26 豁免只属于 #26。
 

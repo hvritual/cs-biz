@@ -1,0 +1,13 @@
+{
+  "revision": "r002",
+  "kind": "qualification-supplement-not-full-design-round",
+  "base_commit": "8065dade6348743eec5212ece5b9f1e275a4a2fc",
+  "assets": {
+    "decision.json": "969033629becdd197b2c1fbf69039fc3b80e62069c618a0b0fba3155d21d6580",
+    "producer-request.md": "1f4734bc333c9e1e99d9bfc9225bf0b73b41b3e7222cc6fddcdefb765070301f",
+    "publication-evidence.json": "358133f4bc347af1ffa22bd5e2d64f0cef9557709efd90b3e8be7be6f07fd963",
+    "qualification.md": "4f3f64109021a36bd0aa381dbabdaeb25dd3cfdac36f832f85398323ccf447a7",
+    "raw-feedback.txt": "0c0fdb6a8713fc5dc84a8db6eec3ec27f56ae0728c75afa737a78a6b3a71517f",
+    "validation.md": "105364c7da4a7ab6f31fe3ce619b5f5c05a5f7b9b0df61105eec94ffabd48158"
+  }
+}
