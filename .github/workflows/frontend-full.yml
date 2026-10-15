@@ -1,8 +1,7 @@
 name: Frontend Full Gate
 
-# Full CI is owned by Human. No push, pull_request, ready_for_review,
-# schedule or downstream automation trigger may start this expensive suite.
-# Run this trusted workflow from main and bind a specific PR/HEAD SHA.
+# Human-controlled Full only. The trusted workflow must be dispatched from main.
+# Configure deployment branch restriction + required reviewers on this environment.
 on:
   workflow_dispatch:
     inputs:
@@ -11,7 +10,7 @@ on:
         required: true
         type: number
       candidate_sha:
-        description: 'Exact PR head commit SHA (40 lowercase hex characters)'
+        description: 'Exact 40-character PR head SHA'
         required: true
         type: string
 
@@ -19,8 +18,6 @@ permissions:
   contents: read
   pull-requests: read
 
-# Configure required reviewers for this environment in repository settings.
-# The environment name ALONE does not provide Human approval protection.
 concurrency:
   group: frontend-full-manual-pr-${{ inputs.pr_number }}
   cancel-in-progress: false
@@ -32,9 +29,8 @@ env:
 
 jobs:
   frontend-validation:
-    # Reject GitHub Bot senders. API calls using a Human account's token
-    # still require trusted environment reviewers for strong separation.
-    if: github.event_name == 'workflow_dispatch' && github.event.sender.type == 'User'
+    # A bot sender cannot start Full; environment review is the real approval boundary.
+    if: github.event_name == 'workflow_dispatch' && github.event.sender.type == 'User' && github.ref == 'refs/heads/main'
     environment: full-ci-human-approval
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -48,12 +44,21 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 doc/ci/manual_full_dispatch.py preflight
-      - name: Checkout requested PR head
+      - name: Checkout frozen PR head
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           ref: refs/pull/${{ inputs.pr_number }}/head
           path: candidate
           persist-credentials: false
+      - name: Verify checked out candidate SHA
+        env:
+          EXPECTED_SHA: ${{ inputs.candidate_sha }}
+        run: |
+          actual="$(git -C candidate rev-parse --verify HEAD)"
+          test "$actual" = "$EXPECTED_SHA" || {
+            echo "CHECKOUT_MISMATCH: requested SHA differs from tested HEAD" >&2
+            exit 2
+          }
       - name: Set up Node
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
@@ -67,20 +72,13 @@ jobs:
       - name: Install locked dependencies
         working-directory: candidate/frontend
         run: corepack pnpm install --frozen-lockfile
-      - name: Install Chromium for manually approved Full Gate
+      - name: Install Chromium for Human-approved Full
         working-directory: candidate/frontend
         run: corepack pnpm exec playwright install --with-deps chromium
       - name: Full qualification (fast, build, all browser journeys)
         working-directory: candidate/frontend
         run: corepack pnpm check:full
-      - name: Verify tested SHA is still current and issue Human receipt
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          python3 doc/ci/manual_full_dispatch.py receipt \
-            --candidate-dir candidate \
-            --output full-manual-receipt.json
-      - name: Retain browser screenshots and traces
+      - name: Retain screenshots and traces
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -90,6 +88,32 @@ jobs:
             candidate/frontend/test-results/
           retention-days: 7
           if-no-files-found: warn
+
+  human-full-receipt:
+    # Independent clean runner: tested candidate cannot modify receipt signer.
+    needs: frontend-validation
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && needs.frontend-validation.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout trusted verifier from main
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Checkout frozen PR head for independent SHA verification
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: refs/pull/${{ inputs.pr_number }}/head
+          path: candidate
+          persist-credentials: false
+      - name: Revalidate candidate against current PR and sign run receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 doc/ci/manual_full_dispatch.py receipt \
+            --candidate-dir candidate \
+            --output full-manual-receipt.json
       - name: Retain verified Human Full qualification receipt
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
