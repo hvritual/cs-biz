@@ -9,6 +9,7 @@ description: Deliver approved design outcomes through acceptance-driven, short B
 The executing model invokes this Skill after the Intent/Design handoff under separate, already granted implementation authority. It owns planning, implementation, verification and gates; sdlc-workflow does not schedule Build/CI. Preserve the approved solution and in-project preview bindings. Returning a design handoff does not mean business delivery is complete.
 
 ## Inputs and authority
+Documentation-only delivery first follows `doc/ci/DOCS-AUTO-DELIVERY.md`: verified eligible PRs proceed automatically without Human review/Full waiver, with `DOCS_AUTO_QUALIFIED` and `NOT_REQUIRED_DOCS`. This exception overrides the unconditional Human wait and Human review wording below; other changes keep existing controls. It does not approve design choices or implementation scope.
 Read AGENTS.md, project-profile.md, current approved Design and locked Acceptance, approved implementation scope, and task-progression. If there is no approved implementation slice, perform read-only assessment and propose the slice; do not claim implementation authorization. Do not substitute a locally generated approval.
 
 ## Main loop: close one unproven acceptance gap

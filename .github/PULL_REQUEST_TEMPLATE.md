@@ -16,6 +16,8 @@ Record proposed decisions, remaining risks, external dependencies and actual mer
 
 ## Human Full CI decision (separate from Fast)
 
+First apply [Docs Auto Delivery](../doc/ci/DOCS-AUTO-DELIVERY.md). Eligible docs-only PRs record base/head, trusted classification, content review and applicable checks as DOCS_AUTO_QUALIFIED / NOT_REQUIRED_DOCS; no Human review/waiver is required. The Human decision fields below apply only to other candidates.
+
 Full is **not** automatically started by PR Ready/push. Refer to [Human Full Control](../doc/ci/HUMAN-FULL-CONTROL.md).
 
 - Current PR HEAD SHA (full 40 characters):
