@@ -14,6 +14,8 @@
 
 ## Human Full decision for each candidate
 
+**Documentation exception:** [Docs Auto Delivery](DOCS-AUTO-DELIVERY.md) applies first. Classified, verified documentation-only PRs need neither Human review nor an authenticated waiver; Full is `NOT_REQUIRED_DOCS`. The Human choices and waiver requirements below apply to non-qualifying changes. No automatic Full dispatch is introduced.
+
 Human retains three explicit choices, bound to one PR HEAD SHA:
 
 | Human choice | Effect | Allowed only when |

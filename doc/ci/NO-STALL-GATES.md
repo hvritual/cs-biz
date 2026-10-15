@@ -6,6 +6,7 @@ the developer's debugger. Fix the smallest demonstrated cause; do not weaken a p
 assertion, turn off security checks, or claim a skipped check passed.
 
 ### Execution order
+0. First apply [Docs Auto Delivery](DOCS-AUTO-DELIVERY.md). A verified `DOCS_ONLY` candidate may finish automatically without Human PR review, Full dispatch or waiver. Its state is `DOCS_AUTO_QUALIFIED`, Full `NOT_REQUIRED_DOCS`; the Human-wait/waiver requirements below apply only to other candidates. All applicable checks, current-SHA evidence, actual GitHub protection and post-merge readback remain required.
 1. Freeze exact base/head, owner, visible user outcome and changed-file scope.
 2. Run `bash doc/ci/check.sh --fast`: repository structure plus typecheck,
    lint, copy scan, Desktop token/collapse contract, workflow-policy negative fixtures

@@ -39,6 +39,8 @@
 
 ## Human Full CI 决策（仅引用真实 GitHub 记录）
 
+先按 `doc/ci/DOCS-AUTO-DELIVERY.md` 分类：符合条件的文档 PR 记录 base/head、分类/内容核验及适用检查，使用 DOCS_AUTO_QUALIFIED / NOT_REQUIRED_DOCS，无需 Human 审核或豁免。以下 Human 决策字段仅适用于非文档自动交付候选。设计确认与产品决定不在豁免范围内。
+
 - 决策：RUN_FULL / WAIVE_FULL（仅严格限定的治理/文档/Skill 类）/ DEFER。
 - PR 号、完整 head SHA、Human 在 GitHub 的实际身份与批准记录：
 - RUN_FULL：主分支手动 Run ID / attempt、Frontend Full 结果、独立 receipt 与测试环境：

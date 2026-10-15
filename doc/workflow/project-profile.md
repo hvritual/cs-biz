@@ -22,6 +22,7 @@ This file binds shared task-progression and sdlc-build methods to **hvritual/cs-
 - Desktop scope only: 1366x768, 1440x900, 1536x1024; don't add Mobile requirements.
 
 ## Project-specific protections
+Documentation-only PRs first follow `doc/ci/DOCS-AUTO-DELIVERY.md`. Eligible exact-SHA candidates complete automatically without Human PR review or Full waiver; all Human-wait requirements below concern non-qualifying candidates. Automated checks and real merge protection still apply.
 - Do not rewrite existing Vben/Element Plus frontend or authorization kernel just to demonstrate workflow.
 - Platform auth and tenant data scope are server-enforced. Frontend Mock role switches are not production authentication.
 - Do not edit CI expectations or lower gates without a separate approved governance change.
