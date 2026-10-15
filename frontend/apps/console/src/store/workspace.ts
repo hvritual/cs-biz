@@ -6,7 +6,8 @@ import { useAccessStore, useTabbarStore, useUserStore } from '@vben/stores';
 
 import { api, ServiceError } from '#/api/mock/service';
 import { RequestEpoch } from '#/platform/request-epoch';
-import { clearWorkspaceRoutes, installWorkspaceRoutes, navigateToLogin, navigateWorkspace } from '#/platform/routing';
+import { resolveTenantEntry } from '#/platform/tenant-entry';
+import { clearWorkspaceRoutes, installWorkspaceRoutes, navigateToLogin, navigateToTenantSelection, navigateWorkspace } from '#/platform/routing';
 import { useAppearanceStore } from './appearance';
 
 export const useWorkspaceStore = defineStore('workspace', () => {
@@ -41,8 +42,10 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   }
 
   function rememberTenant(subjectId: string, tenantId: string) {
-    try { sessionStorage.setItem(`cs-biz:tenant:v1:${subjectId}`, tenantId); }
-    catch { throw new ServiceError('STORAGE_UNAVAILABLE', 507); }
+    try {
+      sessionStorage.setItem(`cs-biz:tenant:v1:${subjectId}`, tenantId);
+      sessionStorage.removeItem(`cs-biz:tenant-entry-pending:v1:${subjectId}`);
+    } catch { throw new ServiceError('STORAGE_UNAVAILABLE', 507); }
   }
 
   function invalidate() {
@@ -90,13 +93,18 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       const choices = await api.listTenants({ signal: ticket.signal });
       if (!isCurrent()) return false;
       tenants.value = choices;
-      const preferred = targetTenant || requestedTenant || savedTenant(session.id);
-      // Revalidate an established workspace even when its membership no longer appears in the list.
-      const selectedId = preferred || choices[0]?.id;
+      // An intentional new account entry with 2+ tenants must choose explicitly.
+      // A fresh S01 preview session retains its historical default only until
+      // the user actually enters via the account selection screen.
+      const choicePending = sessionStorage.getItem(`cs-biz:tenant-entry-pending:v1:${session.id}`) === 'pending';
+      const preferred = targetTenant || requestedTenant || (choicePending ? undefined : savedTenant(session.id));
+      const decision = resolveTenantEntry(choices.map((item) => item.id), preferred, choicePending, true);
+      const selectedId = 'tenantId' in decision ? decision.tenantId : undefined;
       if (!selectedId) {
         tenant.value = null; requestedTenant = undefined;
         await appearance.restoreScope(session.id);
-        throw new ServiceError('MEMBERSHIP_REQUIRED', 403);
+        if (!isCurrent()) return false;
+        return true;
       }
       tenant.value = choices.find((item) => item.id === selectedId)
         || (previousTenant?.id === selectedId ? previousTenant : null);
@@ -149,16 +157,30 @@ export const useWorkspaceStore = defineStore('workspace', () => {
 
   async function selectAccount(userId: string, preferredPath?: string) {
     ownSessionChange = true;
-    try { api.selectUser(userId); } finally { ownSessionChange = false; }
+    let selected: User;
+    try { selected = api.selectUser(userId); } finally { ownSessionChange = false; }
+    if (!selected.platformRole) {
+      try {
+        sessionStorage.setItem(`cs-biz:tenant-entry-pending:v1:${selected.id}`, 'pending');
+        sessionStorage.removeItem(`cs-biz:tenant:v1:${selected.id}`);
+      } catch {
+        invalidate();
+        throw new ServiceError('STORAGE_UNAVAILABLE', 507);
+      }
+    }
     requestedTenant = undefined;
-    if (await launch()) await navigateWorkspace(preferredPath);
+    if (await launch()) {
+      if (user.value && !isPlatform.value && !context.value && !error.value)
+        await navigateToTenantSelection(preferredPath);
+      else await navigateWorkspace(preferredPath);
+    }
   }
 
-  async function switchTenant(tenantId: string) {
+  async function switchTenant(tenantId: string, preferredPath?: string) {
     if (tenantId === tenant.value?.id && !loading.value) return;
     if (!tenants.value.some((item) => item.id === tenantId)) throw new ServiceError('MEMBERSHIP_REQUIRED', 403);
     requestedTenant = tenantId;
-    if (await launch(tenantId)) await navigateWorkspace();
+    if (await launch(tenantId)) await navigateWorkspace(preferredPath);
   }
 
   async function refreshAccess() {
@@ -167,7 +189,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       do {
         refreshAgain = false;
         if (await launch(requestedTenant)) {
-          if (user.value) await navigateWorkspace(); else await navigateToLogin();
+          if (!user.value) await navigateToLogin();
+          else if (!isPlatform.value && !context.value && !error.value) await navigateToTenantSelection();
+          else await navigateWorkspace();
         }
       } while (refreshAgain);
     })().finally(() => { if (activeRefresh === task) activeRefresh = undefined; });
