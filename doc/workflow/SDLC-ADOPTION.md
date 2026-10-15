@@ -24,7 +24,7 @@ Original Request
  → approved slice plan
  → task-progression admit_slice
  → sdlc-build: acceptance gap → real RED → GREEN → optional REFACTOR → focused checks
- → cs-biz Fast → targeted Desktop if applicable → frozen candidate Full
+ → cs-biz Fast → targeted Desktop if applicable → Human Full decision (manual run / narrow governance waiver / defer)
  → independent verification, human risk review, separate merge/deployment authority
  → runtime result evidence, new Intent if necessary
 ```
@@ -58,7 +58,7 @@ Use `tdd` for new behavior/bug fixes with valid RED; `preserve` for behavior-neu
 - `python3 doc/ci/check_build_workflow.py`
 - `python3 doc/ci/check_sdlc_workflow.py --mode structure`
 - `python3 -m unittest discover -s doc/ci -p 'test_*workflow.py'`
-- Real UI/Backend implementation: `bash doc/ci/check.sh --fast`; Desktop visible changes then `cd frontend && corepack pnpm check:desktop:runtime`; only one frozen candidate to appropriate Full qualification.
+- Real UI/Backend implementation: `bash doc/ci/check.sh --fast`; Desktop visible changes then `cd frontend && corepack pnpm check:desktop:runtime`; only one frozen candidate to a Human-controlled Full decision. Run only via GitHub Actions or a documented narrow governance waiver; see `doc/ci/HUMAN-FULL-CONTROL.md`.
 - PR and main receipt are different evidence. Draft PR/CI skipped is NOT qualified.
 
 ## Scope boundaries for this integration

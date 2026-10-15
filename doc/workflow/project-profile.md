@@ -13,9 +13,9 @@ This file binds shared task-progression and sdlc-build methods to **hvritual/cs-
 
 ## Existing commands: only run when relevant and available
 - Repository skeleton: `python3 doc/ci/check_repository.py`
-- Fast, after applicable focused tests: `bash doc/ci/check.sh --fast`
+- Default and Fast, after applicable focused tests: `bash doc/ci/check.sh` or `bash doc/ci/check.sh --fast`; `cd frontend && corepack pnpm check` also defaults to Fast.
 - Changed Desktop visuals/interaction: `cd frontend && corepack pnpm check:desktop:runtime`
-- Full, only for final qualified candidate: `bash doc/ci/check.sh --full`
+- Full CI: **Human manually triggers** GitHub Actions `Frontend Full Gate` on main with PR number and exact SHA. Do not call `bash doc/ci/check.sh --full`, `pnpm check:full` or GitHub dispatch from an Agent without Human's explicit action.
 - Frontend focused tests: choose an existing Vitest spec via `corepack pnpm exec vitest run <existing-spec>` from `frontend/`; verify actual spec.
 - Backend: use `backend/ci/check.sh` and real Go tests appropriate to affected packages; do not invent a missing test command.
 - Real CI qualification: read the workflow run, exact candidate and artifacts; never infer a pass from a local text report.
@@ -25,7 +25,7 @@ This file binds shared task-progression and sdlc-build methods to **hvritual/cs-
 - Do not rewrite existing Vben/Element Plus frontend or authorization kernel just to demonstrate workflow.
 - Platform auth and tenant data scope are server-enforced. Frontend Mock role switches are not production authentication.
 - Do not edit CI expectations or lower gates without a separate approved governance change.
-- Fast before targeted UI before Full; no repeat Full as debug loop.
+- Fast before targeted UI; then await Human Full dispatch and independent receipt. No automatic Full on PR Ready, push, retries or debug loops. Missing a Human Full decision remains WAITING_HUMAN_FULL. A specifically approved narrow governance waiver is HUMAN_WAIVED, not a Full PASS. See `doc/ci/HUMAN-FULL-CONTROL.md`.
 - Branch/pull request, review, merge and deploy each require their own actual authorization.
 - Preserve existing user changes; separate test failures from environment/tool unavailability.
 

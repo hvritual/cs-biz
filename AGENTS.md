@@ -31,7 +31,7 @@ For every future UI task, read and comply with **doc/design/desktop-ui.md**. Use
 
 ## No-Stall Gate: mandatory for future tasks
 
-Read **doc/ci/NO-STALL-GATES.md**. Run Fast before any full qualification; UI work runs one targeted Desktop journey before promotion. Do not launch a full browser suite on each push or edit test expectations without runtime evidence. Source-of-truth layout/token rules remain in doc/design/desktop-ui.md. Never describe an unprotected branch as GitHub merge-protected.
+Read **doc/ci/NO-STALL-GATES.md** and **doc/ci/HUMAN-FULL-CONTROL.md**. Default commands `bash doc/ci/check.sh` and `cd frontend && corepack pnpm check` run Fast. Any explicit Full execution requires Human initiation; a narrow, version-bound Human Full waiver for CI governance/documentation/Skill-only changes must be authenticated and separately reviewed, never inferred or self-approved. Run automatic Fast and applicable Targeted checks while developing. **Full CI is reserved for an explicit Human manual GitHub Actions dispatch on main**, using the exact current PR number and SHA. Codex/Agent must not trigger, re-trigger or replace Human Full with a local full test run; only ask for Human action and wait for authenticated evidence. UI work runs one targeted Desktop journey before Human Full. Do not launch a full browser suite on each push or edit test expectations without runtime evidence. Source-of-truth layout/token rules remain in doc/design/desktop-ui.md. Never describe an unprotected branch as GitHub merge-protected.
 
 ## Reusable task and Build workflow
 

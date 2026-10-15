@@ -37,6 +37,14 @@
 | --- | --- | --- | --- | --- |
 | 填写可观察结果 | 至少覆盖相关失败或越权情形 | 必须对应真实入口 | 明确通过/拒绝条件 | 日志/截图/报告 |
 
+## Human Full CI 决策（仅引用真实 GitHub 记录）
+
+- 决策：RUN_FULL / WAIVE_FULL（仅严格限定的治理/文档/Skill 类）/ DEFER。
+- PR 号、完整 head SHA、Human 在 GitHub 的实际身份与批准记录：
+- RUN_FULL：主分支手动 Run ID / attempt、Frontend Full 结果、独立 receipt 与测试环境：
+- WAIVE_FULL：具体范围、未运行检查、剩余风险、独立审查和真实 Human 批准；不得写为 PASS：
+- SHA 变化或无有效决策时保持 WAITING_HUMAN_FULL，不推定可合并。
+
 ## 交付记录
 
 - 实际改动文件、分支及 head SHA。
@@ -55,4 +63,4 @@ Before a frontend implementation, read **doc/design/desktop-ui.md**. Record UI p
 
 ## Required delivery gate for any new frontend task
 
-Use **doc/ci/NO-STALL-GATES.md**. Record the smallest failing assertion and source ownership; the Fast Gate outcome; targeted Desktop verification for visible UI work; then the frozen head SHA and the Full Gate status when PR becomes ready for review. No per-push full-browser validation, unverified test changes, duplicate CI conclusions or merging a red/pending/unavailable Full Gate. GitHub branch protection requires admin configuration and cannot be inferred from a successful workflow.
+Use **doc/ci/NO-STALL-GATES.md**. Record the smallest failing assertion and source ownership; the Fast Gate outcome; targeted Desktop verification for visible UI work; then the frozen head SHA and the **Human-triggered Full Gate** evidence (dispatching actor, PR number, exact SHA, run ID/attempt, approved environment, independent receipt and conclusion). Ready for review does not start Full. No Human Full decision/receipt means awaiting Human action; an exact-SHA authorized governance waiver is recorded separately as HUMAN_WAIVED, never PASS. No per-push full-browser validation, unverified test changes, duplicate CI conclusions or merging a red/pending/unavailable Full Gate. GitHub branch protection requires admin configuration and cannot be inferred from a successful workflow.
