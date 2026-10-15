@@ -2,7 +2,7 @@
 
 ## 状态与来源
 
-- 当前：**DESIGN_REVIEW / BLOCKED_SECURITY_BASELINE**；Issue [#11](https://github.com/hvritual/cs-biz/issues/11) 保持 open，不宣称 F0 完成。
+- 当前：**DESIGN_REVIEW / BLOCKED_SECURITY_QUALIFICATION**；Issue [#11](https://github.com/hvritual/cs-biz/issues/11) 保持 open，不宣称 F0 完成。
 - 用户本次原文：“启用工作流，开始完成cs-biz仓库里面的issue”。按当前工作流选择依赖链起点，一次一个独立 Issue；其他 11 个开放 Issue 全部保留在 [本轮 intake 快照](issue-11-f0/rounds/r001/intake-snapshot.json)。
 - main 基线：`da5494d03c362ab873465c1793e7aba7e4e3a7cc`；分支 `codex/issue-11-f0-design`；2026-10-15 Asia/Shanghai。
 - 当前授权：当前 Issue 的检索、设计/文档、验证和可审阅候选；不扩大为 F1 Runtime、其他 PR 合并、Full、生产数据或部署权限。
@@ -46,3 +46,7 @@ Human 原文“按照推荐A进行推进”绑定首轮 PR #27 `8065dade6348743e
 ## r003 上游执行回读
 
 跨仓库修复已获 Human 授权。[当前补充](issue-11-f0/rounds/r003/qualification.md) 记录四模块外部分发锁、真实 CLI 编译修复和打包资格。上游 PR #243 当前 5/7 通过，CI/Production 因 Go1.25.13 的可达漏洞失败；[安全前置 #244](https://github.com/hvritual/yunka.io/issues/244) 等待 Human 对原 Go 目标变更作决定。下一动作更新为该工具链决定；不再误报“没有可下载 infras 版本”，也不将功能候选当安全合格发行。原始 R/AC、D1=A、D2/D3、完整设计/Full/交付条件保持。
+
+## r004 工具链条件决定
+
+[本次 Human 批准](issue-11-f0/rounds/r004/qualification.md) 已解决 Go 目标变更：Go1.26.9 / x/net v0.60.0；依赖实际要求 go1.26.0。r003 的“等待决定”是历史状态，不再重复询问。独立 Yunka #245 已实现候选，完整资格/main/CLI 刷新仍待完成；下一动作是模型继续完成这些已授权前置。当前仍为 DESIGN_REVIEW / BLOCKED_SECURITY_QUALIFICATION，完整设计/Full 决定、D2/D3 与全部原始验收保持。

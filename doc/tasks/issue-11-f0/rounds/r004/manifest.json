@@ -1,0 +1,10 @@
+{
+  "revision": "r004",
+  "kind": "partial-toolchain-condition-approval-not-design-handoff",
+  "assets": {
+    "decision.json": "da48817892dd2b7ffec2fbb400c566a2043144e5843fbc1eda4a3fbd7784f194",
+    "qualification.md": "61db7c7fc99984cbce3411e3f551c532f70873428624e270d3ea12bc3f8f2ba4",
+    "raw-feedback.txt": "b6f4b57ade409674cb0a60c9d9a67eb714f0c6bc2bfc9878f15547e39b444533",
+    "validation.md": "41134827a8238d9bcb651067c9b4666011154473140c0f9802bac987eb8eb097"
+  }
+}

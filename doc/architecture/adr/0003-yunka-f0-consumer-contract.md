@@ -13,7 +13,7 @@
 
 Human 已在首轮候选上明确选择 A，原文与范围见 [r002 决策](../../tasks/issue-11-f0/rounds/r002/decision.json)。优先经核实的发布模块/CLI 制品锁，记录 module path、version、commit、sum/制品摘要；若缺合格发布则保持 F1 的资格阻塞，先修上游或明确消费方式。只有 Human 接受维护与供应链成本时，才改为仓库内固定源码快照和可重建 CLI；禁止宿主机路径、浮动 main 和复制第二 Runtime。具体选项见 [D1](../../tasks/issue-11-f0/rounds/r001/decisions.md)。
 
-目标工具链为 Go 1.25.13（最低语言版本 go 1.25.0）、protoc 3.21.12、上游锁定 plugins；F0 不改当前 Go 1.23.0 或依赖。F1 必须在真正 Consumer 上验证旧 Authz 兼容、生成/装配二次零漂移与依赖/源码治理。
+经 [r004 部分决定](../../tasks/issue-11-f0/rounds/r004/qualification.md)，目标工具链为 Go 1.26.9（x/net v0.60.0 要求语言版本 go 1.26.0）、protoc 3.21.12、上游锁定 plugins；F0 不改当前 Go 1.23.0 或依赖。F1 必须在真正 Consumer 上验证旧 Authz 兼容、生成/装配二次零漂移与依赖/源码治理。
 
 ## 不可省略的权威与安全边界
 
@@ -36,3 +36,7 @@ F0 关闭需精确版本设计确认、来源/兼容/负例/条件完整、结�
 ## 当前前置条件补充（r003，未改变已冻结版本目标）
 
 [上游实际资格回读](../../tasks/issue-11-f0/rounds/r003/qualification.md) 已取得四模块不可变 Go 伪版本与校验和，以及 CLI 功能候选；缺少旧 infras 标签不再泛化为所有版本不可用。当前 CI/Production 被 Go1.25.13 的可达安全漏洞阻断，尚未合并/正式发布。推荐 Go1.26.9 / x/net0.60.0 的 [独立安全前置](https://github.com/hvritual/yunka.io/issues/244) 会改变本任务明确的工具链目标，须 Human 决定后新轮修订，不静默改验收或绕过扫描。
+
+## 当前条件决定补充（r004）
+
+Human 已批准独立安全基线升级；[新轮记录](../../tasks/issue-11-f0/rounds/r004/qualification.md) 优先于 r003 的待决状态，未更改旧轮。Yunka #245 候选仍须完整门禁/main 回读，之后 PR #243 刷新 SDK/CLI 资格；完整 ADR 仍 proposed，非完整设计或 Full 批准。
