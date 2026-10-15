@@ -25,7 +25,7 @@ S01 的访问检查用于验证前端行为，真实认证、后端 API、数据
 | 输出 | 可运行应用、单一 API 契约、真实权限与恢复证据 |
 | 允许改动 | `frontend/**`、`backend/**`、相应 `doc/**`、必要 `.github/workflows/**`，每个切片进一步收窄 |
 | 禁止改动 | 其他仓库、生产数据、未经本任务授权的迁移或发布、未锁定的上游源 |
-| 当前可用验收命令 | 仓库根执行 `python3 doc/ci/check_repository.py`；`frontend` 内执行 `corepack pnpm check`，顺序运行 typecheck、lint、check:copy、test:unit、build、test:e2e；独立运行方式见前端 CI 文档 |
+| 当前可用验收命令 | 仓库根执行 `python3 doc/ci/check_repository.py`；`frontend` 内 `corepack pnpm check` 仅 Fast（类型/lint/copy/Desktop/policy/E2E类型/单测），不含 build/E2E；最终候选按 `doc/ci/RISK-BASED-GATES.md` 在统一 CI 中选择 docs/backend/full，前端完整回归单次构建并运行新旧全部 E2E |
 | 后续验收命令 | 若后端采用 Go，则建立 `go test ./...`、`go vet ./...`；真实 DB/API 与跨端 E2E 入口须随 S02/S03 实现提交，当前前端 Mock 测试不替代这些门禁 |
 | 风险 | 上游模板耦合、上下文竞态、把菜单控制误当鉴权、跨租户资源关联 |
 | 是否可由 Codex 一次完成 | S00、S01、S02 按独立交付单元推进；整个 MVP 按依赖和可观察旅程分步验收 |

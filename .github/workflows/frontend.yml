@@ -3,26 +3,7 @@ name: Frontend Fast Gate
 # Internal branch pushes run exactly one cheap gate. Internal PR hooks are
 # intentionally skipped because they point at the same head commit.
 on:
-  push:
-    paths:
-      - 'frontend/**'
-      - 'doc/design/**'
-      - 'doc/ci/**'
-      - 'doc/templates/**'
-      - 'AGENTS.md'
-      - '.github/workflows/frontend.yml'
-      - '.github/workflows/frontend-full.yml'
-  pull_request:
-    paths:
-      - 'frontend/**'
-      - 'doc/design/**'
-      - 'doc/ci/**'
-      - 'doc/templates/**'
-      - 'AGENTS.md'
-      - '.github/workflows/frontend.yml'
-      - '.github/workflows/frontend-full.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

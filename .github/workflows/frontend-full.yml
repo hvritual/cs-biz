@@ -25,6 +25,7 @@ concurrency:
 env:
   TURBO_TELEMETRY_DISABLED: '1'
   DO_NOT_TRACK: '1'
+  E2E_TELEMETRY_DISABLED: '1'
   GITHUB_DEFAULT_BRANCH: 'main'
 
 jobs:
@@ -75,6 +76,9 @@ jobs:
       - name: Install Chromium for Human-approved Full
         working-directory: candidate/frontend
         run: corepack pnpm exec playwright install --with-deps chromium
+      - name: Install pinned tester-army web engine browser
+        working-directory: candidate/frontend
+        run: corepack pnpm exec e2e-web install --with-deps chromium
       - name: Full qualification (fast, build, all browser journeys)
         working-directory: candidate/frontend
         run: corepack pnpm check:full
@@ -86,6 +90,12 @@ jobs:
           path: |
             candidate/frontend/playwright-report/
             candidate/frontend/test-results/
+            candidate/frontend/.e2e/report.json
+            candidate/frontend/.e2e/junit.xml
+            candidate/frontend/.e2e/summary.md
+            candidate/frontend/.e2e/results/
+            candidate/frontend/.e2e/artifacts/
+          include-hidden-files: true
           retention-days: 7
           if-no-files-found: warn
 

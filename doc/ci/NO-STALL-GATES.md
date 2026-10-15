@@ -1,5 +1,7 @@
 # No-Stall Delivery Gates — cs-biz
 
+**Superseded delivery policy:** Follow [Risk-based Gates](RISK-BASED-GATES.md) for all new/resumed tasks. Its single automatic docs/backend/full pipeline replaces the unconditional Human wait and duplicate scheduling below. The following text is historical context for retained manual diagnostics, not a requirement for normal merge qualification.
+
 ## Non-negotiable objective
 One change, one small feedback loop, one qualified candidate. Do not make GitHub Full CI
 the developer's debugger. Fix the smallest demonstrated cause; do not weaken a passing

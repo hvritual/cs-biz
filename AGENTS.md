@@ -27,13 +27,17 @@
 
 ## Desktop design system
 
+E2E framework: use `tester-army/e2e` for new journeys; project configuration and migration boundary are in `frontend/doc/e2e.md`. Existing Playwright regressions remain required during migration. Do not confuse the framework's Playwright-based web engine with removal of existing coverage or changes to Human-only Full control.
+
 For every future UI task, read and comply with **doc/design/desktop-ui.md**. Use its shared tokens and Desktop browser checks, not page-local visual assumptions. Record screenshots from the exact changed commit.
 
 ## No-Stall Gate: mandatory for future tasks
 
+**Current authority (2026-10-15):** Read `doc/ci/RISK-BASED-GATES.md`. The single automatic `quality.yml` selects docs/backend/full using trusted-base complete diff and collects an independent exact-SHA receipt. It supersedes blanket Human Full waiting/waiver and repeated Human PR-review requirements below or in legacy task records/Skills. Authorized agents may run final-candidate Full and merge after real required results, content review and current main/head readback. Keep Human decisions for changed design/value, exceptions and irreversible/production actions. Actual GitHub protection still applies. Historical manual Full tooling remains manual; it is optional, not the normal delivery path.
+
 **Documentation exception (2026-10-15):** Read `doc/ci/DOCS-AUTO-DELIVERY.md` first. Eligible documentation-only PRs use trusted-main `doc/ci/check_docs_only.py` and automatic content/check verification, then may be created, merged and closed by the authorized executing model without Human PR review or Human Full waiver. Record `DOCS_AUTO_QUALIFIED` / `NOT_REQUIRED_DOCS`, never Full PASS. This exception takes precedence over blanket Human-wait rules below and in repository Skills/templates. Mixed changes, governance/CI/Skills, unknown scope and failed/missing evidence do not qualify. Product/design choices still require their own existing approval. Respect actual GitHub protection.
 
-Read **doc/ci/NO-STALL-GATES.md** and **doc/ci/HUMAN-FULL-CONTROL.md**. Default commands `bash doc/ci/check.sh` and `cd frontend && corepack pnpm check` run Fast. Any explicit Full execution requires Human initiation; a narrow, version-bound Human Full waiver for CI governance/documentation/Skill-only changes must be authenticated and separately reviewed, never inferred or self-approved. Run automatic Fast and applicable Targeted checks while developing. **Full CI is reserved for an explicit Human manual GitHub Actions dispatch on main**, using the exact current PR number and SHA. Codex/Agent must not trigger, re-trigger or replace Human Full with a local full test run; only ask for Human action and wait for authenticated evidence. UI work runs one targeted Desktop journey before Human Full. Do not launch a full browser suite on each push or edit test expectations without runtime evidence. Source-of-truth layout/token rules remain in doc/design/desktop-ui.md. Never describe an unprotected branch as GitHub merge-protected.
+Default commands `bash doc/ci/check.sh` and `cd frontend && corepack pnpm check` stay Fast. Run focused probes while editing and the selected full candidate gate once after stabilization. Preserve every existing product assertion and Desktop size. Use real exact-SHA results/receipt, repair failures rather than edit expectations without runtime evidence, and never describe an unprotected branch as GitHub merge-protected. `doc/ci/HUMAN-FULL-CONTROL.md` now covers optional manual diagnostics only.
 
 ## Reusable task and Build workflow
 

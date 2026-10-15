@@ -1,20 +1,7 @@
 name: Backend authorization
 
 on:
-  push:
-    paths:
-      - 'backend/**'
-      - 'doc/ci/check.sh'
-      - 'doc/templates/feature-onboarding-v2.yaml'
-      - '.github/workflows/backend.yml'
-  pull_request:
-    paths:
-      - 'backend/**'
-      - 'doc/ci/check.sh'
-      - 'doc/templates/feature-onboarding-v2.yaml'
-      - '.github/workflows/backend.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 
