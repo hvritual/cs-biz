@@ -7,8 +7,10 @@ on:
       - "doc/workflow/**"
       - "doc/ci/check_*workflow.py"
       - "doc/ci/check_revision_v04.py"
+      - "doc/ci/check_intent_v02.py"
       - "doc/ci/test_*workflow.py"
       - "doc/ci/test_revision_v04.py"
+      - "doc/ci/test_intent_v02.py"
       - ".github/workflows/sdlc-skills.yml"
       - "AGENTS.md"
   pull_request:
@@ -17,8 +19,10 @@ on:
       - "doc/workflow/**"
       - "doc/ci/check_*workflow.py"
       - "doc/ci/check_revision_v04.py"
+      - "doc/ci/check_intent_v02.py"
       - "doc/ci/test_*workflow.py"
       - "doc/ci/test_revision_v04.py"
+      - "doc/ci/test_intent_v02.py"
       - ".github/workflows/sdlc-skills.yml"
       - "AGENTS.md"
 
@@ -44,3 +48,4 @@ jobs:
         run: |
           python3 -m unittest discover -s doc/ci -p 'test_*workflow.py' -v
           python3 -m unittest discover -s doc/ci -p 'test_revision_v04.py' -v
+          python3 -m unittest discover -s doc/ci -p 'test_intent_v02.py' -v
