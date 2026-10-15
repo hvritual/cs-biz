@@ -14,12 +14,12 @@ const [rules, css, tokens, shell, menu, members, agents, frontAgents, doc, task,
   read('frontend/package.json'),
 ]);
 const errors = [];
-// Verify imported Biz V1.2 numbers, then verify cs-biz uses aliases instead of copies.
+// Verify the Biz baseline plus approved cs-biz overrides, then the shared aliases.
 const canonical = {
   '--header-height': '56px',
   '--rail-width': '200px',
   '--rail-collapsed-width': '68px',
-  '--rail-offset': '8px',
+  '--rail-offset': '0px',
   '--module-width': '480px',
   '--member-detail-width': '360px',
   '--content-padding': '24px',
@@ -32,7 +32,7 @@ const canonical = {
   '--color-border': '#e5e7eb',
 };
 for (const [key,value] of Object.entries(canonical)) {
-  if (!tokens.includes(key + ': ' + value)) errors.push('Invalid Biz V1.2 token: ' + key);
+  if (!tokens.includes(key + ': ' + value)) errors.push('Invalid Desktop contract token: ' + key);
   if (!rules.includes(key)) errors.push('Design rule omits source token: ' + key);
 }
 const aliases = {
@@ -54,7 +54,7 @@ if (!tokens.includes('--color-primary: var(--el-color-primary, #2563eb);'))
 if (!tokens.includes(':root.dark') || !tokens.includes(":root[data-density='compact']"))
   errors.push('Biz semantic dark/density variants are missing');
 if (!css.includes('left: var(--cl-rail-gutter)') || !css.includes('margin-left: calc(var(--cl-rail-current) + var(--cl-rail-gutter))'))
-  errors.push('Biz inset rail / main geometry missing');
+  errors.push('Shared rail / main geometry missing');
 for (const source of [agents,frontAgents,doc,task]) {
   if (!source.includes('doc/design/desktop-ui.md')) errors.push('Missing global UI contract reference');
 }
@@ -82,4 +82,4 @@ if (!menu.includes("'is-collapsed': collapsed") || menu.includes("railWidth + 'p
 }
 if (!JSON.parse(pkg).scripts['check:desktop']) errors.push('Missing check:desktop script');
 if (errors.length) { console.error(errors.join('\n')); process.exitCode=1; }
-else console.log('PASS: Biz V1.2 semantic tokens, inset 200/68 rail, adaptive tenant theme, Desktop UI contract and global references.');
+else console.log('PASS: Biz-derived semantic tokens, flush 200/68 rail at x=0, adaptive tenant theme, Desktop UI contract and global references.');

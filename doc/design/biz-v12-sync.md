@@ -12,7 +12,8 @@
 ## Applied
 - Biz semantic color/status/typography/spacing/radius/density geometry, with
   Biz dark colors and 36px controls/64px table rows.
-- Biz left rail at x=8 width=200/68; 480px panel aligned at x=208/76.
+- Rail width=200/68 and 480px panel retained. Current cs-biz rail is at x=0;
+  main content and panel align at x=200/68 per the user-approved zero-offset override.
 - Tenant main canvas white, platform canvas #f5f7fa; 14px card radius,
   status colors and Biz actual coffee artwork.
 - Token adapter aliases existing `--biz-*` and `--cl-*` consumers to a
@@ -32,9 +33,12 @@
   local Mock and strict route/tenant access model; adding dead menu links would
   be misleading. Biz is a reference UI, not a cloned application.
 - Biz 390px mobile rules: current instruction is Desktop-only.
+- Biz's 8px rail inset is superseded by the requested 0px offset. The old
+  x=208/76 panel positions remain historical source evidence, not current targets.
+  See [UI-rail-zero-offset](../tasks/UI-rail-zero-offset.md).
 - Biz header blur(10px) replaced the earlier 24px liquid-glass requirement?
-  **No.** The prior cs-biz liquid-glass header is preserved as the sole
-  visual exception; the rail remains solid.
+  **No.** The prior cs-biz liquid-glass header is preserved as an explicit
+  visual exception alongside the flush rail; the rail remains solid.
 
 ## Acceptance
 

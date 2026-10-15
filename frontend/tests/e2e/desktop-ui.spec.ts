@@ -33,11 +33,13 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
     expect(headerStyles.blur || headerStyles.safariBlur).toMatch(/blur\(24px\)/);
     await expect(rail).toHaveCSS('background-color', 'rgb(255, 255, 255)');
     await expect(rail).toHaveCSS('opacity', '1');
+    await expect(rail).toHaveCSS('left', '0px');
     const h = await header.boundingBox();
     const r = await rail.boundingBox();
     expect(Math.abs((h?.height ?? 0) - 56)).toBeLessThanOrEqual(1);
     expect(Math.abs((r?.width ?? 0) - 200)).toBeLessThanOrEqual(1);
-    expect(Math.abs((r?.x ?? 0) - 8)).toBeLessThanOrEqual(1);
+    expect(r).toBeTruthy();
+    expect(Math.abs(r!.x)).toBeLessThanOrEqual(1);
     const semantic = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);
       return Object.fromEntries([
@@ -48,12 +50,13 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
     });
     expect(semantic).toMatchObject({
       '--header-height': '56px', '--rail-width': '200px', '--rail-collapsed-width': '68px',
-      '--rail-offset': '8px', '--module-width': '480px', '--member-detail-width': '360px',
+      '--rail-offset': '0px', '--module-width': '480px', '--member-detail-width': '360px',
       '--color-canvas': '#f5f7fa', '--color-text-muted': '#64748b',
       '--control-height': '36px', '--table-row-height': '64px',
     });
     // Chromium may normalize the same valid white CSS token as #fff.
     await expect(main).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+    await expect(main).toHaveCSS('margin-left', '200px');
     await expect(page.locator('.cl-metric-card')).toHaveCount(4);
     await expect(page.locator('.cl-members-filter-panel')).toBeVisible();
     await expect(page.locator('.cl-members-table')).toBeVisible();
@@ -65,12 +68,14 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
       expect(headerElements[i]!.right).toBeLessThanOrEqual(headerElements[i+1]!.left + 1);
     }
     const before = await main.boundingBox();
+    expect(before).toBeTruthy();
+    expect(Math.abs(before!.x - (r!.x + r!.width))).toBeLessThanOrEqual(1);
     await page.locator('[data-domain="enterprise"]').click();
     const panel = page.locator('.cl-navigation-panel');
     await expect(panel).toBeVisible();
     const pb = await panel.boundingBox();
     expect(Math.abs((pb?.width ?? 0) - 480)).toBeLessThanOrEqual(1);
-    expect(Math.abs((pb?.x ?? 0) - 208)).toBeLessThanOrEqual(1);
+    expect(Math.abs((pb?.x ?? 0) - 200)).toBeLessThanOrEqual(1);
     const after = await main.boundingBox();
     expect(Math.abs((before?.x ?? 0) - (after?.x ?? 0))).toBeLessThanOrEqual(1);
     expect(Math.abs((before?.width ?? 0) - (after?.width ?? 0))).toBeLessThanOrEqual(1);
@@ -89,16 +94,19 @@ for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 900 }, 
     await expect(page.locator('.cl-member-detail')).toHaveCount(0);
     await page.locator('.cl-rail-toggle').click();
     await expect(rail).toHaveCSS('width', '68px');
+    await expect(rail).toHaveCSS('left', '0px');
+    await expect(main).toHaveCSS('margin-left', '68px');
     const collapsed = await rail.boundingBox();
     expect(Math.abs((collapsed?.width ?? 0) - 68)).toBeLessThanOrEqual(1);
-    expect(Math.abs((collapsed?.x ?? 0) - 8)).toBeLessThanOrEqual(1);
+    expect(collapsed).toBeTruthy();
+    expect(Math.abs(collapsed!.x)).toBeLessThanOrEqual(1);
     const firstNavButton = await rail.locator('.cl-primary-link').first().boundingBox();
     expect(firstNavButton).toBeTruthy();
     expect(Math.abs((firstNavButton!.x + firstNavButton!.width / 2) - (collapsed!.x + collapsed!.width / 2)))
       .toBeLessThanOrEqual(1);
     await page.locator('[data-domain="enterprise"]').click();
     const collapsedFlyout = await panel.boundingBox();
-    expect(Math.abs((collapsedFlyout?.x ?? 0) - 76)).toBeLessThanOrEqual(1);
+    expect(Math.abs((collapsedFlyout?.x ?? 0) - 68)).toBeLessThanOrEqual(1);
     await saveScreenshot(page, info, 'collapsed-menu-' + size.width);
     await page.locator('.cl-navigation-mask').click({ position: { x: size.width - 6, y: 10 } });
     await expect(panel).toHaveCount(0);
@@ -139,6 +147,7 @@ test('dark appearance preserves header glass and opaque rail', async ({ page }, 
   expect(alpha).toBeLessThan(0.9);
   expect(style.blur).toContain('blur(24px)');
   await expect(rail).toHaveCSS('background-color', 'rgb(17, 24, 39)');
+  await expect(rail).toHaveCSS('left', '0px');
   await expect(page.locator('.cl-desktop-shell')).toHaveCSS('background-color', 'rgb(11, 17, 32)');
   await expect(page.getByRole('heading', { name: '成员管理', exact: true })).toHaveCSS('color', 'rgb(241, 245, 249)');
   await expect(page.locator('.cl-members-table .el-table__header-wrapper th.el-table__cell').first())
@@ -146,5 +155,6 @@ test('dark appearance preserves header glass and opaque rail', async ({ page }, 
   await saveScreenshot(page, info, 'glass-header-dark-1536');
   await page.locator('[data-domain="enterprise"]').click();
   await expect(page.locator('.cl-navigation-panel')).toBeVisible();
+  await expect(page.locator('.cl-navigation-panel')).toHaveCSS('left', '200px');
   await saveScreenshot(page, info, 'glass-menu-dark-1536');
 });
