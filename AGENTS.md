@@ -39,23 +39,20 @@ For every future UI task, read and comply with **doc/design/desktop-ui.md**. Use
 
 Default commands `bash doc/ci/check.sh` and `cd frontend && corepack pnpm check` stay Fast. Run focused probes while editing and the selected full candidate gate once after stabilization. Preserve every existing product assertion and Desktop size. Use real exact-SHA results/receipt, repair failures rather than edit expectations without runtime evidence, and never describe an unprotected branch as GitHub merge-protected. `doc/ci/HUMAN-FULL-CONTROL.md` now covers optional manual diagnostics only.
 
-## Reusable task and Build workflow
+## SDLC: three stage Agents and owned workflow Skills
 
-For implementation task start/resume, slice admission, material failure, slice close and handoff, read `.agents/skills/task-progression/SKILL.md` and `doc/workflow/project-profile.md`.
-For approved development slices, use `.agents/skills/sdlc-build/SKILL.md` (acceptance-driven short loop). These Skills are methods, not new approval authorities or substitutes for `doc/ci/NO-STALL-GATES.md`.
-Reuse the existing task template and actual CI results. Missing Skill, locked acceptance, tool or evidence means not verified; never claim auto-enforced gates from this instruction alone.
+The current entry is `.agents/skills/sdlc-workflow/SKILL.md`. It routes to three Agent-owned workflows:
+- Design: `.agents/skills/sdlc-design/SKILL.md`, raw intent/discovery/solution/Preview/frozen acceptance → design-to-build.json.
+- Build: `.agents/skills/sdlc-build/SKILL.md`, plan/implementation/verification/independent review/authorized integration → build-to-deploy.json.
+- Deploy: `.agents/skills/sdlc-deploy/SKILL.md`, separately authorized target/rollout/observation/recovery → deploy-receipt.json.
 
-## Intent / Design workflow and executing model
+Each workflow Skill owns its Agent instructions/native definition, workflow.json, internal single-function skills, contracts, templates, examples, references and generic checkers. Agent is the host LLM with instructions/tools/context/control loop; capability Skills produce one bounded artifact and do not orchestrate successors. agents/openai.yaml is Skill metadata. Native `.codex/agents` files are generated mirrors of definitions inside their owning Skill. Do not infer native runtime activation, authority or model availability from a parsed file.
 
-For raw intent, discovery and design, first load `.agents/skills/sdlc-workflow/SKILL.md`, `doc/workflow/project-profile.md` and `doc/workflow/INTENT-DESIGN-WORKFLOW.md`.
-- `prompt-optimizer` preserves raw intent, automatically cites bounded relevant ADR/doc/current source, guides Human decisions on usable conditions/resources/preferences, and produces traceable IntentSpec.
-- `sdlc-design` delivers a designed solution and navigable project-based Preview demo together in every review round, with requirements/design/journey/flow, versioned feedback and exact-version Human confirmation.
-- UI designs must read `.agents/skills/b2b-product-ux/SKILL.md` and its cs-biz binding. Prefer authorized deterministic automation; evaluate pasted text/bulk selection with matching, ambiguity, effects and recovery. Preview must use the existing `frontend/apps/console` application and current design system, with isolated fixtures and no production preview exposure. Standalone demo.html or screenshots alone do not qualify.
-- `engineering-language` checks expression without changing intent or approving anything.
+Read only the selected stage and its next capability; `scripts/check_workflow.py --task <task-dir> --include-skill` returns bound inputs, the selected instruction and resource references. Preserve raw text, original R/AC, exact-version approval, file scope and current source/evidence. Same-version solution/design/requirements/journey/flow and an in-project Preview remain required for UI design. The internal Design UX capability owns its templates/references; actual Preview reuses frontend/apps/console and current design system, with isolated fixture writes and real browser observations. Standalone demo.html/screenshots alone do not qualify.
 
-The workflow ends at design handoff. **The executing model owns planning, implementation, actual verification and delivery gates outside that workflow**, using `task-progression` and `sdlc-build` within existing authority. Do not require Human to perform ordinary implementation steps. Design approval does not grant execution, Full, merge or deployment rights. Preserve all repository controls and return to Design/Intent when meaning changes.
+The Design subworkflow still ends at DESIGN_HANDOFF/auto_execute=false in intent-design-v2. The outer SDLC now includes separate Build and Deploy Agents; those act only under separately existing implementation/merge/deployment authority. Follow doc/ci/RISK-BASED-GATES.md and actual GitHub controls, preserve independent review and exact-SHA receipt/main readback. Routine authorized engineering work does not require repeated Human continuation; material design/value/exception/authority and irreversible/production choices remain Human decisions.
 
-Read `doc/workflow/SDLC-ADOPTION.md` for current/legacy contracts. `python3 doc/ci/check_sdlc_workflow.py --mode structure` checks wiring; `python3 doc/ci/check_design_workflow.py --task <task-dir> --repo-root .` checks v2 handoff bindings. Static checks never authenticate approvals or prove runtime/business results. Approved solution/Design/Acceptance are read-only for the implementer.
+Run `python3 .agents/skills/sdlc-workflow/scripts/check_packages.py` for owned resources, consumer-contract consistency, native mirrors, generic-runtime identity, examples and copied-package portability. Old doc/ci validators are compatibility forwards to implementations inside the owning Skills. Read doc/workflow/SDLC-ADOPTION.md for migration. Static checks never authenticate approval, actual runtime/CI or deployment, and approved Intent/Design/Acceptance are read-only to implementation.
 
 ## Original-SDLC artifact verification (compatibility subset)
 
@@ -65,4 +62,8 @@ Read `doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md` before using v0.4-style `inte
 
 For an approved module's complete issue batch, read `.agents/skills/intent-to-outcome-closure/SKILL.md` and `doc/workflow/MODULE-OUTCOME-CONTRACT.md`. Before autonomous advance, freeze the complete issue inventory, original design/requirement/AC mapping, observable pass/fail plus negative/recovery methods, integrated exit, dependencies/resources, file scope, budget, exact-version review and actual action authority. Independently review semantic completeness; `check_module_workflow.py` checks only deterministic constraints.
 
-The design subworkflow still ends at DESIGN_HANDOFF. Outside it, the executing model continuously delivers one authorized required issue at a time using existing task-progression/sdlc-build and risk-based gates, refreshes main/evidence and advances without repeated routine Human prompts. All required/blocked members remain in the denominator. Human retains material design/value/exception, irreversible and authority decisions. A static closure candidate, all closed issues or green CI is not whole-module completion. No unattended startup service or new approval authority is introduced.
+The Design Agent ends at its approved handoff; the Build and Deploy Agents own their separately authorized loops. The module coordinator continuously selects one authorized required issue at a time, refreshes main/evidence and advances without repeated routine Human prompts. All required/blocked members remain in the denominator. Human retains material design/value/exception, irreversible and authority decisions. A static closure candidate, all closed issues or green CI is not whole-module completion. No unattended startup service or new approval authority is introduced.
+
+## Legacy Skill entrypoints
+
+Existing invocations of prompt-optimizer, b2b-product-ux and engineering-language route to their Design-owned workflow/capability. `.agents/skills/task-progression/SKILL.md` remains a compatibility method for the Build Agent checkpoints. Read these adapters only when the old name is actually invoked; they are not additional workflow stages or alternate implementation authorities.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-handoff"
+  short_description: "Produce the bounded design-handoff artifact result"
+  default_prompt: "Use $design-handoff for its single declared output."

@@ -1,0 +1,203 @@
+{
+  "artifact_type": "conceptual-technical-design",
+  "task_id": "synthetic-example",
+  "step": "solution",
+  "version": "design-1",
+  "synthetic": true,
+  "review_status": "UNREVIEWED",
+  "sources": [
+    {
+      "path": "request.json",
+      "sha256": "a9ede7a3db7757000d1fe43eefae066d2356ac3763f89a38cb781fc55034bd12"
+    },
+    {
+      "path": "design/intent.json",
+      "sha256": "257466bea21f181ef51523b15343cda180456f919e0eab102da5732f194ec905"
+    },
+    {
+      "path": "assets/design-intent-intent.json",
+      "sha256": "a5fec8dc537b9ccda89acf34e68bfe33f26076e57e175ebe4ffc35f140ea0834"
+    },
+    {
+      "path": "raw.txt",
+      "sha256": "ec1c6ed3f160aaa90868eb35e54c6e47f4bc5cc88ccf25cfd004bfd8cfc5a51c"
+    }
+  ],
+  "solution_ref": "assets/design-solution-solution.json",
+  "interaction": "Caller invokes normalize_labels synchronously; there is no UI, request, storage operation or external interaction.",
+  "function_contract": {
+    "name": "normalize_labels",
+    "input": "Array of values, with UTF-8 strings as valid elements.",
+    "success": "A string array containing nonempty, trimmed, unique values in first-occurrence order.",
+    "failure": {
+      "condition": "Any input element is not a string.",
+      "error_kind": "NonStringElement (conceptual name, not a chosen language exception type).",
+      "index": "Original input index, proposed zero-based; choose the lowest invalid index.",
+      "partial_result": "Absent; failure does not return any success array.",
+      "input_mutation": "None."
+    },
+    "out_of_domain": "Top-level non-array input and invalid UTF-8 encoding are not specified by the original request; this design adds no new behavior for them."
+  },
+  "normalization_rules": [
+    "Trim Unicode whitespace only at the leading and trailing boundaries.",
+    "Preserve interior text and interior whitespace.",
+    "Do not convert case, perform Unicode normalization, sort, coerce non-strings, or deduplicate before trimming.",
+    "Compare the exact trimmed string representation; canonically equivalent but differently encoded sequences are not merged by an added normalization step.",
+    "Filter the empty result after trimming before membership checks."
+  ],
+  "algorithm": [
+    {
+      "phase": "validation",
+      "rule": "Walk the original input in index order; on a non-string return the whole-call error immediately."
+    },
+    {
+      "phase": "construction",
+      "rule": "Allocate a local empty output array and exact-equality membership set after type validation succeeds."
+    },
+    {
+      "phase": "normalization",
+      "rule": "For each original string, compute its Unicode-whitespace boundary trim. Skip empty strings. Append only when absent from the set."
+    },
+    {
+      "phase": "return",
+      "rule": "Return the finished array; no caller-provided collection is changed."
+    }
+  ],
+  "complexity": {
+    "proposed_set_implementation": "Expected O(N + B) time for N elements and B total text size, assuming a conventional hash set with expected constant-time membership and text-proportional hashing.",
+    "auxiliary_space": "O(U + S), for U unique output entries and S retained output text; exact allocation depends on the later implementation language.",
+    "caveat": "These are design estimates, not measured runtime evidence."
+  },
+  "reuse_and_files": {
+    "existing_code_reuse": "Not assessed; repository source is outside this bound offline exercise.",
+    "implementation_language": "Unselected.",
+    "repository_files_to_change_now": [],
+    "conceptual_future_scope_only": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths_preserved": [
+      "frontend/**"
+    ],
+    "current_output_files": [
+      "assets/design-solution-solution.json",
+      "assets/design-solution-design.json",
+      "design/solution.json"
+    ]
+  },
+  "review_vectors": [
+    {
+      "id": "DV1",
+      "input": [],
+      "expected_success": [],
+      "purpose": "Empty input."
+    },
+    {
+      "id": "DV2",
+      "input": [
+        "",
+        " ",
+        "\t\n"
+      ],
+      "expected_success": [],
+      "purpose": "Empty and ASCII-whitespace-only elements are discarded."
+    },
+    {
+      "id": "DV3",
+      "input": [
+        " alpha ",
+        "alpha",
+        " beta ",
+        "beta"
+      ],
+      "expected_success": [
+        "alpha",
+        "beta"
+      ],
+      "purpose": "Proposed Unicode-whitespace predicate must recognize the specified non-ASCII whitespace, and equality applies after trimming."
+    },
+    {
+      "id": "DV4",
+      "input": [
+        "b",
+        "A",
+        "b",
+        "a",
+        "A"
+      ],
+      "expected_success": [
+        "b",
+        "A",
+        "a"
+      ],
+      "purpose": "Case sensitivity and stable first occurrence."
+    },
+    {
+      "id": "DV5",
+      "input": [
+        " a  b ",
+        "a b"
+      ],
+      "expected_success": [
+        "a  b",
+        "a b"
+      ],
+      "purpose": "Interior whitespace is preserved."
+    },
+    {
+      "id": "DV6",
+      "input": [
+        "é",
+        "é"
+      ],
+      "expected_success": [
+        "é",
+        "é"
+      ],
+      "purpose": "No added Unicode normalization."
+    },
+    {
+      "id": "DV7",
+      "input": [
+        "ok",
+        7,
+        "later",
+        null
+      ],
+      "expected_error": {
+        "kind": "NonStringElement",
+        "index": 1,
+        "index_base": "proposed zero-based",
+        "success_array": "absent"
+      },
+      "purpose": "Whole-call failure; first invalid input index."
+    },
+    {
+      "id": "DV8",
+      "input": [
+        false
+      ],
+      "expected_error": {
+        "kind": "NonStringElement",
+        "index": 0,
+        "index_base": "proposed zero-based",
+        "success_array": "absent"
+      },
+      "purpose": "No non-string coercion."
+    }
+  ],
+  "validation_plan": {
+    "status": "PROPOSED_NOT_EXECUTED",
+    "success_checks": "Compare actual output arrays against each approved review vector using exact string equality and ordering.",
+    "negative_checks": "For each non-string position assert whole-call failure, original offending index, absent success result and unchanged input.",
+    "side_effect_checks": "When an implementation is separately authorized, verify the function has no network/storage dependencies and leaves caller input unchanged.",
+    "unicode_checks": "Before implementation acceptance, freeze the Unicode-whitespace predicate/version and add boundary coverage for that exact predicate.",
+    "current_evidence": "Only design artifact consistency is checked in this exercise; no function implementation or runtime test exists."
+  },
+  "release_boundary": {
+    "original_requested_boundary": "reviewed_design",
+    "intake_declared_boundary": "deployed",
+    "status": "BLOCKED_BOUNDARY_CONFLICT",
+    "actual_authority": "Task artifacts only; no implementation, real approval or deployment.",
+    "solution_ref_for_evidence": "assets/design-solution-solution.json"
+  }
+}

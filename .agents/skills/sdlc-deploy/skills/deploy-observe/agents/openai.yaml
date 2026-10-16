@@ -1,0 +1,4 @@
+interface:
+  display_name: "deploy-observe"
+  short_description: "Produce the bounded deploy-observe artifact result"
+  default_prompt: "Use $deploy-observe for its single declared output."

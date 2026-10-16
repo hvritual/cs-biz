@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {
+    "consumer": {
+      "const": "build"
+    },
+    "design_protocol": {
+      "type": "string",
+      "minLength": 1
+    },
+    "design_review_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_authority_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "design_task_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "design_revision": {
+      "type": "string",
+      "pattern": "^r[0-9]{3,}$"
+    }
+  },
+  "required": [
+    "consumer",
+    "design_protocol",
+    "design_review_ref",
+    "execution_authority_ref",
+    "design_task_ref",
+    "design_revision"
+  ],
+  "additionalProperties": false
+}

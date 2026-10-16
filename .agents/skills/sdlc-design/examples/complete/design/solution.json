@@ -1,0 +1,40 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "design",
+  "step": "solution",
+  "status": "ready",
+  "definition_sha256": "0523cf337a2d22eeff6bf5876dfe62869d4c53cc421050fa92741f20e4d7fb98",
+  "input_sha256": {
+    "request.json": "aeacce3be4766ea6a9cb33ea4ba68f6afb18dfbe8e163ebc5704be9d91f42fe3",
+    "design/intent.json": "a4d7e43320824db882dde958a4d6bfc1e85dc515be485bc1e7b2df1913f52831"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed"
+  },
+  "payload": {
+    "solution_ref": "assets/design-solution-solution.json",
+    "design_ref": "assets/design-solution-design.json"
+  },
+  "assets": {
+    "solution": {
+      "path": "assets/design-solution-solution.json",
+      "sha256": "df81144b3571ba054ffdd87ac578a8f7cd22d404d095986dda5c80b428b59e6a"
+    },
+    "design": {
+      "path": "assets/design-solution-design.json",
+      "sha256": "133bd8b461b7264134d92c4cbf543ce1b80f3dda7b657717e8e6c67dde453abe"
+    }
+  },
+  "blockers": []
+}

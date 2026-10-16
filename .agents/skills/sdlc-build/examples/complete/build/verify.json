@@ -1,0 +1,44 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "build",
+  "step": "verify",
+  "status": "ready",
+  "definition_sha256": "58e4b8bc4293230e74691a731fea4dcfe616c2153a340d2e56af199f47528505",
+  "input_sha256": {
+    "design-to-build.json": "0bde769a693f14961486590c4effa5ec4bfb0fa271d6598592f6cdd5861fd754",
+    "build/implement.json": "19fdcf15f650272f324a26789bdcddc362cfa8324e938cdd494b342903b0c5be"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "verification_ref": "assets/build-verify-acceptance_evidence.json",
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "assets": {
+    "acceptance_evidence": {
+      "path": "assets/build-verify-acceptance_evidence.json",
+      "sha256": "390c05e40d0bc02ca97a8bf1b95c1fe1c1b2868e99f6649526bccc58315254c9"
+    }
+  },
+  "blockers": []
+}

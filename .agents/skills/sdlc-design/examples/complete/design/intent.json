@@ -1,0 +1,35 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "design",
+  "step": "intent",
+  "status": "ready",
+  "definition_sha256": "1f5a06561045e510e80e0654807077c2e7a87d008534fad9b46f2acf2a081889",
+  "input_sha256": {
+    "request.json": "aeacce3be4766ea6a9cb33ea4ba68f6afb18dfbe8e163ebc5704be9d91f42fe3",
+    "design/research.json": "ac03f586c31ae30b2776d7c7962a2650c3d354da7b03528e216ada1f33ce8af3"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed"
+  },
+  "payload": {
+    "intent_ref": "assets/design-intent-intent.json"
+  },
+  "assets": {
+    "intent": {
+      "path": "assets/design-intent-intent.json",
+      "sha256": "3094303c9f7d1e8a7ef530fa0225cc1864370020dd6e23282aaff2192405c3e3"
+    }
+  },
+  "blockers": []
+}

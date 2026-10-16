@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "deployment_authority_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "admission_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "environment",
+    "deployment_authority_ref",
+    "admission_ref"
+  ],
+  "additionalProperties": false
+}

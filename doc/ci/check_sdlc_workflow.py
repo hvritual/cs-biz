@@ -13,7 +13,7 @@ import sys
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[2]
-SKILLS = ("prompt-optimizer", "sdlc-design", "sdlc-build",
+SKILLS = ("prompt-optimizer", "sdlc-design", "sdlc-build", "sdlc-deploy",
           "task-progression", "engineering-language", "sdlc-workflow", "b2b-product-ux",
           "intent-to-outcome-closure")
 AUTH = ("read_only", "draft_only", "code_change", "external_action")
@@ -60,7 +60,7 @@ def structure(root: Path) -> list[str]:
     guide = root / "AGENTS.md"
     if guide.is_file():
         content = guide.read_text(encoding="utf-8")
-        for name in ["sdlc-workflow", "prompt-optimizer", "sdlc-design", "sdlc-build",
+        for name in ["sdlc-workflow", "prompt-optimizer", "sdlc-design", "sdlc-build", "sdlc-deploy", "sdlc-deploy",
                      "task-progression", "engineering-language", "b2b-product-ux",
                      "intent-to-outcome-closure"]:
             if name not in content:

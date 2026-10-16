@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "solution_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "design_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "solution_ref",
+    "design_ref"
+  ],
+  "additionalProperties": false
+}

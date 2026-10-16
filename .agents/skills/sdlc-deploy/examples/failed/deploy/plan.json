@@ -1,0 +1,45 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "deploy",
+  "step": "plan",
+  "status": "ready",
+  "definition_sha256": "1e6886cca295b0107d19523d2ef59d2b8f051d06805d1f1754d4991cdae59aac",
+  "input_sha256": {
+    "build-to-deploy.json": "cf49d3e10a366030cf7401b2a34f169319b1fba8085e77c5dfbf1a9aa951dfd5",
+    "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa",
+    "deploy/admit.json": "741521ece4c4fd525cfb5898d00a6cde5f5a65a07ad95d4ec82419486fef05e0"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "environment": "synthetic-env",
+    "plan_ref": "assets/deploy-plan-release_plan.json",
+    "rollback_authority_ref": "fixture://not-authenticated-rollback-authority",
+    "operation_id": "synthetic-release-001"
+  },
+  "assets": {
+    "release_plan": {
+      "path": "assets/deploy-plan-release_plan.json",
+      "sha256": "ab439ec41d7c5da5a5bd2663551fd96fd2af4fcefcf0e38890f79e6d87ab8304"
+    }
+  },
+  "blockers": []
+}

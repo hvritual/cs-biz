@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outcome": {
+      "enum": [
+        "submitted",
+        "failed",
+        "unknown"
+      ]
+    }
+  },
+  "required": [
+    "environment",
+    "operation_id",
+    "outcome"
+  ],
+  "additionalProperties": false
+}

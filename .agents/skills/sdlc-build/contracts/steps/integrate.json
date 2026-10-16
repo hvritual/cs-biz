@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "candidate_sha": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "main_sha": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "tree_sha": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "integration_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "candidate_sha",
+    "main_sha",
+    "tree_sha",
+    "integration_ref"
+  ],
+  "additionalProperties": false
+}

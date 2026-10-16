@@ -1,0 +1,33 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "design",
+  "step": "capture",
+  "status": "blocked",
+  "definition_sha256": "d6d7aa0b37285b376959044644510ed0ab5fb8d06a10f8d40cb086a4b95d07de",
+  "input_sha256": {
+    "request.json": "aeacce3be4766ea6a9cb33ea4ba68f6afb18dfbe8e163ebc5704be9d91f42fe3"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed"
+  },
+  "payload": {},
+  "assets": {},
+  "blockers": [
+    {
+      "owner": "Human_or_resource_owner",
+      "next_action": "Provide the missing real decision, authority or environment evidence.",
+      "evidence_ref": "fixture://missing-condition"
+    }
+  ]
+}

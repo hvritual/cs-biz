@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-acceptance"
+  short_description: "Produce the bounded design-acceptance artifact result"
+  default_prompt: "Use $design-acceptance for its single declared output."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-language"
+  short_description: "Produce the bounded design-language artifact result"
+  default_prompt: "Use $design-language for its single declared output."

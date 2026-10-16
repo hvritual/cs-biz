@@ -1,0 +1,4 @@
+interface:
+  display_name: "build-plan"
+  short_description: "Produce the bounded build-plan artifact result"
+  default_prompt: "Use $build-plan for its single declared output."

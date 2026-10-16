@@ -1,0 +1,37 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "deploy",
+  "step": "recover",
+  "status": "not_applicable",
+  "definition_sha256": "58e0420cfd8753f6fac76eb6c43117d13c1f74f9f09fe83ecfe4ca731582ed2d",
+  "input_sha256": {
+    "build-to-deploy.json": "cf49d3e10a366030cf7401b2a34f169319b1fba8085e77c5dfbf1a9aa951dfd5",
+    "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa",
+    "deploy/observe.json": "f9aaff80fd8226200fbbdc3c9454896c7090b0e42f20567eae2079b77b5e4188"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "reason": "Authoritative synthetic observation is healthy; recovery is not applicable."
+  },
+  "assets": {},
+  "blockers": []
+}

@@ -1,0 +1,230 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "deploy",
+  "step": "handoff",
+  "status": "ready",
+  "definition_sha256": "bc842906705980899a394084477a68a683c7ccf90f1097b1343d99f5cb62aafc",
+  "input_sha256": {
+    "build-to-deploy.json": "cf49d3e10a366030cf7401b2a34f169319b1fba8085e77c5dfbf1a9aa951dfd5",
+    "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa",
+    "deploy/recover.json": "331be6b5a85f01619ec7c382dc6a2e3dc96276cd869ab5b788499c50b16a0cf2"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "consumer": "closure",
+    "environment": "synthetic-env",
+    "outcome": "deployed",
+    "observed_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "package_sha256": "c4c0b2e57c87ba049667a38bb19b11ccf986ad6397c377622e14ecd44ab6ff47"
+  },
+  "assets": {
+    "raw": {
+      "path": "raw.txt",
+      "sha256": "5a9ea59be906d7862e0f8832bbc96f1f6ddb49975e17a1ac9fdd6fbfa801d6f1"
+    },
+    "knowledge": {
+      "path": "assets/design-research-knowledge.json",
+      "sha256": "5066a87d9cf99f521ae11256507b021e3fe1829c24d7b16790ff8538400e10a6"
+    },
+    "intent": {
+      "path": "assets/design-intent-intent.json",
+      "sha256": "3094303c9f7d1e8a7ef530fa0225cc1864370020dd6e23282aaff2192405c3e3"
+    },
+    "solution": {
+      "path": "assets/design-solution-solution.json",
+      "sha256": "df81144b3571ba054ffdd87ac578a8f7cd22d404d095986dda5c80b428b59e6a"
+    },
+    "design": {
+      "path": "assets/design-solution-design.json",
+      "sha256": "133bd8b461b7264134d92c4cbf543ce1b80f3dda7b657717e8e6c67dde453abe"
+    },
+    "requirements": {
+      "path": "assets/design-acceptance-requirements.json",
+      "sha256": "178247fd8ed4c6542a35359b780e9a5e268daac19236721b15a63badfe7ec642"
+    },
+    "acceptance": {
+      "path": "assets/design-acceptance-acceptance.json",
+      "sha256": "5825bc39cb027a7a750b524c0b064772c3658d9db07fda4bddb7f5db02bec7bc"
+    },
+    "language_review": {
+      "path": "assets/design-language-language_review.json",
+      "sha256": "6d85701d62b935647f431f215e7b37df897d35e601fe8400e540518ea236759d"
+    },
+    "design_packet": {
+      "path": "assets/design-handoff-design_packet.json",
+      "sha256": "1bc558dbf0064597ae020bef2d31a0c84bbb9fad85867a091b198ba9d4252075"
+    },
+    "admission": {
+      "path": "assets/deploy-admit-admission.json",
+      "sha256": "a2f5b28efa0a15b621989bf423292b9caa452d50bf59fefc31af4a5352b6306b"
+    },
+    "plan": {
+      "path": "assets/build-plan-plan.json",
+      "sha256": "d143da958c0a0a06d68f7dfad3eef8a044523ecd96b2d2235a37bc0541cf2e40"
+    },
+    "change": {
+      "path": "assets/build-implement-change.json",
+      "sha256": "dd8c533114243ac6e965b69b10fb555a3dfbd9fc01c588eb6252e754fe67b93d"
+    },
+    "acceptance_evidence": {
+      "path": "assets/build-verify-acceptance_evidence.json",
+      "sha256": "390c05e40d0bc02ca97a8bf1b95c1fe1c1b2868e99f6649526bccc58315254c9"
+    },
+    "review": {
+      "path": "assets/build-review-review.json",
+      "sha256": "28afd4a4de36a080656eb0b79740d2f4152d00d0c33054c02b6054e6c70ea128"
+    },
+    "quality": {
+      "path": "assets/build-integrate-quality.json",
+      "sha256": "0ff39735d930db010631d33e00e06b3aedd8cf0ca63a315b88042912950cfb63"
+    },
+    "integration": {
+      "path": "assets/build-integrate-integration.json",
+      "sha256": "ddab0d281e81d8e06294d1bce6db68778cb845f16984ffe1d1b284d58e493a73"
+    },
+    "package": {
+      "path": "assets/build-handoff-package.json",
+      "sha256": "c4c0b2e57c87ba049667a38bb19b11ccf986ad6397c377622e14ecd44ab6ff47"
+    },
+    "upstream.raw": {
+      "path": "raw.txt",
+      "sha256": "5a9ea59be906d7862e0f8832bbc96f1f6ddb49975e17a1ac9fdd6fbfa801d6f1"
+    },
+    "upstream.knowledge": {
+      "path": "assets/design-research-knowledge.json",
+      "sha256": "5066a87d9cf99f521ae11256507b021e3fe1829c24d7b16790ff8538400e10a6"
+    },
+    "upstream.intent": {
+      "path": "assets/design-intent-intent.json",
+      "sha256": "3094303c9f7d1e8a7ef530fa0225cc1864370020dd6e23282aaff2192405c3e3"
+    },
+    "upstream.solution": {
+      "path": "assets/design-solution-solution.json",
+      "sha256": "df81144b3571ba054ffdd87ac578a8f7cd22d404d095986dda5c80b428b59e6a"
+    },
+    "upstream.design": {
+      "path": "assets/design-solution-design.json",
+      "sha256": "133bd8b461b7264134d92c4cbf543ce1b80f3dda7b657717e8e6c67dde453abe"
+    },
+    "upstream.requirements": {
+      "path": "assets/design-acceptance-requirements.json",
+      "sha256": "178247fd8ed4c6542a35359b780e9a5e268daac19236721b15a63badfe7ec642"
+    },
+    "upstream.acceptance": {
+      "path": "assets/design-acceptance-acceptance.json",
+      "sha256": "5825bc39cb027a7a750b524c0b064772c3658d9db07fda4bddb7f5db02bec7bc"
+    },
+    "upstream.language_review": {
+      "path": "assets/design-language-language_review.json",
+      "sha256": "6d85701d62b935647f431f215e7b37df897d35e601fe8400e540518ea236759d"
+    },
+    "upstream.design_packet": {
+      "path": "assets/design-handoff-design_packet.json",
+      "sha256": "1bc558dbf0064597ae020bef2d31a0c84bbb9fad85867a091b198ba9d4252075"
+    },
+    "release_plan": {
+      "path": "assets/deploy-plan-release_plan.json",
+      "sha256": "ab439ec41d7c5da5a5bd2663551fd96fd2af4fcefcf0e38890f79e6d87ab8304"
+    },
+    "execution": {
+      "path": "assets/deploy-execute-execution.json",
+      "sha256": "a59e363aac5e10bf65129eee566c3ee9542e7e423414cf8b42e4e0070477fb72"
+    },
+    "smoke": {
+      "path": "assets/deploy-observe-smoke.json",
+      "sha256": "2b90c8e038023246c100c559cbdbe7666302db227d13781a5b046ed8bf24ea54"
+    },
+    "release_evidence": {
+      "path": "assets/deploy-handoff-release_evidence.json",
+      "sha256": "e5abe88bf61065b9555c93b9016423a9a8f1fe3ea07b03a2d69a5f8a003b6bd7"
+    },
+    "upstream.admission": {
+      "path": "assets/build-admit-admission.json",
+      "sha256": "a2f5b28efa0a15b621989bf423292b9caa452d50bf59fefc31af4a5352b6306b"
+    },
+    "upstream.plan": {
+      "path": "assets/build-plan-plan.json",
+      "sha256": "d143da958c0a0a06d68f7dfad3eef8a044523ecd96b2d2235a37bc0541cf2e40"
+    },
+    "upstream.change": {
+      "path": "assets/build-implement-change.json",
+      "sha256": "dd8c533114243ac6e965b69b10fb555a3dfbd9fc01c588eb6252e754fe67b93d"
+    },
+    "upstream.acceptance_evidence": {
+      "path": "assets/build-verify-acceptance_evidence.json",
+      "sha256": "390c05e40d0bc02ca97a8bf1b95c1fe1c1b2868e99f6649526bccc58315254c9"
+    },
+    "upstream.review": {
+      "path": "assets/build-review-review.json",
+      "sha256": "28afd4a4de36a080656eb0b79740d2f4152d00d0c33054c02b6054e6c70ea128"
+    },
+    "upstream.quality": {
+      "path": "assets/build-integrate-quality.json",
+      "sha256": "0ff39735d930db010631d33e00e06b3aedd8cf0ca63a315b88042912950cfb63"
+    },
+    "upstream.integration": {
+      "path": "assets/build-integrate-integration.json",
+      "sha256": "ddab0d281e81d8e06294d1bce6db68778cb845f16984ffe1d1b284d58e493a73"
+    },
+    "upstream.package": {
+      "path": "assets/build-handoff-package.json",
+      "sha256": "c4c0b2e57c87ba049667a38bb19b11ccf986ad6397c377622e14ecd44ab6ff47"
+    },
+    "upstream.upstream.raw": {
+      "path": "raw.txt",
+      "sha256": "5a9ea59be906d7862e0f8832bbc96f1f6ddb49975e17a1ac9fdd6fbfa801d6f1"
+    },
+    "upstream.upstream.knowledge": {
+      "path": "assets/design-research-knowledge.json",
+      "sha256": "5066a87d9cf99f521ae11256507b021e3fe1829c24d7b16790ff8538400e10a6"
+    },
+    "upstream.upstream.intent": {
+      "path": "assets/design-intent-intent.json",
+      "sha256": "3094303c9f7d1e8a7ef530fa0225cc1864370020dd6e23282aaff2192405c3e3"
+    },
+    "upstream.upstream.solution": {
+      "path": "assets/design-solution-solution.json",
+      "sha256": "df81144b3571ba054ffdd87ac578a8f7cd22d404d095986dda5c80b428b59e6a"
+    },
+    "upstream.upstream.design": {
+      "path": "assets/design-solution-design.json",
+      "sha256": "133bd8b461b7264134d92c4cbf543ce1b80f3dda7b657717e8e6c67dde453abe"
+    },
+    "upstream.upstream.requirements": {
+      "path": "assets/design-acceptance-requirements.json",
+      "sha256": "178247fd8ed4c6542a35359b780e9a5e268daac19236721b15a63badfe7ec642"
+    },
+    "upstream.upstream.acceptance": {
+      "path": "assets/design-acceptance-acceptance.json",
+      "sha256": "5825bc39cb027a7a750b524c0b064772c3658d9db07fda4bddb7f5db02bec7bc"
+    },
+    "upstream.upstream.language_review": {
+      "path": "assets/design-language-language_review.json",
+      "sha256": "6d85701d62b935647f431f215e7b37df897d35e601fe8400e540518ea236759d"
+    },
+    "upstream.upstream.design_packet": {
+      "path": "assets/design-handoff-design_packet.json",
+      "sha256": "1bc558dbf0064597ae020bef2d31a0c84bbb9fad85867a091b198ba9d4252075"
+    }
+  },
+  "blockers": []
+}

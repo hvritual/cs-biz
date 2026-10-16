@@ -1,0 +1,41 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "design",
+  "step": "language",
+  "status": "ready",
+  "definition_sha256": "8b706010f218a1270919d561dcaab1a53e4842e6032511875b4f572e2beecb54",
+  "input_sha256": {
+    "request.json": "aeacce3be4766ea6a9cb33ea4ba68f6afb18dfbe8e163ebc5704be9d91f42fe3",
+    "design/acceptance.json": "8491fa447897c368135f1e0bcef7c4751d84b28ebbcb9d416e71365e24a82737"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "review_ref": "fixture://design/language/review_ref"
+  },
+  "assets": {
+    "language_review": {
+      "path": "assets/design-language-language_review.json",
+      "sha256": "6d85701d62b935647f431f215e7b37df897d35e601fe8400e540518ea236759d"
+    }
+  },
+  "blockers": []
+}

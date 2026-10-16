@@ -1,0 +1,42 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "build",
+  "step": "review",
+  "status": "ready",
+  "definition_sha256": "55435869bb96928ab62d9a11a9b535435424958013bd8f7fa0da178982b9c94d",
+  "input_sha256": {
+    "design-to-build.json": "0bde769a693f14961486590c4effa5ec4bfb0fa271d6598592f6cdd5861fd754",
+    "build/verify.json": "56e0d5bd8e35487da4387eef938232b1730c2850c59ae02c3481ecd745fc3c98"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "review_ref": "assets/build-review-review.json",
+    "decision": "pass"
+  },
+  "assets": {
+    "review": {
+      "path": "assets/build-review-review.json",
+      "sha256": "28afd4a4de36a080656eb0b79740d2f4152d00d0c33054c02b6054e6c70ea128"
+    }
+  },
+  "blockers": []
+}

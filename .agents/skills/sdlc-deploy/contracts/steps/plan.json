@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_authority_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operation_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "environment",
+    "plan_ref",
+    "rollback_authority_ref",
+    "operation_id"
+  ],
+  "additionalProperties": false
+}

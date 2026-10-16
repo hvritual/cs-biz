@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-preview"
+  short_description: "Produce the bounded design-preview artifact result"
+  default_prompt: "Use $design-preview for its single declared output."

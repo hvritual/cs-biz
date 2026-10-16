@@ -1,0 +1,4 @@
+interface:
+  display_name: "build-review"
+  short_description: "Produce the bounded build-review artifact result"
+  default_prompt: "Use $build-review for its single declared output."

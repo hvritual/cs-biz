@@ -1,0 +1,19 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "REPLACE_TASK_ID",
+  "stage": "design",
+  "step": "REPLACE_STEP_ID",
+  "status": "blocked",
+  "input_sha256": {},
+  "contract": {},
+  "payload": {},
+  "assets": {},
+  "blockers": [
+    {
+      "owner": "executing_agent",
+      "next_action": "Fill the real bound inputs and resolve missing conditions before producing ready output.",
+      "evidence_ref": "REPLACE_REAL_SOURCE"
+    }
+  ],
+  "definition_sha256": "REPLACE_CURRENT_DEFINITION_SHA256"
+}

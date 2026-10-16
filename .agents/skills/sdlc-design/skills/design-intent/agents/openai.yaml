@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-intent"
+  short_description: "Produce the bounded design-intent artifact result"
+  default_prompt: "Use $design-intent for its single declared output."

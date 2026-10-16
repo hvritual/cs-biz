@@ -1,0 +1,4 @@
+interface:
+  display_name: "build-admit"
+  short_description: "Produce the bounded build-admit artifact result"
+  default_prompt: "Use $build-admit for its single declared output."

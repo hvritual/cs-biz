@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outcome": {
+      "enum": [
+        "healthy",
+        "failed",
+        "unknown"
+      ]
+    },
+    "observed_revision": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "package_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "environment",
+    "operation_id",
+    "outcome",
+    "observed_revision",
+    "package_sha256"
+  ],
+  "additionalProperties": false
+}

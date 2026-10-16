@@ -39,10 +39,16 @@ First pilot is one **existing approved and genuinely unverified** slice. Audit b
 ## Intent / Design v2 binding
 Read [Intent/Design workflow](INTENT-DESIGN-WORKFLOW.md) and [handoff contract](DESIGN-HANDOFF-CONTRACT.md). Historical knowledge starts at `doc/architecture/adr/` and task-relevant doc/source; inspect actual status and supersession, not a stale roadmap status. The current frontend is `frontend/apps/console` with Vben/Element Plus; Preview reuses it rather than creating another app. Use the cs-biz binding in `.agents/skills/b2b-product-ux/PROJECT-INTEGRATION.md`.
 
-The workflow stops at the full design/Preview handoff. The executing model continues planning/implementation/verification/gates under existing task authority outside that workflow; no automatic Build/Full/merge authority is added. Preserve existing task/Goal/Resume refs if present. New handoffs use `python3 doc/ci/check_design_workflow.py --task <task-dir> --repo-root .`; earlier artifact protocols remain historical compatibility only.
+The Design subworkflow stops at the full design/Preview handoff. The current outer SDLC routes to the Build Agent and, only when requested/authorized, the Deploy Agent; their own packaged workflows continue under existing task authority, with no new implementation/merge/deploy authority inferred from a handoff. Preserve existing task/Goal/Resume refs if present. New handoffs use `python3 doc/ci/check_design_workflow.py --task <task-dir> --repo-root .`; earlier artifact protocols remain historical compatibility only.
 
 ## Module coordination binding
 
 For all issues in one approved module use [MODULE-OUTCOME-CONTRACT](MODULE-OUTCOME-CONTRACT.md) and `.agents/skills/intent-to-outcome-closure/SKILL.md`. Freeze module-outcome-v1 inside the existing task directory before autonomous advance. This wrapper coordinates the executing model after the unchanged design handoff; it does not add Build stages to the design protocol. Check complete inventory, approved Git lock and current main/evidence at admission, resume, material failure, slice closure and module closure.
 
 Run `python3 doc/ci/check_module_workflow.py --all` for persisted contracts, or its single-contract/observation mode for next-action suggestions. Quality's static job runs it and all test_module_workflow.py positive/negative fixtures. Static output does not authenticate snapshots/approval or grant execution. Per-issue delivery still requires actual risk-selected CI, independent review, authorized merge and main readback. No automatic product batch is authorized by this governance change.
+
+## Three-stage workflow binding (W04)
+
+Current roles and owned packages: design/sdlc-design, build/sdlc-build, deploy/sdlc-deploy. Read only the selected package entry and Agent instructions. Its generic checker supplies one capability and bound input/resource references. Artifacts live in the existing task record as versioned handoff indexes; no task database is introduced. Implementations/templates/examples/checkers are inside their owning Skills; global doc/workflow and doc/ci legacy paths forward for compatibility.
+
+Run `python3 .agents/skills/sdlc-workflow/scripts/check_packages.py` and the existing governance/quality commands. The host model/tools/permissions are inherited. `.codex/agents` mirrors are configuration entrypoints; current environment has no Codex CLI, so actual native loading remains unverified. The new Deploy definition does not authorize or perform any application deployment in W04.

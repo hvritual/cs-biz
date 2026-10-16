@@ -1,0 +1,4 @@
+interface:
+  display_name: "SDLC Build Agent"
+  short_description: "Coordinate implementation, proof and an immutable Build handoff"
+  default_prompt: "Use $sdlc-build to coordinate the Build Agent workflow."
