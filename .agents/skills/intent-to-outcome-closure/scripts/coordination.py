@@ -77,9 +77,10 @@ def evaluate(api, root, goal, assessment, architecture, record):
         recovered = False
         if observed.get('recovery_ref') is not None:
             recovery = asset(root, observed['recovery_ref'], True)
-            fields(recovery, ('goal_id', 'basis_sha256', 'work_id', 'definition_sha256', 'return_sha256', 'decision', 'evidence_refs'))
+            fields(recovery, ('goal_id', 'basis_sha256', 'work_id', 'candidate_ref', 'definition_sha256', 'return_sha256', 'decision', 'evidence_refs'))
             require(observed['return_ref'] is not None and recovery['goal_id'] == goal['goal_id']
                     and recovery['basis_sha256'] == api.basis(goal) and recovery['work_id'] == key
+                    and recovery['candidate_ref'] == observed['candidate_ref']
                     and recovery['definition_sha256'] == definitions[key]
                     and recovery['return_sha256'] == observed['return_ref']['sha256']
                     and recovery['decision'] == 'resume', 'recovery not bound to original blocked return')
@@ -89,9 +90,10 @@ def evaluate(api, root, goal, assessment, architecture, record):
             recovered = True
         if observed['return_ref'] is not None:
             returned = asset(root, observed['return_ref'], True)
-            fields(returned, ('protocol', 'basis_sha256', 'goal_id', 'work_id', 'definition_sha256', 'stage', 'status', 'evidence_refs', 'review_ref'))
+            fields(returned, ('protocol', 'basis_sha256', 'goal_id', 'work_id', 'candidate_ref', 'definition_sha256', 'stage', 'status', 'evidence_refs', 'review_ref'))
             require(returned['protocol'] == 'goal-stage-return-v1' and returned['goal_id'] == goal['goal_id']
                     and returned['basis_sha256'] == api.basis(goal) and returned['work_id'] == key
+                    and returned['candidate_ref'] == observed['candidate_ref']
                     and returned['definition_sha256'] == definitions[key] and returned['stage'] == nodes[key]['stage'], 'stage return binding drift')
             require(returned['status'] in ('completed', 'failed', 'blocked', 'unknown'), 'invalid stage return status')
             require(isinstance(returned['evidence_refs'], list) and returned['evidence_refs'], 'stage result needs raw evidence')

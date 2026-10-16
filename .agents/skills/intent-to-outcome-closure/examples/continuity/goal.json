@@ -73,7 +73,7 @@
     },
     "coordination": {
       "path": "coordination.json",
-      "sha256": "0f35dcef41b2b079d632e5c73b1ea3e4b2b2ff54abee6e798905dc700c8d271b"
+      "sha256": "3a8aff554713ceeb656e3ba99dd4a75f3be4ef5d4b783d390ef2503393ffe161"
     }
   }
 }

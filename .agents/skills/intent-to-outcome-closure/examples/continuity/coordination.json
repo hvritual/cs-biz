@@ -71,7 +71,7 @@
       "candidate_ref": "fixture://existing-database",
       "return_ref": {
         "path": "database-return.json",
-        "sha256": "111391b3734d4a028fbde763f7fdf370bdb579c09e464fe22a6aa41d8922ab46"
+        "sha256": "9bff460729887a4149f8167f0308e43bea0f60641e7218cff7a13951d7dca1f0"
       },
       "readback_ref": {
         "path": "synthetic-evidence.json",
@@ -113,11 +113,11 @@
     "kind": "stage_return",
     "record_ref": {
       "path": "database-return.json",
-      "sha256": "111391b3734d4a028fbde763f7fdf370bdb579c09e464fe22a6aa41d8922ab46"
+      "sha256": "9bff460729887a4149f8167f0308e43bea0f60641e7218cff7a13951d7dca1f0"
     }
   },
   "reconciliation_ref": {
     "path": "reconciliation.json",
-    "sha256": "4d798c48cf9d98dbe874c43b2b22a7973a7f690dd8a8cf75ce7774d9108fa59b"
+    "sha256": "987b9eea25bfc16bab6f2904f9bf9be51407de9e5181027ca1c50acc7d1f5886"
   }
 }

@@ -87,7 +87,7 @@ class ContinuityTests(unittest.TestCase):
     def complete(self, key, status='completed', state='completed'):
         node = next(n for n in self.record['work_items'] if n['id'] == key)
         ref = self.write(key+'-return.json', {'protocol':'goal-stage-return-v1', 'goal_id':self.goal['goal_id'],
-            'basis_sha256':api.basis(self.goal), 'work_id':key, 'definition_sha256':self.definition(node),
+            'basis_sha256':api.basis(self.goal), 'work_id':key, 'candidate_ref':'fixture://existing-'+key, 'definition_sha256':self.definition(node),
             'stage':'build','status':status,'evidence_refs':[self.evidence],'review_ref':self.evidence})
         self.observed(key).update(state=state, candidate_ref='fixture://existing-'+key, return_ref=ref, readback_ref=self.evidence)
         self.record['last_event'] = {'kind':'stage_return','record_ref':ref}
@@ -203,12 +203,16 @@ class ContinuityTests(unittest.TestCase):
         self.complete('database',status='blocked',state='active')
         observed = self.observed('database'); node = self.record['work_items'][0]
         recovery = {'goal_id':self.goal['goal_id'],'basis_sha256':api.basis(self.goal),'work_id':'database',
+            'candidate_ref':observed['candidate_ref'],
             'definition_sha256':self.definition(node),'return_sha256':observed['return_ref']['sha256'],
             'decision':'resume','evidence_refs':[self.evidence]}
         observed['recovery_ref'] = self.write('recovery.json',recovery); self.save()
         self.assertEqual(api.check(self.task)['next_action'],'RESUME_STAGE')
         self.assertEqual(observed['candidate_ref'],'fixture://existing-database')
         self.assertEqual(json.loads((self.task/observed['return_ref']['path']).read_text())['status'],'blocked')
+        observed['candidate_ref'] = 'fixture://replacement-pr'; self.save()
+        with self.assertRaisesRegex(ValueError,'original blocked return|binding drift'): api.check(self.task)
+        observed['candidate_ref'] = 'fixture://existing-database'
         recovery['return_sha256'] = '0'*64; observed['recovery_ref'] = self.write('recovery.json',recovery); self.save()
         with self.assertRaisesRegex(ValueError,'original blocked return'): api.check(self.task)
 
@@ -266,4 +270,3 @@ class ContinuityTests(unittest.TestCase):
         self.write('goal.json',self.goal)
         result = api.check(self.task,'b'*40)
         self.assertEqual(result['state'],'STOPPED'); self.assertEqual(result['next_action'],'NO_ACTION')
-
