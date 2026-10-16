@@ -1,0 +1,51 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "f-series-resource-design",
+  "stage": "design",
+  "step": "acceptance",
+  "definition_sha256": "348fce84d06f0daf7a60b321888ed70b9919f9542b36d2266606c7392ec3da0d",
+  "input_sha256": {
+    "request.json": "2d7c2bc47486e46b9f80589b41013f3a808400b3cf912112a7819ed56099f4b9",
+    "design/preview.json": "8929e6a76d5def9d625c71a4c7c074e5afc1200f6ddd72416c294206ea7a84ee"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "071078f597f8248ac1b282e6039ab02311bb85d8",
+    "frontend_change": false,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/**",
+      "doc/tasks/README.md"
+    ],
+    "forbidden_paths": [
+      "frontend/**",
+      "backend/**",
+      ".agents/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "status": "blocked",
+  "payload": {
+    "reason": "r001方案/策略候选尚未获得同版Human审阅，不创建批准或Build handoff。"
+  },
+  "assets": {
+    "requirements": {
+      "path": "requirements.md",
+      "sha256": "286ecc8765dc8d64c293e8b438d301526f90284275f31bd7fce947490cfd9ed2"
+    },
+    "decision_request": {
+      "path": "decision-review.md",
+      "sha256": "908adffb283e8d6303e1f0dd034b359a95bcb6ee63ae425753b46f01a8d7a173"
+    }
+  },
+  "blockers": [
+    {
+      "owner": "Human project/product/security Owner",
+      "next_action": "审阅r001方案与P1–P5，可一次确认或按编号修改；原Docker MySQL/OIDC决定不重问。",
+      "evidence_ref": "decision-review.md"
+    }
+  ]
+}

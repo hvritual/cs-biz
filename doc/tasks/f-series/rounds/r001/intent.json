@@ -1,0 +1,102 @@
+{
+  "objective": "按项目工作流在单一分支连续完成F系列原义务；当前先形成真实资源与后端准入设计和一次性策略审阅包。",
+  "outcome": "Human已确认的Docker MySQL与非生产OIDC不重选；标准生产接入、同版策略、真实证据与生产授权分别保留。",
+  "confirmed": {
+    "database": "Docker MySQL",
+    "identity": "真实非生产OIDC，保留生产接入能力",
+    "branch": "feat/yunka-f-series-completion",
+    "delivery": "分步骤门禁/合入main/回读；未授权生产发布"
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC01",
+        "AC02"
+      ]
+    },
+    {
+      "id": "R2",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC03",
+        "AC04"
+      ]
+    },
+    {
+      "id": "R3",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC05",
+        "AC06"
+      ]
+    },
+    {
+      "id": "R4",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC07",
+        "AC08"
+      ]
+    },
+    {
+      "id": "R5",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC09",
+        "AC10"
+      ]
+    },
+    {
+      "id": "R6",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC11",
+        "AC12"
+      ]
+    },
+    {
+      "id": "R7",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC13",
+        "AC14"
+      ]
+    },
+    {
+      "id": "R8",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC15"
+      ]
+    },
+    {
+      "id": "R9",
+      "source": "requirements.md",
+      "acceptance_ids": [
+        "AC16"
+      ]
+    }
+  ],
+  "candidate_decisions": [
+    "P1 BFF期限/退出",
+    "P2邀请/恢复/非生产投递",
+    "P3旧group处理",
+    "P4委派与Owner并发",
+    "P5 IdP适配/账户迁移"
+  ],
+  "unapproved": [
+    "r001策略/实现方案",
+    "后续UI同版项目Preview",
+    "生产环境/容量/留存/发布"
+  ],
+  "scope": "本轮非UI后端/资源准入与策略候选；不声称整个模块已冻结、已实现或已部署。",
+  "preserve": [
+    "F0/F1封存字节",
+    "全部原Issue验收",
+    "现行质量门禁",
+    "单一Access/执行权威",
+    "真实身份/DB/Scope/恢复证明边界"
+  ]
+}

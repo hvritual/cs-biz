@@ -30,4 +30,6 @@ go vet -mod=readonly ./...
 go test -mod=readonly -race -count=1 ./...
 govulncheck ./... > "$evidence/govulncheck.txt"
 python3 ci/trace_query.py "$evidence"
-echo 'PASS: actual Consumer generation/source/dependency/assembly, build/unit/race/vet/security and queried local traces; no IAM/DB or production qualification.'
+python3 -m unittest discover -s deploy/identity -p 'test_*.py' -v
+python3 deploy/identity/resources.py ci --evidence "$evidence/identity-resources.json"
+echo 'PASS: actual Consumer generation/source/dependency/assembly, build/unit/race/vet/security, queried local traces and nonproduction identity resources; no business IAM/DB or production qualification.'
