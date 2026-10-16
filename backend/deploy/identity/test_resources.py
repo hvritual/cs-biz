@@ -4,10 +4,26 @@ import json
 import tempfile
 import unittest
 from types import SimpleNamespace
+from contextlib import redirect_stdout
+from io import StringIO
 from resources import initialize, permission_denied, Resources
 
 
 class ResourceOwnershipTests(unittest.TestCase):
+    def test_failure_diagnostics_redact_runtime_secrets_and_urls(self):
+        with tempfile.TemporaryDirectory() as directory:
+            state = Path(directory)/'state'
+            initialize(state,'ci')
+            resources = Resources(state)
+            secret = resources.env['CS_OIDC_ADMIN_PASSWORD']
+            resources.compose = lambda *a, **kw: SimpleNamespace(stdout='ERROR password='+secret+' https://example.invalid/?code=sensitive eyJfake.token.value',stderr='')
+            output = StringIO()
+            with redirect_stdout(output):
+                resources.diagnostics()
+            self.assertNotIn(secret,output.getvalue())
+            self.assertNotIn('sensitive',output.getvalue())
+            self.assertNotIn('eyJfake',output.getvalue())
+
     def test_only_database_permission_errors_prove_isolation(self):
         for code in (1044,1142):
             self.assertTrue(permission_denied(SimpleNamespace(returncode=1,stderr='ERROR '+str(code)+' (42000): denied')))

@@ -111,14 +111,33 @@ class Resources:
 
     def ready(self):
         deadline = time.monotonic()+180
+        last_reason = 'not attempted'
         while time.monotonic() < deadline:
             try:
                 doc = request(self.issuer+'/.well-known/openid-configuration')
                 require(doc['issuer'] == self.issuer, 'issuer mismatch')
                 return doc
-            except (RuntimeError, OSError, ValueError, KeyError):
+            except (RuntimeError, OSError, ValueError, KeyError) as error:
+                last_reason = str(error) if type(error) is RuntimeError else type(error).__name__
                 time.sleep(2)
-        raise RuntimeError('OIDC readiness timed out')
+        raise RuntimeError('OIDC readiness timed out: '+last_reason)
+
+    def diagnostics(self):
+        # Only allowlisted, redacted failure lines; never dump container inspect
+        # (Env), HTTP responses, SQL input, cookies, credentials or raw logs.
+        logs = self.compose('logs','--no-color','--tail','120',check=False,timeout=20)
+        selected = []
+        for line in (logs.stdout+'\n'+logs.stderr).splitlines():
+            if not re.search(r'ERROR|Exception|Caused by:|permission denied|Unable to|Unknown|Invalid|starting',line,re.I):
+                continue
+            for value in self.env.values():
+                if len(value) >= 20:
+                    line = line.replace(value,'[redacted]')
+            line = re.sub(r'eyJ[A-Za-z0-9_.=-]+','[token]',line)
+            line = re.sub(r'(?i)(password|secret|token|code)(\s*[:=]\s*)[^,;\s]+',r'\1\2[redacted]',line)
+            line = re.sub(r'https?://[^\s]+','[url]',line)
+            selected.append(line[:500])
+        print(json.dumps({'resource_failure_diagnostics':selected[-30:]}))
 
     def down(self, destroy_ci=False):
         if destroy_ci:
@@ -287,6 +306,12 @@ def main():
                 args.evidence.parent.mkdir(parents=True,exist_ok=True)
                 args.evidence.write_text(json.dumps(result,indent=2)+'\n')
                 print(json.dumps(result))
+            except Exception:
+                try:
+                    resources.diagnostics()
+                except Exception as diagnostic_error:
+                    print('Resource diagnostics unavailable: '+type(diagnostic_error).__name__)
+                raise
             finally:
                 resources.down(destroy_ci=True)
         return
