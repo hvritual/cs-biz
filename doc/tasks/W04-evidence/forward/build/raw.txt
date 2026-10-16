@@ -1,1 +1,0 @@
-SYNTHETIC ONLY: design a tenant-scoped operation with observable result and unknown-outcome recovery.

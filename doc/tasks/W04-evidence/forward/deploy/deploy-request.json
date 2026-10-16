@@ -1,7 +1,0 @@
-{
-  "environment": "synthetic-env",
-  "deployment_authority_ref": "fixture://not-authenticated-deploy-authority",
-  "rollback_authority_ref": "fixture://not-authenticated-rollback-authority",
-  "expected_main_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "expected_package_sha256": "c4c0b2e57c87ba049667a38bb19b11ccf986ad6397c377622e14ecd44ab6ff47"
-}

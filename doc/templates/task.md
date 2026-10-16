@@ -38,7 +38,7 @@
 | Build | 原冻结设计、模式/风险、实际 candidate/main/tree、测试/独立 review/质量回执、不可变 package；build-to-deploy.json |
 | Deploy（仅有独立授权时） | 环境/精确产物、部署/回滚权限、执行前持久 operation_id、权威观察/恢复；deploy-receipt.json，保留 failed/unknown/rolled_back 原义 |
 
-新 envelope 记录 task/stage/step、definition/input SHA256、冻结 contract、hashed assets 与 blocker。旧记录按 [兼容协议](../../.agents/skills/sdlc-workflow/references/legacy-protocols.md) 选择检测器，格式不混用。静态 candidate 和示例不认证批准或运行。
+新 envelope 记录 task/stage/step、definition/input SHA256、冻结 contract、hashed assets 与 blocker。当前输入按 [现行协议](../../.agents/skills/sdlc-workflow/references/current-protocols.md) 选择检测器；退休格式在原 Git 版本恢复，格式不混用。静态 candidate 和示例不认证批准或运行。
 
 ## 整个板块 / 全部 Issue（仅批次适用）
 

@@ -1,6 +1,6 @@
 # Intent / Design 工作流 v2
 
-本协议落实 [W02 的六项要求](../../../../doc/tasks/W02-intent-design-workflow.md)。工作流的职责是把业务意图变成经 Human 确认、可交接的方案与项目预览；实施模型在工作流外负责计划、落地、核实和门禁。现有 Issue/任务仍是权威，不新增状态服务。
+本协议负责把原始业务要求变成可追溯、经同版审阅的方案、设计与项目预览。Design 负责设计交付，Build 负责实施/核实/门禁，Goal 持续维护父目标并在阶段返回后对账。现有 Issue/任务仍是权威，不新增状态服务。
 
 ## 入口与退出
 
@@ -17,7 +17,7 @@ flowchart TD
     F -->|反馈| E
     F -->|目标或权限变化| B
     F -->|确认| G["设计交接包"]
-    G -.-> X["工作流外：模型实施、核实、门禁"]
+    G -.-> X["返回 Goal 对账，再按准入进入 Build"]
 ```
 
 工作流状态为 RAW_CAPTURED / NEEDS_EVIDENCE / NEEDS_DECISION / INTENT_READY / DESIGN_REVIEW / NEEDS_REBASE / DESIGN_HANDOFF。READY 只是可供审阅。允许的设计文件编辑与预览工程修改必须来自真实任务授权，加载 Skill 不产生权限。
@@ -83,16 +83,16 @@ flowchart TD
 
 Human 同时确认方案可接受、使用条件/偏好准确、核心旅程与恢复可理解。允许 changes_requested / partial / approved；partial 不能交接。真实决策必须绑定本轮 solution/requirements/design/journey/flow/UX/demo 的内容，不用一个未绑定版本的“同意”。模型产出的 reviewer 字段不认证身份。设计批准仍不等于后端可用、测试通过、实施授权、合并或部署。
 
-## 7. 工作流外的模型责任
+## 7. 阶段交接与实施责任
 
 交接包含原始来源、Intent、知识引用、已决/未决条件、完整设计包、demo 复现、R/AC、保留项、精确允许/禁止路径、资源、风险、验证建议、Human 记录、执行授权和退回条件。DESIGN_HANDOFF 只表示可交给执行者审查。执行权限不足或需价值决策时停在相应边界；在既有明确授权范围内，模型应继续推进，不要求 Human 重复普通实现步骤。
 
 Build Agent 按自身 admission/plan/implement/verify/review/integrate 能力串联完成切片计划、实现、实际运行核实、Fast/适用 Targeted、独立审查、证据回读和原始 AC 对账。遇设计问题向 Design Loop 提供精确反馈，不暗改批准设计；遇目标/权限问题退回 Intent/Human。最终候选按 [风险门禁](../../../../doc/ci/RISK-BASED-GATES.md) 自动分级和执行 Full，以精确候选回执核验；合并和发布分别授权。
 
-“工作流之外”是职责边界，不是免除检查、另建无治理执行器，或让 Human 自己补完工程落地。Skill 定义方法，模型承担执行，确定性脚本只核对可机械检查的约束。
+阶段分工不免除检查，不另建无治理执行器，也不让 Human 补完工程落地。Skill 定义方法，模型承担执行，确定性脚本只核对可机械检查的约束。
 
-## 检查与旧协议
+## 当前检查与历史复现
 
 `python3 doc/ci/check_design_workflow.py --task <task-dir> --repo-root .` 只读检查新协议 `intent-design-v2` 的交接结构、摘要、引用、条件、项目源码预览和审阅绑定。返回 PASS_STATIC_ONLY / FAIL；始终不授予审批、执行、CI 或业务完成。真实引用与语义、浏览器和 Human 身份仍需独立回读。
 
-已有 `intent.json` / `design-preview.json` / `build-manifest.json` 与 v0.2/v0.4 兼容检查保留用于历史产物；不强行改写旧封存记录，也不把旧 `demo.html` 视为新 UI 交接合格。新任务使用本协议，旧任务在明确版本迁移时建立新轮及新批准。PR #23 的 Goal/Resume 扩展可通过既有任务引用对接，未合并前不作为本候选运行依赖。
+新任务使用本协议和现行阶段 envelope；不把旧 `demo.html` 当成项目 Preview，不将历史确认重签成新批准。退役格式使用原 Git 版本复现；保留的 F0/F1 v2 设计包及其真实消费者继续受本检查器核验。历史治理候选不成为当前运行依赖。

@@ -25,6 +25,6 @@ For source/meaning/acceptance changes return to Design, implementation defects t
 
 Do not force a business operation through code/build/deploy. Broad software exploration uses the Design-owned [architecture role](../sdlc-design/agents/architecture.md) before freezing implementation acceptance. A prepared goal decision is not an approval, and a reviewed operation preview is not an effective business result. Goal/architecture are optional host roles with checked mirrors, not additional mandatory stages.
 
-Run `python3 .agents/skills/sdlc-workflow/scripts/check_packages.py` for package ownership, native mirrors, identical generic runtimes, consumer contracts, examples and portable package checks. Legacy protocols and compatibility entrypoints are indexed in [migration](references/migration.md). Historical sealed task files remain unchanged.
+Run `python3 .agents/skills/sdlc-workflow/scripts/check_packages.py` for package ownership, native mirrors, identical generic runtimes, consumer contracts, examples and portable package checks. Use [current protocols](references/current-protocols.md); retired formats are reproduced at their original Git commit using [history recovery](references/migration.md). Retained business sealed files remain unchanged.
 
 For project knowledge routing, start with [the document map](../../../doc/README.md); run `scripts/check_docs.py` for live ownership, reachability, retired references and documented command drift. It does not prove semantic freshness. [Definition sources](references/standards.md) explain Agent/Skill formats.

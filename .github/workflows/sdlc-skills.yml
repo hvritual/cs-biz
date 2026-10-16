@@ -23,9 +23,6 @@ jobs:
       - name: Negative fixtures
         run: |
           python3 -m unittest discover -s doc/ci -p 'test_*workflow.py' -v
-          python3 -m unittest discover -s doc/ci -p 'test_revision_v04.py' -v
-          python3 -m unittest discover -s doc/ci -p 'test_intent_v02.py' -v
-          python3 -m unittest discover -s doc/ci -p 'test_build_v04.py' -v
       - name: Manual Full CI policy and negative fixtures
         run: |
           python3 -m unittest discover -s doc/ci -p 'test_manual_full_dispatch.py' -v

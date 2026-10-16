@@ -4,9 +4,9 @@
   "stage": "build",
   "step": "admit",
   "status": "ready",
-  "definition_sha256": "f26edd600dde50a26907b2e7b9265868b9bbd1274321f455e9735d71120db08d",
+  "definition_sha256": "f03bc5a71614d2a73d3e83514e37a12a15849bb0efbbea2a2a0a2bcfa2f036a9",
   "input_sha256": {
-    "design-to-build.json": "4cdcd6c7e1d925c779ff8416f9257d0b51cff86d8af8080f07a57a59ea0acc6b"
+    "design-to-build.json": "4bd9691f79b05b7c26474607d0df546943036361b48a28543a856ab7b1450146"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

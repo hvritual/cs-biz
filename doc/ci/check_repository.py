@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the S00 repository layout and simple relative Markdown file links.
+"""Check the current repository layout and simple relative Markdown file links.
 
 Python 3.10+, standard library only. This is not a runtime/application gate.
 """
@@ -29,10 +29,9 @@ REQUIRED_FILES = (
     "doc/architecture/adr/0001-frontend.md", "doc/product/scope.md",
     "doc/contracts/README.md", "doc/contracts/access-context.md",
     "doc/journeys/README.md", "doc/journeys/SAAS-01-tenant-onboarding.md",
-    "doc/templates/task.md", "doc/tasks/S00-repository-design.md", "doc/roadmap.md",
+    "doc/templates/task.md", "doc/tasks/README.md", "doc/roadmap.md",
     "doc/research/vue-admin-selection.md", "doc/ci/README.md",
     "doc/evidence/README.md", "doc/evidence/sources-2026-10-12.json",
-    "doc/evidence/S00-validation.md",
 )
 IGNORED = {".git", "node_modules", "dist", ".venv", "__pycache__", ".artifacts"}
 # The repository uses ordinary inline links, without whitespace in destinations.
@@ -109,7 +108,7 @@ def main() -> int:
         f"PASS: {len(REQUIRED_DIRECTORIES)} required directories, "
         f"{len(REQUIRED_FILES)} required files, {link_count} relative file links"
     )
-    print("Scope: S00 structure and documentation only; no application/runtime validation.")
+    print("Scope: repository structure and documentation only; no application/runtime validation.")
     return 0
 
 

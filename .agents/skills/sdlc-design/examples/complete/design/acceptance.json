@@ -4,10 +4,10 @@
   "stage": "design",
   "step": "acceptance",
   "status": "ready",
-  "definition_sha256": "e92e4572554fbb5eebf6de0aa556455e7b67b83f4872a59955ba3808e8e49780",
+  "definition_sha256": "58437ff6a70864af83fd7b6cb3e95a30f472af686b1f90f2516fbbd45eb1301b",
   "input_sha256": {
     "request.json": "aeacce3be4766ea6a9cb33ea4ba68f6afb18dfbe8e163ebc5704be9d91f42fe3",
-    "design/preview.json": "05dda571e2a49503f4f8982c51cae9608c15b6ce55d4c7b54720879e0382f96e"
+    "design/preview.json": "3f5ebe4a2816625c27a6bb90fc099ab09364970f9c5b9032ce579c7eb8c8aa06"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

@@ -1,9 +1,0 @@
-{
-  "record_type": "observed-tool-result-v1",
-  "observer": "root task executor",
-  "command": "python3 -m unittest discover -s doc/ci -p 'test_*.py' -q",
-  "tool_session_id": 77568,
-  "exit_code": 0,
-  "observed_output": "HEAD is now at ba4e84d fixture frozen contract\n----------------------------------------------------------------------\nRan 196 tests in 17.151s\n\nOK\n",
-  "boundary": "Result observed from completed exec session, not an independently authenticated remote CI receipt. Original 181 cases retained plus 15 documentation regression cases. Fixture HEAD output belongs to the tests temporary repository, not project HEAD."
-}
