@@ -1,0 +1,9 @@
+{
+  "synthetic": true,
+  "notice": "NOT actual approval/runtime/CI/deployment evidence",
+  "role": "acceptance",
+  "acceptance_ids": [
+    "AC1"
+  ],
+  "review_ref": "fixture://design/acceptance/review_ref"
+}

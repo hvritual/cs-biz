@@ -1,0 +1,173 @@
+{
+  "artifact_type": "conceptual-solution",
+  "task_id": "synthetic-example",
+  "step": "solution",
+  "version": "solution-1",
+  "synthetic": true,
+  "review_status": "UNREVIEWED",
+  "sources": [
+    {
+      "path": "request.json",
+      "sha256": "a9ede7a3db7757000d1fe43eefae066d2356ac3763f89a38cb781fc55034bd12"
+    },
+    {
+      "path": "design/intent.json",
+      "sha256": "257466bea21f181ef51523b15343cda180456f919e0eab102da5732f194ec905"
+    },
+    {
+      "path": "assets/design-intent-intent.json",
+      "sha256": "a5fec8dc537b9ccda89acf34e68bfe33f26076e57e175ebe4ffc35f140ea0834"
+    },
+    {
+      "path": "raw.txt",
+      "sha256": "ec1c6ed3f160aaa90868eb35e54c6e47f4bc5cc88ccf25cfd004bfd8cfc5a51c"
+    }
+  ],
+  "original_intent": "离线示例需求：设计一个纯函数 normalize_labels，输入 UTF-8 字符串数组，按 Unicode 空白 trim，丢弃空字符串，按大小写敏感的完全相等去重，并保留第一次出现的顺序。非字符串元素使整个调用失败并返回元素索引；不做部分写入。返回字符串数组，不发请求、不存数据、不新增 UI。设计边界为 reviewed_design；本练习只写当前任务产物，不修改仓库。",
+  "background": "Design normalize_labels as an offline pure function. Existing bound intent supplies no implementation language or authenticated runtime evidence.",
+  "impact": "Callers receive a stable, deduplicated label array, or a whole-call type error identifying an offending input element.",
+  "goal": "Specify the original normalization, validation and no-side-effect behavior without implementing it.",
+  "conditions": {
+    "input_domain": "An array whose string elements represent UTF-8 text; non-string elements must be detected.",
+    "output_domain": "Success: a string array. Failure: no success array and the offending element index.",
+    "runtime": "Language-neutral conceptual design; no runtime, dependency, CI, deployment or approval is claimed.",
+    "side_effects": "No requests, persistence, UI, repository mutation or partial writes.",
+    "input_limits": "No numeric input limit is asserted; the upstream small-bounded-array description does not establish one."
+  },
+  "alternatives": [
+    {
+      "id": "A1",
+      "approach": "Validate element types in input order, then trim/filter/stably deduplicate with a membership set and output array.",
+      "benefits": [
+        "Simple whole-call failure boundary",
+        "Detects the earliest non-string before building the result",
+        "Preserves first occurrence without sorting"
+      ],
+      "costs": [
+        "Two array traversals",
+        "A set plus the output array require auxiliary memory"
+      ],
+      "selected": true
+    },
+    {
+      "id": "A2",
+      "approach": "One traversal with a local candidate array and set; discard all local work if a non-string is encountered.",
+      "benefits": [
+        "One array traversal",
+        "Can satisfy whole-call failure if the candidate never escapes"
+      ],
+      "costs": [
+        "Normalizes valid prefixes before detecting a later type error",
+        "Requires an explicit rule preventing partial result exposure"
+      ],
+      "selected": false
+    },
+    {
+      "id": "A3",
+      "approach": "Validate first, then deduplicate by scanning the accumulated output array.",
+      "benefits": [
+        "No membership set"
+      ],
+      "costs": [
+        "Repeated equality scans grow quadratically with distinct labels"
+      ],
+      "selected": false
+    }
+  ],
+  "selection": {
+    "alternative": "A1",
+    "rationale": "It expresses validation and result construction as separate stages while retaining exact case-sensitive equality and original order.",
+    "technology": "Conceptual array, Unicode-whitespace trim predicate, exact-equality set and local output array. No repository language, framework or library has been selected.",
+    "approval": "Proposed design only; no same-version material approval exists in the bound inputs."
+  },
+  "module_flow": [
+    "Inspect every element in increasing input-index order for the string type.",
+    "On the first non-string, return a whole-call error with its index; return no normalized array.",
+    "For a valid string array, trim only Unicode whitespace at the two ends of each element.",
+    "Discard a trimmed value if it is empty.",
+    "Append a nonempty value only if it has not already appeared after trimming, then mark it seen.",
+    "Return the accumulated string array in first-occurrence order."
+  ],
+  "requirement_trace": [
+    {
+      "requirement_id": "R1",
+      "raw_clause": "Unicode 空白 trim",
+      "design_rule": "Trim only the leading and trailing Unicode-whitespace sequences."
+    },
+    {
+      "requirement_id": "R1",
+      "raw_clause": "丢弃空字符串",
+      "design_rule": "Filter empty values after trimming."
+    },
+    {
+      "requirement_id": "R1",
+      "raw_clause": "大小写敏感的完全相等去重",
+      "design_rule": "Use exact equality on trimmed strings; do not case-fold or Unicode-normalize."
+    },
+    {
+      "requirement_id": "R1",
+      "raw_clause": "保留第一次出现的顺序",
+      "design_rule": "Use a membership set for detection and an array for output order; never sort."
+    },
+    {
+      "requirement_id": "R1",
+      "raw_clause": "非字符串元素使整个调用失败并返回元素索引",
+      "design_rule": "Fail for the earliest non-string input element; no success array accompanies the error."
+    },
+    {
+      "requirement_id": "R1",
+      "raw_clause": "不做部分写入",
+      "design_rule": "Keep input unchanged and construct only local results; publish a result only after full validation and processing."
+    },
+    {
+      "requirement_id": "R1",
+      "raw_clause": "返回字符串数组，不发请求、不存数据、不新增 UI",
+      "design_rule": "Success is only a string array and the function has no external side effects."
+    }
+  ],
+  "material_decisions_for_review": [
+    {
+      "decision": "Use zero-based error indices and report the first non-string when several exist.",
+      "status": "PROPOSED",
+      "reason": "The raw request requires an element index but does not specify its base or multiple-error selection."
+    },
+    {
+      "decision": "Bind Unicode-whitespace trim to an explicit, versioned predicate when an implementation target is selected.",
+      "status": "PROPOSED",
+      "reason": "The current inputs do not identify a runtime or Unicode version; an arbitrary language default must not redefine the raw rule."
+    }
+  ],
+  "boundary_conflict": {
+    "evidence": [
+      {
+        "path": "raw.txt",
+        "value": "设计边界为 reviewed_design；本练习只写当前任务产物，不修改仓库。"
+      },
+      {
+        "path": "request.json",
+        "pointer": "/contract/completion_boundary",
+        "value": "deployed"
+      },
+      {
+        "path": "request.json",
+        "pointer": "/contract/mode",
+        "value": "example"
+      },
+      {
+        "path": "request.json",
+        "pointer": "/authority_ref",
+        "value": "fixture://not-authenticated-authority"
+      }
+    ],
+    "interpretation": "The declared intake boundary conflicts with the original design-only requirement. The existing contract is retained verbatim as evidence; it is not accepted as deployment authority.",
+    "owner": "Task owner / intake owner",
+    "recovery": "Reconcile the completion boundary with reviewed_design through an explicitly versioned intake/intent correction, preserving the original files and rerunning bindings. Do not silently rewrite upstream artifacts or create downstream artifacts."
+  },
+  "claims": {
+    "design_output_only": true,
+    "implementation_performed": false,
+    "authentic_approval": "NOT_VERIFIED",
+    "runtime": "NOT_VERIFIED",
+    "execution_granted": false
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "synthetic": true,
+  "notice": "OFFLINE EXERCISE ONLY; no actual approval",
+  "acceptance_ids": [
+    "AC1"
+  ],
+  "review_ref": "fixture://not-real-approval",
+  "criteria": [
+    {
+      "id": "AC1",
+      "given": [
+        "  A ",
+        "A",
+        "a",
+        "  "
+      ],
+      "expected": [
+        "A",
+        "a"
+      ],
+      "negative_cases": [
+        {
+          "input": [
+            "A",
+            1
+          ],
+          "expected_error_index": 1
+        },
+        {
+          "input": [],
+          "expected": []
+        }
+      ],
+      "evidence_required": "raw unit-test assertions for exact outputs and error index"
+    }
+  ]
+}

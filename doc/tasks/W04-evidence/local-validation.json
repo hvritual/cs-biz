@@ -1,0 +1,107 @@
+{
+  "evidence_boundary": "actual local validation on release workflow source; no external approval/runtime/deployment authentication",
+  "results": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "doc/ci",
+        "-p",
+        "test_*.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "HEAD is now at 9741908 fixture frozen contract\n----------------------------------------------------------------------\nRan 181 tests in 11.454s\n\nOK\n"
+    },
+    {
+      "command": [
+        "python3",
+        ".agents/skills/sdlc-workflow/scripts/check_packages.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"contract\": \"PASS_STATIC_ONLY\", \"stages\": [\"design\", \"build\", \"deploy\"], \"portable_checked\": true, \"native_runtime\": \"NOT_VERIFIED\", \"authentic_approval\": \"NOT_VERIFIED\", \"runtime\": \"NOT_VERIFIED\", \"execution_granted\": false}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_repository.py"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: 18 required directories, 28 required files, 407 relative file links\nScope: S00 structure and documentation only; no application/runtime validation.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_build_workflow.py"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS structural contract: 5 files\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_sdlc_workflow.py",
+        "--mode",
+        "structure"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"static_contract\": \"PASS_STATIC_ONLY\",\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"remote_ci\": \"NOT_VERIFIED\",\n  \"issues\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_module_workflow.py",
+        "--all"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"runtime\": \"NOT_VERIFIED\",\n  \"execution_granted\": false,\n  \"contract\": \"PASS_STATIC_ONLY\",\n  \"checked\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_human_full_policy.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"static_source_control\": \"PASS_STATIC_ONLY\", \"issues\": [], \"human_environment_configured\": \"NOT_VERIFIED\", \"branch_protection_configured\": \"NOT_VERIFIED\", \"github_full_receipt_verified\": \"NOT_VERIFIED\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_quality_policy.py"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS_STATIC_ONLY: trusted selection, once-only work, independent exact-SHA receipt\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "frontend/ci/check-delivery-policy.mjs"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: Fast default, retained manual Full safety, E2E coverage, collapse tokens and negative fixtures\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

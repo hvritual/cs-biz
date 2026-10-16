@@ -1,0 +1,42 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "build",
+  "step": "plan",
+  "status": "ready",
+  "definition_sha256": "5e98ef7a4d48f0c8f135a1a3fcd7b66c7b027ebe120e53cd979cce5f3a3f17cd",
+  "input_sha256": {
+    "design-to-build.json": "0bde769a693f14961486590c4effa5ec4bfb0fa271d6598592f6cdd5861fd754",
+    "build/admit.json": "2b65f8662d782b1c11fddc072f456239c970ac75dc0632c30191ee8a5914ae0f"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "plan_ref": "assets/build-plan-plan.json",
+    "mode": "static"
+  },
+  "assets": {
+    "plan": {
+      "path": "assets/build-plan-plan.json",
+      "sha256": "d143da958c0a0a06d68f7dfad3eef8a044523ecd96b2d2235a37bc0541cf2e40"
+    }
+  },
+  "blockers": []
+}

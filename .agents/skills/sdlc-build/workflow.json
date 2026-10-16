@@ -1,0 +1,169 @@
+{
+  "protocol": "sdlc-workflow-v1",
+  "stage": "build",
+  "agent": "agents/build.toml",
+  "agent_instructions": "agents/agent.md",
+  "intake_files": [
+    "design-to-build.json"
+  ],
+  "intake_contract": "contracts/intake.json",
+  "artifact_contract": "contracts/artifact.json",
+  "handoff": "build-to-deploy.json",
+  "handoff_contract": "contracts/handoff.json",
+  "consumer": "deploy",
+  "steps": [
+    {
+      "id": "admit",
+      "skill": "skills/build-admit/SKILL.md",
+      "needs": [],
+      "inputs": [
+        "design-to-build.json"
+      ],
+      "output": "build/admit.json",
+      "payload_contract": "contracts/steps/admit.json",
+      "required_assets": [
+        "admission"
+      ],
+      "resources": [
+        "references/progression-method.md"
+      ],
+      "payload_asset_refs": {
+        "admission_ref": "admission"
+      }
+    },
+    {
+      "id": "plan",
+      "skill": "skills/build-plan/SKILL.md",
+      "needs": [
+        "admit"
+      ],
+      "inputs": [
+        "design-to-build.json",
+        "build/admit.json"
+      ],
+      "output": "build/plan.json",
+      "payload_contract": "contracts/steps/plan.json",
+      "required_assets": [
+        "plan"
+      ],
+      "resources": [
+        "references/build-loop.md"
+      ],
+      "payload_asset_refs": {
+        "plan_ref": "plan"
+      }
+    },
+    {
+      "id": "implement",
+      "skill": "skills/build-implement/SKILL.md",
+      "needs": [
+        "plan"
+      ],
+      "inputs": [
+        "design-to-build.json",
+        "build/plan.json"
+      ],
+      "output": "build/implement.json",
+      "payload_contract": "contracts/steps/implement.json",
+      "required_assets": [
+        "change"
+      ],
+      "resources": [
+        "references/build-loop.md"
+      ],
+      "payload_asset_refs": {
+        "change_ref": "change"
+      }
+    },
+    {
+      "id": "verify",
+      "skill": "skills/build-verify/SKILL.md",
+      "needs": [
+        "implement"
+      ],
+      "inputs": [
+        "design-to-build.json",
+        "build/implement.json"
+      ],
+      "output": "build/verify.json",
+      "payload_contract": "contracts/steps/verify.json",
+      "required_assets": [
+        "acceptance_evidence"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {
+        "verification_ref": "acceptance_evidence"
+      }
+    },
+    {
+      "id": "review",
+      "skill": "skills/build-review/SKILL.md",
+      "needs": [
+        "verify"
+      ],
+      "inputs": [
+        "design-to-build.json",
+        "build/verify.json"
+      ],
+      "output": "build/review.json",
+      "payload_contract": "contracts/steps/review.json",
+      "required_assets": [
+        "review"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {
+        "review_ref": "review"
+      }
+    },
+    {
+      "id": "integrate",
+      "skill": "skills/build-integrate/SKILL.md",
+      "needs": [
+        "review"
+      ],
+      "inputs": [
+        "design-to-build.json",
+        "build/review.json"
+      ],
+      "output": "build/integrate.json",
+      "payload_contract": "contracts/steps/integrate.json",
+      "required_assets": [
+        "quality",
+        "integration"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {
+        "integration_ref": "integration"
+      }
+    },
+    {
+      "id": "handoff",
+      "skill": "skills/build-handoff/SKILL.md",
+      "needs": [
+        "integrate"
+      ],
+      "inputs": [
+        "design-to-build.json",
+        "build/integrate.json"
+      ],
+      "output": "build-to-deploy.json",
+      "payload_contract": "contracts/steps/handoff.json",
+      "required_assets": [
+        "package",
+        "quality",
+        "review",
+        "acceptance_evidence"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {}
+    }
+  ]
+}

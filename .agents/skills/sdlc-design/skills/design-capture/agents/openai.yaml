@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-capture"
+  short_description: "Produce the bounded design-capture artifact result"
+  default_prompt: "Use $design-capture for its single declared output."

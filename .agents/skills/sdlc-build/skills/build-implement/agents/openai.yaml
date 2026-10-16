@@ -1,0 +1,4 @@
+interface:
+  display_name: "build-implement"
+  short_description: "Produce the bounded build-implement artifact result"
+  default_prompt: "Use $build-implement for its single declared output."

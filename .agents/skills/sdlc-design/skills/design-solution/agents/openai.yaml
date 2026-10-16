@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-solution"
+  short_description: "Produce the bounded design-solution artifact result"
+  default_prompt: "Use $design-solution for its single declared output."

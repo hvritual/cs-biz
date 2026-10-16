@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "preview_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "preview_ref"
+  ],
+  "additionalProperties": false
+}

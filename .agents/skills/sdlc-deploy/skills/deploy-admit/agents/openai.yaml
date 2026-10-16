@@ -1,0 +1,4 @@
+interface:
+  display_name: "deploy-admit"
+  short_description: "Produce the bounded deploy-admit artifact result"
+  default_prompt: "Use $deploy-admit for its single declared output."

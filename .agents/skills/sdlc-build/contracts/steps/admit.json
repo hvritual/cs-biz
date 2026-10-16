@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "admission_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "admission_ref"
+  ],
+  "additionalProperties": false
+}

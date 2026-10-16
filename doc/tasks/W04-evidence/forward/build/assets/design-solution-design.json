@@ -1,0 +1,9 @@
+{
+  "synthetic": true,
+  "notice": "OFFLINE EXERCISE ONLY; no actual approval",
+  "input": "array of UTF-8 strings",
+  "output": "ordered unique trimmed nonempty strings",
+  "failure": "first non-string index, no partial result",
+  "runtime": "offline test fixture",
+  "implementation_scope": "backend/internal/example/**"
+}

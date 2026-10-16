@@ -1,0 +1,4 @@
+interface:
+  display_name: "deploy-handoff"
+  short_description: "Produce the bounded deploy-handoff artifact result"
+  default_prompt: "Use $deploy-handoff for its single declared output."

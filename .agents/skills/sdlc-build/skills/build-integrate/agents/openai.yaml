@@ -1,0 +1,4 @@
+interface:
+  display_name: "build-integrate"
+  short_description: "Produce the bounded build-integrate artifact result"
+  default_prompt: "Use $build-integrate for its single declared output."

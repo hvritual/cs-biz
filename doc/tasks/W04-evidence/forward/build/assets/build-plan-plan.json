@@ -1,0 +1,151 @@
+{
+  "synthetic": true,
+  "notice": "OFFLINE EXERCISE ONLY. This is a task-planning artifact; no actual approval, implementation, runtime, CI, integration or deployment is claimed.",
+  "task_id": "synthetic-example",
+  "capability": "build-plan",
+  "source_bindings": [
+    {
+      "path": "design-to-build.json",
+      "sha256": "1cdac1fc84df5264215347736ac2c3c450db4567a1cf26773a8c91c2ad9e4d18"
+    },
+    {
+      "path": "build/admit.json",
+      "sha256": "293ae1f8010d1a4120382633feb9fce4905f43822ced38f85f0f1328ca7d22e9"
+    }
+  ],
+  "frozen_contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "slice": {
+    "id": "label-normalization-R1-AC1",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ],
+    "smallest_unproven_outcome": "A pure operation accepts an array of strings and returns ordered, unique, trimmed nonempty labels; the first non-string produces its index and no partial result.",
+    "scope": "One normalization operation and its focused verification seam under backend/internal/example/**.",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "protected_behavior": [
+      "Preserve first-occurrence order after trimming.",
+      "Treat A and a as distinct labels.",
+      "Remove empty labels after trimming.",
+      "Return no partial result when any element is not a string."
+    ],
+    "mode": "harness_required",
+    "mode_reason": "The task supplies frozen sample assertions but supplies no existing implementation location, unit-test entrypoint or runnable verification harness. No source or tests were inspected in this offline exercise.",
+    "risk": {
+      "planning_artifact": "T0",
+      "proposed_implementation": "T1",
+      "reason": "A bounded pure function with no requested external side effects; actual implementation risk must be rechecked when implementation is authorized."
+    }
+  },
+  "verification_plan": {
+    "environment": "Future authorized local unit-test environment for the repository at the frozen baseline; no runtime has been established here.",
+    "existing_seam": "UNVERIFIED: no genuine repository test seam is identified by the bound task inputs.",
+    "test_entrypoint": "UNRESOLVED: discover and record the actual project unit-test entrypoint before implementation; do not use an invented command as proof.",
+    "proposed_seam": "A direct pure-function unit seam taking the input array and exposing either the full output or the first non-string index; its eventual filename, command and framework remain to be established.",
+    "assertions": [
+      {
+        "id": "AC1-positive",
+        "input": [
+          "  A ",
+          "A",
+          "a",
+          "  "
+        ],
+        "expected": [
+          "A",
+          "a"
+        ],
+        "checks": [
+          "Trimming",
+          "Stable deduplication",
+          "Case sensitivity",
+          "Empty-label removal"
+        ]
+      },
+      {
+        "id": "AC1-first-non-string",
+        "input": [
+          "A",
+          1
+        ],
+        "expected_error_index": 1,
+        "expected_partial_result": false,
+        "checks": [
+          "First invalid index",
+          "No partial result"
+        ]
+      },
+      {
+        "id": "AC1-empty-array",
+        "input": [],
+        "expected": [],
+        "checks": [
+          "Empty input succeeds with empty output"
+        ]
+      }
+    ],
+    "evidence_required": "Raw unit-test assertions for exact outputs and error index, with the actual command, environment, candidate SHA/tree, test source hash and run log.",
+    "red_boundary": "Only assertion failures caused by missing normalization behavior qualify as RED. Missing commands, unavailable harnesses, dependency failures or compiler errors do not.",
+    "readiness_to_leave_harness_required": "Independently locate a genuine project seam, obtain implementation authority, bind the exact test identities and command, then select the actual work mode. No implementation or RED/GREEN run is performed by this plan.",
+    "regression_exit": "The original three AC1 assertions pass on the exact candidate with no scope leakage; actual focused and selected project gates are separately required before delivery.",
+    "independent_review_exit": "A separately authorized reviewer inspects frozen R1/AC1, exact candidate diff, raw assertions, negative-case evidence and scope. No review is claimed here."
+  },
+  "missing_facts": [
+    {
+      "fact": "Actual implementation authority and authentic upstream approval are absent; fixture references do not establish either.",
+      "owner": "Task owner",
+      "recovery": "Provide separately verifiable authorization before any repository mutation."
+    },
+    {
+      "fact": "Existing code, test seam, unit-test command and runtime baseline have not been established.",
+      "owner": "Authorized Build executor",
+      "recovery": "Inspect the permitted repository paths and project test instructions in the implementation context, recording actual findings and exact commands before use."
+    },
+    {
+      "fact": "The design does not specify a Unicode whitespace table beyond the frozen examples.",
+      "owner": "Design owner",
+      "recovery": "Preserve the given AC1 examples; resolve any broader trim semantics through Design before expanding the frozen behavior."
+    }
+  ],
+  "observations": {
+    "performed": "Read only workflow instructions, bound intake/predecessor and their relevant bound assets; ran the static workflow checker.",
+    "not_performed": [
+      "Implementation",
+      "Repository source/test inspection",
+      "Runtime testing",
+      "Actual approval",
+      "External-system mutation",
+      "Integration",
+      "Deployment"
+    ],
+    "checker_before_ref": "build/plan-check-before.json",
+    "approval": "NOT_VERIFIED",
+    "runtime": "NOT_VERIFIED",
+    "execution_granted": false
+  }
+}

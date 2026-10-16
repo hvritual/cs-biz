@@ -1,0 +1,4 @@
+interface:
+  display_name: "deploy-recover"
+  short_description: "Produce the bounded deploy-recover artifact result"
+  default_prompt: "Use $deploy-recover for its single declared output."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "deploy-plan"
+  short_description: "Produce the bounded deploy-plan artifact result"
+  default_prompt: "Use $deploy-plan for its single declared output."

@@ -1,0 +1,15 @@
+{
+  "authentic_approval": "NOT_VERIFIED",
+  "runtime": "NOT_VERIFIED",
+  "execution_granted": false,
+  "state": "BLOCKED",
+  "step": "recover",
+  "blockers": [
+    {
+      "owner": "deployment_owner",
+      "next_action": "Deployment owner must supply the actual target and authorized readback tool plus authoritative operation-ID readback for synthetic-release-001 before outcome can be resolved. Any subsequent deployment, retry, or rollback needs separately verified authority and applicable planned safeguards. Preserve the unknown result and do not blindly replay.",
+      "evidence_ref": "assets/deploy-recover-recovery.json"
+    }
+  ],
+  "contract": "PASS_STATIC_ONLY"
+}

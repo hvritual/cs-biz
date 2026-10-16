@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "review_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "const": "pass"
+    }
+  },
+  "required": [
+    "review_ref",
+    "decision"
+  ],
+  "additionalProperties": false
+}

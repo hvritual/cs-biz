@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-ux"
+  short_description: "Produce the bounded design-ux artifact result"
+  default_prompt: "Use $design-ux for its single declared output."

@@ -1,0 +1,225 @@
+{
+  "type": "object",
+  "properties": {
+    "protocol": {
+      "const": "sdlc-artifact-v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage": {
+      "const": "design"
+    },
+    "step": {
+      "const": "handoff"
+    },
+    "status": {
+      "const": "ready"
+    },
+    "input_sha256": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "contract": {
+      "type": "object",
+      "properties": {
+        "baseline_sha": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "frontend_change": {
+          "type": "boolean"
+        },
+        "mode": {
+          "enum": [
+            "real",
+            "example"
+          ]
+        },
+        "allowed_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "forbidden_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "completion_boundary": {
+          "enum": [
+            "reviewed_design",
+            "integrated_main",
+            "deployed",
+            "physical",
+            "operational"
+          ]
+        },
+        "requirement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "acceptance_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "repository": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        }
+      },
+      "required": [
+        "baseline_sha",
+        "frontend_change",
+        "mode",
+        "allowed_paths",
+        "forbidden_paths",
+        "completion_boundary",
+        "requirement_ids",
+        "acceptance_ids",
+        "repository"
+      ],
+      "additionalProperties": false
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "consumer": {
+          "const": "build"
+        },
+        "design_protocol": {
+          "type": "string",
+          "minLength": 1
+        },
+        "design_review_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "execution_authority_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "design_task_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "design_revision": {
+          "type": "string",
+          "pattern": "^r[0-9]{3,}$"
+        }
+      },
+      "required": [
+        "consumer",
+        "design_protocol",
+        "design_review_ref",
+        "execution_authority_ref",
+        "design_task_ref",
+        "design_revision"
+      ],
+      "additionalProperties": false
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "additionalProperties": false
+      },
+      "required": [
+        "raw",
+        "intent",
+        "solution",
+        "design",
+        "requirements",
+        "acceptance",
+        "language_review",
+        "design_packet"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "next_action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "owner",
+          "next_action",
+          "evidence_ref"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "definition_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "protocol",
+    "task_id",
+    "stage",
+    "step",
+    "status",
+    "input_sha256",
+    "contract",
+    "payload",
+    "assets",
+    "blockers",
+    "definition_sha256"
+  ],
+  "additionalProperties": false
+}

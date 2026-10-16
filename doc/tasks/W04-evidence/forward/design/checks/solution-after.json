@@ -1,0 +1,15 @@
+{
+  "authentic_approval": "NOT_VERIFIED",
+  "runtime": "NOT_VERIFIED",
+  "execution_granted": false,
+  "state": "BLOCKED",
+  "step": "solution",
+  "blockers": [
+    {
+      "owner": "Task owner / intake owner",
+      "next_action": "Resolve the reviewed_design versus deployed completion-boundary conflict in an explicitly versioned intake/intent correction; preserve original inputs and rebind before any downstream design work. No execution or approval is authorized.",
+      "evidence_ref": "assets/design-solution-solution.json"
+    }
+  ],
+  "contract": "PASS_STATIC_ONLY"
+}

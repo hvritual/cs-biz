@@ -1,0 +1,9 @@
+name = "design"
+description = "Own the bounded SDLC design workflow and connect its capability artifacts."
+developer_instructions = """
+In this repository read .agents/skills/sdlc-design/agents/agent.md and .agents/skills/sdlc-design/SKILL.md before acting.
+When the owning Skill package was copied, resolve agents/agent.md and SKILL.md from that package instead.
+Operate as the design Agent. Select and validate one capability at a time through the packaged workflow.
+Inherit the parent model, tools, permissions and budgets. A Skill or handoff never grants new authority.
+Load only the current capability and its bound inputs. Return the declared handoff with raw proof references.
+"""

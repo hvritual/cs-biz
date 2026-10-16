@@ -1,0 +1,16 @@
+{
+  "assets/design-intent-intent.json": "a5fec8dc537b9ccda89acf34e68bfe33f26076e57e175ebe4ffc35f140ea0834",
+  "assets/design-research-knowledge.json": "5066a87d9cf99f521ae11256507b021e3fe1829c24d7b16790ff8538400e10a6",
+  "assets/design-solution-design.json": "e7a5070d5fb3c044ba2a36dc95f39eabe793650632f14f8338342999a9aea895",
+  "assets/design-solution-solution.json": "1e306f4ae5db31a696fdfc2339ee053b97cbf0e37eeaf45d40dd376b51b15cc6",
+  "checks/solution-after.exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+  "checks/solution-after.json": "e5465ded2bd640450ddf7ad341f1577df9f4ac0279bf2d4cbcd45b46c15048ea",
+  "checks/solution-after.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "checks/solution-before.json": "24a106582f4a9a21a4df5e3a189d16aa11faf40425ad80ecbc35c12de410efb1",
+  "design/capture.json": "bb28faab06892c297de15b6ee47f82f2d9bc56527d754cd4cc32110f78245a5d",
+  "design/intent.json": "257466bea21f181ef51523b15343cda180456f919e0eab102da5732f194ec905",
+  "design/research.json": "b0eb2f16d749cf64cfdc77b7804520955af1acdd0de479469e334e363acc4da2",
+  "design/solution.json": "f8dfc03a40673c8578bed83f5ea4d08df119f7196a93dba1c9bdfcd9d406c1fa",
+  "raw.txt": "ec1c6ed3f160aaa90868eb35e54c6e47f4bc5cc88ccf25cfd004bfd8cfc5a51c",
+  "request.json": "a9ede7a3db7757000d1fe43eefae066d2356ac3763f89a38cb781fc55034bd12"
+}

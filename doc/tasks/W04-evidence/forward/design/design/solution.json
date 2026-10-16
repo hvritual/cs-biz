@@ -1,0 +1,46 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "design",
+  "step": "solution",
+  "status": "blocked",
+  "definition_sha256": "3ebcb08795ce792f9940fff655edb368ed86b91c48d146c634ca3f9b4f160351",
+  "input_sha256": {
+    "request.json": "a9ede7a3db7757000d1fe43eefae066d2356ac3763f89a38cb781fc55034bd12",
+    "design/intent.json": "257466bea21f181ef51523b15343cda180456f919e0eab102da5732f194ec905"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed"
+  },
+  "payload": {
+    "solution_ref": "assets/design-solution-solution.json",
+    "design_ref": "assets/design-solution-design.json"
+  },
+  "assets": {
+    "solution": {
+      "path": "assets/design-solution-solution.json",
+      "sha256": "1e306f4ae5db31a696fdfc2339ee053b97cbf0e37eeaf45d40dd376b51b15cc6"
+    },
+    "design": {
+      "path": "assets/design-solution-design.json",
+      "sha256": "e7a5070d5fb3c044ba2a36dc95f39eabe793650632f14f8338342999a9aea895"
+    }
+  },
+  "blockers": [
+    {
+      "owner": "Task owner / intake owner",
+      "next_action": "Resolve the reviewed_design versus deployed completion-boundary conflict in an explicitly versioned intake/intent correction; preserve original inputs and rebind before any downstream design work. No execution or approval is authorized.",
+      "evidence_ref": "assets/design-solution-solution.json"
+    }
+  ]
+}

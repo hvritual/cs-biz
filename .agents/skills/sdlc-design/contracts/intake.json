@@ -1,0 +1,113 @@
+{
+  "type": "object",
+  "properties": {
+    "protocol": {
+      "const": "sdlc-request-v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contract": {
+      "type": "object",
+      "properties": {
+        "baseline_sha": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "frontend_change": {
+          "type": "boolean"
+        },
+        "mode": {
+          "enum": [
+            "real",
+            "example"
+          ]
+        },
+        "allowed_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "forbidden_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "completion_boundary": {
+          "enum": [
+            "reviewed_design",
+            "integrated_main",
+            "deployed",
+            "physical",
+            "operational"
+          ]
+        },
+        "repository": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        }
+      },
+      "required": [
+        "baseline_sha",
+        "frontend_change",
+        "mode",
+        "allowed_paths",
+        "forbidden_paths",
+        "completion_boundary",
+        "repository"
+      ],
+      "additionalProperties": false
+    },
+    "authority_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assets": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "path",
+            "sha256"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "raw"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "protocol",
+    "task_id",
+    "contract",
+    "authority_ref",
+    "assets"
+  ],
+  "additionalProperties": false
+}

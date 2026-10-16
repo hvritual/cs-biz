@@ -1,0 +1,44 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "deploy",
+  "step": "execute",
+  "status": "ready",
+  "definition_sha256": "bbe4ad1ed60f180e2e7abb3708f4f19b8a93913499cae5a31e3e3100939f1b02",
+  "input_sha256": {
+    "build-to-deploy.json": "fc207dbd992b54b23d4760346bdff31f2b03d4ddda42e286a55405b7c7f6b2df",
+    "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa",
+    "deploy/plan.json": "fb656e408334dca533bac8727e95ef3a7067440c27bc7b39d7c4b077b2d0b136"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "environment": "synthetic-env",
+    "operation_id": "synthetic-release-001",
+    "outcome": "unknown"
+  },
+  "assets": {
+    "execution": {
+      "path": "assets/deploy-execute-execution.json",
+      "sha256": "a59e363aac5e10bf65129eee566c3ee9542e7e423414cf8b42e4e0070477fb72"
+    }
+  },
+  "blockers": []
+}

@@ -1,0 +1,43 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "deploy",
+  "step": "admit",
+  "status": "ready",
+  "definition_sha256": "35ce1f512f0f1da25df34fad2666da193f464d215fc968da23a00cc14486f008",
+  "input_sha256": {
+    "build-to-deploy.json": "fc207dbd992b54b23d4760346bdff31f2b03d4ddda42e286a55405b7c7f6b2df",
+    "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "environment": "synthetic-env",
+    "deployment_authority_ref": "fixture://not-authenticated-deploy-authority",
+    "admission_ref": "assets/deploy-admit-admission.json"
+  },
+  "assets": {
+    "admission": {
+      "path": "assets/deploy-admit-admission.json",
+      "sha256": "a2f5b28efa0a15b621989bf423292b9caa452d50bf59fefc31af4a5352b6306b"
+    }
+  },
+  "blockers": []
+}

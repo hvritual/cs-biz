@@ -1,0 +1,40 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "build",
+  "step": "admit",
+  "status": "ready",
+  "definition_sha256": "a460a2866a725b6753919769a68c33668f3b16a3957ccde3f51c29749cf8d3a7",
+  "input_sha256": {
+    "design-to-build.json": "0bde769a693f14961486590c4effa5ec4bfb0fa271d6598592f6cdd5861fd754"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "admission_ref": "assets/build-admit-admission.json"
+  },
+  "assets": {
+    "admission": {
+      "path": "assets/build-admit-admission.json",
+      "sha256": "a2f5b28efa0a15b621989bf423292b9caa452d50bf59fefc31af4a5352b6306b"
+    }
+  },
+  "blockers": []
+}

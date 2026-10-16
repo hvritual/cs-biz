@@ -1,0 +1,4 @@
+interface:
+  display_name: "build-handoff"
+  short_description: "Produce the bounded build-handoff artifact result"
+  default_prompt: "Use $build-handoff for its single declared output."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "deploy-execute"
+  short_description: "Produce the bounded deploy-execute artifact result"
+  default_prompt: "Use $deploy-execute for its single declared output."

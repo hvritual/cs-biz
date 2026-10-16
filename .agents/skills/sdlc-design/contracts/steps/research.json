@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "knowledge_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "knowledge_ref"
+  ],
+  "additionalProperties": false
+}

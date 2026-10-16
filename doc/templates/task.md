@@ -89,3 +89,7 @@ Use **doc/ci/RISK-BASED-GATES.md**. Record failing assertion/source, Fast and fo
 按 [板块成果协议](../workflow/MODULE-OUTCOME-CONTRACT.md) 在本任务目录引用 module-contract.json。填写完整成员（含 closed/blocked/必要未建任务）、排除决定、设计/R/AC/状态双向追踪、可观察条件与失败/恢复/约束、板块集成出口、依赖与资源/owner、范围/预算及分别获准的动作。冻结前做独立语义审查并引用真实同版批准和 locked commit；实现者不能重算摘要冒充批准。
 
 每轮记录实际 main/Issue/PR 回读、当前 AC 证据、阻塞恢复动作和一个 next action。授权内连续推进所有必需成员，保留完整分母。最终逐项证据及整体集成核验通过才关闭父板块；静态检查、Issue closed 或单项 merge 不能代替完成。
+
+## 三阶段 Agent 交接
+
+按当前 sdlc-workflow 仅调用本目标需要的阶段：Design → design-to-build.json；Build → build-to-deploy.json；Deploy → deploy-receipt.json。记录确切 task/stage/step、definition/input SHA256、冻结 contract、实际产物/证据和 blocker。Agent 负责选择、核验、恢复与交接；内部 Skill 只产出单项结果。生产部署仍需独立环境/授权/产物/观察与恢复条件；rolled_back/failed/unknown 保留原义。示例恒为 EXAMPLE_ONLY，原生 Agent 配置解析不证明已启动。

@@ -1,0 +1,50 @@
+{
+  "boundary": "independent instruction-driven Agent applications; not native Codex discovery, real approval, runtime, CI or deployment proof",
+  "results": [
+    {
+      "stage": "design",
+      "evaluated_package_artifact_io_sha256": "7e35c6711c62c5a2e3f6dffc1e8b87e8c6b2448770c05316f6f437dee7b146ce",
+      "release_package_artifact_io_sha256": "3036dc67fe394fc0d5fc8d4b3b702b886c1cad18cf9981f7614c5ee32ea94b39",
+      "source_difference": "evaluated artifact_io.py has one additional blank line at EOF; behavior unchanged; release examples and tests regenerated after cleanup",
+      "command": [
+        "python3",
+        "<copied-evaluated-package>/scripts/check_workflow.py",
+        "--task",
+        "doc/tasks/W04-evidence/forward/design"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"runtime\": \"NOT_VERIFIED\",\n  \"execution_granted\": false,\n  \"state\": \"BLOCKED\",\n  \"step\": \"solution\",\n  \"blockers\": [\n    {\n      \"owner\": \"Task owner / intake owner\",\n      \"next_action\": \"Resolve the reviewed_design versus deployed completion-boundary conflict in an explicitly versioned intake/intent correction; preserve original inputs and rebind before any downstream design work. No execution or approval is authorized.\",\n      \"evidence_ref\": \"assets/design-solution-solution.json\"\n    }\n  ],\n  \"contract\": \"PASS_STATIC_ONLY\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "stage": "build",
+      "evaluated_package_artifact_io_sha256": "7e35c6711c62c5a2e3f6dffc1e8b87e8c6b2448770c05316f6f437dee7b146ce",
+      "release_package_artifact_io_sha256": "3036dc67fe394fc0d5fc8d4b3b702b886c1cad18cf9981f7614c5ee32ea94b39",
+      "source_difference": "evaluated artifact_io.py has one additional blank line at EOF; behavior unchanged; release examples and tests regenerated after cleanup",
+      "command": [
+        "python3",
+        "<copied-evaluated-package>/scripts/check_workflow.py",
+        "--task",
+        "doc/tasks/W04-evidence/forward/build"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"runtime\": \"NOT_VERIFIED\",\n  \"execution_granted\": false,\n  \"state\": \"READY_FOR_STEP_STATIC\",\n  \"next_action\": \"INVOKE_SKILL\",\n  \"context\": {\n    \"step\": \"implement\",\n    \"skill\": \"skills/build-implement/SKILL.md\",\n    \"output\": \"build/implement.json\",\n    \"definition_sha256\": \"385e622b869db350b990b0d94869b1b2a306bc3d287c5ac0c96f7eb2dd5c01c2\",\n    \"applicable\": true,\n    \"payload_contract\": \"contracts/steps/implement.json\",\n    \"inputs\": [\n      {\n        \"path\": \"design-to-build.json\",\n        \"sha256\": \"1cdac1fc84df5264215347736ac2c3c450db4567a1cf26773a8c91c2ad9e4d18\"\n      },\n      {\n        \"path\": \"build/plan.json\",\n        \"sha256\": \"edc603d345ca257cd15dd4ee0cc514c5e9f7ec696ca661efa36ba0aa7ae4e26d\"\n      }\n    ],\n    \"resources\": [\n      \"references/build-loop.md\"\n    ]\n  },\n  \"contract\": \"PASS_STATIC_ONLY\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "stage": "deploy",
+      "evaluated_package_artifact_io_sha256": "7e35c6711c62c5a2e3f6dffc1e8b87e8c6b2448770c05316f6f437dee7b146ce",
+      "release_package_artifact_io_sha256": "3036dc67fe394fc0d5fc8d4b3b702b886c1cad18cf9981f7614c5ee32ea94b39",
+      "source_difference": "evaluated artifact_io.py has one additional blank line at EOF; behavior unchanged; release examples and tests regenerated after cleanup",
+      "command": [
+        "python3",
+        "<copied-evaluated-package>/scripts/check_workflow.py",
+        "--task",
+        "doc/tasks/W04-evidence/forward/deploy"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"runtime\": \"NOT_VERIFIED\",\n  \"execution_granted\": false,\n  \"state\": \"BLOCKED\",\n  \"step\": \"recover\",\n  \"blockers\": [\n    {\n      \"owner\": \"deployment_owner\",\n      \"next_action\": \"Deployment owner must supply the actual target and authorized readback tool plus authoritative operation-ID readback for synthetic-release-001 before outcome can be resolved. Any subsequent deployment, retry, or rollback needs separately verified authority and applicable planned safeguards. Preserve the unknown result and do not blindly replay.\",\n      \"evidence_ref\": \"assets/deploy-recover-recovery.json\"\n    }\n  ],\n  \"contract\": \"PASS_STATIC_ONLY\"\n}\n",
+      "stderr": ""
+    }
+  ]
+}

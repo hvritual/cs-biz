@@ -1,0 +1,46 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "deploy",
+  "step": "recover",
+  "status": "ready",
+  "definition_sha256": "58e0420cfd8753f6fac76eb6c43117d13c1f74f9f09fe83ecfe4ca731582ed2d",
+  "input_sha256": {
+    "build-to-deploy.json": "cf49d3e10a366030cf7401b2a34f169319b1fba8085e77c5dfbf1a9aa951dfd5",
+    "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa",
+    "deploy/observe.json": "64224b8ecc8d19995cf4e2f362fceb6e442f592a2b7e01c640a01fa43f166511"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed",
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ]
+  },
+  "payload": {
+    "environment": "synthetic-env",
+    "operation_id": "synthetic-release-001",
+    "outcome": "rolled_back",
+    "observed_revision": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "package_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "assets": {
+    "recovery": {
+      "path": "assets/deploy-recover-recovery.json",
+      "sha256": "25dba6205a2ef70d9636d0e8ae26b022de551b98a9f494a816642d85e213a8ab"
+    }
+  },
+  "blockers": []
+}

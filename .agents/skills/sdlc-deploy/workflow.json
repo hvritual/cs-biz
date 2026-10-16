@@ -1,0 +1,150 @@
+{
+  "protocol": "sdlc-workflow-v1",
+  "stage": "deploy",
+  "agent": "agents/deploy.toml",
+  "agent_instructions": "agents/agent.md",
+  "intake_files": [
+    "build-to-deploy.json",
+    "deploy-request.json"
+  ],
+  "intake_contract": "contracts/intake.json",
+  "artifact_contract": "contracts/artifact.json",
+  "handoff": "deploy-receipt.json",
+  "handoff_contract": "contracts/handoff.json",
+  "consumer": "closure",
+  "steps": [
+    {
+      "id": "admit",
+      "skill": "skills/deploy-admit/SKILL.md",
+      "needs": [],
+      "inputs": [
+        "build-to-deploy.json",
+        "deploy-request.json"
+      ],
+      "output": "deploy/admit.json",
+      "payload_contract": "contracts/steps/admit.json",
+      "required_assets": [
+        "admission"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {
+        "admission_ref": "admission"
+      }
+    },
+    {
+      "id": "plan",
+      "skill": "skills/deploy-plan/SKILL.md",
+      "needs": [
+        "admit"
+      ],
+      "inputs": [
+        "build-to-deploy.json",
+        "deploy-request.json",
+        "deploy/admit.json"
+      ],
+      "output": "deploy/plan.json",
+      "payload_contract": "contracts/steps/plan.json",
+      "required_assets": [
+        "release_plan"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {}
+    },
+    {
+      "id": "execute",
+      "skill": "skills/deploy-execute/SKILL.md",
+      "needs": [
+        "plan"
+      ],
+      "inputs": [
+        "build-to-deploy.json",
+        "deploy-request.json",
+        "deploy/plan.json"
+      ],
+      "output": "deploy/execute.json",
+      "payload_contract": "contracts/steps/execute.json",
+      "required_assets": [
+        "execution"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {}
+    },
+    {
+      "id": "observe",
+      "skill": "skills/deploy-observe/SKILL.md",
+      "needs": [
+        "execute"
+      ],
+      "inputs": [
+        "build-to-deploy.json",
+        "deploy-request.json",
+        "deploy/execute.json"
+      ],
+      "output": "deploy/observe.json",
+      "payload_contract": "contracts/steps/observe.json",
+      "required_assets": [
+        "smoke"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {}
+    },
+    {
+      "id": "recover",
+      "skill": "skills/deploy-recover/SKILL.md",
+      "needs": [
+        "observe"
+      ],
+      "inputs": [
+        "build-to-deploy.json",
+        "deploy-request.json",
+        "deploy/observe.json"
+      ],
+      "output": "deploy/recover.json",
+      "payload_contract": "contracts/steps/recover.json",
+      "required_assets": [
+        "recovery"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "when": {
+        "file": "deploy/observe.json",
+        "pointer": "/payload/outcome",
+        "in": [
+          "failed",
+          "unknown"
+        ]
+      },
+      "payload_asset_refs": {}
+    },
+    {
+      "id": "handoff",
+      "skill": "skills/deploy-handoff/SKILL.md",
+      "needs": [
+        "recover"
+      ],
+      "inputs": [
+        "build-to-deploy.json",
+        "deploy-request.json",
+        "deploy/recover.json"
+      ],
+      "output": "deploy-receipt.json",
+      "payload_contract": "contracts/steps/handoff.json",
+      "required_assets": [
+        "release_evidence"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {}
+    }
+  ]
+}

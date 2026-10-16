@@ -1,0 +1,9 @@
+# Design method
+
+Receive raw request and current project facts. Capture verbatim intent before interpreting it, distinguish facts from material choices, then produce solution, technical design, requirements and a complete journey together. Resolve only material unanswered decisions with Human; inspect facts autonomously. Proposed ADRs are options. Preserve traceable R/AC and source versions.
+
+UI work reuses the existing frontend/apps/console shell, components/tokens/i18n and isolated fixtures. Read the internal design-ux capability and its cs-biz binding only when frontend_change is true. Produce real project Preview observations, not standalone screenshots or another application. Unknown/partial/denied/empty/recovery states and applicable tenant/money/side-effect invariants are acceptance obligations.
+
+Define measurable actor/conditions/action/result, pass/fail method/environment, relevant negative/recovery cases and preserved behavior before the module is automatically implemented. Independently reverse-check the whole original design for missing requirements. Same-version Human review is required for unresolved/changed material design; reuse valid confirmation. Preserve prior rounds, feedback target and original preservation anchor; stale feedback requires rebase. Implementation authority is separately referenced, not inherited from review.
+
+The Agent calls capture → research → intent → solution → optional UX → optional Preview → acceptance → language → handoff. It checks each output before continuing, returns changed meaning to Intent/Human, and hands a frozen file index to Build. The existing v2 packet remains the detailed approved design source; the new handoff is an index, not a second PRD. Static validation cannot authenticate the reviewer or prove Preview behavior.

@@ -1,0 +1,30 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "synthetic-example",
+  "stage": "design",
+  "step": "ux",
+  "status": "not_applicable",
+  "definition_sha256": "8db802e2e735c0c7968ef3009e8f7376ff575b7e2508b955117f2f35bbcc2f9f",
+  "input_sha256": {
+    "request.json": "aeacce3be4766ea6a9cb33ea4ba68f6afb18dfbe8e163ebc5704be9d91f42fe3",
+    "design/solution.json": "416292ec149fa2470c90e54db2119e13b748b27d0279bfcafa61707e2560c347"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "0085c7426cd972babe38b3703a4dbb4ee25229a0",
+    "frontend_change": false,
+    "mode": "example",
+    "allowed_paths": [
+      "backend/internal/example/**"
+    ],
+    "forbidden_paths": [
+      "frontend/**"
+    ],
+    "completion_boundary": "deployed"
+  },
+  "payload": {
+    "reason": "Synthetic backend-only design"
+  },
+  "assets": {},
+  "blockers": []
+}

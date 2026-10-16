@@ -1,0 +1,4 @@
+interface:
+  display_name: "SDLC Deploy Agent"
+  short_description: "Coordinate authorized release, readback and safe recovery"
+  default_prompt: "Use $sdlc-deploy to coordinate the Deploy Agent workflow."

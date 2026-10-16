@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "journey_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "flow_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ux_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "journey_ref",
+    "flow_ref",
+    "ux_ref"
+  ],
+  "additionalProperties": false
+}

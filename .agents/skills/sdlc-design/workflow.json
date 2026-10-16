@@ -1,0 +1,229 @@
+{
+  "protocol": "sdlc-workflow-v1",
+  "stage": "design",
+  "agent": "agents/design.toml",
+  "agent_instructions": "agents/agent.md",
+  "intake_files": [
+    "request.json"
+  ],
+  "intake_contract": "contracts/intake.json",
+  "artifact_contract": "contracts/artifact.json",
+  "handoff": "design-to-build.json",
+  "handoff_contract": "contracts/handoff.json",
+  "consumer": "build",
+  "steps": [
+    {
+      "id": "capture",
+      "skill": "skills/design-capture/SKILL.md",
+      "needs": [],
+      "inputs": [
+        "request.json"
+      ],
+      "output": "design/capture.json",
+      "payload_contract": "contracts/steps/capture.json",
+      "required_assets": [
+        "raw"
+      ],
+      "resources": [
+        "references/intent-method.md"
+      ],
+      "payload_asset_refs": {
+        "raw_ref": "raw"
+      }
+    },
+    {
+      "id": "research",
+      "skill": "skills/design-research/SKILL.md",
+      "needs": [
+        "capture"
+      ],
+      "inputs": [
+        "request.json",
+        "design/capture.json"
+      ],
+      "output": "design/research.json",
+      "payload_contract": "contracts/steps/research.json",
+      "required_assets": [
+        "knowledge"
+      ],
+      "resources": [
+        "references/intent-method.md"
+      ],
+      "payload_asset_refs": {
+        "knowledge_ref": "knowledge"
+      }
+    },
+    {
+      "id": "intent",
+      "skill": "skills/design-intent/SKILL.md",
+      "needs": [
+        "research"
+      ],
+      "inputs": [
+        "request.json",
+        "design/research.json"
+      ],
+      "output": "design/intent.json",
+      "payload_contract": "contracts/steps/intent.json",
+      "required_assets": [
+        "intent"
+      ],
+      "resources": [
+        "references/intent-method.md"
+      ],
+      "payload_asset_refs": {
+        "intent_ref": "intent"
+      }
+    },
+    {
+      "id": "solution",
+      "skill": "skills/design-solution/SKILL.md",
+      "needs": [
+        "intent"
+      ],
+      "inputs": [
+        "request.json",
+        "design/intent.json"
+      ],
+      "output": "design/solution.json",
+      "payload_contract": "contracts/steps/solution.json",
+      "required_assets": [
+        "solution",
+        "design"
+      ],
+      "resources": [
+        "references/method.md"
+      ],
+      "payload_asset_refs": {
+        "solution_ref": "solution",
+        "design_ref": "design"
+      }
+    },
+    {
+      "id": "ux",
+      "skill": "skills/design-ux/SKILL.md",
+      "needs": [
+        "solution"
+      ],
+      "inputs": [
+        "request.json",
+        "design/solution.json"
+      ],
+      "output": "design/ux.json",
+      "payload_contract": "contracts/steps/ux.json",
+      "required_assets": [
+        "journey",
+        "flow",
+        "ux_analysis"
+      ],
+      "resources": [
+        "skills/design-ux/references/ux-method.md"
+      ],
+      "when": {
+        "file": "request.json",
+        "pointer": "/contract/frontend_change",
+        "is": true
+      },
+      "payload_asset_refs": {
+        "journey_ref": "journey",
+        "flow_ref": "flow",
+        "ux_ref": "ux_analysis"
+      }
+    },
+    {
+      "id": "preview",
+      "skill": "skills/design-preview/SKILL.md",
+      "needs": [
+        "ux"
+      ],
+      "inputs": [
+        "request.json",
+        "design/ux.json"
+      ],
+      "output": "design/preview.json",
+      "payload_contract": "contracts/steps/preview.json",
+      "required_assets": [
+        "preview_evidence"
+      ],
+      "resources": [
+        "references/intent-design-v2.md"
+      ],
+      "when": {
+        "file": "request.json",
+        "pointer": "/contract/frontend_change",
+        "is": true
+      },
+      "payload_asset_refs": {
+        "preview_ref": "preview_evidence"
+      }
+    },
+    {
+      "id": "acceptance",
+      "skill": "skills/design-acceptance/SKILL.md",
+      "needs": [
+        "preview"
+      ],
+      "inputs": [
+        "request.json",
+        "design/preview.json"
+      ],
+      "output": "design/acceptance.json",
+      "payload_contract": "contracts/steps/acceptance.json",
+      "required_assets": [
+        "requirements",
+        "acceptance"
+      ],
+      "resources": [
+        "references/design-handoff-v2.md"
+      ],
+      "payload_asset_refs": {
+        "acceptance_ref": "acceptance"
+      }
+    },
+    {
+      "id": "language",
+      "skill": "skills/design-language/SKILL.md",
+      "needs": [
+        "acceptance"
+      ],
+      "inputs": [
+        "request.json",
+        "design/acceptance.json"
+      ],
+      "output": "design/language.json",
+      "payload_contract": "contracts/steps/language.json",
+      "required_assets": [
+        "language_review"
+      ],
+      "resources": [
+        "references/language-method.md"
+      ],
+      "payload_asset_refs": {}
+    },
+    {
+      "id": "handoff",
+      "skill": "skills/design-handoff/SKILL.md",
+      "needs": [
+        "language"
+      ],
+      "inputs": [
+        "request.json",
+        "design/language.json"
+      ],
+      "output": "design-to-build.json",
+      "payload_contract": "contracts/steps/handoff.json",
+      "required_assets": [
+        "design_packet",
+        "solution",
+        "design",
+        "requirements",
+        "acceptance"
+      ],
+      "resources": [
+        "references/design-handoff-v2.md"
+      ],
+      "payload_asset_refs": {}
+    }
+  ],
+  "inherit_contract_from": "acceptance"
+}

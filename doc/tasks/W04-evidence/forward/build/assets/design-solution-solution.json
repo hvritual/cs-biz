@@ -1,0 +1,6 @@
+{
+  "synthetic": true,
+  "notice": "OFFLINE EXERCISE ONLY; no actual approval",
+  "decision": "Pure normalize_labels function, no side effects",
+  "algorithm": "trim Unicode whitespace, reject non-string with index, drop empty, stable case-sensitive dedup"
+}

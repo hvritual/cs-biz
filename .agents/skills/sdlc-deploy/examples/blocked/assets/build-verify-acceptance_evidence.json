@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "notice": "NOT actual approval/runtime/CI/deployment evidence",
+  "role": "acceptance_evidence",
+  "acceptance_ids": [
+    "AC1"
+  ],
+  "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "results": [
+    {
+      "acceptance_id": "AC1",
+      "status": "pass",
+      "evidence_ref": "fixture://not-real-test-proof"
+    }
+  ]
+}

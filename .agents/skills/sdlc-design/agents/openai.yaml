@@ -1,0 +1,4 @@
+interface:
+  display_name: "SDLC Design Agent"
+  short_description: "Coordinate Design capabilities and freeze a reviewed handoff"
+  default_prompt: "Use $sdlc-design to coordinate the Design Agent workflow."

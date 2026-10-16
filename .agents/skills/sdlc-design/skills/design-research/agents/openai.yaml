@@ -1,0 +1,4 @@
+interface:
+  display_name: "design-research"
+  short_description: "Produce the bounded design-research artifact result"
+  default_prompt: "Use $design-research for its single declared output."
