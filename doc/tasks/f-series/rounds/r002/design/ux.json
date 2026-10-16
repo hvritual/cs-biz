@@ -1,0 +1,59 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "yunka-f-series-r002-design",
+  "stage": "design",
+  "step": "ux",
+  "status": "ready",
+  "definition_sha256": "2f82587af497c4b411a0cd5c99482fa5042dc16ce5ca793f2165ca9452e754d3",
+  "input_sha256": {
+    "request.json": "4473e3491609d9895b82e8ecc8a29f06a0f3d92d73abfe82b089d736d9bd1139",
+    "design/solution.json": "f80c6f14613f097cd0d278b3f7007210f3219cedf54f8e22191bfe246698a826"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+    "frontend_change": true,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/rounds/r002/**",
+      "doc/tasks/f-series/task.md",
+      "doc/roadmap.md",
+      "frontend/apps/console/src/design/f-series/**",
+      "frontend/apps/console/src/bootstrap.ts",
+      "frontend/tests/e2e/f-series-design.e2e.ts",
+      "frontend/apps/console/src/layouts/basic.vue",
+      "doc/tasks/README.md"
+    ],
+    "forbidden_paths": [
+      "backend/**",
+      ".agents/**",
+      ".codex/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**",
+      "doc/tasks/f-series/rounds/r001/**",
+      "frontend/pnpm-lock.yaml"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "payload": {
+    "journey_ref": "journey.md",
+    "flow_ref": "flow.mmd",
+    "ux_ref": "ux-analysis.yaml"
+  },
+  "assets": {
+    "journey": {
+      "path": "journey.md",
+      "sha256": "8ea2ddfc674074bf32b8e4113706bb678a7e0de3f269f825e94c8a6fb3e2f388"
+    },
+    "flow": {
+      "path": "flow.mmd",
+      "sha256": "8546b0c2771fafb5dae69f57e01d2d177fd50031f050efa1f3a2598d694fb20c"
+    },
+    "ux_analysis": {
+      "path": "ux-analysis.yaml",
+      "sha256": "dc9dd35bb20348b402272bb4a5fcbac50fd0a173029eb4391c08d1244cb097ab"
+    }
+  },
+  "blockers": []
+}

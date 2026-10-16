@@ -1,6 +1,6 @@
 # 当前业务路线
 
-核验：2026-10-16，main `a13def36f8abd411e7b601b088845f900256222b`；[来源快照](evidence/repository-state-2026-10-16.json)。这是带基线的投影，执行前回读 main、完整 Issue/PR 与原验收。[任务入口](tasks/README.md) 只保留实际业务消费者；工作流方法在所属 Skill，不再堆叠一次性建设任务。
+核验：2026-10-16，main `191189ba63ffcbda8f62be1981ae3b892172a9c9`；[来源快照](evidence/repository-state-2026-10-16.json)。这是带基线的投影，执行前回读 main、完整 Issue/PR 与原验收。[任务入口](tasks/README.md) 只保留实际业务消费者；工作流方法在所属 Skill，不再堆叠一次性建设任务。
 
 ## 当前成果和边界
 
@@ -10,11 +10,11 @@
 | F0 / #11 | [PR #27](https://github.com/hvritual/cs-biz/pull/27) 交付同版 r005 设计；[冻结原件](tasks/F0-yunka-freeze.md) | 后续 F 实现不由设计交付自动证明 |
 | F1 / #12 | [PR #31](https://github.com/hvritual/cs-biz/pull/31) 交付固定 Consumer/工具链、生成装配零漂移、只读探针、JSON stdout、本地可查询 Trace；[任务](tasks/issue-12-f1/task.md) | 真实业务 Browser/BFF/Domain/RPC/Outbox 和生产资格 |
 | S0 资源 | [PR #38](https://github.com/hvritual/cs-biz/pull/38) 真实 CI 验证 Docker MySQL / 非生产 OIDC，保留标准生产 IdP 适配入口；[资源任务](tasks/f-series/S0-resources.md) | 资源可用不等于业务 IAM/Session/Domain DB 或生产接入已验证 |
-| 工作流连续性 | [PR #39](https://github.com/hvritual/cs-biz/pull/39) 已合入；main [Full #38914775714](https://github.com/hvritual/cs-biz/actions/runs/38914775714) QUALIFIED | 宿主会话驱动的协调，不是无人值守服务；不恢复 F 实施 |
+| 工作流连续性 | [PR #39](https://github.com/hvritual/cs-biz/pull/39) 已合入；main [Full #38914775714](https://github.com/hvritual/cs-biz/actions/runs/38914775714) QUALIFIED | 宿主会话驱动的协调，不是无人值守服务；恢复以实际Human来源为准 |
 
-## Yunka F：保持停止，保留完整出口
+## Yunka F：恢复设计，保留完整出口
 
-当前状态为 **STOPPED_BY_HUMAN**，原因及有效决定见 [F 系列任务](tasks/f-series/task.md)。本次文档/协议/分支清理不授权恢复 F2–F6；后续若明确恢复，Goal 维护原目标和完整 R/AC，按实际依赖准入已授权切片。
+当前状态为 **RESUMED_DESIGN**：Human 于2026-10-16 22:49明确恢复F2–F6，22:54要求开始同版设计/旅程/验收与准入对账；见 [F系列任务](tasks/f-series/task.md)。r002是待审设计，不是业务实现完成；P1/P2/P4/P7按影响范围待决定，生产P6只阻塞相应出口。Goal继续维护完整原R/AC与逐切片准入。
 
 | 单元 | 必需结果与依赖 | 当前缺口 |
 | --- | --- | --- |

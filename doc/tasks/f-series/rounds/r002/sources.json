@@ -1,0 +1,308 @@
+{
+  "repository": "hvritual/cs-biz",
+  "baseline_sha": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+  "observed_at": "2026-10-16T15:11:48.833404+00:00",
+  "authority": "raw-user.txt",
+  "repository_sources": [
+    {
+      "path": "AGENTS.md",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "e42c768e9754a1bd4beaf5add22718a5dc2eb817d826e34f4a9d896d1611cc96",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/roadmap.md",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "8221425698c08bb47ffb65f18fe18fb7d19944d664cfe70aaf11682dec41d856",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/contracts/access-context.md",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "091f0d8a5a82dfedfc0382e73c338ceab2d08249482f3d2bfb23c52fcba03ead",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/design/desktop-ui.md",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "80b6f8d51d90925e2eec174bc5cac2fa404fdd90d9ff7b2fbd3c06fb38c3dcf0",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/tasks/f-series/rounds/r001/sources/issues.json",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "4dcabc4d06e2f6f28f1ac512da1c61f49880a8a5dc6a0d412327e6f7354b2bfa",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/tasks/f-series/rounds/r001/sources/issue-19.json",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "723470b532ecdab99f50615a17c69fbb0ad9e045cb1236b6bab7a97abfaf9c30",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/tasks/issue-11-f0/rounds/r005/acceptance-matrix.md",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "bcd159be3ea30c04d4415fd433dea57d47a2b09c23a29c981b60af5c1eb43046",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/tasks/issue-11-f0/rounds/r005/decisions.md",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "829583fc5c46616968c4b1b38c8414dc51c12a7f2de8c1bb40ae899548dcc386",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/tasks/f-series/S0-resources.md",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "02462a132bd28eb6a02e0794e853a04977a6cf1ab7603b28a8b01eb85b446f32",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "backend/go.mod",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "7747f5a4f115a9a1127648d8745a9efc6a97d29c5eec8230864d2aac62e7ec97",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "backend/.yunka/consumer-lock.json",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "9dd17714784501dd4ab5ecde1125d0409ffec23fe8812adcf7fe59a4f304c778",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "backend/.yunka/engineering-quality-baseline.json",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "677f0ba302f680b15e844eadf73062b65467c36159a8da4836a398a50071f151",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "backend/contracts/proto/runtime/v1/runtime.proto",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "348cbe1296ed55bcdd76d1093faf2b759c28d39bc76d17d4b0933fed9fbaa95b",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "backend/internal/platform/authz/authorize.go",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "0872efa8e9938940721e719145f1c7f99ab093a74d443eccfdf2da7db88a6d8d",
+      "status": "current_source",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "frontend/apps/console/src/bootstrap.ts",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "5482314aa9f311f05db3b55fba8a7d749db5288903f6979fa7a711477a72b03a",
+      "status": "current_source",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "frontend/apps/console/src/layouts/basic.vue",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "fef6b7b1eafa4a729302a8b3945ef655b8415a88ae079e1cd59683a5eb056f25",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "frontend/apps/console/src/platform/request-epoch.ts",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "d67b2c465e509ef6260a905f1a1ee6e7d3598a77a448ca78a21fa31bb53fbb0b",
+      "status": "current_source",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "frontend/apps/console/src/api/mock/types.ts",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "80288603d2de7ae1baeeadfbcd4ae64c9e0d91bfb22d86269755f39a893838af",
+      "status": "current_source",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "frontend/e2e.config.ts",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "d0ca7e67c7a2faf04204483530b8b8af0c58febf966cdc72251e88b48ee5c5b4",
+      "status": "current_source",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    },
+    {
+      "path": "doc/ci/RISK-BASED-GATES.md",
+      "commit": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+      "sha256": "abd7b09f9f97dbe491c2e0a395ba80498eed4ebddffb537f88cd283974c03e2e",
+      "status": "documented",
+      "use": "current_fact",
+      "locator": "file responsibility / relevant contract",
+      "claim": "Baseline source; proposed and historical statements retain their own status."
+    }
+  ],
+  "issue_inventory": [
+    {
+      "number": 24,
+      "state": "open",
+      "updated_at": "2026-10-15T08:22:16Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/24",
+      "body_sha256": "92290531dbe30345c43e272389d92bdc93dae082aa3e1f93636dde0ce48d80ac",
+      "raw_source": "adjacent-issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 20,
+      "state": "open",
+      "updated_at": "2026-10-15T06:56:46Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/20",
+      "body_sha256": "7060a7fafc9d201b0efee450900651404dda40382fbbf9a303789b4841d7df11",
+      "raw_source": "adjacent-issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 19,
+      "state": "open",
+      "updated_at": "2026-10-15T08:22:10Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/19",
+      "body_sha256": "3e54189f202eb5c2dfc485393a8d87742b7fdf502995a983fdf02a7366ceccb9",
+      "raw_source": "../r001/sources/issue-19.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 17,
+      "state": "open",
+      "updated_at": "2026-10-15T06:33:22Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/17",
+      "body_sha256": "e1738feb5b29b70974af7a56de6ad0c8e685dd343b3b4c5dcbce86523c7b73ef",
+      "raw_source": "../r001/sources/issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 16,
+      "state": "open",
+      "updated_at": "2026-10-15T06:33:16Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/16",
+      "body_sha256": "519abb711302954ec70cd0a6dc04d44f5b4521745df4e9325517d56e568a8f74",
+      "raw_source": "../r001/sources/issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 15,
+      "state": "open",
+      "updated_at": "2026-10-15T06:33:10Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/15",
+      "body_sha256": "b0558298c75f0595b73f8d463cce3652c0aeba4456394f5fad69d6c732286816",
+      "raw_source": "../r001/sources/issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 14,
+      "state": "open",
+      "updated_at": "2026-10-15T06:33:01Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/14",
+      "body_sha256": "b6d66c7f50252f003e3d6c598490e313731505afdc99fb33db9a08234a02850b",
+      "raw_source": "../r001/sources/issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 13,
+      "state": "open",
+      "updated_at": "2026-10-15T06:32:51Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/13",
+      "body_sha256": "a0fcf84c5ffeba92ee60ddcd937f2d30f4948bb0f10538509a3b0de88c606a48",
+      "raw_source": "../r001/sources/issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 12,
+      "state": "closed",
+      "updated_at": "2026-10-15T23:56:45Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/12",
+      "body_sha256": "239dd9fd96f12eab860a7d4c154142c41f505882b781069900aceb2d71c46b1c",
+      "raw_source": "../r001/sources/issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 11,
+      "state": "closed",
+      "updated_at": "2026-10-15T16:03:55Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/11",
+      "body_sha256": "500703aaf1713113ad6ab95bae7d5821f336177b52b06855c22f05dbb20abfa3",
+      "raw_source": "../r001/sources/issues.json",
+      "raw_unchanged_from_live": true
+    },
+    {
+      "number": 10,
+      "state": "open",
+      "updated_at": "2026-10-15T23:56:47Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/10",
+      "body_sha256": "f596cc88b5aee2c6505267f0298c836707df70bdc5f2a287147227d2ad1e561c",
+      "raw_source": "../r001/sources/issues.json",
+      "raw_unchanged_from_live": true
+    }
+  ],
+  "open_prs": [],
+  "external_sources": [
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc9700.html",
+      "locator": "2.1.1",
+      "claim": "PKCE and transaction binding for authorization-code security; does not specify product Session TTL."
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "locator": "Session Expiration / Reauthentication",
+      "claim": "Server-side idle/absolute expiry and policy tradeoffs; 30m/8h is proposed product policy."
+    },
+    {
+      "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html",
+      "locator": "17.7.2.4",
+      "claim": "Read-then-write needs transaction protection; design still needs real concurrency proof."
+    }
+  ],
+  "boundary": "Read-only observation, not approval or runtime qualification."
+}
