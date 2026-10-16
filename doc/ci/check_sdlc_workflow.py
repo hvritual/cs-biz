@@ -14,7 +14,8 @@ from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[2]
 SKILLS = ("prompt-optimizer", "sdlc-design", "sdlc-build",
-          "task-progression", "engineering-language", "sdlc-workflow", "b2b-product-ux")
+          "task-progression", "engineering-language", "sdlc-workflow", "b2b-product-ux",
+          "intent-to-outcome-closure")
 AUTH = ("read_only", "draft_only", "code_change", "external_action")
 STAGES = ("intent", "design", "build")
 
@@ -52,14 +53,16 @@ def structure(root: Path) -> list[str]:
                  "doc/ci/NO-STALL-GATES.md", "doc/templates/task.md",
                  "doc/workflow/INTENT-DESIGN-WORKFLOW.md",
                  "doc/workflow/DESIGN-HANDOFF-CONTRACT.md",
-                 "doc/ci/check_design_workflow.py"]:
+                 "doc/ci/check_design_workflow.py", "doc/ci/check_module_workflow.py",
+                 "doc/workflow/MODULE-OUTCOME-CONTRACT.md"]:
         if not (root / name).is_file():
             errors.append(f"missing project authority: {name}")
     guide = root / "AGENTS.md"
     if guide.is_file():
         content = guide.read_text(encoding="utf-8")
         for name in ["sdlc-workflow", "prompt-optimizer", "sdlc-design", "sdlc-build",
-                     "task-progression", "engineering-language", "b2b-product-ux"]:
+                     "task-progression", "engineering-language", "b2b-product-ux",
+                     "intent-to-outcome-closure"]:
             if name not in content:
                 errors.append(f"AGENTS missing skill routing: {name}")
     return errors

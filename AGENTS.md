@@ -60,3 +60,9 @@ Read `doc/workflow/SDLC-ADOPTION.md` for current/legacy contracts. `python3 doc/
 ## Original-SDLC artifact verification (compatibility subset)
 
 Read `doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md` before using v0.4-style `intent-spec.json`, `design-revisions.json` or `build-loop.json`. Run the matching `doc/ci/check_intent_v02.py`, `check_revision_v04.py` and `check_build_v04.py`. The prior `check_sdlc_workflow.py` uses simplified legacy task artifacts; **do not combine the two protocols** or represent static compatibility checks as externally authenticated approvals, CI, or business tests.
+
+## Whole-module autonomous delivery
+
+For an approved module's complete issue batch, read `.agents/skills/intent-to-outcome-closure/SKILL.md` and `doc/workflow/MODULE-OUTCOME-CONTRACT.md`. Before autonomous advance, freeze the complete issue inventory, original design/requirement/AC mapping, observable pass/fail plus negative/recovery methods, integrated exit, dependencies/resources, file scope, budget, exact-version review and actual action authority. Independently review semantic completeness; `check_module_workflow.py` checks only deterministic constraints.
+
+The design subworkflow still ends at DESIGN_HANDOFF. Outside it, the executing model continuously delivers one authorized required issue at a time using existing task-progression/sdlc-build and risk-based gates, refreshes main/evidence and advances without repeated routine Human prompts. All required/blocked members remain in the denominator. Human retains material design/value/exception, irreversible and authority decisions. A static closure candidate, all closed issues or green CI is not whole-module completion. No unattended startup service or new approval authority is introduced.

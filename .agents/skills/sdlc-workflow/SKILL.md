@@ -1,6 +1,6 @@
 ---
 name: sdlc-workflow
-description: Turn raw intent into a source-grounded IntentSpec and Human-reviewed solution, design and in-project journey preview. Use for intent discovery and Design Loop; implementation, verification and delivery gates are the executing model's responsibilities outside this workflow.
+description: Turn raw intent into a source-grounded IntentSpec and reviewed solution, design and in-project preview. For a whole module, freeze complete acceptance and route authorized continuous issue delivery to intent-to-outcome-closure; implementation and delivery remain the executing model's responsibilities.
 ---
 
 # SDLC Workflow — Intent / Design
@@ -24,6 +24,13 @@ Read AGENTS.md, doc/workflow/project-profile.md, doc/workflow/INTENT-DESIGN-WORK
 
 ## Executing model after handoff
 Continue authorized work using task-progression and sdlc-build: slice plan, implementation, actual verification, Fast/applicable Targeted, independent review and evidence readback. These are not workflow stages, and are not delegated to Human as ordinary engineering work. Design disagreement returns to Design Loop; intent/authority disagreement returns to optimizer/Human. Follow the current project risk-based delivery policy, separate merge/deploy authority and exact-SHA evidence; do not infer a universal Human Full wait from legacy records.
+
+## Whole-module acceptance and continuous delivery
+For “finish all issues in this module”, load ../intent-to-outcome-closure/SKILL.md and doc/workflow/MODULE-OUTCOME-CONTRACT.md. Before autonomous implementation, freeze the complete issue inventory (including closed and blocked), original requirement/design/state-to-AC coverage, observable pass/fail and negative/recovery conditions, module integration exit, dependencies/resources, allowed paths, existing budget, exact-version review and separate execution authority. Reuse valid confirmed decisions; return missing material acceptance definitions to Human, never invent them. The index must not redefine approved source documents.
+
+Have an independent reviewer reverse-check the original design for missing obligations, then run check_module_workflow.py. Its PASS_STATIC_ONLY/READY_STATIC/CLOSURE_CANDIDATE_STATIC never authenticate approval, runtime or permission. Use the actual approved locked commit and fresh authoritative main/Issue/PR/evidence readback; source, body or inventory drift requires reconciliation and, when meaning changes, a new approved revision.
+
+After DESIGN_HANDOFF, the closure coordinator continuously selects one authorized unblocked issue, invokes the existing executing-model delivery loop, verifies its full acceptance and main, refreshes observations and advances without routine “continue” prompts. Keep independent branches executable and blockers visible; scope/authority/meaning changes return to Intent/Design/Human. All issues closed does not prove module completion: require current evidence for every original AC and the integrated journey at the agreed boundary. This adds a coordination wrapper, not Build stages inside intent-design-v2 or an unattended service.
 
 ## Checks and compatibility
 `python3 doc/ci/check_sdlc_workflow.py --mode structure` checks wiring.

@@ -12,6 +12,8 @@ Read repository AGENTS.md and project-profile.md first. The approved task/Issue/
 Use at task start/resume, before selecting a Build slice, after a material failure, when closing a slice, and at stage handoff. Do not call on every code edit.
 
 ## Reconcile
+For module batches, use the frozen module-outcome-v1 index and doc/workflow/MODULE-OUTCOME-CONTRACT.md. Reconcile the full inventory, source/Issue-body/acceptance drift, original approved lock, dependencies, current main proof, resource and authority blockers before selecting the next member. Preserve the fixed denominator; a closed issue or previous candidate PASS is not current proof. Return one next action to intent-to-outcome-closure, which continues all already authorized members without a new routine Human prompt.
+
 1. Read original requested outcomes and approved changes; preserve all outstanding requirements, including blocked and skipped.
 2. Read current branch, base, head, relevant implementation, tests and evidence. Identify stale results.
 3. Compare requested outcome -> capability/operation -> implementation -> evidence, in both directions. Do not mistake an absent UI wrapper for an absent backend capability.

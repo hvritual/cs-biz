@@ -25,3 +25,9 @@ b2b 核心、模板和上游设计示例已引入，项目绑定/检查入口已
 ## 本治理候选的验证
 
 执行 `python3 doc/ci/check_repository.py`、`python3 doc/ci/check_build_workflow.py`、SDLC 结构与 Python 正反例，随后运行仓库 Fast。真实 UI 任务需模型运行项目预览与适用 Desktop，缺工具则 unavailable；最终 Full 遵循 [风险门禁](../ci/RISK-BASED-GATES.md)。W02 历史候选未修改业务 UI，没有实际业务预览或用户旅程完成声明。历史结果见 [W02 验证](../evidence/W02-validation.md)。
+
+## 板块级连续交付补充（W03）
+
+[板块成果协议](MODULE-OUTCOME-CONTRACT.md) 和仓库 intent-to-outcome-closure 提供设计子流程之外的协调层：先冻结完整成员、明确验收、依赖/授权和板块集成出口，再由执行模型连续完成每个已授权 Issue。原 DESIGN_HANDOFF/auto_execute=false 及历史协议保持不变；这些限制不要求每完成一个已授权 Issue 都重新等待 Human。
+
+Quality 静态任务执行模块契约扫描和正反例。结果仅为静态可准入建议；语义完整性、实际审批、运行/CI/合并和整体出口由独立证据核验。不新增未合并 PR #23 的依赖、后台触发器或状态库；本次不执行真实产品批次。
