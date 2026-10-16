@@ -9,3 +9,13 @@ Use focused checks while editing, then Fast, applicable Desktop probes and the p
 Independent review inspects source contract, exact diff, tests/raw logs and failure/recovery cases. The implementer does not self-approve. Merge only within actual authorization and GitHub protection, then read current main and post-merge gate; bind the immutable package to candidate/main/tree and actual byte digest. A verified/integrated package is the input to Deploy, not a deployment claim.
 
 The Agent owns reconcile/admit_slice/reconcile_failure/close_slice/handoff and T0–T4 risk. Runtime/tenant/side-effect tasks cannot be downgraded through filenames. Continue module members within the approved graph, preserving one active candidate and existing retry budget; unknown side effects require readback. Do not poll terminal CI or replay a denied mutation.
+
+## Mode and evidence rules
+
+- tdd: freeze acceptance/test identity → legitimate behavioral RED → minimal GREEN → justified refactor/regression. A tool/credential/compiler failure is not RED.
+- preserve: establish current behavior and equivalence proof before a behavior-neutral change.
+- static: validate documentation/declarative meaning, references and compatibility; never invent behavioral RED.
+- existing_verified: fresh exact-version acceptance evidence, no needless source change.
+- harness_required: establish the authorized real verification seam before claiming behavior or successful tests.
+
+Each result records Design/source digest, R/AC, risk T0–T4, mode, allowed/actual paths, exact candidate SHA/tree, command/environment, raw run/artifact and independent review. INCONCLUSIVE is not PASS. Keep prior protected behavior and full module membership. CI failure routes through current project recovery rules; final qualification/main readback are distinct from a local slice result.

@@ -1,8 +1,8 @@
 # 在 cs-biz 中使用
 
-来源固定于 `hvritual/biz@a8a2368f03d8f8ce53d6adcb431fb3ba55df1184`；逐文件 Git blob 见 [来源记录](../../../../../doc/workflow/b2b-product-ux-source.json)。本适配替换项目绑定和检查入口，保留八维、九维及 UX 分析模板。上游 Issue 编号、web 路径、API/组件示例都不是本仓库已实现能力。
+来源固定于 `hvritual/biz@a8a2368f03d8f8ce53d6adcb431fb3ba55df1184`；逐文件 Git blob 见 [来源记录](references/upstream-source.json)。本适配替换项目绑定和检查入口，保留八维、九维及 UX 分析模板。上游 Issue 编号、web 路径、API/组件示例都不是本仓库已实现能力。
 
-先读 [AGENTS](../../../../../AGENTS.md)、[frontend/AGENTS](../../../../../frontend/AGENTS.md)、[Desktop 规范](../../../../../doc/design/desktop-ui.md)、[Intent/Design 协议](../../../../../doc/workflow/INTENT-DESIGN-WORKFLOW.md) 和实际任务来源。
+先读 [AGENTS](../../../../../AGENTS.md)、[frontend/AGENTS](../../../../../frontend/AGENTS.md)、[Desktop 规范](../../../../../doc/design/desktop-ui.md)、[Intent/Design 协议](../../references/intent-design-v2.md) 和实际任务来源。
 
 | 职责 | 本仓库事实源 |
 | --- | --- |

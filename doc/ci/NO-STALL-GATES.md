@@ -1,63 +1,19 @@
-# No-Stall Delivery Gates — cs-biz
+# 诊断、恢复与无进展边界
 
-**Superseded delivery policy:** Follow [Risk-based Gates](RISK-BASED-GATES.md) for all new/resumed tasks. Its single automatic docs/backend/full pipeline replaces the unconditional Human wait and duplicate scheduling below. The following text is historical context for retained manual diagnostics, not a requirement for normal merge qualification.
+交付资格与调度只由 [风险门禁](RISK-BASED-GATES.md) 定义。本文件负责局部修复/恢复，不再复制历史工作流触发器或逐 PR Human Full 决策。对既有 Issue 的旧路径引用，本文件仍提供实质的当前恢复规则。
 
-## Non-negotiable objective
-One change, one small feedback loop, one qualified candidate. Do not make GitHub Full CI
-the developer's debugger. Fix the smallest demonstrated cause; do not weaken a passing
-assertion, turn off security checks, or claim a skipped check passed.
+## 下一动作
 
-### Execution order
-0. First apply [Docs Auto Delivery](DOCS-AUTO-DELIVERY.md). A verified `DOCS_ONLY` candidate may finish automatically without Human PR review, Full dispatch or waiver. Its state is `DOCS_AUTO_QUALIFIED`, Full `NOT_REQUIRED_DOCS`; the Human-wait/waiver requirements below apply only to other candidates. All applicable checks, current-SHA evidence, actual GitHub protection and post-merge readback remain required.
-1. Freeze exact base/head, owner, visible user outcome and changed-file scope.
-2. Run `bash doc/ci/check.sh --fast`: repository structure plus typecheck,
-   lint, copy scan, Desktop token/collapse contract, workflow-policy negative fixtures
-   and unit tests. **No build, browser install, browser E2E or screenshots.**
-3. If a layout/CSS/runtime interaction changed, run one **targeted desktop probe**
-   after Fast: `cd frontend && corepack pnpm check:desktop:runtime`.
-   This builds once and runs `desktop-ui.spec.ts` only. Keep browser installed
-   across local iterations; never reinstall per screenshot.
-4. Resolve ALL Fast/targeted failures in one root-cause batch. Avoid serial
-   one-line pushes and CI-wait loops. Once clean, freeze the candidate SHA.
-5. Promote the PR from Draft to **Ready for review** to obtain review readiness, **not** to start Full. Human alone chooses when to run `Frontend Full Gate` via GitHub Actions `Run workflow` on **main**, entering exact `pr_number` and `candidate_sha`. Do not dispatch Full from Agent, bot, automatic PR workflow or a push. Configure `full-ci-human-approval` environment with required Human reviewers and allow main as the only deployment branch. This is an admin setting; the environment name by itself does NOT enforce human identity.
-   Full checks the current PR head before test and again on an isolated receipt signer after the tests; the Full run must succeed and emit `frontend-manual-full-receipt-<run_id>-<run_attempt>`. Any new head invalidates the old receipt. No automatic repeat or cancellation of prior Human-started Full runs.
-6. Before stating "done" or requesting merge, independently read the exact PR/head and **Human Full decision**: either (a) a Human-dispatched Full run and authenticated exact-SHA receipt, or (b) an independently reviewed Human waiver **only for an authorized narrow governance/doc/Skill change**, bound to this exact SHA, with applicable Fast/Targeted evidence. Without either, stay WAITING_HUMAN_FULL. A Draft/Ready transition or successful Fast never makes Full pass. This manual workflow runs from main and does **not automatically create a required PR check on the candidate SHA**; do not infer merge protection. Merge and deployment remain separately authorized.
+1. 回读当前任务、固定验收、base/head、既有 PR 和原始失败。先恢复已有候选或不确定副作用，不重复创建任务/操作。
+2. 区分行为缺陷、错误测试、合同/版本漂移、工具/环境与真实权限缺口。指出失败断言、源所有者、证据与可验证假设，再改文件。
+3. 已授权且可逆的实现问题做最小有据修复，保留旧失败和正确断言，重跑失效的检查。测试错须独立证据；语义/标准变化回 Design，不私改期望求绿。
+4. 布局/交互先实际局部浏览器证据；检查成本按 [命令地图](README.md) 选择，不把完整 CI 当编辑调试器。
+5. 稳定后冻结候选，只执行当前策略要求的一次完整资格；新 head/base/合同/环境使相关证据失效。终态失败收集日志后修复，不继续轮询终态 run。
 
-### Gate map
-| Phase | Trigger | Executed | Excluded | Evidence |
-| --- | --- | --- | --- | --- |
-| Fast | internal push; fork PR | check:fast (static/units/policy) | Playwright install, build, full E2E | frontend-fast |
-| Targeted Desktop | local on visible UI changes | build + one desktop-ui spec | unrelated E2E | screenshots, exact workspace revision |
-| Full | **Human `workflow_dispatch` on main only**, explicit open PR number + matching 40-character candidate SHA; environment approval required by admin | check:full (Fast + build + all E2E) | no push/PR auto Full; stale candidates rejected | frontend-validation + independent Human receipt + browser artifacts |
-| Repo | internal push, external PR | structure/docs | frontend/runtime | repository-structure |
+## 暂停与继续
 
-Human manual dispatch becomes available once the revised workflow is merged into default branch. A PR must be non-Draft for this process, but merely marking Ready does not start Full. The `workflow_dispatch` event and Human event sender check are insufficient to prevent an automation from using a Human account token; enable environment required reviewers, restrict allowed branches and protect settings. Only the real GitHub run/artifact/approval evidence supports qualification.
+未知副作用先按已持久化操作 ID 权威读回，不盲重试。缺真实凭据/环境/组织决定，记录 Owner、原始证据和最小恢复输入；不伪造可用资源。两次实质相同的失败没有新信息，或更严格预算耗尽，则暂停受影响分支。
 
-### Human decision authority
+板块批次保留全部成员和 AC；先保存被阻塞候选及恢复条件，再在已有授权内选择独立分支，不同时开启第二个 active 候选。材料性设计/价值/例外/授权和不可逆风险交给 Human；普通已授权工程步骤无需重复“继续”。
 
-Read [Human Full Control](HUMAN-FULL-CONTROL.md). Human may RUN_FULL, explicitly WAIVE_FULL in the narrowly authorized governance/doc/Skill case, or DEFER. The waiver is NOT an automatic skip, not equivalent to Full success, and never covers unreviewed product/runtime changes. Any candidate change invalidates both decisions. Agent cannot initiate Full or approve a waiver. Project-level GitHub protection must be configured by an administrator; process checks alone do not prevent a direct unprotected merge.
-
-## Time and scope budget
-- Before editing, name the **one failing assertion** and source owner.
-- If only CSS changed, do not modify API, auth or tenant data.
-- Use one batched candidate for all identified failures; no multiple concurrent
-  candidates. Prefer targeted checks over Full until passing.
-- CI failures must be classified: real behavior defect, contract drift,
-  infrastructure, or assertion bug. Tests are not changed without evidence.
-- Preserve 1366x768 / 1440x900 / 1536x1024 Desktop regression and Mock
-  authorization; mobile remains out of scope.
-- Every check is bound to SHA; artifacts or logs from another SHA are background,
-  never completion evidence.
-
-### GitHub merge gate limitation
-Workflow checks alone do **not** block merges without repository protection.
-As observed during this task, the GitHub connection cannot modify branch
-protection (403) and there are no accessible repository rulesets.
-Repository admins must require appropriate automatic checks and enforce the separate Human Full receipt before merge. **Warning:** a main-dispatched Full run does not automatically attach `frontend-validation` status to the PR's head. Requiring the old PR-context `frontend-validation` check without a trusted receipt/status bridge can leave a PR permanently pending; deleting that required check without a replacement can allow an unchecked merge. An independently verified receipt bridge or controlled Human merge policy must be configured. Until then, this is an enforced *process* policy, not proof of GitHub-side merge protection.
-
-### Fail-closed rule
-- Fast red: stop, repair Fast; do not run Full.
-- Targeted red: repair UI cause; do not run Full.
-- Full red: not qualified; fix grouped root cause, run Fast again, then request a **new Human decision** for another Full on the new SHA. Never auto-dispatch or reuse an earlier green head.
-- Human has neither issued an exact-SHA waiver nor triggered Full: `WAITING_HUMAN_FULL`; do not claim qualified or auto-trigger it.
-- Missing tool/infrastructure: record **unavailable** rather than pass.
+维护既有 Desktop 三尺寸和业务/授权负例，Fast、Mock、单项 merge 不能替代集成或生产出口。最终 main/部署/整体成果分别按各自边界验收。

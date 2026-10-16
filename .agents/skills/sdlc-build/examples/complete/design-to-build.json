@@ -7,7 +7,7 @@
   "definition_sha256": "d6540eb715bf18cfce662e6f524d862d2760e37766827e27544e33fa5964394b",
   "input_sha256": {
     "request.json": "aeacce3be4766ea6a9cb33ea4ba68f6afb18dfbe8e163ebc5704be9d91f42fe3",
-    "design/language.json": "4a2789a5551bf2c6edb6426a269188006e27aa2b7c122ec9a5747f10b6c6310f"
+    "design/language.json": "7b7c486c7b006ecb5e26fbad7c53de5c8e078a37010a84d2a67f2a13003f074d"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

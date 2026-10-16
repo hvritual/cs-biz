@@ -1,46 +1,24 @@
 # ADR-0003：Yunka Consumer 的 F0 冻结与分阶段准入
 
-- 状态：**proposed / DESIGN_REVIEW，未批准，未实施 Runtime**。
-- 日期：2026-10-15；当前消费仓库 main `da5494d03c362ab873465c1793e7aba7e4e3a7cc`。
-- 来源：[Issue #11](https://github.com/hvritual/cs-biz/issues/11)、父 [#10](https://github.com/hvritual/cs-biz/issues/10)，本轮 [方案/设计包](../../tasks/issue-11-f0/rounds/r005/solution.md)。
-- 继承：[PR #18 ADR-0002 固定草案](https://github.com/hvritual/cs-biz/blob/a5dccbd074236e31d0628a01e01a7dfb534b981e/doc/architecture/adr/0002-yunka-runtime-adoption.md)。它仍 proposed；本 ADR 不假装它已合入或批准。
+- 状态：**accepted（F0 r005 设计范围）**；F1 技术切片随后已交付，F2–F6 不因本状态更新视为已实施。
+- 设计日期：2026-10-15；状态核验：2026-10-16，main `29c525d7f90cf61075f00a20efc1465a29b2c6db`。
+- 批准来源：[完整 r005 交接/approval](../../tasks/issue-11-f0/handoffs/r005/HANDOFF.md)，[PR #27](https://github.com/hvritual/cs-biz/pull/27) 已合并。原被审快照中的 proposed 状态保留字节；此处仅修正现行 ADR 的交付投影。
+- 前置方向：[PR #18 的 ADR-0002 固定草案](https://github.com/hvritual/cs-biz/blob/a5dccbd074236e31d0628a01e01a7dfb534b981e/doc/architecture/adr/0002-yunka-runtime-adoption.md) 未整包合入，不以本 ADR 批准其余候选内容。
 
-## 需要决策的问题
+## 决定与唯一来源
 
-评估源码 `3527488325030fbf86fe52804140c936e9d937a4`、各 module tag 与实际 CLI/Consumer 输入不是同一件事。上游 go.work 能找到本地模块，不能证明外部消费组合可下载、编译或通过生成检查。现有事实不足以宣布任何完整组合已获资格。
+采用 D1=A：消费经核实的不可变外部模块和 CLI 制品，记录版本、commit、sum/字节摘要、平台、工具根与到期条件；不用浮动 main、本机路径或复制第二 Runtime。实际 F0 固定输入和准入矩阵只在 [r005 versions](../../tasks/issue-11-f0/rounds/r005/versions.md) 与 [设计](../../tasks/issue-11-f0/rounds/r005/design.md) 维护。源码/上游 go.work 可编译不证明外部分发组合合格。
 
-## 消费策略（D1 已选 A；完整 ADR 仍待审阅）
+F1 的当前 Consumer 锁、Go/protoc/plugins、生成和运行规则由 [后端 Consumer](../../../backend/doc/YUNKA-CONSUMER.md) 指向真实配置；[PR #31](https://github.com/hvritual/cs-biz/pull/31) 的 main 合并已包含固定工具链和本地技术查询。它仍不提供真实业务 IAM/DB 或生产资格。
 
-Human 已在首轮候选上明确选择 A，原文与范围见 [r002 决策](../../tasks/issue-11-f0/rounds/r002/decision.json)。优先经核实的发布模块/CLI 制品锁，记录 module path、version、commit、sum/制品摘要；若缺合格发布则保持 F1 的资格阻塞，先修上游或明确消费方式。只有 Human 接受维护与供应链成本时，才改为仓库内固定源码快照和可重建 CLI；禁止宿主机路径、浮动 main 和复制第二 Runtime。具体选项见 [D1](../../tasks/issue-11-f0/rounds/r005/decisions.md)。
+## 不可省略的责任
 
-经 [r004 部分决定](../../tasks/issue-11-f0/rounds/r004/qualification.md)，目标工具链为 Go 1.26.9（x/net v0.60.0 要求语言版本 go 1.26.0）、protoc 3.21.12、上游锁定 plugins；F0 不改当前 Go 1.23.0 或依赖。F1 必须在真正 Consumer 上验证旧 Authz 兼容、生成/装配二次零漂移与依赖/源码治理。
+Access 持有真实 Membership/Role/Menu/Function+Scope；typed PB 是目标 Operation 唯一可写合同；Yunka Authorizer/OperationGuard/Executor 各守其执行边界。Domain 强制 Tenant AND Scope、业务状态/回执/恢复；ApplicationAvailability 和 Trace 不产生权限。单一生产 Operation 不得新旧入口同时放行。
 
-## 不可省略的权威与安全边界
+不采纳旧注释 DSL 或 legacy 角色表作为新权威，不把 ScopeKey.With/生成文件存在当作授权；旧 group 未确权不映射扩大范围。根幂等抑制不承诺响应重放。完整定义/负例保留在已审设计，不在此另写一套合同。
 
-完整表只在 [design.md](../../tasks/issue-11-f0/rounds/r005/design.md) 维护：Access 持有真实成员/Role/Menu/Permission+Scope；typed PB 是目标 Operation 合同唯一可写源；Yunka Authorizer/OperationGuard/Executor 持有其执行职责；Domain 强制 Tenant AND Scope、业务状态/回执/恢复；商业可用性和 Trace 不产生权限。原 Router 保留受控对照，切换前不得形成同操作双授权生产入口。
+## 条件与后果
 
-不采纳旧 @yunka 注释 DSL 及 legacy 角色表为新 Consumer 权威；不将 ScopeKey.With 或生成物存在当作授权。根幂等抑制不承诺响应重放。`group` 的领域含义尚未确权，当前不能转换扩大范围。
+D1 和工具链/安全前置已经解决，不再沿用 r003/r004 的等待叙述；历轮证据按其版本保留。D2 数据库、D3 IdP/Session、邀请/恢复、legacy group、诊断查询/留存和生产权限仍由相应阶段/Owner 决定。F1 本地 Trace 不完成整体可观测性或业务运行。
 
-Trace/Log 目标由 [本轮合同](../../tasks/issue-11-f0/rounds/r005/design.md) 冻结：W3C 传播、受控 CORS/x-trace-id、默认 JSON stdout、无敏感身份字段、RPC/异步因果链、开发/CI 可查询 Collector/Jaeger、SLS 选配。查询默认最小暴露，生产环境/租户/人员权限、采样/留存/删除策略须 F3/F6 有组织 Owner 和真实审批；没有 Span 不能伪造查询成功。
-
-## 未决条件与阶段出口
-
-D1已解决为A；[r005资格](../../tasks/issue-11-f0/rounds/r005/qualification.md)已冻结安全SDK源、CLI producer与实际已合格CI制品。r002缺失旧infras标签是历史事实，不再泛化为外部版本不可用。Go1.26.9 / x-net0.60.0 / go1.26.0来自r004的部分批准，完整ADR仍proposed。D2数据库、D3 IdP、Session/邀请/恢复、legacy group与诊断留存仍按原owner/阶段阻塞，不从上游资格推断F1/F3已实施。
-
-F0 关闭需精确版本设计确认、来源/兼容/负例/条件完整、结构与真实候选检查、独立评审及 main 回读。Go/API/DB/Browser/生产证据由真正实施阶段提供，不用框架 CI 或 Mock 抵扣。Full、合并与部署按当前规则分别控制；#26 豁免只属于 #26。
-
-## 后果与回退
-
-此方案减少未来版本/授权语义混用，但可能暴露框架发布、CLI 安装或测试资源前置缺口；暴露缺口比假定全部可消费更符合目标。未采纳时本轮文档可撤销，不改现有用户数据。任何后续源版本、合同或消费策略变更都要新轮差异审查，不能回写本轮批准。
-
-## 当前前置条件补充（r003，未改变已冻结版本目标）
-
-[上游实际资格回读](../../tasks/issue-11-f0/rounds/r003/qualification.md) 已取得四模块不可变 Go 伪版本与校验和，以及 CLI 功能候选；缺少旧 infras 标签不再泛化为所有版本不可用。当前 CI/Production 被 Go1.25.13 的可达安全漏洞阻断，尚未合并/正式发布。推荐 Go1.26.9 / x/net0.60.0 的 [独立安全前置](https://github.com/hvritual/yunka.io/issues/244) 会改变本任务明确的工具链目标，须 Human 决定后新轮修订，不静默改验收或绕过扫描。
-
-## 当前条件决定补充（r004）
-
-Human 已批准独立安全基线升级；[新轮记录](../../tasks/issue-11-f0/rounds/r004/qualification.md) 优先于 r003 的待决状态，未更改旧轮。Yunka #245 候选仍须完整门禁/main 回读，之后 PR #243 刷新 SDK/CLI 资格；完整 ADR 仍 proposed，非完整设计或 Full 批准。
-
-## 当前r005准入输入
-
-Yunka #245/#243均已整合且候选/独立main资格通过；#244已全验收关闭。具体外部模块版本/sums、SDK源bc7c0e1、CLI producer3e46ec4、平台/Go根/到期与实际制品摘要只在[r005版本矩阵](../../tasks/issue-11-f0/rounds/r005/versions.md)和机器记录维护。当前等待r005完整Human设计确认，尚未DESIGN_HANDOFF或F1。
+来源、合同或消费策略变化必须形成有影响分析的新修订和适用审阅，不能反改 r005 批准原件。已交付范围、后续依赖与完成边界从 [当前路线](../../roadmap.md) 和实际 Issue/PR 回读；发布/数据迁移仍须独立授权与目标观察。

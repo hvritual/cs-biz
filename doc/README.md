@@ -1,25 +1,26 @@
-# 全局文档
+# 文档地图：按当前任务读取
 
-跨端知识与可执行检查放在本目录。前端/后端内部细节分别维护在 `frontend/doc`、`backend/doc`，用链接引用全局事实，避免重复维护。
+先读根 [AGENTS](../AGENTS.md) 的行为与权限边界，再用下表选择需要的事实。本文负责导航和所有权，不复制业务契约、任务状态或门禁规则。根目录责任见 [布局](architecture/repository-layout.md)。
 
-当前实现阶段是 [S01 前端应用与有状态 Mock](tasks/S01-frontend-mock.md)。S00 设计基线的 PR #1 尚未合并；S01 在其分支上形成增量交付。前端代码已实现，最新运行结果、PR 和提交信息以 [S01 验证记录](evidence/S01-validation.md) 为准；S02 后端、完整跨端闭环及部署尚未开始。
-
-| 目录或文件 | 内容 | 当前状态 |
+| 当前问题 | 唯一入口 / 所有者 | 按需读取 |
 | --- | --- | --- |
-| [architecture](architecture/README.md) | 全局模块及运行边界 | 设计草案 |
-| [repository-layout](architecture/repository-layout.md) | 目录责任与 CI 入口 | 目录已落实；前端包含唯一 Console workspace |
-| [ADR-0001](architecture/adr/0001-frontend.md) | 前端底座选择与取舍 | S01 已采用 Vue、Vben 与 Element Plus |
-| [research](research/vue-admin-selection.md) | GitHub 候选、版本与源码风险 | S00 研究记录；S01 运行证据单独记录 |
-| [product](product/scope.md) | 产品范围与首个完整成果 | S01 本地前端已实现，真实 MVP 仍待后端与跨端交付 |
-| [contracts](contracts/README.md) | 跨端接口和访问语义 | 提案；不是已发布 API |
-| [journeys](journeys/README.md) | 用户旅程及真实验收 | SAAS-01 已设计；S01 实现部分前端操作，完整真实链路尚未完成 |
-| [templates](templates/task.md) | 独立任务模板 | 可复用 |
-| [S00](tasks/S00-repository-design.md) | 结构与设计基线 | 草稿 PR 待合并 |
-| [S01](tasks/S01-frontend-mock.md) | 前端、Mock、变更边界与验收 | 当前独立交付单元 |
-| [ci](ci/README.md) | 本地跨端检查和门禁入口 | 结构检查与前端检查分别执行；后端门禁待实现 |
-| [evidence](evidence/README.md) | 来源快照与交付验证 | 以具体记录为准 |
-| [roadmap](roadmap.md) | MVP / Full Runtime / Production | S01 已实施，S02 及后续阶段未启动 |
+| 当前交付到哪里、哪些依赖未满足 | [roadmap](roadmap.md) | 当前 main / 实际 Issue、PR、精确版本证据；快照仅作起点 |
+| 本次任务原始目标、验收、允许文件 | [任务导航](tasks/README.md) → 具体 Issue/task | 已审 rounds/handoffs、当前交付证据；新任务用 [模板](templates/task.md) |
+| 业务结果与用户旅程 | [产品范围](product/scope.md)、[旅程索引](journeys/README.md) | 相关旅程的成功、拒绝、未知结果和恢复，不预读全部旅程 |
+| 系统边界与已采纳决定 | [架构](architecture/README.md) | [ADR-0001](architecture/adr/0001-frontend.md)、[ADR-0003](architecture/adr/0003-yunka-f0-consumer-contract.md)、[历史选型](research/vue-admin-selection.md) |
+| 何处是合同源，什么只是提案 | [契约索引](contracts/README.md) | canonical typed PB、Access 需求或具体已审设计；不复制第二份 schema |
+| 如何选择/恢复阶段、消费哪个格式 | [工作流接入](workflow/SDLC-ADOPTION.md) | 所属工作流 Skill、当前能力与其引用；不预加载所有 Skill |
+| 当前检查、失败恢复与交付条件 | [CI 地图](ci/README.md) | [风险门禁](ci/RISK-BASED-GATES.md)、[恢复](ci/NO-STALL-GATES.md)、适用端的检查 |
+| 前端布局/数据/浏览器 | [前端文档](../frontend/doc/README.md) | [Desktop 契约](design/desktop-ui.md)、[来源适配](design/biz-v12-sync.md)、Mock、E2E |
+| 后端权限/Consumer/生成/Trace | [后端文档](../backend/doc/README.md) | Authz、接入规程、实际锁/生成源与 CI |
+| 一个结论有什么证据 | [证据导航](evidence/README.md) | 精确提交、命令、环境、原始结果、实际外部回执 |
 
-前端使用方法见 [frontend/README.md](../frontend/README.md)，本地数据与恢复边界见 [Mock 数据说明](../frontend/doc/mock-data.md)，类型、文案、单元测试与浏览器检查入口见 [前端 CI](../frontend/ci/README.md)。
+## 冲突与时效
 
-状态词约定：`proposed` 是待评审建议；`implemented` 需要代码；`verified` 需要对应版本的运行证据；`deployed` 需要部署环境与回读证据。文档存在不代表对应业务已经完成。
+- 当前授权来自真实用户/组织记录；仓库规范不能自行扩大权限。
+- 目标含义来自原始要求和同版本已审设计；proposed 文本只提供选项。语义变化回 Design，不用实现反改验收。
+- 已有能力以当前源码/消费者和测试核实；合并以 Git/GitHub 回读核实，部署以目标环境直接观察核实。
+- 路线和快照有日期/基线；与 live state 不同时先回读并更新投影，不重新实现已交付能力。
+- [历史记录](evidence/README.md) 只解释所记版本，不覆盖现行门禁。冻结记录不改；旧文件按其 commit 查询，不能用旧状态要求重复批准或把旧 PASS 冒写为新执行。
+
+结构检查可以证明文件、归属、链接和引用有效，不能自动证明语义完整、审批真实或业务已完成。新增现行文档必须明确职责，并从所属入口链接；历史原件留在原任务，避免进入默认加载路径。

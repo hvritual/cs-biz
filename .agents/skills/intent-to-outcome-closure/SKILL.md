@@ -21,7 +21,7 @@ Read [references/closure-record.md](references/closure-record.md) when forming t
 
 ## Module batch mode: freeze before autonomous advance
 
-For a complete module or all issues in a designed area, read [the module protocol](../../../doc/workflow/MODULE-OUTCOME-CONTRACT.md) before selecting work. The outer SDLC now has Design, Build and Deploy Agent workflows; its old design-only boundary applies only to the Design subworkflow. The actual Issue/task records remain authoritative; the module contract is a frozen acceptance/index view, never another task database.
+For a complete module or all issues in a designed area, read [the module protocol](../sdlc-workflow/references/module-outcome-v1.md) before selecting work. The outer SDLC now has Design, Build and Deploy Agent workflows; its old design-only boundary applies only to the Design subworkflow. The actual Issue/task records remain authoritative; the module contract is a frozen acceptance/index view, never another task database.
 
 1. Read the complete module inventory, including closed issues, explicit exclusions, all pagination and child/dependency links. Discover derived required work from named acceptance obligations. Create missing necessary issues only within existing authority, then reconcile the full inventory before freeze. Never equate all open issues with all required work.
 2. Trace original requirement/design/state -> stable AC -> issue -> observation/test -> evidence in both directions. Define actor, Given/When/Then, measurable pass/fail, negative/recovery cases, protected invariants, proof environment and a module integration exit. An independent reviewer checks the original design for missing obligations and vague acceptance; static field presence cannot do this.

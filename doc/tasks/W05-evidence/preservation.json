@@ -1,0 +1,36 @@
+{
+  "record_type": "w05-preservation-v1",
+  "baseline": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+  "method": "git show baseline:path byte comparison with current file; manifests summarize checked baseline membership",
+  "groups": {
+    "frozen_task_history": {
+      "checked": 182,
+      "changed": [],
+      "baseline_manifest_sha256": "4508e01319193ff8491774cf20ffcfd22881eeb67806b8b17ffcb7a3ca5b8756"
+    },
+    "existing_raw_evidence": {
+      "checked": 5,
+      "changed": [],
+      "baseline_manifest_sha256": "524d08b7a528fdb197c5d6a8660b6be30f65eb45273b09f2063babf53566eb98"
+    },
+    "application_and_dependency_files": {
+      "checked": 1086,
+      "changed": [],
+      "baseline_manifest_sha256": "a0eb2795899836fc18299e0466e19e5e0ff3ea059596313a58be71ef1bd6da05"
+    },
+    "legacy_validator_implementations": {
+      "checked": 6,
+      "changed": [],
+      "baseline_manifest_sha256": "4ef1fab42bb1dd97a9975bc1356365b1d084781491a2ae96878ac633fba5a8be"
+    },
+    "upstream_provenance": {
+      "unchanged": true,
+      "sha256": "500ab33a3c79077ba7577f8ea6b63f327105656b526f2968e96802599bd42ad1"
+    },
+    "ux_ancillary": {
+      "checked": 13,
+      "changed": [],
+      "integration_doc_updated": "Current direct owned paths; old duplicate Skill dispatcher removed."
+    }
+  }
+}

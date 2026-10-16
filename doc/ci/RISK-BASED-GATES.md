@@ -6,7 +6,7 @@ Human 已授权按测试专家方法重新设计门禁、保证质量前提下�
 
 ## 测试策略
 
-当前只有两份 legacy E2E spec（17 项，包含原有 Desktop-only 范围外的 Mobile skip）和一条 tester-army 旅程。
+必需浏览器用例与报告合同由实际套件和 check_browser_evidence.py 管理；保留既有 Desktop 覆盖与唯一历史 Mobile skip。
 不为了省时删用例、不增加 retry 掩盖 flaky、不缩小 Desktop 三尺寸；前端全量成本主要是重复安装/构建和等待人工调度。
 先消除重复，再用可信完整 diff 排除不相关技术栈；不靠文件扩展名猜测业务风险。
 
@@ -42,7 +42,7 @@ legacy 至少保留现有 16 项通过和唯一的既有 Mobile skip，禁止新
 在实际 GitHub 保护允许且无未解决阻断审阅时合并，回读 main 及合并后门禁后再报告完成。
 不再要求每个代码 PR 重复 Human review 或手工 Full dispatch；仍不得自造 GitHub APPROVED review。
 价值选择、已批准方案变更、规则例外、生产操作和不可逆影响仍须 Human 决定。
-治理/门禁修改要单独授权和审阅，本次已有明确授权，且由完整回归和独立规则检查验证。
+治理/门禁修改必须核对当前任务的真实授权和独立审查；初次规则迁移的授权不外推后续修改。
 保留 `Frontend Full Gate` 的手动入口及其旧 receipt 校验供诊断；它不是正常合并的必经路径。
 Agent 的日常编辑先局部/Fast，最终候选才自动 Full，不能每个小编辑都跑全套。
 
@@ -57,7 +57,7 @@ Agent 的日常编辑先局部/Fast，最终候选才自动 Full，不能每个�
 
 同类完整候选对比 GitHub job 的安装/Fast/build/browser/wall-clock，而不是拿文档快通道与完整回归比较。
 同时报告队列等待、runner-minutes、所选用例数、skip/flake、缺陷发现和证据绑定；少跑用例不自动等于优化成功。
-本次旧 PR29 的 Fast、Targeted job 耗时和新候选/main 的实际耗时记录在交付 PR，不承诺未经测量的百分比。
+历史迁移的耗时比较保留在对应任务/PR；后续比较必须使用各自真实 run，不承诺未经测量的百分比。
 完整回归可能发现旧 Targeted 未覆盖的故障；必须修复真实原因、保留原断言后重跑，不用 waiver 掩盖失败。
 
 参考：<https://playwright.dev/docs/ci>、<https://playwright.dev/docs/test-sharding>。

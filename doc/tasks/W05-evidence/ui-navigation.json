@@ -1,0 +1,703 @@
+{
+  "record_type": "read_only_workflow_navigation_assessment",
+  "date_utc": "2026-10-16",
+  "repository_local_path": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+  "repository_name_from_instructions": "hvritual/cs-biz",
+  "local_head": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+  "authority": {
+    "allowed": [
+      "read-only navigation and assessment",
+      "write this diagnostic record to /tmp/w05-ui-navigation.json"
+    ],
+    "not_authorized": [
+      "product design deliverables",
+      "UI or Preview implementation",
+      "application code or test changes",
+      "repository writes",
+      "merge",
+      "deployment",
+      "external changes"
+    ],
+    "stage_execution_started": false,
+    "separate_design_agent_spawned": false
+  },
+  "source_limit": "Findings describe current local working-tree documents. Many selected files are modified or untracked. HEAD is observed locally only; document content is not asserted to be committed main, live GitHub state, accepted design, or implementation proof.",
+  "discovery_commands": [
+    {
+      "command": "pwd && rg --files -g 'README*' -g 'AGENTS.md' -g '!node_modules' -g '!vendor' -g '!test*' -g '!**/test*/**' -g '!**/__tests__/**' -g '!**/W05*/**' -g '!**/w05*/**'",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "exit_code": 0,
+      "result": "Discovered README/AGENTS entry paths; only the selected document branch was read."
+    }
+  ],
+  "read_trace": [
+    {
+      "sequence": 1,
+      "batch": 1,
+      "command": "cat README.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "README.md",
+      "reason": "Root entry and working agreement; no task-specific body inspected.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "9c90e7199971aa27f1b7c7e5c3683ae38ebec76aed4f38ff66877173c4c4c35d",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 2,
+      "batch": 1,
+      "command": "cat AGENTS.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "AGENTS.md",
+      "reason": "Root entry and working agreement; no task-specific body inspected.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "077b5aca67d6f03a9421a5820ef9efdc9c2d4621a407e9032e8a9be27fb14951",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 3,
+      "batch": 2,
+      "command": "cat doc/README.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/README.md",
+      "reason": "Required current document map and dated roadmap, then stage router.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "879aeab5a458a08ba5ea5d630c2c77f821d6d1301db71d638eafe5bff3106cba",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 4,
+      "batch": 2,
+      "command": "cat doc/roadmap.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/roadmap.md",
+      "reason": "Required current document map and dated roadmap, then stage router.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "09a25a9fa1b653b40669b1f8d805256457fb82788e31463fe9626ce7b6175b49",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 5,
+      "batch": 2,
+      "command": "cat .agents/skills/sdlc-workflow/SKILL.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-workflow/SKILL.md",
+      "reason": "Required current document map and dated roadmap, then stage router.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "50ca01f27361e3bbf43491e8703bc625c64e2faf7d2ba98da66d6fa1de705f5d",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 6,
+      "batch": 3,
+      "command": "cat .agents/skills/sdlc-design/SKILL.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/SKILL.md",
+      "reason": "Selected Design stage, project binding, and task navigation only.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "d4c97d2ebd705b0530eb6aa580d05d07300f2fa7dfec74a68dce0d5569008efe",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 7,
+      "batch": 3,
+      "command": "cat doc/workflow/SDLC-ADOPTION.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/workflow/SDLC-ADOPTION.md",
+      "reason": "Selected Design stage, project binding, and task navigation only.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "8e3fbb94085f3085f2c44d65e741012df1c94ac509a8bd5c7f68f8ab4485b766",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 8,
+      "batch": 3,
+      "command": "cat doc/tasks/README.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/tasks/README.md",
+      "reason": "Selected Design stage, project binding, and task navigation only.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "249ff467efd7c5ebfdc34e587feef146aafcf5234357b06e91db91ccdbf7445d",
+      "selected_path_git_status": "??"
+    },
+    {
+      "sequence": 9,
+      "batch": 4,
+      "command": "cat .agents/skills/sdlc-design/agents/agent.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/agents/agent.md",
+      "reason": "Design owner/sequencing and workflow definitions; mandatory frontend/Desktop rules.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "661d17fc34ca585f27b804ef5594cff91bd1d6c706162bb75fa85f455406a395",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 10,
+      "batch": 4,
+      "command": "cat .agents/skills/sdlc-design/workflow.json",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/workflow.json",
+      "reason": "Design owner/sequencing and workflow definitions; mandatory frontend/Desktop rules.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "a3177aefca3d354e7156f7e9cf7953b40e0668e06633b9f6cddda907bfd18bc5",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 11,
+      "batch": 4,
+      "command": "cat doc/design/desktop-ui.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/design/desktop-ui.md",
+      "reason": "Design owner/sequencing and workflow definitions; mandatory frontend/Desktop rules.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "80b6f8d51d90925e2eec174bc5cac2fa404fdd90d9ff7b2fbd3c06fb38c3dcf0",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 12,
+      "batch": 4,
+      "command": "cat frontend/AGENTS.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "frontend/AGENTS.md",
+      "reason": "Design owner/sequencing and workflow definitions; mandatory frontend/Desktop rules.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "d3c27c1eff4a1612a7d0aaf2c347797947c624bab028e98efb3ac25f9079c8dc",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 13,
+      "batch": 5,
+      "command": "cat .agents/skills/sdlc-design/skills/design-ux/SKILL.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/skills/design-ux/SKILL.md",
+      "reason": "Selected UI capability boundaries, UX method, product/journey/contract indexes.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "229abc5b91dfb10392d35e51c29bc1df00842c8fa5ecf53976b0b58d59f8839d",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 14,
+      "batch": 5,
+      "command": "cat .agents/skills/sdlc-design/skills/design-ux/references/ux-method.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/skills/design-ux/references/ux-method.md",
+      "reason": "Selected UI capability boundaries, UX method, product/journey/contract indexes.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "c985395bd088bcbeee1fabc46c76beffe58641f05dcd96495f1eb2c46eb4ca56",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 15,
+      "batch": 5,
+      "command": "cat .agents/skills/sdlc-design/skills/design-preview/SKILL.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/skills/design-preview/SKILL.md",
+      "reason": "Selected UI capability boundaries, UX method, product/journey/contract indexes.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "160505fd29b511b67f9370d753b4060f25702c5bac69a2739a1d9c4498db11be",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 16,
+      "batch": 5,
+      "command": "cat doc/product/scope.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/product/scope.md",
+      "reason": "Selected UI capability boundaries, UX method, product/journey/contract indexes.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "1588ce1a08e6531860f07a1f393a27a82918f9695cef8e9145dceff4331574f3",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 17,
+      "batch": 5,
+      "command": "cat doc/journeys/README.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/journeys/README.md",
+      "reason": "Selected UI capability boundaries, UX method, product/journey/contract indexes.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "1bc9afaa4022236f7c49535aa591537a56e34aba1fcaa200e7659372e83aa39f",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 18,
+      "batch": 5,
+      "command": "cat doc/contracts/README.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/contracts/README.md",
+      "reason": "Selected UI capability boundaries, UX method, product/journey/contract indexes.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "80109e74620fafa22e02a78306d000f0ca87a6b0568f035bf27d99676e514ef3",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 19,
+      "batch": 6,
+      "command": "cat .agents/skills/sdlc-design/skills/design-ux/PROJECT-INTEGRATION.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/skills/design-ux/PROJECT-INTEGRATION.md",
+      "reason": "Direct UX project binding, nine obligations, effect/recovery rules, Preview protocol, task/evidence boundaries.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "4a1d053e0a83c22eac6482affe50660780276dbbde62c1cd3e35e5aa08df6c71",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 20,
+      "batch": 6,
+      "command": "cat .agents/skills/sdlc-design/skills/design-ux/references/humanized-ux.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/skills/design-ux/references/humanized-ux.md",
+      "reason": "Direct UX project binding, nine obligations, effect/recovery rules, Preview protocol, task/evidence boundaries.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "5b91dcae8a4e326d68f3eae4327480c1875e6c140c9f9f642fcabea7bb67ba8a",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 21,
+      "batch": 6,
+      "command": "cat .agents/skills/sdlc-design/skills/design-ux/references/guidance-and-recovery.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/skills/design-ux/references/guidance-and-recovery.md",
+      "reason": "Direct UX project binding, nine obligations, effect/recovery rules, Preview protocol, task/evidence boundaries.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "d5a90f4369fe32dfc70d0972ca6dbf11a7824500be14f403b54914c844412633",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 22,
+      "batch": 6,
+      "command": "cat .agents/skills/sdlc-design/references/intent-design-v2.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/references/intent-design-v2.md",
+      "reason": "Direct UX project binding, nine obligations, effect/recovery rules, Preview protocol, task/evidence boundaries.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "9bde7254c786fdf0ab98bcd392f701e4c2315849144e46f03bf2641df7f35302",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 23,
+      "batch": 6,
+      "command": "cat doc/templates/task.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/templates/task.md",
+      "reason": "Direct UX project binding, nine obligations, effect/recovery rules, Preview protocol, task/evidence boundaries.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "5117afeb3dfd036a36c4696eb02181ece39d04803dcf5adefdcd056a2e92ef9b",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 24,
+      "batch": 6,
+      "command": "cat doc/evidence/README.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/evidence/README.md",
+      "reason": "Direct UX project binding, nine obligations, effect/recovery rules, Preview protocol, task/evidence boundaries.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "d22b80b8dd7075cf710195b53a407b06a244fe427534ca8c1602cc6cdf74dd6e",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 25,
+      "batch": 7,
+      "command": "cat .agents/skills/sdlc-design/skills/design-capture/SKILL.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/skills/design-capture/SKILL.md",
+      "reason": "Identify initial capture capability and intake fields; clarify unknown business context and proposed Access semantics; frontend fact/source map and backend read-before-source boundary.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "da1d263891fc8f21c039ce26e78c0803363779b0cfe80488a76d6316b817bae8",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 26,
+      "batch": 7,
+      "command": "cat .agents/skills/sdlc-design/contracts/intake.json",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/contracts/intake.json",
+      "reason": "Identify initial capture capability and intake fields; clarify unknown business context and proposed Access semantics; frontend fact/source map and backend read-before-source boundary.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "ef97fac3bcced9111ed0a03c6e9dc8520b63ec9a3a8f5bc4ac473daa4b7e4d2c",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 27,
+      "batch": 7,
+      "command": "cat .agents/skills/sdlc-design/skills/design-ux/references/business-context.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": ".agents/skills/sdlc-design/skills/design-ux/references/business-context.md",
+      "reason": "Identify initial capture capability and intake fields; clarify unknown business context and proposed Access semantics; frontend fact/source map and backend read-before-source boundary.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "2a58b5c47dadb55ad0a9ddab545beb931659c965347c283e2aaf5e7662210303",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 28,
+      "batch": 7,
+      "command": "cat doc/contracts/access-context.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "doc/contracts/access-context.md",
+      "reason": "Identify initial capture capability and intake fields; clarify unknown business context and proposed Access semantics; frontend fact/source map and backend read-before-source boundary.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "091f0d8a5a82dfedfc0382e73c338ceab2d08249482f3d2bfb23c52fcba03ead",
+      "selected_path_git_status": " M"
+    },
+    {
+      "sequence": 29,
+      "batch": 7,
+      "command": "cat backend/AGENTS.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "backend/AGENTS.md",
+      "reason": "Identify initial capture capability and intake fields; clarify unknown business context and proposed Access semantics; frontend fact/source map and backend read-before-source boundary.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "c0660c1443e0257f788637663f7ea80e1d32b6f555e953e70b8eb4f32972ea63",
+      "selected_path_git_status": "clean"
+    },
+    {
+      "sequence": 30,
+      "batch": 7,
+      "command": "cat frontend/doc/README.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "path": "frontend/doc/README.md",
+      "reason": "Identify initial capture capability and intake fields; clarify unknown business context and proposed Access semantics; frontend fact/source map and backend read-before-source boundary.",
+      "exit_code": 0,
+      "complete_output_read": true,
+      "sha256_at_recording": "16e299580f86732c82bff325ec15bf57370ecf4ff8fc3fa1f3e77ebe4459d8a5",
+      "selected_path_git_status": " M"
+    }
+  ],
+  "metadata_commands": [
+    {
+      "command": "git rev-parse --show-toplevel HEAD",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "exit_code": 0,
+      "result": [
+        "/workspace/scratch/ed1b842b4b7e/cs-biz",
+        "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+      ]
+    },
+    {
+      "command": "git status --porcelain -- README.md AGENTS.md doc/README.md doc/roadmap.md .agents/skills/sdlc-workflow/SKILL.md .agents/skills/sdlc-design/SKILL.md doc/workflow/SDLC-ADOPTION.md doc/tasks/README.md .agents/skills/sdlc-design/agents/agent.md .agents/skills/sdlc-design/workflow.json doc/design/desktop-ui.md frontend/AGENTS.md .agents/skills/sdlc-design/skills/design-ux/SKILL.md .agents/skills/sdlc-design/skills/design-ux/references/ux-method.md .agents/skills/sdlc-design/skills/design-preview/SKILL.md doc/product/scope.md doc/journeys/README.md doc/contracts/README.md .agents/skills/sdlc-design/skills/design-ux/PROJECT-INTEGRATION.md .agents/skills/sdlc-design/skills/design-ux/references/humanized-ux.md .agents/skills/sdlc-design/skills/design-ux/references/guidance-and-recovery.md .agents/skills/sdlc-design/references/intent-design-v2.md doc/templates/task.md doc/evidence/README.md .agents/skills/sdlc-design/skills/design-capture/SKILL.md .agents/skills/sdlc-design/contracts/intake.json .agents/skills/sdlc-design/skills/design-ux/references/business-context.md doc/contracts/access-context.md backend/AGENTS.md frontend/doc/README.md",
+      "cwd": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+      "exit_code": 0,
+      "result": [
+        {
+          "status": " M",
+          "path": ".agents/skills/sdlc-design/references/intent-design-v2.md"
+        },
+        {
+          "status": " M",
+          "path": ".agents/skills/sdlc-design/skills/design-ux/PROJECT-INTEGRATION.md"
+        },
+        {
+          "status": " M",
+          "path": ".agents/skills/sdlc-workflow/SKILL.md"
+        },
+        {
+          "status": " M",
+          "path": "AGENTS.md"
+        },
+        {
+          "status": " M",
+          "path": "README.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/README.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/contracts/README.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/contracts/access-context.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/evidence/README.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/journeys/README.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/product/scope.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/roadmap.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/templates/task.md"
+        },
+        {
+          "status": " M",
+          "path": "doc/workflow/SDLC-ADOPTION.md"
+        },
+        {
+          "status": " M",
+          "path": "frontend/AGENTS.md"
+        },
+        {
+          "status": " M",
+          "path": "frontend/doc/README.md"
+        },
+        {
+          "status": "??",
+          "path": "doc/tasks/README.md"
+        }
+      ]
+    }
+  ],
+  "not_read": [
+    "test source code or assertions",
+    "other Agents' output files",
+    "doc/tasks/W05-agent-docs.md or any W05 validation conclusions",
+    "historical rounds/handoffs/approvals or their validation reports",
+    "repository-state snapshot contents",
+    "application source/components/API implementations",
+    "Build/Deploy capability bodies"
+  ],
+  "not_executed": [
+    "workflow checker",
+    "static/quality checks",
+    "tests",
+    "Preview server or browser scenarios",
+    "network/GitHub readback",
+    "product design or code edits"
+  ],
+  "navigation_findings": {
+    "canonical_entry_chain": [
+      "README.md",
+      "AGENTS.md",
+      "doc/README.md",
+      "doc/roadmap.md and actual Issue/task",
+      ".agents/skills/sdlc-workflow/SKILL.md",
+      ".agents/skills/sdlc-design/SKILL.md",
+      ".agents/skills/sdlc-design/agents/agent.md and workflow.json"
+    ],
+    "responsible_stage": "design",
+    "owner_definition": ".agents/skills/sdlc-design/agents/agent.md",
+    "owner_role": "Design Agent owns sequencing, bounded retries/recovery, independent evidence checks, same-version review and stage handoff; a capability owns one output only.",
+    "registration_boundary": "Native agent TOML, .codex mirrors and openai.yaml do not establish runtime activation or grant authority; no unattended Issue-to-Agent service is installed according to current entry documents.",
+    "current_capability": {
+      "status": "not actually selected by checker because no authoritative task/intake was supplied",
+      "conditional_first_step_for_new_intent": "capture",
+      "skill": ".agents/skills/sdlc-design/skills/design-capture/SKILL.md",
+      "input": "request.json plus exact raw source",
+      "output": "design/capture.json"
+    },
+    "ui_capabilities_when_reached": [
+      {
+        "step": "ux",
+        "skill": ".agents/skills/sdlc-design/skills/design-ux/SKILL.md",
+        "inputs": [
+          "request.json",
+          "design/solution.json"
+        ],
+        "output": "design/ux.json",
+        "boundary": "Analyze journey, states, permission and recovery; does not create/run Preview."
+      },
+      {
+        "step": "preview",
+        "skill": ".agents/skills/sdlc-design/skills/design-preview/SKILL.md",
+        "inputs": [
+          "request.json",
+          "design/ux.json"
+        ],
+        "output": "design/preview.json",
+        "boundary": "Authorized task-scoped Preview inside existing Console with actual browser observations; cannot approve itself or claim implementation."
+      }
+    ],
+    "conditional_next_command_not_run": "python3 .agents/skills/sdlc-design/scripts/check_workflow.py --task TASK --include-skill",
+    "command_caution": "Run only for an identified authoritative task within granted scope; parse state because exit 0 may mean BLOCKED. Do not preload every capability.",
+    "handoff": "design-to-build.json"
+  },
+  "ux_and_project_rules": {
+    "already_read": [
+      "frontend/AGENTS.md",
+      "doc/design/desktop-ui.md",
+      ".agents/skills/sdlc-design/references/intent-design-v2.md",
+      ".agents/skills/sdlc-design/skills/design-ux/PROJECT-INTEGRATION.md",
+      ".agents/skills/sdlc-design/skills/design-ux/references/ux-method.md",
+      ".agents/skills/sdlc-design/skills/design-ux/references/business-context.md",
+      ".agents/skills/sdlc-design/skills/design-ux/references/humanized-ux.md",
+      ".agents/skills/sdlc-design/skills/design-ux/references/guidance-and-recovery.md",
+      "doc/product/scope.md",
+      "doc/journeys/README.md",
+      "doc/contracts/README.md",
+      "doc/contracts/access-context.md",
+      "frontend/doc/README.md",
+      "doc/templates/task.md",
+      "doc/evidence/README.md"
+    ],
+    "defer_until_actual_design_need": [
+      {
+        "path": ".agents/skills/sdlc-design/references/intent-method.md",
+        "trigger": "capture/research/intent step resources returned for actual task"
+      },
+      {
+        "path": ".agents/skills/sdlc-design/skills/design-ux/UX-CONTRACT.md and templates/ux-contract.template.yaml",
+        "trigger": "produce reviewable UX analysis"
+      },
+      {
+        "path": ".agents/skills/sdlc-design/skills/design-ux/references/page-pattern-selection.md",
+        "trigger": "choose page structure after task/object/flow is known"
+      },
+      {
+        "path": ".agents/skills/sdlc-design/skills/design-ux/references/b2b-interaction-patterns.md",
+        "trigger": "combine specific task interactions"
+      },
+      {
+        "path": ".agents/skills/sdlc-design/skills/design-ux/references/anti-patterns.md",
+        "trigger": "review burden and false-success risks"
+      },
+      {
+        "path": "frontend/apps/console/src/styles/coffeelink-tokens.css, relevant views/components/platform/router and real consumers",
+        "trigger": "independently verify exact-version reuse and current behavior after navigation-only scope ends"
+      },
+      {
+        "path": "canonical accepted task/API/authorization contracts selected through doc/contracts/README.md",
+        "trigger": "verify actual permission, idempotency, readback and business semantics; not read under current exclusion of other Agent outputs"
+      },
+      {
+        "path": "backend/.yunka/ENGINEERING_QUALITY.md and policy identity",
+        "trigger": "before source code review/create/refactor/generation per backend/AGENTS.md; no backend source reviewed now"
+      },
+      {
+        "path": "doc/ci/README.md, doc/ci/RISK-BASED-GATES.md and frontend/doc/e2e.md",
+        "trigger": "authorized implementation or verification; no checks needed for this navigation-only report"
+      }
+    ],
+    "frontend_constraints": [
+      "Reuse the existing Vue/Vben/Element Plus Console, shell, typed services, navigation, access, tokens and i18n; no second app/theme.",
+      "Desktop only: 1366x768, 1440x900, 1536x1024; preserve retained legacy Mobile skip and existing coverage.",
+      "Current local contract: 56px header, 200/68px opaque rail flush at x=0, 480px overlay panel; tenant brand through current tokens; avoid page-local numeric duplicates.",
+      "Product language is business language; no inert actions, invented numbers, engineering placeholders, unsupported invitation/payment/success claims."
+    ],
+    "context_dimensions": [
+      "role",
+      "task",
+      "entity",
+      "workflow",
+      "state",
+      "action",
+      "risk",
+      "decision"
+    ],
+    "nine_obligations": [
+      "time_to_information",
+      "time_to_action",
+      "context_switching",
+      "decision_load",
+      "interaction_cost",
+      "error_recoverability",
+      "how_to_guidance",
+      "operation_effect_transparency",
+      "problem_resolution_guidance"
+    ],
+    "measurement_boundary": "Record applicability, obligation, evidence type and verified status per dimension. No universal 3s/5s/two-page threshold; no human comprehension claim from browser speed."
+  },
+  "must_clarify_before_design_or_implementation": [
+    {
+      "item": "authoritative task and original intent",
+      "details": "Actual Issue/task ID, raw bytes/ref/time/hash, exact operation, role, objects, trigger, existing flow, desired observable result and exclusions.",
+      "owner": "requesting business/Task Owner"
+    },
+    {
+      "item": "scope meaning",
+      "details": "Does multi-tenant mean tenant-isolated operation within a selected tenant, or explicitly privileged cross-tenant work? Platform role grants no automatic tenant data access.",
+      "owner": "business and authorization Owner"
+    },
+    {
+      "item": "frozen AC",
+      "details": "Stable R/AC, Given/When/Then, pass/fail and evidence method/environment; success/rejection/empty/no-result/loading/stale/unknown/partial/recovery/protected behavior and retained assertions.",
+      "owner": "Design/Task Owner with actual same-version Human review"
+    },
+    {
+      "item": "version and action authority",
+      "details": "Current live main/Issue/PR and accepted design; repository/base/head, reviewed_design completion boundary if design is requested, exact allowed/forbidden paths, budget and separately granted Preview/repository-write/implementation/merge/deploy/external-effect authority.",
+      "owner": "Task/Repository Owner"
+    },
+    {
+      "item": "real contracts and resources",
+      "details": "Canonical versioned API/PB/authorization/state/error/idempotency/readback/audit/async contracts and actual accounts/data/environment; missing/unknown retained with Owner and recovery, Mock never marks real dependency available.",
+      "owner": "API/Authz/Environment Owner"
+    }
+  ],
+  "batch_permission_and_recovery_requirements": [
+    "Menu visibility is not API authority. Pair each Function/action with its own Data Scope; enforce Tenant AND Scope server-side, including list/detail/write/batch/export/background operations.",
+    "Do not combine read-all with write-own into write-all. A platform operator does not automatically obtain tenant business access. Local identity/Mock does not prove IAM or DB isolation.",
+    "Evaluate text paste/import for rapid selection, or justify non-adoption: parse/validate, normalize/deduplicate, exact match within current tenant and permission, separate duplicates/unmatched/ambiguous/unauthorized without leaking resource existence, Human resolve/exclude.",
+    "Make selection semantics explicit: current page/current filter/explicit set; selection never executes. Revalidate after text, identity, tenant, filter or object-version changes.",
+    "Before execute show final count/scope, current-to-target difference, applicable fees/quotas/permission/notification effects, irreversible/unknown effects and necessary risk confirmation.",
+    "After execute distinguish accepted/queued/running/partial/final/unknown; retain item-level known/failed/unknown results and actual result entry.",
+    "Preserve original inputs and operation or pre-known idempotency key; timeout/cancel is not proof of non-execution. Unknown side effects require authorized readback before retry.",
+    "Retry only per real idempotency contract and verified scope, never whole-batch blind retry or new-ID replay. Do not invent status endpoints, guarantees, Undo or rollback.",
+    "On tenant/identity switch discard stale detail/selection/permissions and prevent old late results or pending commands leaking across tenant context; failure must not fall back to old tenant authority.",
+    "Cover revoked permission, disabled membership, entitlement failure, conflicts/concurrency, network loss, partial failure and unknown result; escalation/support path must be real and permission-safe.",
+    "Proposed access-context.md paths/error codes/JSON/idempotency shapes remain proposals, not adopted executable contracts.",
+    "After two materially identical failures without new evidence stop affected branch, retain evidence/Owner/recovery; obey stricter existing budgets."
+  ],
+  "design_handoff_evidence": {
+    "can_support_design_handoff_after_authorized_production": [
+      "Exact raw source/Intent and source references bound to path/full commit/hash; source status and conflicts explicit.",
+      "Same-version solution, requirements R/AC, design, journey/flow Screen+State IDs, UX analysis and all retained/negative/recovery obligations.",
+      "Existing-project task-scoped Preview with isolated fixture data/writes, production-excluded route/files, source/candidate hashes and artifact version.",
+      "Reproducible route/start command/scenarios and real browser logs/screens from exact candidate for full journey, key errors/recovery, themes/languages and three Desktop sizes.",
+      "Actual same-version Human approval of full solution and journey, with identity/source/version independently verified; partial/old approval is insufficient.",
+      "design-to-build.json with source/input digests, task/scope/acceptance, referenced raw evidence, resources, remaining blockers and separately verified Build authority."
+    ],
+    "cannot_establish_implementation_or_completion": [
+      "This navigation report, dated roadmap, document indexes or snapshots.",
+      "Skill definitions, agent TOML/openai.yaml, static checker exit 0/PASS_STATIC_ONLY/HANDOFF_CANDIDATE_STATIC, EXAMPLE_ONLY, or file existence.",
+      "A standalone screenshot, demo.html, author self-check, another Agent summary, source/config existence or TypeScript green.",
+      "Mock/local account/fixture preview as proof of real IAM, database isolation, API side effects, delivered invitation/payment or production behavior.",
+      "Design approval as implementation/merge/deploy authority; Issue closed/PR open or a historical PASS as exact-current-version qualification.",
+      "Accepted/queued request as final business completion, timeout as failure, tool-call success as recovered business outcome."
+    ],
+    "stronger_stages_require": "Independent actual Build evidence, applicable CI/jobs/attempt and exact-SHA receipt/review, authorized main integration and readback; separately authorized Deploy needs immutable target artifact, actual target observations and recovery proof. None obtained in this run."
+  },
+  "evidence_gaps": [
+    "No actual page task/Issue/intake, accepted same-version design or operation-specific AC supplied or inspected.",
+    "Live GitHub main, Issue/PR/control state and remote authorization not read back.",
+    "Local selected docs have uncommitted/untracked changes; only their actual content hashes bind this assessment.",
+    "Current application components/services, canonical accepted backend/API implementation, real IAM/DB/batch/idempotency/readback resources not independently inspected.",
+    "No Preview/browser/test/real API/Human task measurement/Human approval evidence collected."
+  ],
+  "minimum_next_action": {
+    "within_current_authority": "Return this navigation assessment and stop; do not start product design.",
+    "future_after_separate_design_authority": "Identify or capture the actual single task with raw intent, business operation, scope and initial R/AC/authority; bind a current-baseline request.json with reviewed_design and exact allowed/forbidden paths, then let Design run check_workflow.py --task TASK --include-skill and load only its selected capability. No need to open Build/Deploy.",
+    "first_missing_evidence_owner": "Requesting business/Task Owner for actual intent, intended tenant boundary, accepted outcomes and design/Preview scope; API/Authz Owner for executable permission/readback/retry contracts."
+  },
+  "write_summary": "Only /tmp/w05-ui-navigation.json is created by this assessment; no repository/application/test/external writes were made."
+}

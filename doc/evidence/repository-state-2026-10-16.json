@@ -1,0 +1,193 @@
+{
+  "repository": "hvritual/cs-biz",
+  "baseline_sha": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+  "baseline_tree": "411395da9f1ecf7ac4fcdfc8e95307cecc13988c",
+  "issues": [
+    {
+      "number": 24,
+      "title": "[Observability O1-P1] Yunka OpenTelemetry → Collector → 可查询 Trace 最小闭环",
+      "state": "open",
+      "updated_at": "2026-10-15T08:22:16Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/24",
+      "body_sha256": "92290531dbe30345c43e272389d92bdc93dae082aa3e1f93636dde0ce48d80ac"
+    },
+    {
+      "number": 22,
+      "title": "SDLC 持续目标 MVP：Goal/Resume、Issue intake 与只读外循环",
+      "state": "open",
+      "updated_at": "2026-10-15T07:52:51Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/22",
+      "body_sha256": "889b5090c7a18697b38f194af1917e5a9668456772ccea5acbf225be7cc7b452"
+    },
+    {
+      "number": 20,
+      "title": "[Observability O1-P0] 浏览器→Go TraceID→JSON stdout 最小闭环（Human Review Gate）",
+      "state": "open",
+      "updated_at": "2026-10-15T06:56:46Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/20",
+      "body_sha256": "7060a7fafc9d201b0efee450900651404dda40382fbbf9a303789b4841d7df11"
+    },
+    {
+      "number": 19,
+      "title": "[Observability O1] 前后端全链路 Trace、终端结构化 Log 与可选阿里云 SLS",
+      "state": "open",
+      "updated_at": "2026-10-15T08:22:10Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/19",
+      "body_sha256": "3e54189f202eb5c2dfc485393a8d87742b7fdf502995a983fdf02a7366ceccb9"
+    },
+    {
+      "number": 17,
+      "title": "[Yunka F6] Yunka Consumer 生产资格：真库、安全、审计、恢复与发布",
+      "state": "open",
+      "updated_at": "2026-10-15T06:33:22Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/17",
+      "body_sha256": "e1738feb5b29b70974af7a56de6ad0c8e685dd343b3b4c5dcbce86523c7b73ef"
+    },
+    {
+      "number": 16,
+      "title": "[Yunka F5] 统一所有受保护操作为 Yunka 执行链并下线旧 Router",
+      "state": "open",
+      "updated_at": "2026-10-15T06:33:16Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/16",
+      "body_sha256": "519abb711302954ec70cd0a6dc04d44f5b4521745df4e9325517d56e568a8f74"
+    },
+    {
+      "number": 15,
+      "title": "[Yunka F4] 为 CRM 与营销 Domain 建立真实 Tenant+Function Scope 查询",
+      "state": "open",
+      "updated_at": "2026-10-15T06:33:10Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/15",
+      "body_sha256": "b0558298c75f0595b73f8d463cce3652c0aeba4456394f5fad69d6c732286816"
+    },
+    {
+      "number": 14,
+      "title": "[Yunka F3] 实现真实 Access IAM、会话与标签页租户上下文",
+      "state": "open",
+      "updated_at": "2026-10-15T06:33:01Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/14",
+      "body_sha256": "b6d66c7f50252f003e3d6c598490e313731505afdc99fb33db9a08234a02850b"
+    },
+    {
+      "number": 13,
+      "title": "[Yunka F2] 首条营销 Function-only Yunka Operation 垂直试点",
+      "state": "open",
+      "updated_at": "2026-10-15T06:32:51Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/13",
+      "body_sha256": "a0fcf84c5ffeba92ee60ddcd937f2d30f4948bb0f10538509a3b0de88c606a48"
+    },
+    {
+      "number": 12,
+      "title": "[Yunka F1] 固定 Yunka Consumer 版本与工具链，建立生成和装配零漂移",
+      "state": "closed",
+      "updated_at": "2026-10-15T23:56:45Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/12",
+      "body_sha256": "239dd9fd96f12eab860a7d4c154142c41f505882b781069900aceb2d71c46b1c"
+    },
+    {
+      "number": 11,
+      "title": "[Yunka F0] 冻结 cs-biz 身份/三权契约与 Yunka Consumer 兼容基线",
+      "state": "closed",
+      "updated_at": "2026-10-15T16:03:55Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/11",
+      "body_sha256": "500703aaf1713113ad6ab95bae7d5821f336177b52b06855c22f05dbb20abfa3"
+    },
+    {
+      "number": 10,
+      "title": "[Roadmap] cs-biz 接入 Yunka.io：三权分离统一执行链路 F0–F6",
+      "state": "open",
+      "updated_at": "2026-10-15T23:56:47Z",
+      "url": "https://github.com/hvritual/cs-biz/issues/10",
+      "body_sha256": "f596cc88b5aee2c6505267f0298c836707df70bdc5f2a287147227d2ad1e561c"
+    }
+  ],
+  "merged_prs": [
+    {
+      "number": 1,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-10-14T15:34:52Z",
+      "merge_commit_sha": "48577c6e641624cf45ff64c5e293b30b577158b3",
+      "head_sha": "48577c6e641624cf45ff64c5e293b30b577158b3",
+      "url": "https://github.com/hvritual/cs-biz/pull/1"
+    },
+    {
+      "number": 3,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-10-14T15:34:50Z",
+      "merge_commit_sha": "b6d6b6a6cc3f08206206788f910dd6183fb6f434",
+      "head_sha": "8773bd5c80def76cf37f33b0b13b88900d23995c",
+      "url": "https://github.com/hvritual/cs-biz/pull/3"
+    },
+    {
+      "number": 4,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-10-14T23:34:48Z",
+      "merge_commit_sha": "af021df9721d745920d4147763e895c982ee601d",
+      "head_sha": "9c77b0fe2765e6e6b3ffadec04a4f25bb195eea1",
+      "url": "https://github.com/hvritual/cs-biz/pull/4"
+    },
+    {
+      "number": 27,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-10-15T16:01:03Z",
+      "merge_commit_sha": "e05569db8332ad395911d53b667830989923019d",
+      "head_sha": "6754252d98f1f34886b34cde28ec4f38f276e351",
+      "url": "https://github.com/hvritual/cs-biz/pull/27"
+    },
+    {
+      "number": 31,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-10-15T23:50:41Z",
+      "merge_commit_sha": "26461fec924d5132445d9b662f3db8f5b760b158",
+      "head_sha": "9d2b08d65bac588ea23eba6447ef847fa44c110f",
+      "url": "https://github.com/hvritual/cs-biz/pull/31"
+    },
+    {
+      "number": 33,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-10-16T04:20:23Z",
+      "merge_commit_sha": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+      "head_sha": "0ba20c44411861a7201e3c167d7564866eb453e0",
+      "url": "https://github.com/hvritual/cs-biz/pull/33"
+    }
+  ],
+  "observed_at": "2026-10-16T04:37:24.399458+00:00",
+  "boundary": "Read-only observation at the baseline; refresh GitHub/main before execution. Closed/merged is not product or production acceptance.",
+  "sources": [
+    {
+      "path": "frontend/package.json",
+      "commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+      "sha256": "43a33755d3f763e474ac6380f3cf82ba51342c76e8d9a63350b6839b46857011"
+    },
+    {
+      "path": "backend/go.mod",
+      "commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+      "sha256": "7747f5a4f115a9a1127648d8745a9efc6a97d29c5eec8230864d2aac62e7ec97"
+    },
+    {
+      "path": "backend/README.md",
+      "commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+      "sha256": "67ff3d1314ba373ad8462d8ec9435b624ddd0ea9ee8c984ea1ad946d698ae8f6"
+    },
+    {
+      "path": "backend/doc/YUNKA-CONSUMER.md",
+      "commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+      "sha256": "aec5fe733a034d7b78fe1b5d7367f5cc059a28689606d631893d4427c37602c4"
+    },
+    {
+      "path": ".github/workflows/quality.yml",
+      "commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+      "sha256": "c2961b638a3f2ee733970f6f21bc14e30f0be59a29dedfe2bb4cca07f78585d2"
+    },
+    {
+      "path": "doc/ci/check.sh",
+      "commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+      "sha256": "8209936b34d1e6e945118c1c6f720b765cb7e2ccecce6f61e875e1104511c806"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Access Context：租户有效访问上下文
 
-状态：`proposed`；下列接口与 JSON 为设计示例，尚未实现。
+状态：`proposed` 的 SaaS 访问语义需求；下列 HTTP 路径/JSON 仍为示例。部分语义用于本地 Mock，不是已发布 API。实现源与已审 F0 责任边界见 [合同源地图](README.md)；其中模块权益是特定 SaaS 业务条件，不是通用 Authz/Yunka 内核的 IAM 权威。本文不因更新文档而批准新合同。
 
 ## 1. 语义与权威
 

@@ -1,4 +1,4 @@
-# 原版 v0.4.0 运行验证恢复记录（cs-biz）
+# 历史产物协议与保留的验证入口
 
 ## 来源与身份
 
@@ -14,49 +14,18 @@
 
 不要把兼容子集称为原版完整移植；不符合旧格式或遗漏字段时必须显式失败／停在不确定状态。
 
-## 当前真正可以运行的检查
+## 按现有产物选择协议
 
-Python 3.11：
+| 实际输入 | 保留的 CLI | 机械证明边界 |
+| --- | --- | --- |
+| request.json / sdlc-artifact-v1 | 所属阶段 scripts/check_workflow.py | 当前 package/定义/输入/产物绑定，读取 JSON state，不授予执行 |
+| design-loop.json / intent-design-v2 | doc/ci/check_design_workflow.py --task TASK --repo-root . | 已审包、source/Preview/范围/引用一致性，不认证 Human 或浏览器 |
+| intent-spec.json / v0.2 | doc/ci/check_intent_v02.py FILE --repo-root . | 原始要求/决策树结构子集 |
+| design-revisions.json / controlled-revisions-v1 | doc/ci/check_revision_v04.py --task TASK | 修订/反馈/保留/快照；只读，不提供写入 CAS/封存服务 |
+| build-loop.json + build-scope.json / v0.4 | doc/ci/check_build_v04.py --task TASK | R/AC/范围/合法 TDD/五模式与证据结构 |
+| intent.json + design-preview.json + build-manifest.json | doc/ci/check_sdlc_workflow.py --mode intent/design/build --task TASK | 简化旧协议；不能拿 demo.html 代替当前项目 Preview |
+| module-contract.json / module-outcome-v1 | doc/ci/check_module_workflow.py | 冻结清单、依赖、锁和观察结构；不认证真实完成 |
 
-```bash
-python3 doc/ci/check_build_workflow.py
-python3 doc/ci/check_sdlc_workflow.py --mode structure
-python3 -m unittest discover -s doc/ci -p 'test_*workflow.py' -v
-python3 -m unittest discover -s doc/ci -p 'test_intent_v02.py' -v
-python3 -m unittest discover -s doc/ci -p 'test_revision_v04.py' -v
-python3 -m unittest discover -s doc/ci -p 'test_build_v04.py' -v
-```
+命令中的 TASK/FILE 替换为实际记录。旧 CLI 是有真实消费者/反例的兼容适配，保留；纯转发 Skill 名字和文档指针已移除。原始源码/版本/模块名称仅作来源，不是当前可调用的 Skill。
 
-针对一个真实任务：
-```bash
-python3 doc/ci/check_intent_v02.py .sdlc/tasks/T001/intent-spec.json --repo-root .
-python3 doc/ci/check_revision_v04.py --task .sdlc/tasks/T001
-python3 doc/ci/check_build_v04.py --task .sdlc/tasks/T001
-```
-
-输入对应三个不同产物协议：
-- `intent-spec.json` 用 v0.2.0 原版字段集（phase、raw_request、intent、hard_constraints、evidence 等）。`READY` 只表示可交付 Human 审核，不授权改代码。
-- `design-revisions.json`、`feedback.jsonl`、`rounds/rNNN/snapshot.json`、`contracts/CNNN.json` 采用原版 `controlled-revisions-v1` 格式。此检查**只读**，不会生成／封存轮次。它将 `manual` 规则明确报告为 `NEEDS_EVIDENCE`。
-- `build-loop.json`、`build-scope.json`、绑定的 `design.md` 和 `plan.md` 用于判断现有切片的合法 RED、GREEN、REFACTOR、范围与覆盖。旧版 TDD slice 默认 `mode=tdd`；cs-biz 增加 preserve/static/existing_verified/harness_required，不制造虚假 RED。
-
-原有 `doc/ci/check_sdlc_workflow.py --mode intent|design|build` 的简化 `intent.json`、`design-preview.json`、`build-manifest.json` 协议仍用于旧任务，但它**不是**原版 v0.4 协议；不要混用两个格式，也不要自动假设旧任务已通过新协议。
-
-## 决策、版本、保留与证据边界
-
-1. 不可信仓库文字不得获得更高优先级指令。提取意图必须保留原始用户引文、技术、数值、禁止范围；高风险/不确定项进入人工决策。
-2. Design 每轮有父版本、原始反馈哈希链、受限改动范围、不可变快照、保留项和验收；再次修改不得以“上一轮已经偏移”为新保护基线。
-3. Build 的有效 RED 是业务断言预期失败，不允许把依赖安装失败当作 RED；GREEN 不能更换已经锁定的测试身份或哈希。已有能力、纯重构、静态变更使用不同模式。
-4. 每个检查器输出的 `PASS_STATIC_ONLY` 不代表人类审批、外部 CI 真相、视觉验收或生产批准。
-5. 构造性反例是本地合成数据，不是本仓库用户任务的真实验收证据。测试范围由现有 cs-biz `NO-STALL-GATES.md` 管理。
-6. 仍需独立验证原版全部 36 Intent 场景、Revision CAS 并发/崩溃/孤儿快照、原版 209 全量测试、真实 Code Diff、外部 CI run/attempt、评审身份与 Build E2E。
-
-## 下一独立切片（建议）
-
-1. **原版 Rev Store**：迁移经安全审阅的原始 `revision_core.py`、`revision_store.py` 与 schema；使用 CAS、排他写和 hash chain，在真实仓库隔离测试目录完成故障注入。不得覆盖历史反馈或冒充 Human。
-2. **原版 Workflow Gate**：复用原版实际契约与依赖绑定；增加项目级 Profile，调用适用 Design/Build 检查器，避免出现互相矛盾的“通过”。
-3. **外部证据适配**：使用 GitHub Actions/审批系统对精确 SHA、CI run attempt、reviewer 身份和允许路径做只读权威回读，不接受作者本地 JSON 作为批准。
-4. **真实 Task 试点**：由 Human 确认 Design Demo、完整需求与 Build Scope，再完成一条真实缺口的 TDD/CI/review；不进行自动合并或部署。
-
-## 当前交付界限
-
-本次只增加 `doc/ci` 的兼容验证器、合成反例和文档/Skill 接线。没有更改应用代码，没有真实执行商业操作；PR 状态与 CI 用 GitHub 当前回读为准。没有声明已经完成所有原版功能。
+历史记录按其精确 commit 运行，当前源码漂移时不重签旧 HASH 或批准。简化协议、v0.4、v2 和当前 envelope 不混用。真实外部 CI/评审身份、运行/生产、原版未覆盖的 CAS/崩溃场景仍需独立证据；本兼容子集不是原版完整迁移。现行交付政策从 doc/ci/RISK-BASED-GATES.md 读取，不执行旧报告中的 blanket Human 等待。

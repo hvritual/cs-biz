@@ -1,6 +1,6 @@
 # 前端应用设计与开发约定
 
-S01 已在固定 Vben Admin `v5.7.0` / Element Plus 底座上实现唯一 console 应用。开发入口见 [Frontend](../README.md)，本地账户与数据见 [Mock 数据说明](mock-data.md)，页面规范与截图比对见 [界面设计](design.md)。验证与交付状态以 [S01 证据](../../doc/evidence/S01-validation.md) 为准。
+S01 已在固定 Vben Admin `v5.7.0` / Element Plus 底座上实现唯一 console 应用。开发入口见 [Frontend](../README.md)，本地账户与数据见 [Mock 数据说明](mock-data.md)，现行页面规范见 [Desktop](../../doc/design/desktop-ui.md)，[S01 历史界面设计](design.md) 仅用于追溯。当前阶段见 [路线](../../doc/roadmap.md)；[S01 证据](../../doc/evidence/S01-validation.md) 仅保留当时验证。
 
 ## 实际分层
 
