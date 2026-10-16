@@ -201,9 +201,34 @@ class LoginForm(HTMLParser):
             self.action = attrs.get('action')
 
 
+class LoopbackProbeCookiePolicy(http.cookiejar.DefaultCookiePolicy):
+    """Match the IdP's loopback secure-context behavior for this probe only.
+
+    Keycloak sets Secure cookies on HTTP loopback origins; urllib otherwise
+    withholds them. Never relax cookie domain/path rules or permit any other
+    HTTP origin (including a different port). This is not application policy.
+    """
+    def __init__(self, origin):
+        super().__init__()
+        parsed = urllib.parse.urlsplit(origin)
+        require(parsed.scheme == 'http' and parsed.hostname == '127.0.0.1'
+                and parsed.port is not None and not parsed.username
+                and not parsed.password and parsed.path == ''
+                and not parsed.query and not parsed.fragment, 'invalid probe origin')
+        self.origin = origin
+
+    def return_ok_secure(self, cookie, req):
+        url = urllib.parse.urlsplit(req.full_url)
+        origin = urllib.parse.urlunsplit((url.scheme,url.netloc,'','',''))
+        if cookie.secure and origin == self.origin:
+            return True
+        return super().return_ok_secure(cookie,req)
+
+
 def authorization_code(resources, username, password, challenge, state, nonce):
     opener = urllib.request.build_opener(
-        urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()), NoRedirect())
+        urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar(
+            policy=LoopbackProbeCookiePolicy(resources.base))), NoRedirect())
     url = resources.issuer+'/protocol/openid-connect/auth?'+urllib.parse.urlencode({
         'client_id':'resource-probe','redirect_uri':CALLBACK,'response_type':'code',
         'scope':'openid','state':state,'nonce':nonce,

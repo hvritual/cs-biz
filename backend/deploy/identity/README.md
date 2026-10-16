@@ -19,4 +19,6 @@ python3 backend/deploy/identity/resources.py down --state .artifacts/identity
 
 验证覆盖实际 SQL、业务账号不能读取 IdP schema、Discovery/JWKS、真实登录 code+PKCE、code replay/错误 verifier 拒绝，以及重启后的 SQL/主体读回。探针只检查供应端签发输出，**不是应用 Token 验证实现**；BFF 的签名/audience/时间/nonce 校验、CSRF、Session、会话期限/退出、邀请/恢复、第二 issuer、生产接入资格仍属后续 F3，不能用本包替代。
 
+资源探针的 CookieJar 仅对本项目精确的 `http://127.0.0.1:<初始化端口>` 发送 Secure Cookie，仍遵守域/路径限制；其他 HTTP 地址及端口不适用。这用于兼容固定版本 Keycloak 的 [loopback secure-context 判定](https://github.com/keycloak/keycloak/blob/26.8.1/services/src/main/java/org/keycloak/utils/SecureContextResolver.java) 与 [Cookie 设置](https://github.com/keycloak/keycloak/blob/26.8.1/services/src/main/java/org/keycloak/cookie/DefaultCookieProvider.java)，不是应用 Cookie 策略，也不授权生产使用 HTTP。
+
 配置移往生产必须另建部署 profile：HTTPS issuer/callback、受控 origins、TLS/secret 管理、禁止测试 bootstrap/realm/账号、外部 `(issuer,subject)` 账户显式链接/迁移。没有生产目标或批准时不发布、不把配置占位当生产能力。

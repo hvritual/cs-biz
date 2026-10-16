@@ -6,10 +6,32 @@ import unittest
 from types import SimpleNamespace
 from contextlib import redirect_stdout
 from io import StringIO
-from resources import initialize, permission_denied, Resources
+from email.message import Message
+import http.cookiejar
+import urllib.request
+from resources import initialize, permission_denied, Resources, LoopbackProbeCookiePolicy
 
 
 class ResourceOwnershipTests(unittest.TestCase):
+    def test_secure_cookie_loopback_exception_is_exact_origin_only(self):
+        origin = 'http://127.0.0.1:18080'
+        jar = http.cookiejar.CookieJar(policy=LoopbackProbeCookiePolicy(origin))
+        headers = Message()
+        headers.add_header('Set-Cookie','AUTH_SESSION_ID=synthetic; Path=/realms/test/; Secure; HttpOnly')
+        jar.extract_cookies(SimpleNamespace(info=lambda: headers),
+                            urllib.request.Request(origin+'/realms/test/auth'))
+        for url, expected in [(origin+'/realms/test/login',True),
+                              ('http://127.0.0.1:18082/realms/test/login',False),
+                              ('http://example.invalid/realms/test/login',False),
+                              (origin+'/other/path',False)]:
+            request = urllib.request.Request(url)
+            jar.add_cookie_header(request)
+            self.assertEqual(request.has_header('Cookie'),expected,url)
+        for invalid in ('http://example.invalid:18080','http://localhost:18080',
+                        origin+'/path','http://user@127.0.0.1:18080'):
+            with self.assertRaises(RuntimeError):
+                LoopbackProbeCookiePolicy(invalid)
+
     def test_realm_import_filename_matches_realm(self):
         directory = Path(__file__).resolve().parent
         realm = json.loads((directory/'realm.json').read_text())['realm']
