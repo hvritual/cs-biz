@@ -7,7 +7,7 @@
   "definition_sha256": "2f82587af497c4b411a0cd5c99482fa5042dc16ce5ca793f2165ca9452e754d3",
   "input_sha256": {
     "request.json": "4473e3491609d9895b82e8ecc8a29f06a0f3d92d73abfe82b089d736d9bd1139",
-    "design/solution.json": "528ad7c56425ebb37242e05418f780138085b0a13abbee39e5229ea6ad926283"
+    "design/solution.json": "ac474c86a9248f4788c4d28c887b51952461f3a925762fab20072ce07488bd3d"
   },
   "contract": {
     "repository": "hvritual/cs-biz",
@@ -48,11 +48,11 @@
     },
     "flow": {
       "path": "flow.mmd",
-      "sha256": "8546b0c2771fafb5dae69f57e01d2d177fd50031f050efa1f3a2598d694fb20c"
+      "sha256": "bc21172b0ca9393138104a56ae96df983d94ca26911befc83ae65b9253a6891c"
     },
     "ux_analysis": {
       "path": "ux-analysis.yaml",
-      "sha256": "dc9dd35bb20348b402272bb4a5fcbac50fd0a173029eb4391c08d1244cb097ab"
+      "sha256": "fb8c0e747613e11c25ad93c7c1baaa3f2349a6692619c761b46fded9fc8237c9"
     }
   },
   "blockers": []

@@ -43,7 +43,7 @@
   "assets": {
     "solution": {
       "path": "solution.md",
-      "sha256": "320812e0b433a70b41f195627fdf1d63944cdf3a1255e2f0b2991eaca4856f0d"
+      "sha256": "9d4e8ee1cec5f2d2b7dcb425787e8a82a3bfe0cdb2c6288aebabc18d69df8a97"
     },
     "design": {
       "path": "design.md",

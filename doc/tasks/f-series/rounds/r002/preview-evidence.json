@@ -1,0 +1,84 @@
+{
+  "kind": "in_project",
+  "root": "frontend/apps/console",
+  "candidate_sha": "ff488d1ceda6ed85d92607f1149d96a2aba3df39",
+  "candidate_tree": "812a6c272ac407c779aba7a5a5438b4f903e27bc",
+  "route": "/__design/f-series",
+  "url": "http://127.0.0.1:5790/__design/f-series",
+  "run_cwd": "frontend/apps/console",
+  "run_command": "corepack pnpm exec vite --mode design --host 127.0.0.1 --port 5790 --strictPort",
+  "source_assets": {
+    "frontend/apps/console/src/bootstrap.ts": "7fcb132ecb3d9bf97fedd594f87b9cc7f182a026201ac40a2b863e7991df05f8",
+    "frontend/apps/console/src/design/f-series/DeniedPreview.vue": "b651e18bf21d29b28b061a6261550ad86fc7036cd6b42592e4efa16080ae5183",
+    "frontend/apps/console/src/design/f-series/JourneyPreview.vue": "0fd5738acffca83fdeb8c2de53cdbe811de226b3fe5bdb4dc6e9184647b0f50a",
+    "frontend/apps/console/src/design/f-series/PreviewLayout.vue": "f8fe9f44f506e1e1f4cb88da30d0008ac5120e99fe07ac696de9560fb15744b4",
+    "frontend/apps/console/src/design/f-series/copy.ts": "3f1b1d0025c7ccac54cd2913d0add22dfcfdd58b70deb53cf6178f90cb4323ec",
+    "frontend/apps/console/src/design/f-series/install.ts": "2836682ec776053aa13d50183a77731e0f3bcbaf96e4fa14cc3ad8c2eed80fda",
+    "frontend/apps/console/src/design/f-series/state.ts": "ea30c24c299c584c4b83352fe2b164db62ca97b270afe8a855c442a975f57272",
+    "frontend/apps/console/src/layouts/basic.vue": "e483547a3446854e8840d421def825281cbd83ae485ac18b3ced653324569dc2",
+    "frontend/tests/e2e/f-series-design.e2e.ts": "48d64c3e461e482fe2871f84f5b1b3a56c3f91df8d47c82acfa6ae42ec706d35"
+  },
+  "reuse_refs": [
+    "frontend/apps/console/src/layouts/basic.vue",
+    "frontend/apps/console/src/components/PageHeader.vue",
+    "frontend/apps/console/src/store/appearance.ts"
+  ],
+  "scenarios_ref": {
+    "path": "journey.md",
+    "sha256": "c2648165064dff22886999c03375f7faec2f84ea3c4fea6ba7029133a1c522c4"
+  },
+  "production_isolation_ref": {
+    "path": "validation.md",
+    "sha256": "7e91f4e9816f1bc74ed3bd62d40ee2f150020ed40c6c27a0b4d2826bb5b91e4c"
+  },
+  "result": "pass",
+  "proof_boundary": "design_fixture_only",
+  "scenarios": [
+    "1366x768 production isolation; 0/1/N organizations; failed switch; shell geometry",
+    "1440x900 no Console menus; revoked/suspended/module-closed denial; cancel; unknown/current-scope readback; continued unknown/query denied/success; theme; root/nested/unknown-route denial and recovery",
+    "1536x1024 parsed/deduplicated invitation selection; three results/two uncertain; one-item recovery; edited input preserves original batch; last Owner/delegation denial; customer update denial/export; safe diagnostics; complete English shell/content",
+    "Two actual tabs: independent tenants; both unknown journals survive reload; failure does not change peer; shared logout blocks both"
+  ],
+  "log": {
+    "path": "evidence/browser-summary.md",
+    "sha256": "c11bc4cc6fe16f61b02cf75891b927c0e10e9c3f1da17415b67d838f33c7e560"
+  },
+  "results_index": {
+    "path": "evidence/browser-results.json",
+    "sha256": "6c7a47339b263dd646893257d93cda5684eb3d027b464e89b6fdc9e55911294a"
+  },
+  "screens": {
+    "path": "evidence/screens.json",
+    "sha256": "dd71f5ff655a05c4beee0ac1eb2baa576d315135dc8a599df346c7fb15bb9638"
+  },
+  "qualification_receipt": {
+    "path": "evidence/quality-receipt.json",
+    "sha256": "8fdc59607df26a746cb2d20a8df86d8e48fbf4fc2467bb2b2a208e9fb9b713ff"
+  },
+  "ci": {
+    "run_id": 38928327116,
+    "attempt": 1,
+    "url": "https://github.com/hvritual/cs-biz/actions/runs/38928327116",
+    "jobs": {
+      "classify": 117065565790,
+      "backend": 117065747232,
+      "frontend": 117065747121,
+      "quality-gate": 117067736649
+    },
+    "conclusion": "success",
+    "legacy_passed": 16,
+    "legacy_skipped": [
+      "mobile: usable navigation and full-width customer drawer without page overflow"
+    ],
+    "unit_passed": 47
+  },
+  "browser_fallback_reason": "Browser plugin unavailable; local pinned browser CDN download failed; existing project tester-army/Playwright CI used without changing quality policy",
+  "business_proofs": [],
+  "human_review": "pending",
+  "limits": [
+    "No real OIDC/BFF/Access/Domain DB, invite delivery or production outcome proved",
+    "Only stated key preview scenarios exercised; CRM/F6 full UI remains later Design work",
+    "No measured human comprehension/time or production SLO claim",
+    "Raw CI browser artifact expires after repository retention; reproducible candidate and artifact digests retained"
+  ]
+}

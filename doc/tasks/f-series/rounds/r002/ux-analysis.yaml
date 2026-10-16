@@ -4,7 +4,7 @@ status: ready_for_review
 task_ref:
   issue: https://github.com/hvritual/cs-biz/issues/10
   baseline_commit: 191189ba63ffcbda8f62be1981ae3b892172a9c9
-  candidate_commit: null
+  candidate_commit: ff488d1ceda6ed85d92607f1149d96a2aba3df39
   name: F2–F6 r002
 classification:
   type: full_business_task
@@ -30,7 +30,7 @@ context:
     - R
     - AC
   workflow:
-    summary: S1→S2→S3→S4→S5→S6A→S6B; Goal reconciles every return
+    summary: S1 precedes S2/S3; S2+S3 precede S4→S5→S6A→S6B; Goal reconciles every return
     source_refs:
     - R
     - AC

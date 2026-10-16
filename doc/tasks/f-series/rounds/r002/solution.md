@@ -23,11 +23,13 @@
 | D：当前设计 | 原 R/AC、实际来源、场景预览、决策包、独立覆盖审查 | 无 Human 本版确认不发 Build handoff；不伪造全模块 lock |
 | S1：F3 可信基础 | 已验资源 + 获准 P1；可信 OIDC/BFF、持久 Access 只读权威、0/1/N 企业与独立标签页上下文，为 S2 提供真实主体 | 不关闭完整 F3；测试夹具是测试主体，不是生产 bootstrap 权限 |
 | S2：F2 营销纵向链 | S1；营销 read/execute、真实 Domain/回执、Function-only 与拒绝无副作用、浏览器到 DB Trace | 不以 Menu 缺失拒绝合法营销；不把重复抑制当响应重放 |
-| S3：F3 完整身份管理 | S1/S2 的集成回读 + P2/P4；邀请/成员/角色/Owner/撤权/会话旅程与双标签页 | 无真实投递资源时不宣称生产邀请或恢复完成 |
+| S3：F3 完整身份管理 | S1 的集成回读 + P2/P4；邀请/成员/角色/Owner/撤权/会话旅程与双标签页 | 无真实投递资源时不宣称生产邀请或恢复完成 |
 | S4：F4 SQL Scope | S2+S3；CRM/营销每动作 tenant/self/assigned/explicit SQL 范围、批量/导出/统计和竞争 | legacy group 保持原已审 fail closed；不得改授或扩大范围 |
 | S5：F5 统一执行 | S4；完整路由清单、HTTP/gRPC/Child/Worker、UoW/Outbox、回滚与旧入口下线 | 未测 transport/未定义业务效果不能从分母删除 |
 | S6A：F6 非生产资格 | S3–S5；固定 Consumer/schema 的迁移/备份恢复/并发/故障/安全/观测和发布材料 | 不关闭完整 #17，不等于生产部署 |
 | S6B：F6 生产回读 | S6A + P6 生产资源/SLO/策略 + 显式发布/回滚权；真实环境验收 | 没有目标环境或 SLS 开启证据时不得宣布 F6 / O1 完工 |
+
+硬依赖为S1分别前置S2、S3，二者共同前置S4。默认优先交付S2；P7未定时，S3在P2/P4具备后可独立准入。上表顺序是交付优先级，不把营销实现强加为完整身份管理的前置。
 
 全部采用单一分支 feat/yunka-f-series-delivery，一次一个 active 候选，每步独立 PR/main 回读后同分支快进继续。设计分支与后续实现复用；本 PR 只交付待审设计和隔离预览。
 
