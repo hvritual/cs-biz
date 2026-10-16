@@ -1,9 +1,13 @@
-# 跨端契约
+# 合同源与消费者
 
-当前为语义提案，没有已发布 API 或 OpenAPI 文件。接口路径示例仅用于设计。
+| 合同/语义 | 当前唯一来源 | 实际消费边界 |
+| --- | --- | --- |
+| Yunka 技术 Operation | [runtime.proto](../../backend/contracts/proto/runtime/v1/runtime.proto) | F1 只读 gRPC 探针；生成 OperationPlan/OpenAPI/TS 等不代表已有业务 REST 或前端集成 |
+| Consumer、工具与来源资格 | [Consumer 说明](../../backend/doc/YUNKA-CONSUMER.md) 指向实际锁与生成规则 | 不手改生成物，不以源码可编译替代外部分发资格 |
+| 现有纯 Go 授权 | [Authz V2](../../backend/doc/AUTHORIZATION-V2.md) 与实际代码 | 不依赖商业 Guard；真实 Access 存储仍待 F3 |
+| 已审跨端目标 | [F0 r005 design](../tasks/issue-11-f0/rounds/r005/design.md) | Function/Menu/Data 与执行/恢复边界；后续逐阶段实施 |
+| SaaS 有效访问上下文 | [Access Context](access-context.md) | S00 语义提案，部分用于 Mock；不是已发布 HTTP schema，也不取代 F0 已审边界 |
 
-首个规范是 [Access Context](access-context.md)，定义身份、租户、模块权益、成员权限、数据范围、菜单及失效恢复之间的关系。
+新增 HTTP、错误码、权限、幂等和数据范围合同，先确认具体任务的 canonical 源、版本、消费者、兼容和反例；不要默认另建 `doc/contracts/openapi/` 与 typed PB/生成规则争权。文档可以解释代码合同，不能再维护同名第二份结构。
 
-S02 应在 `doc/contracts/openapi/` 建立唯一的 OpenAPI 结构源，并生成前端类型。前端或后端内部文档可引用、解释该结构，但不能复制一份独立维护的同名契约。
-
-契约变化需要明确：兼容版本、消费者、错误码、权限码、幂等语义、数据范围与受影响旅程。后端数据对象不直接等同于前端导航数据结构；通过边界适配避免绑死某个后台模板。
+设计示例、生成产物、实际运行、真实业务与生产发布分别验收。当前状态及未合并候选见 [路线](../roadmap.md)。

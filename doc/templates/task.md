@@ -1,95 +1,53 @@
 # TASK-ID：一个可观察成果
 
-## 状态与来源
+## 来源、版本与权限
 
-- 状态：proposed / ready / in-progress / verified / merged / blocked
-- 来源：业务意图、Issue、关联用户旅程
-- 仓库与基线：owner/repo、分支、完整 SHA、核验时间
-- 当前授权：允许的实现、仓库写入、合并、部署范围分别记录
-- 必须先决定的事项：仅列会实质改变产品、架构、数据或风险的事项
+- 原始用户意图 / Issue / 旅程；原文引用与准确来源：
+- 仓库、当前 main、分支、完整 base/head SHA、观察时间：
+- 完成边界：reviewed_design / integrated_main / deployed / physical / operational；目标环境：
+- 实施、repository_write、merge、deploy、外部副作用各自的实际授权：
+- 已有决定 / 未决材料性事项与 Owner（复用有效确认，不重复提问）：
 
-## 目标与成果
+## 目标、责任和边界
 
-用一句话写出哪个角色在什么条件下完成什么操作，最终看到什么结果。列出如何从外部证明成果存在。
+哪个角色、在什么条件下、完成什么动作、看到什么结果？WHY / WHAT / BOUNDARY / PROOF：
 
-## 依赖与边界
-
-| 字段 | 内容 |
-| --- | --- |
-| 必需输入与依赖 | 真实数据、接口、账号、环境、上游任务及其当前证据 |
-| 本任务输出 | 代码、契约、可见行为、测试与交付证据 |
-| 允许改动 | 精确文件/目录或有边界的模块 |
-| 禁止改动 | 本任务外的实现、受保护路径、生产数据等实际限制 |
-| 排除范围 | 本次不承诺的邻近业务成果 |
-| 回退 | 可逆步骤及对数据的影响 |
-
-## 用户旅程与状态
-
-写出入口、关键操作、确认、成功、无数据、无权限、未开通、错误、重试与结果未知的处理；适用时列 Screen ID。业务写入明确幂等、恢复和撤权语义。
-
-## 契约与技术边界
-
-引用唯一 PRD/ADR/OpenAPI/权限码来源，描述 schema、兼容性、消费者、租户、数据范围与业务状态。未实现的契约明确标记 proposed。
-
-## 验收
-
-| 结果断言 | 准备条件/反例 | 真实命令 | 预期 | 证据位置 |
+| 输入与依赖 | 交付物/所有者 | 允许/禁止路径 | 排除范围 | 资源/预算/恢复 |
 | --- | --- | --- | --- | --- |
-| 填写可观察结果 | 至少覆盖相关失败或越权情形 | 必须对应真实入口 | 明确通过/拒绝条件 | 日志/截图/报告 |
+| 实际任务/源码/同版设计、真实环境或外部依赖 | 单一 canonical 源和消费者 | 精确、可检查 | 邻近未承诺成果 | 可用/缺失/未知、Owner、恢复条件 |
 
-## Human Full CI 决策（仅引用真实 GitHub 记录）
+引用唯一产品/ADR/typed PB/API/权限来源，区分 proposed/accepted/implemented。描述兼容、生成/开发者所有权、租户/Scope 与副作用边界。UI 的唯一全局规范是 **doc/design/desktop-ui.md**，读 [Desktop](../design/desktop-ui.md)，实际项目 Preview/三尺寸/负例证据按 Design 要求填写，不制造独立假 demo。
 
-当前请优先记录 `doc/ci/RISK-BASED-GATES.md` 的 base/head/tier、真实所选 job、quality-gate 和 receipt、内容审阅、main 回读。自动风险门禁通过后不再要求以下逐 PR Human Full/豁免字段；它们仅用于可选手动诊断或真实例外。Human 设计/价值/不可逆事项审批仍分别保留。
+## 先定义验收，再自动推进
 
-先按 `doc/ci/DOCS-AUTO-DELIVERY.md` 分类：符合条件的文档 PR 记录 base/head、分类/内容核验及适用检查，使用 DOCS_AUTO_QUALIFIED / NOT_REQUIRED_DOCS，无需 Human 审核或豁免。以下 Human 决策字段仅适用于非文档自动交付候选。设计确认与产品决定不在豁免范围内。
+| AC / 来源 R 与设计定位 | Given / When / Then | 明确 pass/fail | 反例/恢复/保留项 | 真实方法/命令/环境 | 证据与状态 |
+| --- | --- | --- | --- | --- | --- |
+| 稳定 ID；双向可追溯 | 角色、前提、操作、可观察结果/阈值 | 不能只写“正常/符合设计/CI绿” | 适用的权限/租户/未知结果/刷新/幂等/撤权等；不适用须说明 | 已存在入口；缺资源不伪造 | PROVEN/UNPROVEN/FAILED/BLOCKED/OUTSIDE_AUTHORITY |
 
-- 决策：RUN_FULL / WAIVE_FULL（仅严格限定的治理/文档/Skill 类）/ DEFER。
-- PR 号、完整 head SHA、Human 在 GitHub 的实际身份与批准记录：
-- RUN_FULL：主分支手动 Run ID / attempt、Frontend Full 结果、独立 receipt 与测试环境：
-- WAIVE_FULL：具体范围、未运行检查、剩余风险、独立审查和真实 Human 批准；不得写为 PASS：
-- SHA 变化或无有效决策时保持 WAITING_HUMAN_FULL，不推定可合并。
+完整 AC、范围、依赖、资源、预算与同版本审阅先冻结；实现者不能重算批准摘要或降低标准求通过。材料性语义改变回 Design/Human；测试错误须独立原始证据。
 
-## 交付记录
+## 选择工作流与交接
 
-- 实际改动文件、分支及 head SHA。
-- 必需门禁逐项 pass / fail / unavailable，并记录真实输出；跳过不算通过。
-- 独立评审发现、修复与重跑证据。
-- PR、必要授权、合并状态、合并后主线 SHA 与回读证据。
-- 尚存风险、阻塞、下一动作和负责方。
+从 [项目接入](../workflow/SDLC-ADOPTION.md) 选择本目标需要的阶段，不默认每任务都部署。Agent 串联/核实，当前能力只产出单一结果：
 
-## 自检
+| 需要的阶段/格式 | 引用的原件、版本和结果 |
+| --- | --- |
+| Design | 原文/Intent/知识/条件/决定、同版 solution/requirements/design/journey/flow、实际 Preview 或非 UI 理由、原 R/AC/范围/批准；详细 [v2](../../.agents/skills/sdlc-design/references/intent-design-v2.md) / [handoff](../../.agents/skills/sdlc-design/references/design-handoff-v2.md) |
+| Build | 原冻结设计、模式/风险、实际 candidate/main/tree、测试/独立 review/质量回执、不可变 package；build-to-deploy.json |
+| Deploy（仅有独立授权时） | 环境/精确产物、部署/回滚权限、执行前持久 operation_id、权威观察/恢复；deploy-receipt.json，保留 failed/unknown/rolled_back 原义 |
 
-范围是否匹配目标？依赖是否真实存在？文档与代码是否同一语义？门禁能否从反例证明行为？当前声称的完成状态是否有同版本证据？是否把界面/Mock、仓库合并和线上结果混为一谈？
+新 envelope 记录 task/stage/step、definition/input SHA256、冻结 contract、hashed assets 与 blocker。旧记录按 [兼容协议](../../.agents/skills/sdlc-workflow/references/legacy-protocols.md) 选择检测器，格式不混用。静态 candidate 和示例不认证批准或运行。
 
-## UI task contract
+## 整个板块 / 全部 Issue（仅批次适用）
 
-Before a frontend implementation, read **doc/design/desktop-ui.md**. Record UI page template, authorized actions, desktop screenshots at 1366/1440/1536 widths, negative interaction checks and actual Playwright results tied to the same commit.
+按 [板块成果协议](../../.agents/skills/sdlc-workflow/references/module-outcome-v1.md) 冻结完整成员（含 closed/blocked/必要待建任务）、排除决定、R/AC/设计/状态映射、单元和整体集成出口、依赖/资源、范围/预算和分别获准动作。独立语义审阅后保存真实 locked commit，不复制第二套任务状态。
 
-## Required delivery gate for any new frontend task
+每轮回读实际 main/Issue/PR/资源/证据，保持固定分母，一个 active 候选；已授权可行工作连续推进。阻塞记录 Owner/证据/恢复动作。所有必需 AC 和整体出口有当前充分证据后才关闭父任务，Issue closed 或单项 merge 不代替验收。
 
-Use **doc/ci/RISK-BASED-GATES.md**. Record failing assertion/source, Fast and focused UI proof, then final exact base/head/tier, all selected jobs, browser reports/counts, independent quality receipt and review. Wait for real results, not a repeated Human dispatch. No unverified assertion changes, stale/duplicate conclusions or merging a red/pending/unavailable required gate. GitHub protection requires actual admin configuration and cannot be inferred from a successful workflow.
+## 验证、交付与续跑
 
-## Intent / Design 交接（新任务）
+按 [风险门禁](../ci/RISK-BASED-GATES.md)：局部/Fast → 稳定候选 → trusted base/head/tier → 全部所选 job → 独立 receipt/review → 授权合并 → main 与合并后资格回读。使用 [命令地图](../ci/README.md) 的实际前提与成本。普通已授权交付不等待重复 Human Full；设计/价值/例外/不可逆或生产事项仍按真实授权。
 
-按 [工作流 v2](../workflow/INTENT-DESIGN-WORKFLOW.md) 与 [交接索引](../workflow/DESIGN-HANDOFF-CONTRACT.md) 记录，现有任务仍为唯一状态来源。
+记录实际文件、精确版本/环境、命令与原始结果、run/attempt/artifact、发现/修复/失效重跑、合并/部署与证明边界。失败、未知、缺工具和跳过不写 PASS。续跑保留原失败与操作 ID，先读回未知副作用；两次同质无新信息或更严格预算耗尽时暂停受影响分支。
 
-- 原始要求原文/来源/摘要、优化提示、IntentSpec、逐项 raw → Intent → 设计/AC 追溯：
-- 自动引用的 ADR/doc/当前源码（路径、完整 commit、摘要、定位、accepted/proposed/superseded/conflict/current_source 等状态）：
-- 使用条件、可提供 API/数据/账号/环境、资源/预算、Human 偏好与决策树（依据、选项/代价、答案来源、未决项/责任方）：
-- 同轮 solution.md、requirements.md、design.md、journey.md、flow.mmd、UX 分析和 design-loop.json：
-- 前端 Preview 的项目内源码/复用组件、隔离方式、入口/命令、场景、精确候选、真实浏览器日志/截图；非 UI 须说明理由：
-- 自动完成哪些工作、Human 判断哪些工作；批量是否采用文本导入选定，去重/匹配/歧义/权限/范围/影响/部分结果/未知恢复：
-- Human 对同版本方案与旅程的真实审阅记录；partial 不视为 approved；旧版本修改后重新确认：
-- 交给工作流外执行模型的 R/AC、保留项、允许/禁止路径、资源/风险、验证建议、独立实施授权与退回条件：
-
-实施模型负责落地、核实、门禁和证据回读；Design 交接、Fast、Human Full、合并、部署与业务完成分别记。
-
-## 板块批次（仅整个板块/全部 Issue 任务适用）
-
-按 [板块成果协议](../workflow/MODULE-OUTCOME-CONTRACT.md) 在本任务目录引用 module-contract.json。填写完整成员（含 closed/blocked/必要未建任务）、排除决定、设计/R/AC/状态双向追踪、可观察条件与失败/恢复/约束、板块集成出口、依赖与资源/owner、范围/预算及分别获准的动作。冻结前做独立语义审查并引用真实同版批准和 locked commit；实现者不能重算摘要冒充批准。
-
-每轮记录实际 main/Issue/PR 回读、当前 AC 证据、阻塞恢复动作和一个 next action。授权内连续推进所有必需成员，保留完整分母。最终逐项证据及整体集成核验通过才关闭父板块；静态检查、Issue closed 或单项 merge 不能代替完成。
-
-## 三阶段 Agent 交接
-
-按当前 sdlc-workflow 仅调用本目标需要的阶段：Design → design-to-build.json；Build → build-to-deploy.json；Deploy → deploy-receipt.json。记录确切 task/stage/step、definition/input SHA256、冻结 contract、实际产物/证据和 blocker。Agent 负责选择、核验、恢复与交接；内部 Skill 只产出单项结果。生产部署仍需独立环境/授权/产物/观察与恢复条件；rolled_back/failed/unknown 保留原义。示例恒为 EXAMPLE_ONLY，原生 Agent 配置解析不证明已启动。
+最终自检：原目标与每个必需 AC 都有当前证据或明确非完成状态？是否遗漏依赖/成员或放宽标准？是否误把静态/Mock/CI/main 当生产？本次完成边界、剩余条件、Owner 和一个下一动作是什么？

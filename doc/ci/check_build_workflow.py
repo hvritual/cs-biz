@@ -9,11 +9,11 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 FILES = {
-    ".agents/skills/task-progression/SKILL.md": ["name: task-progression", "reconcile", "admit_slice", "close_slice", "handoff", "T4"],
-    ".agents/skills/sdlc-build/SKILL.md": ["name: sdlc-build", "task-progression", "tdd", "preserve", "static", "existing_verified", "harness_required", "RED", "GREEN", "INCONCLUSIVE"],
-    "doc/workflow/project-profile.md": ["AGENTS.md", "NO-STALL-GATES.md", "--fast", "--full", "desktop:runtime"],
-    "doc/workflow/build-loop-pilot.md": ["scope reduction", "Older", "Fast", "Mock"],
-    "AGENTS.md": [".agents/skills/sdlc-build/SKILL.md", ".agents/skills/task-progression/SKILL.md"],
+    ".agents/skills/sdlc-build/references/admission.md": ["reconcile", "admit_slice", "reconcile_failure", "close_slice", "handoff", "T0–T4"],
+    ".agents/skills/sdlc-build/references/method.md": ["tdd", "preserve", "static", "existing_verified", "harness_required", "RED", "GREEN", "INCONCLUSIVE"],
+    ".agents/skills/sdlc-build/SKILL.md": ["name: sdlc-build", "references/admission.md", "workflow.json"],
+    "doc/ci/README.md": ["RISK-BASED-GATES.md", "--fast", "--full", "desktop:runtime"],
+    "AGENTS.md": [".agents/skills/sdlc-build/SKILL.md", "doc/ci/RISK-BASED-GATES.md"],
 }
 def check(root=ROOT):
     problems = []

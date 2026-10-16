@@ -1,17 +1,13 @@
-# 后端设计与已实现能力
+# 后端文档与真实边界
 
-通用权限 V2 已导入 `internal/platform/authz`，实施说明见 [AUTHORIZATION-V2](AUTHORIZATION-V2.md)，开发接入流程见 [FEATURE-ONBOARDING-V2](FEATURE-ONBOARDING-V2.md)。这两份文档区分本轮可运行的纯 Go 基础库与 S02/S03 尚未实现的后端业务服务。
+| 当前任务 | 读取 | 规范源 |
+| --- | --- | --- |
+| 修改/接入纯 Go 授权 | [AUTHORIZATION-V2](AUTHORIZATION-V2.md)、[FEATURE-ONBOARDING-V2](FEATURE-ONBOARDING-V2.md) | 实际 internal/platform/authz 源码；原负例保持 |
+| 固定外部模块、CLI、生成/装配、只读探针与 Trace | [YUNKA-CONSUMER](YUNKA-CONSUMER.md) | 实际 consumer-lock、typed PB、生成与审计配置 |
+| 检查代码/生成/安全与本地技术查询 | [后端 CI](../ci/README.md) | ci/check.sh 及真实固定工具/制品条件 |
+| 运行开发/CI Trace 环境 | [部署边界](../deploy/README.md)、[本地遥测](../deploy/observability/README.md) | 固定 Compose/镜像、loopback 与脱敏配置 |
+| 设计真实业务 API、身份或持久 Access | [合同源地图](../../doc/contracts/README.md)、[已审 F0](../../doc/architecture/adr/0003-yunka-f0-consumer-contract.md) | 当前 Issue/同版设计；不另造 Runtime/授权源 |
 
-## 模块责任（规划）
+F1 已存在固定 Consumer、生成/装配与 loopback gRPC 技术探针；无业务 REST、真实 IdP/Session/DB、持久 Membership/Grant 或生产发布。模块/生成文件存在不能证明业务资格。当前阶段与资源缺口只在 [路线](../../doc/roadmap.md) 汇总。
 
-- `identity`：真实认证源、可信 Principal、Session/CSRF（未实现）。
-- `tenancy`：租户生命周期、成员关系与租户选择（未实现）。
-- `access/iam`：角色、实际 Permission Grants 和数据范围权威（目前仅通过 `CurrentAuthority` 接口抽象）。
-- `authz`：**已实现** Operation Registry + Operation PEP + HTTP 绑定 + 资源级辅助授权，无商业 Guard。
-- `audit`：安全和业务操作审计（未实现）。
-- `application-availability`：SaaS 模块开通/禁用等独立业务条件（仅现有产品需求，未实现、不授予 IAM 权限）。
-- 实际业务域：客户、点位、设备、服务、合同等按独立用户旅程后续接入。
-
-不预先拆分多个部署进程；授权与资源校验必须发生在服务端可信边界。一个 Account 可关联多个 Tenant，但不能把客户端 `tenantId` 当可信主体，不能通过角色名推断无界数据访问。
-
-Go 包仅选择语言与最小接口，不代表已锁定 HTTP 框架、数据库、认证供应商或 OpenAPI 结构。跨端 OpenAPI 仍由 [全局契约](../../doc/contracts/README.md) 在 S02 建立唯一来源；业务前端不直接复用测试 Fake 或菜单当授权器。
+修改源码或持久测试前遵守 `backend/AGENTS.md` 与安装的工程治理；生成合同和开发者实现分开。当前 Access 数据权威仍是后续任务要落实的责任，不把测试 Fake、菜单或本地账号选择当真实授权。

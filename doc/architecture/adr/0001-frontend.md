@@ -13,7 +13,7 @@
 
 本次早期草案推荐过 Ant Design Vue。补查组件库正式发布后修正：Element Plus latest release 为 2.14.7（2026-09-30），Ant Design Vue 为 4.2.6（2024-11-11）。在没有既有 UI 品牌约束的新项目中，近期正式发布加上 Vben 现成适配使 Element Plus 更适合作为默认候选。发布日期不等于全面质量评分，也不足以断言 Ant Design Vue 已停止维护。发布主源见选型研究。
 
-来源与固定版本见 [选型研究](../../research/vue-admin-selection.md)。当前核验的最新发布为 `v5.7.0`，main 为 `4634655c621338abd97386350e5dc3d9119dab2c`；main 中部分 package 标记为 5.8.0，不能称已发布 5.8.0。正式引入时从选定 release/ref 固定 commit 与锁文件，重新验证本项目需要的行为。
+来源与固定版本见 [选型研究](../../research/vue-admin-selection.md)。2026-10-12 的来源观察中，最新发布为 `v5.7.0`，main 为 `4634655c621338abd97386350e5dc3d9119dab2c`；main 中部分 package 标记为 5.8.0，不能称已发布 5.8.0。实际 S01 导入身份见下文与端内锁文件；这些历史发布观察不代表今天的最新版本。
 
 ## 备选及改变选择的条件
 

@@ -6,7 +6,7 @@ S01 提供一个 Vue 3 + Vben Admin 5 + Element Plus 的企业工作空间。应
 
 ## 开发环境与启动
 
-使用 Node.js **22.18.0 及以上的 22.x**，或 **24.x**，并安装 Corepack。项目的 [package.json](package.json) 固定包管理器为 `pnpm@10.33.4`，依赖以 [pnpm-lock.yaml](pnpm-lock.yaml) 为准。
+使用 [package.json](package.json) 的 `engines.node` 范围（当前 `^22.22.3 || ^24.8.0`）并安装 Corepack。项目的 [package.json](package.json) 固定包管理器为 `pnpm@10.33.4`，依赖以 [pnpm-lock.yaml](pnpm-lock.yaml) 为准。
 
 先从仓库根目录进入 `frontend`；本文件后续所有命令均以该目录为工作目录。
 
@@ -39,14 +39,16 @@ pnpm preview --host 127.0.0.1 --port 5778 --strictPort
 | `pnpm check:copy` | 用户可见文案约束检查 |
 | `pnpm test:unit` | 本地服务、导航注册与请求隔离等行为测试 |
 | `pnpm build` | 唯一 Console 应用的生产构建 |
-| `pnpm test:e2e` | 使用构建产物执行 Playwright 浏览器检查 |
-| `pnpm check` | 顺序执行 typecheck、lint、copy、unit、build、E2E；遇到失败停止 |
+| `pnpm test:e2e` | 使用构建产物依次运行 tester-army 和保留的 Playwright 旅程 |
+| `pnpm check` / `pnpm check:fast` | 类型/lint/copy/Desktop/policy/E2E类型/单测；不含 build/E2E |
+| `pnpm check:full` | Fast + build + 全部两套浏览器旅程的显式本地诊断 |
 
 首次运行浏览器检查前安装 Chromium：
 
 ```sh
 pnpm exec playwright install chromium
-pnpm check
+pnpm exec e2e-web install chromium
+pnpm check:full
 ```
 
 `test:e2e` 的配置会管理端口 `5778` 上的预览进程。已有兼容浏览器二进制的受限环境可以指定 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`，具体流程见 [前端检查说明](ci/README.md)。命令的存在不代表本次检查已通过；实际结果记录在任务与验证证据中。
@@ -71,4 +73,4 @@ pnpm check
 
 S01 的本地检查用于验证前端交互。真实身份认证、数据库、服务端租户授权与生产部署属于后续任务。产品界面使用业务语言；Mock、API、未接入、开发中等工程说明放在开发文档中。
 
-相关设计与交付依据：[S01 任务](../doc/tasks/S01-frontend-mock.md)、[Access Context 契约](../doc/contracts/access-context.md)、[前端选型研究](../doc/research/vue-admin-selection.md)、[ADR-0001](../doc/architecture/adr/0001-frontend.md)。
+当前阶段/交付见 [路线](../doc/roadmap.md)。相关历史设计与来源：[S01 任务](../doc/tasks/S01-frontend-mock.md)、[Access Context 契约](../doc/contracts/access-context.md)、[前端选型研究](../doc/research/vue-admin-selection.md)、[ADR-0001](../doc/architecture/adr/0001-frontend.md)。

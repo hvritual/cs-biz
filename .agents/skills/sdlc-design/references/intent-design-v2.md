@@ -26,7 +26,7 @@ flowchart TD
 
 保留原始文本、来源、时间、SHA256；多条来源逐条保存，不能只留下优化后的提示词。优化器输出 objective、outcome、角色/对象、范围、硬约束、验收、可用条件、偏好、权限、未知项、备选解释和逐项 raw → Intent → 设计/验收的追溯。优化提示词是派生物，不能反向覆盖原文。
 
-先读取 AGENTS、实际任务、`doc/workflow/project-profile.md`，再按任务关键词有界检索：`doc/architecture/adr/`、`doc/contracts/`、`doc/product/`、`doc/journeys/`、两端 `doc/`、相关任务和现有源码/测试。使用 rg 和 Git 历史，不默认建向量库，不把所有历史全文塞入上下文。
+先读取 AGENTS、实际任务、`doc/workflow/SDLC-ADOPTION.md`，再按任务关键词有界检索：`doc/architecture/adr/`、`doc/contracts/`、`doc/product/`、`doc/journeys/`、两端 `doc/`、相关任务和现有源码/测试。使用 rg 和 Git 历史，不默认建向量库，不把所有历史全文塞入上下文。
 
 每项引用记录路径、完整 commit、内容摘要、定位、与当前任务的关系以及用途。ADR 区分 accepted / proposed / superseded / conflict；当前源码另标 current_source，普通文档标 documented，未知就是 unknown。历史 ADR 的 accepted 只说明当时采纳，仍须检查是否被后续 ADR 取代。proposed 不升级为约束；历史能力不升级为当前实现。冲突同时列出，权限或业务意义冲突交 Human，不能由模型暗中挑一个。
 
@@ -71,7 +71,7 @@ flowchart TD
 
 ## 5. 把用户注意力留给核心工作
 
-遵循 [.agents/skills/b2b-product-ux](../../b2b-product-ux/SKILL.md)。每步区分 system / human / mixed：系统负责可信预填、确定性校验、去重、检索匹配、兼容性检查、可恢复上下文；Human 负责目标、价值选择、歧义消解、必要风险确认。可自动完成不等于已获得外部写入权限；自动化不得隐藏影响或删除必要确认。
+遵循 [Design UX capability](../skills/design-ux/SKILL.md)。每步区分 system / human / mixed：系统负责可信预填、确定性校验、去重、检索匹配、兼容性检查、可恢复上下文；Human 负责目标、价值选择、歧义消解、必要风险确认。可自动完成不等于已获得外部写入权限；自动化不得隐藏影响或删除必要确认。
 
 凡存在大量选定/重复录入，必须评估文本粘贴/导入（如多行设备号、邮箱、客户标识或 CSV），采用或说明不采用理由。采用时演示：解析与格式错误 → 规范化/去重 → 在当前租户和权限内精确匹配 → 重复/未匹配/歧义分组 → Human 消歧/排除 → 预览最终选定数量/范围 → 按风险确认 → 逐项结果/部分失败/未知 → 安全恢复。输入文本是数据，禁止当成命令执行；不为便捷跨租户搜索或泄露无权限对象是否存在。
 
@@ -87,7 +87,7 @@ Human 同时确认方案可接受、使用条件/偏好准确、核心旅程与�
 
 交接包含原始来源、Intent、知识引用、已决/未决条件、完整设计包、demo 复现、R/AC、保留项、精确允许/禁止路径、资源、风险、验证建议、Human 记录、执行授权和退回条件。DESIGN_HANDOFF 只表示可交给执行者审查。执行权限不足或需价值决策时停在相应边界；在既有明确授权范围内，模型应继续推进，不要求 Human 重复普通实现步骤。
 
-实施模型加载 `task-progression` 和 `sdlc-build`，自己完成切片计划、实现、实际运行核实、Fast/适用 Targeted、独立审查、证据回读和原始 AC 对账。遇设计问题向 Design Loop 提供精确反馈，不暗改批准设计；遇目标/权限问题退回 Intent/Human。最终候选按 [风险门禁](../../../../doc/ci/RISK-BASED-GATES.md) 自动分级和执行 Full，以精确候选回执核验；合并和发布分别授权。
+Build Agent 按自身 admission/plan/implement/verify/review/integrate 能力串联完成切片计划、实现、实际运行核实、Fast/适用 Targeted、独立审查、证据回读和原始 AC 对账。遇设计问题向 Design Loop 提供精确反馈，不暗改批准设计；遇目标/权限问题退回 Intent/Human。最终候选按 [风险门禁](../../../../doc/ci/RISK-BASED-GATES.md) 自动分级和执行 Full，以精确候选回执核验；合并和发布分别授权。
 
 “工作流之外”是职责边界，不是免除检查、另建无治理执行器，或让 Human 自己补完工程落地。Skill 定义方法，模型承担执行，确定性脚本只核对可机械检查的约束。
 

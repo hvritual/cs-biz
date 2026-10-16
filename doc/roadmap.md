@@ -1,97 +1,39 @@
-# 当前推进投影：Issue #11 / F0（2026-10-15）
+# 当前路线与任务出口
 
-本轮交付基线 main `f1d06cffa998824c5e393253aa79ee3e46fd35ca`：#26 的 Intent/Design v2、#29 tester-army 接入和 #30 风险门禁均已合入。Go Authz V2 和 Vue/Vben/Element Plus Mock 已存在；PR #7/#8/#18 仍为原精确头的未合并候选。不能从旧表“未启动”推断没有基础库，也不能从开放候选推断主线具备真实身份或 Yunka。
+核验：2026-10-16，main `29c525d7f90cf61075f00a20efc1465a29b2c6db`。来源为 [GitHub/源码快照](evidence/repository-state-2026-10-16.json)；它是状态投影，不是新的任务数据库或实施授权。继续工作前回读 main、完整 Issue/PR 和当前验收。任务原件见 [导航](tasks/README.md)。
 
-本次推进 [#11 F0](https://github.com/hvritual/cs-biz/issues/11)，当前 **DESIGN_HANDOFF / READY_FOR_DELIVERY**。D1=A、Go1.26.9 和完整 r005 设计已获确认；见 [同版交接](tasks/issue-11-f0/handoffs/r005/HANDOFF.md) 与 [本次逐项交付核验](tasks/issue-11-f0/delivery/closure.md)。原设计、交接及内容摘要不变，旧 Human Full 等待已由 [风险门禁](ci/RISK-BASED-GATES.md) 取代。PR #27 经精确候选和 main 门禁、回读后才关闭 #11；最终状态以 PR/Issue 回执为准。本项目 F1 尚未实施。#10 依赖链保持 F0 #11 → F1 #12 → F2 #13 / F3 #14 → F4 #15 → F5 #16 → F6 #17；其余可观测性/持续目标 Issue 保留原验收。一次一个独立 Issue，不批量合并功能候选。
+## 当前已交付与未完成
 
-PR #18 的架构方向尚为提案，不在本次整体导入；本轮只完成 F0 冻结的交付。后续真实 API、身份、DB、Consumer 资格未完成。下文 S00/S01 为历史规划，旧状态/命令不得盖过当前源码、上述投影与现行风险门禁；封存 F0 产物中的旧门禁措辞同样只表示被审时状态。
-
----
-
-# 实施路线与当前状态
-
-本文件记录阶段目标与实际状态，不把后续路线自动视为批量执行授权。当前独立交付单元为 [S01 前端应用与有状态 Mock](tasks/S01-frontend-mock.md)。S00 的 PR #1 尚未合并，S01 以其设计分支为基础增量交付；最新提交、检查与 PR 状态统一见 [S01 验证记录](evidence/S01-validation.md)。
-
-## 一、MVP Roadmap
-
-目标：一个真实租户完成模块开通、成员授权与一次受权限约束的业务使用。
-
-| 切片 | 输入 → 输出 | 依赖 | 验收出口 | 当前状态 |
-| --- | --- | --- | --- | --- |
-| S00 结构与设计 | 用户约束、空仓库、GitHub 主源 → 目录、选型、架构、旅程、模板、结构门禁 | 无 | 根目录要求满足，结构检查通过，设计有源码证据 | 设计基线已提交草稿 PR #1，尚未合并 |
-| S01 前端应用与 Mock | 固定 Vben/Element Plus 来源 → 一个 Vue Console 与有状态本地服务 | S00 | 主题、语言、动态菜单、权限变化、深链接、保存恢复的构建与浏览器证据 | 前端与 Mock 已实现；验证和增量 PR 状态见证据 |
-| S02 身份与租户访问契约 | 认证与存储决策 → 真实用户、租户、成员、权限上下文及 API | S00；可与 S01 按冻结契约协作 | A/B 租户真实存储和 API 授权矩阵通过 | 未启动 |
-| S03 租户开通与成员使用 | S01 + S02 → SAAS-01 完整闭环、审计与恢复 | S01、S02 | 实际 UI + API + 持久化 + 撤权/幂等/切租户反例通过 | 未启动 |
-
-S01 当前包含工作台、客户、成员、角色、企业资料、应用中心、平台运营与个人偏好八类页面，以及本地账户选择入口。种子提供两个企业和不同权限身份；客户、成员、角色及应用状态的操作可在浏览器中保存与恢复。界面采用业务语言，Mock 实现与限制说明放在 [前端文档](../frontend/doc/mock-data.md)。
-
-S01 的访问检查用于验证前端行为，真实认证、后端 API、数据库事务与租户隔离仍属于 S02/S03。首个完整业务成果的定义保持不变，不能用浏览器本地持久化替代其真实服务端出口。
-
-| 阶段字段 | MVP 约定 |
-| --- | --- |
-| 目标 | 租户、模块开通、成员与权限共同成立，而非四套独立演示 |
-| 排除范围 | 真实支付、复杂订阅、历史迁移、全部经营模块、分布式微服务 |
-| 输入 | 首期技术决策、测试身份与数据、模块/权限字典、明确授权范围 |
-| 输出 | 可运行应用、单一 API 契约、真实权限与恢复证据 |
-| 允许改动 | `frontend/**`、`backend/**`、相应 `doc/**`、必要 `.github/workflows/**`，每个切片进一步收窄 |
-| 禁止改动 | 其他仓库、生产数据、未经本任务授权的迁移或发布、未锁定的上游源 |
-| 当前可用验收命令 | 仓库根执行 `python3 doc/ci/check_repository.py`；`frontend` 内 `corepack pnpm check` 仅 Fast（类型/lint/copy/Desktop/policy/E2E类型/单测），不含 build/E2E；最终候选按 `doc/ci/RISK-BASED-GATES.md` 在统一 CI 中选择 docs/backend/full，前端完整回归单次构建并运行新旧全部 E2E |
-| 后续验收命令 | 若后端采用 Go，则建立 `go test ./...`、`go vet ./...`；真实 DB/API 与跨端 E2E 入口须随 S02/S03 实现提交，当前前端 Mock 测试不替代这些门禁 |
-| 风险 | 上游模板耦合、上下文竞态、把菜单控制误当鉴权、跨租户资源关联 |
-| 是否可由 Codex 一次完成 | S00、S01、S02 按独立交付单元推进；整个 MVP 按依赖和可观察旅程分步验收 |
-
-## 二、Full Runtime Roadmap
-
-目标：逐步兑现日常经营工作，复用已经验证的企业与访问基础。
-
-| 顺序 | 业务成果 | 开始条件 |
+| 能力 | 当前 main 事实 | 来源 / 完成边界 |
 | --- | --- | --- |
-| R01 | 客户/点位/设备关联，让运营数据有明确业务归属 | SAAS-01 已完成；确认资源与数据范围 |
-| R02 | 租赁合同、投放、服务工单等形成日常任务闭环 | 上一步持久化数据与角色职责成立 |
-| R03 | 用量、费用、应收应付、操作参与者的可核对记录 | 确认金额/时间/变更规则与真实来源 |
-| R04 | 真实套餐与订阅变更，额度与有效期可追踪 | 商业决策、支付边界与幂等恢复定义完毕 |
-| R05 | IoT/通知/支付等集成与开放 API | 真实接口/凭据/测试环境，重试与事件契约 |
+| S00 / S01 | 结构和 Vue/Vben/Element Plus Console 已合入；业务 UI 仍由本地 Mock 支撑 | PR [#1](https://github.com/hvritual/cs-biz/pull/1)、[#3](https://github.com/hvritual/cs-biz/pull/3)，[前端源码/文档](../frontend/doc/README.md) |
+| Authz V2 | 纯 Go Operation PEP、HTTP 绑定与授权负例已存在 | PR [#4](https://github.com/hvritual/cs-biz/pull/4)，[Authz](../backend/doc/AUTHORIZATION-V2.md)；不等于真实 IAM |
+| F0 / #11 | r005 同版设计已确认并交付，Issue 已关闭 | PR [#27](https://github.com/hvritual/cs-biz/pull/27)，[设计与交付入口](tasks/F0-yunka-freeze.md) |
+| F1 / #12 | 固定 Consumer/工具链、生成/装配零漂移、loopback 只读探针、JSON stdout 与本地 Collector/Jaeger 查询已交付，Issue 已关闭 | PR [#31](https://github.com/hvritual/cs-biz/pull/31)，[F1 任务](tasks/issue-12-f1/task.md)、[Consumer](../backend/doc/YUNKA-CONSUMER.md) |
+| 开发治理 | 风险门禁、tester-army、模块验收冻结和 Design/Build/Deploy Agent 工作流已合入 | PR [#29](https://github.com/hvritual/cs-biz/pull/29)、[#30](https://github.com/hvritual/cs-biz/pull/30)、[#32](https://github.com/hvritual/cs-biz/pull/32)、[#33](https://github.com/hvritual/cs-biz/pull/33) |
+| 真实业务闭环 | 真实 IAM/Session/DB、营销 Operation、Domain Tenant+Scope、统一执行链和生产资格仍未完成 | F2–F6 原验收保留；[SAAS-01](journeys/SAAS-01-tenant-onboarding.md) 仍缺真实跨端证明 |
 
-| 阶段字段 | Full Runtime 约定 |
-| --- | --- |
-| 目标 | 让租户用户完成实际日常工作并看到可信结果 |
-| 排除范围 | 未明确市场/商业规则的功能堆积、虚构业务数据、自动操作生产设备 |
-| 输入 | 按业务旅程确认的 PRD、真实接口、业务样本、S03 运行证据 |
-| 输出 | 各旅程 UI/API/数据一致，错误、重试、审计与授权可解释 |
-| 允许改动 | 当前业务模块、被证明必要的共享扩展、契约与旅程 |
-| 禁止改动 | 为一个模块无理由重写公共壳层；未经批准改动已发布契约/历史账务 |
-| 验收命令 | 各任务提交可执行的 E2E、接口、集成与回归命令；此阶段尚未实现，不能预报通过 |
-| 风险 | 数据语义失真、授权范围扩张、计费/变更混同、外部依赖缺失 |
-| 是否可由 Codex 一次完成 | 每条有边界且依赖齐全的旅程可独立交付；整阶段需要连续多个任务 |
+开放 PR #2/#7/#8/#18/#21/#23/#25 是候选，不能视为 main 能力；旧分支须先做当前基线/设计/依赖对账。#19 的完整可观测性和 #22 的持续目标外循环仍开放；F1 本地技术 Trace 不证明浏览器全链路、商业运行或整个 #19 完成。Issue/PR 正文中的历史状态也须与最新回执和源码交叉核实。
 
-## 三、Production Roadmap
+## MVP：F0–F3 的一条真实纵向链
 
-目标：可持续上线、升级、恢复和运营，且每项承诺有运行证据。
+| 单元 | 依赖与输入 | 可观察出口 | 当前准入 |
+| --- | --- | --- | --- |
+| F0 [#11](https://github.com/hvritual/cs-biz/issues/11) | 事实、权限/Consumer边界、同版本审阅 | 固定设计、资源/权限与负例 | 已交付；不要重做旧冻结 |
+| F1 [#12](https://github.com/hvritual/cs-biz/issues/12) | F0 固定工具/SDK/CLI | 真 Consumer 生成/装配与本地技术查询资格 | 已交付；继续遵守锁/制品到期检查 |
+| F2 [#13](https://github.com/hvritual/cs-biz/issues/13) | F1；复核 #8 营销设计、可信主体/当前 grants、真实资源及 Trace 条件 | 无 Console Menu 仍可依法执行营销 Function；Scope/跨租户/无权/未知结果反例和跨端 Trace | 待设计准入；不能用本地身份/Fake 代替实际前提 |
+| F3 [#14](https://github.com/hvritual/cs-biz/issues/14) | F1；复核 #7/#8；D2 DB、D3 IdP/Session 与组织资源 | 持久 Access/Session、0/1/N 企业、标签页上下文、撤权/CSRF/并发/真实 DB/API/浏览器 | 材料性资源/决定仍需 Owner；可与 F2 划分已冻结子切片 |
 
-| 方向 | 出口 |
-| --- | --- |
-| 可靠性 | 可观测性、告警、超时/重试、运行故障恢复、可复核 SLO |
-| 发布 | 固定构建、环境管理、数据库迁移演练、灰度与回滚 |
-| 安全与租户隔离 | 当前版本授权回归、依赖与秘密检查、审计与策略失效验证 |
-| 性能 | 用真实负载模型验证容量；目标基于场景而非模板宣称 |
-| 数据保护 | 备份/恢复演练、导出和留存、跨租户关系和删除语义 |
-| 客户上线 | 市场语言与时区、租户开通流程、运行手册、用户可用性验收 |
+## Full Runtime 与 Production
 
-| 阶段字段 | Production 约定 |
-| --- | --- |
-| 输入 | Full Runtime 已验证能力、目标环境、可度量 SLO、数据规模、运维资源 |
-| 输出 | 发布与恢复证据、隔离与性能报告、主线/环境回读 |
-| 排除范围 | 无授权生产部署/设备操作、无备份数据迁移、未经确认的容量承诺 |
-| 允许改动 | 当前发布/运行任务限定的 deploy/ci/config/observability 及必要修复 |
-| 禁止改动 | 凭据入仓库、绕过真实门禁、隐式改变业务规则或生产数据 |
-| 验收命令 | 随真实环境建立性能、部署、恢复、安全与烟雾入口，记录固定版本和原始结果 |
-| 风险 | 环境差异、不可逆迁移、真实外部系统副作用、多实例策略缓存 |
-| 是否可由 Codex 一次完成 | 独立环境任务可限定推进；生产验收取决于真实环境、外部资源和已有授权 |
+| 单元 | 依赖 | 验收结果 |
+| --- | --- | --- |
+| F4 [#15](https://github.com/hvritual/cs-biz/issues/15) | F2 + F3 | CRM/营销真实查询、写入、批量/导出/统计强制 Tenant AND Scope |
+| F5 [#16](https://github.com/hvritual/cs-biz/issues/16) | F2–F4 | 统一受保护执行，旧 Router 在兼容/负例/回退证据后下线 |
+| F6 [#17](https://github.com/hvritual/cs-biz/issues/17) | F3–F5、真实环境/资源/发布授权 | 真库、安全、审计、幂等/恢复、性能与生产发布/回读 |
 
-## 自检结果
+F4–F6 均待实施。父 [#10](https://github.com/hvritual/cs-biz/issues/10) 保持开放，只有全部必需 AC 和整体集成出口有当前证据才关闭。后续客户/点位/设备、租赁/服务、经营计费等仍须独立业务定义和旅程，不能凭此技术路线推定完成。
 
-- Scope：S00 建立结构与设计；S01 已导入前端应用及本地 Mock，后端与生产部署仍未实现。
-- Dependency：S03 依赖 S01/S02；真实订阅与集成另有商业和外部输入。
-- Consistency：目录、架构、访问契约与 SAAS-01 采用同一租户/成员/权益语义。
-- Evidence：结构检查、前端类型/单元/浏览器检查分别记录；具体命令结果引用版本对应的验证证据，不用 Mock 证明生产授权。
-- Progress：每个后续任务以旅程出口衡量完成，不按文件数或页面数统计业务进展。
+## 如何继续
+
+从实际任务和 [工作流接入](workflow/SDLC-ADOPTION.md) 选择一个已授权且依赖满足的单元，先核实原验收/未合并候选/资源；模块批次先冻结完整分母，不仅筛 open 列表。一个分支阻塞不丢成员、不私改标准；记录 Owner、原始证据和恢复条件，按授权继续独立分支。现行交付政策只有 [风险门禁](ci/RISK-BASED-GATES.md)。

@@ -25,7 +25,7 @@
         "admission"
       ],
       "resources": [
-        "references/progression-method.md"
+        "references/admission.md"
       ],
       "payload_asset_refs": {
         "admission_ref": "admission"
@@ -47,7 +47,7 @@
         "plan"
       ],
       "resources": [
-        "references/build-loop.md"
+        "references/method.md"
       ],
       "payload_asset_refs": {
         "plan_ref": "plan"
@@ -69,7 +69,7 @@
         "change"
       ],
       "resources": [
-        "references/build-loop.md"
+        "references/method.md"
       ],
       "payload_asset_refs": {
         "change_ref": "change"

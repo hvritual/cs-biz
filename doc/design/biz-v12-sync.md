@@ -42,8 +42,9 @@
 
 ## Acceptance
 
-Use the same commit for check runs, screenshots and review. `doc/ci/check.sh`
-executes structural, TypeScript, copy, design, unit, build and Playwright gates.
+Use the same commit for check runs, screenshots and review. Current candidate qualification follows [Risk-based Gates](../ci/RISK-BASED-GATES.md).
+Local commands and their actual scope are in [CI](../ci/README.md); root check.sh defaults
+to structure + full backend + frontend Fast, and does not run build/browser by default.
 The desktop test checks rail x/width and flyout x, theme/density tokens,
 navbar translucency and deep links. No screenshots are generated from source
 image references; only attached Playwright artifacts count as runtime evidence.

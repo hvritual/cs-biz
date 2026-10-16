@@ -1,0 +1,297 @@
+{
+  "schema": "w05-independent-content-review-v1",
+  "reviewer": "/root/w05_content_review",
+  "recorded_at": "2026-10-16T04:55:01.996340+00:00",
+  "repository": "hvritual/cs-biz",
+  "workspace": "/workspace/scratch/ed1b842b4b7e/cs-biz",
+  "baseline": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+  "review_subject": {
+    "branch": "codex/w05-agent-docs",
+    "head_at_review_and_recording": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+    "state": "Uncommitted shared working tree, including tracked edits/deletions and untracked W05 implementation files. This review does not identify a committed candidate SHA.",
+    "concurrency": "Implementation repairs landed in the shared working tree during review. The reviewer reread the two repairs and reran the full Python governance suite and document/package/repository checks afterward.",
+    "final_recording_observation": "git symbolic-ref --short HEAD, git rev-parse HEAD and git status --short were executed before writing this record; branch/head match the values above and the tree remains dirty."
+  },
+  "authority_and_independence": {
+    "assigned_scope": "Read-only independent content review against baseline: actual diffs/source, retained consumers, historical integrity, factual claims, ownership/canonical paths, retained methods and routing checks.",
+    "repository_writes_by_reviewer": false,
+    "github_mutations_by_reviewer": false,
+    "deployment_by_reviewer": false,
+    "other_agent_outputs_read": false,
+    "record_exception": "Parent explicitly requested creation of this /tmp JSON file. No repository file was edited by this reviewer."
+  },
+  "record_integrity": {
+    "type": "Retrospective factual trace and conclusions from this reviewer session",
+    "original_log_files_created_or_retained_by_reviewer": false,
+    "output_summaries": "The outputs below are transcribed observations and excerpts from actual tool returns, not newly manufactured raw logs.",
+    "not_claimed": [
+      "A new independent original command log archive",
+      "A frozen candidate tree",
+      "Exact-candidate Full qualification",
+      "Merge authorization or merge execution",
+      "Post-merge main CI qualification"
+    ]
+  },
+  "read_trace": [
+    {
+      "step": 1,
+      "activity": "Locate instructions/task and establish baseline/diff",
+      "actual_commands": [
+        "pwd && rg --files -g 'AGENTS.md' -g '*W05*' -g '*w05*' -g '*SKILL.md' -g '!node_modules' -g '!vendor'",
+        "git status --short && git log -1 --oneline && git diff --stat 29c525d7f90cf61075f00a20efc1465a29b2c6db && cat AGENTS.md && cat doc/tasks/W05-agent-docs.md"
+      ],
+      "observations": "Initial HEAD was the requested main baseline; the proposed changes were in the working tree. Read the working agreement and W05 goal, scope, preservation rules and AC1-AC6."
+    },
+    {
+      "step": 2,
+      "activity": "Read live navigation, ownership, stage methods and actual diffs",
+      "read_directly_or_in_diff": [
+        "AGENTS.md",
+        "README.md",
+        "doc/README.md",
+        "doc/roadmap.md",
+        "doc/tasks/README.md",
+        "doc/evidence/README.md",
+        "doc/architecture/README.md",
+        "doc/architecture/repository-layout.md",
+        "doc/architecture/adr/0001-frontend.md",
+        "doc/architecture/adr/0003-yunka-f0-consumer-contract.md",
+        "doc/tasks/F0-yunka-freeze.md",
+        "doc/tasks/issue-12-f1/task.md",
+        "doc/evidence/repository-state-2026-10-16.json",
+        "doc/templates/task.md",
+        "doc/product/scope.md",
+        "doc/contracts/README.md",
+        "doc/contracts/access-context.md",
+        "doc/journeys/SAAS-01-tenant-onboarding.md",
+        "doc/workflow/SDLC-ADOPTION.md",
+        "doc/design/biz-v12-sync.md",
+        "backend/AGENTS.md",
+        "backend/README.md",
+        "backend/doc/README.md",
+        "backend/doc/AUTHORIZATION-V2.md",
+        "backend/doc/FEATURE-ONBOARDING-V2.md",
+        "backend/deploy/README.md",
+        "frontend/AGENTS.md",
+        "frontend/README.md",
+        "frontend/doc/README.md",
+        "frontend/doc/e2e.md",
+        "frontend/ci/README.md",
+        "doc/ci/README.md",
+        "doc/ci/RISK-BASED-GATES.md",
+        "doc/ci/DOCS-AUTO-DELIVERY.md",
+        "doc/ci/NO-STALL-GATES.md",
+        "doc/ci/HUMAN-FULL-CONTROL.md",
+        "doc/ci/check_repository.py",
+        "doc/ci/check_build_workflow.py",
+        "doc/ci/check_sdlc_workflow.py",
+        "doc/ci/check.sh",
+        "doc/ci/test_documentation.py",
+        ".github/PULL_REQUEST_TEMPLATE.md",
+        ".github/workflows/quality.yml",
+        ".agents/skills/sdlc-workflow/SKILL.md",
+        ".agents/skills/sdlc-workflow/references/project-docs.json",
+        ".agents/skills/sdlc-workflow/references/legacy-protocols.md",
+        ".agents/skills/sdlc-workflow/references/migration.md",
+        ".agents/skills/sdlc-workflow/references/module-outcome-v1.md",
+        ".agents/skills/sdlc-workflow/scripts/check_docs.py",
+        ".agents/skills/sdlc-workflow/tests/test_docs.py",
+        ".agents/skills/sdlc-build/SKILL.md",
+        ".agents/skills/sdlc-build/references/admission.md",
+        ".agents/skills/sdlc-build/references/method.md",
+        ".agents/skills/sdlc-build/workflow.json",
+        ".agents/skills/sdlc-design/references/intent-design-v2.md",
+        ".agents/skills/sdlc-design/references/intent-method.md",
+        ".agents/skills/sdlc-design/references/language-method.md",
+        ".agents/skills/sdlc-design/skills/design-ux/PROJECT-INTEGRATION.md"
+      ],
+      "searches": "Used rg to inspect T0-T4 definitions and consumers, risk references, stale Human Full/retired-entry strings and current ownership. Read the baseline build-loop.md and progression-method.md with git show.",
+      "boundary": "Some broad diff output was truncated. Focused follow-up reads and searches were used for the reported findings; this list does not claim every line in every changed synthetic JSON example was manually read."
+    },
+    {
+      "step": 3,
+      "activity": "Read real GitHub task/merge sources through the GitHub connector",
+      "calls": [
+        {
+          "tool": "mcp__codex_apps__github_fetch_issue",
+          "repository_full_name": "hvritual/cs-biz",
+          "issue_number": 13
+        },
+        {
+          "tool": "mcp__codex_apps__github_fetch_issue",
+          "repository_full_name": "hvritual/cs-biz",
+          "issue_number": 14
+        },
+        {
+          "tool": "mcp__codex_apps__github_fetch_issue",
+          "repository_full_name": "hvritual/cs-biz",
+          "issue_number": 12
+        },
+        {
+          "tool": "mcp__codex_apps__github_get_pr_info",
+          "repository_full_name": "hvritual/cs-biz",
+          "pr_number": 31
+        },
+        {
+          "tool": "mcp__codex_apps__github_search_prs",
+          "query": "repo:hvritual/cs-biz is:pr is:open",
+          "topn": 30
+        },
+        {
+          "tool": "mcp__codex_apps__github_get_pr_info",
+          "repository_full_name": "hvritual/cs-biz",
+          "pr_number": 27
+        },
+        {
+          "tool": "mcp__codex_apps__github_fetch_issue",
+          "repository_full_name": "hvritual/cs-biz",
+          "issue_number": 11
+        }
+      ],
+      "observations": [
+        "Issue #11 is closed/completed; PR #27 is merged at e05569db8332ad395911d53b667830989923019d and describes F0 r005 design-only delivery.",
+        "Issue #12 is closed/completed; PR #31 is merged at 26461fec924d5132445d9b662f3db8f5b760b158 and limits F1 to fixed Consumer/local read-only technical probe and local Trace qualification, preserving real IAM/DB/production gaps.",
+        "Issues #13 and #14 remain open; their actual requirements preserve Function/Menu distinctions, real identity/DB requirements, tenant/scope/side-effect and cross-end Trace acceptance.",
+        "The open-PR search supports the roadmap distinction between candidate branches and main. Its long body output was truncated; no claim of full manual review of every open PR body is made."
+      ],
+      "boundary": "The historical CI claims in PR bodies were read as source records. This reviewer did not download their CI artifacts, authenticate reviewer identities or independently verify every historical run/job/receipt."
+    },
+    {
+      "step": 4,
+      "activity": "Inspect retained legacy CLI interfaces",
+      "actual_commands": [
+        "python3 doc/ci/check_module_workflow.py --help",
+        "python3 doc/ci/check_intent_v02.py --help",
+        "python3 doc/ci/check_design_workflow.py --help",
+        "python3 doc/ci/check_revision_v04.py --help",
+        "python3 doc/ci/check_build_v04.py --help"
+      ],
+      "result": "All returned supported CLI argument help successfully. Retained compatibility files and tests were also byte-compared to baseline."
+    }
+  ],
+  "findings_and_rechecks": [
+    {
+      "id": "W05-CONTENT-1",
+      "severity": "P2",
+      "initial_finding": "Deleting progression-method.md initially removed the sole live definitions of T0-T4, the hard risk minima and unknown-risk behavior while admission.md, method.md and build-admit continued requiring T0-T4 classification. This lost substantive method under W05-AC2/AC4.",
+      "evidence": "Baseline progression-method.md contained the definitions and minima. Live rg searches found only labels/references, not definitions.",
+      "reported_to_parent": true,
+      "implementation_repair_by_parent": "Restored the original Task classification and Five integration checkpoints sections into owned admission.md; added deterministic missing-definition/floor checks and two negative tests.",
+      "independent_recheck": "Used git show of baseline progression-method.md and substring comparison against current admission.md: both complete original sections are exact byte-equivalent substrings. Read the new checker terms and tests. Final 196-test run passes.",
+      "status": "CLOSED_AFTER_REPAIR"
+    },
+    {
+      "id": "W05-CONTENT-2",
+      "severity": "P2",
+      "initial_finding": "backend/README.md initially still told future work to select a Go HTTP framework and OpenAPI source, conflicting with accepted F0 typed PB/Consumer ownership; it also described deploy assets as wholly future despite existing development/CI Collector/Jaeger assets.",
+      "evidence": "Directly read backend/README.md and compared it with the updated contract map, accepted F0 ADR and deploy README.",
+      "reported_to_parent": true,
+      "implementation_repair_by_parent": "Updated backend landing-page scope to current F1 and F0 typed PB/Consumer direction; scoped remaining Owner decisions to actual DB/IdP/Session/Access/business contracts; named current development/CI telemetry assets.",
+      "independent_recheck": "Reread numbered backend/README.md and the actual repaired diff. Current text is coherent with the contract map, F0/F1 boundaries and existing deploy assets.",
+      "status": "CLOSED_AFTER_REPAIR"
+    }
+  ],
+  "execution_trace": [
+    {
+      "phase": "Initial checks before the final risk-method repairs",
+      "actual_commands": [
+        "python3 .agents/skills/sdlc-workflow/scripts/check_docs.py",
+        "python3 doc/ci/check_repository.py",
+        "python3 doc/ci/check_sdlc_workflow.py --mode structure",
+        "python3 .agents/skills/sdlc-workflow/scripts/check_packages.py",
+        "python3 -m unittest discover -s doc/ci -p 'test_*.py'"
+      ],
+      "observed_results": [
+        "Documentation: PASS_STATIC_ONLY, 102/102 reachable, 5 public Skills, 22 capabilities, 13 retired entries",
+        "Repository: 18 directories, 28 files, 480 relative file links",
+        "SDLC structure: PASS_STATIC_ONLY",
+        "Packages: PASS_STATIC_ONLY, portable_checked true, native_runtime/runtime/authentic_approval NOT_VERIFIED",
+        "194 tests in 15.745 seconds: OK"
+      ],
+      "tool_session_id": 71351
+    },
+    {
+      "phase": "Additional static policy checks",
+      "actual_commands": [
+        "python3 doc/ci/check_build_workflow.py",
+        "python3 doc/ci/check_quality_policy.py",
+        "python3 doc/ci/check_human_full_policy.py",
+        "node frontend/ci/check-delivery-policy.mjs"
+      ],
+      "observed_results": [
+        "Build structural contract: 5 files PASS",
+        "Quality policy: PASS_STATIC_ONLY",
+        "Manual Full source policy: PASS_STATIC_ONLY; configured environment/branch protection/receipt NOT_VERIFIED",
+        "Frontend delivery policy: PASS"
+      ]
+    },
+    {
+      "phase": "Focused repair recheck during concurrent shared-tree repair",
+      "actual_commands": [
+        "python3 doc/ci/check_build_workflow.py",
+        "python3 .agents/skills/sdlc-workflow/scripts/check_docs.py",
+        "python3 -m unittest doc.ci.test_documentation -v"
+      ],
+      "observed_result": "15 documentation tests: one ERROR in test_workflow_resource_deletion_is_rejected. The imported checker attempted to read deleted admission.md and raised FileNotFoundError. Both new risk-loss tests passed. This is preserved as a failed intermediate observation, not PASS.",
+      "tool_session_id": 67569,
+      "followup": "Immediately reread current source: the implementation had already added risk_path.is_file() fallback. Reported the transient old-import failure and reran the full suite against the guarded source."
+    },
+    {
+      "phase": "Final independent checks after repairs",
+      "actual_command": "python3 -m unittest discover -s doc/ci -p 'test_*.py' && python3 .agents/skills/sdlc-workflow/scripts/check_docs.py && python3 .agents/skills/sdlc-workflow/scripts/check_packages.py && python3 doc/ci/check_repository.py",
+      "observed_results": [
+        "Ran 196 tests in 16.739s: OK",
+        "Documentation: PASS_STATIC_ONLY, documents 102, reachable 102, public_skills 5, capabilities 22, retired_entries 13, issues []; semantic_freshness/authentic_approval NOT_VERIFIED; execution_granted false",
+        "Packages: PASS_STATIC_ONLY; stages design/build/deploy; portable_checked true; native_runtime/runtime/authentic_approval NOT_VERIFIED; execution_granted false",
+        "Repository: PASS, 18 required directories, 28 required files, 486 relative file links; S00 structure/documentation scope only"
+      ],
+      "tool_session_id": 26997,
+      "exit_code": 0
+    }
+  ],
+  "preservation_checks": {
+    "method": "Executed a Python heredoc that enumerated baseline tracked files with git ls-tree -r --name-only, read each matching baseline blob with git show BASELINE:path, and compared raw bytes with the working-tree file. Counts below are actual printed results, not inferred from test counts.",
+    "groups": [
+      {
+        "selector": "doc/tasks/** paths containing /rounds/ or /handoffs/",
+        "files_compared": 101,
+        "changed_files": []
+      },
+      {
+        "selector": "doc/evidence/** except doc/evidence/README.md",
+        "files_compared": 5,
+        "changed_files": []
+      },
+      {
+        "selector": "doc/tasks/issue-11-f0/delivery/** or doc/tasks/issue-12-f1/delivery/**",
+        "files_compared": 2,
+        "changed_files": []
+      },
+      {
+        "selector": "Tracked frontend/** or backend/** files not ending .md",
+        "files_compared": 1086,
+        "changed_files": []
+      },
+      {
+        "selector": "Legacy doc/ci check_build_v04.py/check_intent_v02.py/check_revision_v04.py and corresponding test files",
+        "files_compared": 6,
+        "changed_files": []
+      }
+    ],
+    "ux_copy_check": "Compared every baseline .agents/skills/b2b-product-ux file with its retained design-ux counterpart. All substantive ancillary resources were byte-identical except the intentional project-integration path migration. SKILL.md is the existing owned capability rather than the removed dispatch-only alias. Moved upstream-source.json exactly equals baseline doc/workflow/b2b-product-ux-source.json.",
+    "snapshot_checks": "Baseline tree equals recorded snapshot tree. All six recorded source SHA256 values match their baseline blobs. Recorded merged commits for PRs 1,3,4,27,31,33 are ancestors of the requested baseline.",
+    "boundary": "These checks establish preservation for the stated selectors at the reviewed working tree. They do not prove all business acceptance, semantic freshness of every retained document or future post-review changes."
+  },
+  "current_conclusion": {
+    "blocking_findings_remaining": [],
+    "content_review": "No remaining blocker found in reviewed working-tree implementation after independently rechecking both repairs.",
+    "routing_test_assessment": "Tests exercise actual document graph reachability, disconnected cycles, missing links/resources/replacements, orphan capabilities, reintroduced aliases, active retired references, command drift and risk-method loss; checks explicitly withhold semantic freshness and authentic approval claims.",
+    "static_qualification": "PASS_STATIC_ONLY within stated scopes",
+    "candidate_full_ci": "NOT_VERIFIED_BY_THIS_REVIEWER",
+    "candidate_commit_or_tree": "NOT_FROZEN_OR_VERIFIED_BY_THIS_REVIEW",
+    "merge_execution": "NOT_PERFORMED_BY_THIS_REVIEWER",
+    "post_merge_main_ci": "NOT_VERIFIED_BY_THIS_REVIEWER",
+    "runtime_native_activation_and_production": "NOT_VERIFIED_BY_THIS_REVIEWER",
+    "completion_boundary": "Independent content/static review only. Exact committed candidate, required remote Full/jobs/receipt, authorized merge and main/post-merge qualification remain separate delivery requirements."
+  }
+}

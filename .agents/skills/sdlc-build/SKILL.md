@@ -15,4 +15,4 @@ Read [stage method](references/method.md) when resolving a stage-specific decisi
 
 The native Agent definition is [agents/build.toml](agents/build.toml); its `.codex/agents` copy is an installation mirror, not a second authority. Inherit host model, provider, tools, permissions and existing budgets. If no separate Agent can be spawned, disclose the limitation and use the same bounded role only within current authority.
 
-Use task-progression checkpoint semantics: reconcile / admit_slice / reconcile_failure / close_slice / handoff, with T0–T4 risk. Select tdd (RED → GREEN), preserve, static, existing_verified or harness_required from actual work; INCONCLUSIVE remains unverified. The Agent owns these checkpoints; capability Skills do not orchestrate them.
+Use the owned [admission/checkpoint method](references/admission.md): reconcile / admit_slice / reconcile_failure / close_slice / handoff, with T0–T4 risk. Select tdd (RED → GREEN), preserve, static, existing_verified or harness_required from actual work; INCONCLUSIVE remains unverified. The Agent owns these checkpoints; capability Skills do not orchestrate them.

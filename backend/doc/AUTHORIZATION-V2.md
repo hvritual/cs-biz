@@ -1,6 +1,6 @@
 # 通用后端授权内核 V2.0 — cs-biz 实施基线
 
-状态：**基础库已实现，真实服务/持久 IAM/跨端授权尚未实现**。此文档描述 `backend/internal/platform/authz/` 当前代码，不表示 S02/S03 已通过业务验收。
+状态：**基础库已实现，真实服务/持久 IAM/跨端授权尚未实现**。此文档只描述 `backend/internal/platform/authz/` 现有代码与回归合同，不表示完整业务授权已交付。F1 Consumer 已存在；[F0 已审边界](../../doc/architecture/adr/0003-yunka-f0-consumer-contract.md) 和 [Consumer](YUNKA-CONSUMER.md) 指导后续 typed PB / 统一执行接入，不把本库的源码 Operation 当作新业务的第二份合同。
 
 ## 范围与权威
 
@@ -9,7 +9,7 @@
 - `CurrentAuthority` 仅由未来可信 Access/IAM 持久化适配提供，**每次请求**读取当前 Membership 和 Permission+Scope Grants。现阶段只有测试 Fake，未接实际身份提供方或 DB。
 - `WithVerifiedPrincipal` 必须只由未来已完成凭证、会话与租户关系校验的信任边界调用；不能由 `X-User-ID`、`X-Tenant-ID`、body、路由或任意客户端内容调用。
 - `ResourceFacts` 只能来自资源所属 Domain 在可信租户条件下读取的权威数据。`RequireResource` 是具体对象的辅助检查；列表、聚合、分页、批量、下载和导出要由资源域 **在真实查询谓词中**执行同等范围限制。
-- `HTTPRouter` 将每个已声明的 HTTP 绑定与 `Authorize` 结合；通过 `CheckCoverage()` 启动前检查全部 HTTP Operation。未来的正式服务器应以此 Router 为唯一业务路由入口；绕过它调用原生 mux 的路径不在本基础库的全局静态检查覆盖内。
+- `HTTPRouter` 将每个已声明的 HTTP 绑定与 `Authorize` 结合；通过 `CheckCoverage()` 启动前检查全部 HTTP Operation。本库的 coverage 只检查这个入口，不扫描任意原生 mux。当前 Router 保留受控对照/回归，后续业务按 F0/F2–F5 迁移到统一执行；不能同时为同一生产 Operation 放行新旧两条链。
 - ResourceScope 与 ObjectState 不相同。`authz` 对当前身份、动作、授予范围做安全检查，业务状态、CAS、幂等、审计和回执由 Domain/UseCase 负责。
 - `AudiencePublic` 必须明确说明公共暴露理由，且无业务权限；平台/租户/服务/Worker 是互不冒用的主体类型。后台任务不能通过信任未经验证的消息体冒充用户。
 

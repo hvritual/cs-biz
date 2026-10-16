@@ -1,6 +1,6 @@
 # 板块级成果契约与连续交付
 
-本协议把一个已确认板块的全部必需 Issue 变成有边界的连续交付队列。单 Issue 的设计交接仍使用 intent-design-v2，实施仍由工作流外执行模型调用 task-progression / sdlc-build；板块协调由 intent-to-outcome-closure 承担。不新增任务数据库、常驻 Agent、自动触发服务或审批权。
+本协议把一个已确认板块的全部必需 Issue 变成有边界的连续交付队列。单 Issue 的设计交接仍使用 intent-design-v2，实施由独立获授权的 Build Agent 串联单职能能力；板块协调由 intent-to-outcome-closure 承担。不新增任务数据库、常驻 Agent、自动触发服务或审批权。
 
 ## 先冻结，再推进
 

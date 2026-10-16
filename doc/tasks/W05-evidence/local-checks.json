@@ -1,0 +1,404 @@
+{
+  "record_type": "w05-local-checks-v1",
+  "observed_at": "2026-10-16T04:54:02.637238+00:00",
+  "baseline": "29c525d7f90cf61075f00a20efc1465a29b2c6db",
+  "working_tree": "uncommitted W05 candidate",
+  "checks": [
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_repository.py"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: 18 required directories, 28 required files, 486 relative file links\nScope: S00 structure and documentation only; no application/runtime validation.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        ".agents/skills/sdlc-workflow/scripts/check_docs.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"contract\": \"PASS_STATIC_ONLY\",\n  \"documents\": 102,\n  \"reachable\": 102,\n  \"public_skills\": 5,\n  \"capabilities\": 22,\n  \"retired_entries\": 13,\n  \"issues\": [],\n  \"semantic_freshness\": \"NOT_VERIFIED\",\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"execution_granted\": false\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        ".agents/skills/sdlc-workflow/scripts/check_packages.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"contract\": \"PASS_STATIC_ONLY\", \"stages\": [\"design\", \"build\", \"deploy\"], \"portable_checked\": true, \"native_runtime\": \"NOT_VERIFIED\", \"authentic_approval\": \"NOT_VERIFIED\", \"runtime\": \"NOT_VERIFIED\", \"execution_granted\": false}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_sdlc_workflow.py",
+        "--mode",
+        "structure"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"static_contract\": \"PASS_STATIC_ONLY\",\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"remote_ci\": \"NOT_VERIFIED\",\n  \"issues\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_build_workflow.py"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS structural contract: 5 files\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_module_workflow.py",
+        "--all"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"runtime\": \"NOT_VERIFIED\",\n  \"execution_granted\": false,\n  \"contract\": \"PASS_STATIC_ONLY\",\n  \"checked\": 0\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_human_full_policy.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"static_source_control\": \"PASS_STATIC_ONLY\", \"issues\": [], \"human_environment_configured\": \"NOT_VERIFIED\", \"branch_protection_configured\": \"NOT_VERIFIED\", \"github_full_receipt_verified\": \"NOT_VERIFIED\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_quality_policy.py"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS_STATIC_ONLY: trusted selection, once-only work, independent exact-SHA receipt\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "frontend/ci/check-delivery-policy.mjs"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: Fast default, retained manual Full safety, E2E coverage, collapse tokens and negative fixtures\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/intent-to-outcome-closure"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-build"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-build/skills/build-admit"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-build/skills/build-handoff"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-build/skills/build-implement"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-build/skills/build-integrate"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-build/skills/build-plan"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-build/skills/build-review"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-build/skills/build-verify"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-deploy"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-deploy/skills/deploy-admit"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-deploy/skills/deploy-execute"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-deploy/skills/deploy-handoff"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-deploy/skills/deploy-observe"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-deploy/skills/deploy-plan"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-deploy/skills/deploy-recover"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-acceptance"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-capture"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-handoff"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-intent"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-language"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-preview"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-research"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-solution"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-design/skills/design-ux"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/sdlc-workflow"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "phase": "after_evidence_archival",
+      "command": [
+        "python3",
+        "doc/ci/check_repository.py"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: 18 required directories, 28 required files, 500 relative file links\nScope: S00 structure and documentation only; no application/runtime validation.\n",
+      "stderr": ""
+    },
+    {
+      "phase": "after_evidence_archival",
+      "command": [
+        "python3",
+        ".agents/skills/sdlc-workflow/scripts/check_docs.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"contract\": \"PASS_STATIC_ONLY\",\n  \"documents\": 102,\n  \"reachable\": 102,\n  \"public_skills\": 5,\n  \"capabilities\": 22,\n  \"retired_entries\": 13,\n  \"issues\": [],\n  \"semantic_freshness\": \"NOT_VERIFIED\",\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"execution_granted\": false\n}\n",
+      "stderr": ""
+    },
+    {
+      "phase": "after_evidence_archival",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "boundary": "Local static and format evidence only. Application, runtime, authentic approval and remote Full/main are not established by this report."
+}

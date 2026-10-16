@@ -1,0 +1,109 @@
+{
+  "protocol": "project-docs-v1",
+  "public_skills": [
+    "intent-to-outcome-closure",
+    "sdlc-workflow",
+    "sdlc-design",
+    "sdlc-build",
+    "sdlc-deploy"
+  ],
+  "entrypoints": [
+    "README.md",
+    "AGENTS.md"
+  ],
+  "navigation": [
+    "doc/README.md",
+    "doc/roadmap.md",
+    "doc/tasks/README.md",
+    "doc/evidence/README.md",
+    "doc/workflow/SDLC-ADOPTION.md",
+    "doc/ci/README.md"
+  ],
+  "historical_reference_docs": [
+    ".agents/skills/sdlc-workflow/references/migration.md"
+  ],
+  "historical_docs": [
+    "frontend/doc/design.md",
+    "doc/research/vue-admin-selection.md"
+  ],
+  "retired": [
+    {
+      "path": ".agents/skills/prompt-optimizer",
+      "replacement": ".agents/skills/sdlc-design",
+      "reason": "Pure dispatch alias; capture/research/intent capabilities retain the actual method.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": ".agents/skills/engineering-language",
+      "replacement": ".agents/skills/sdlc-design/skills/design-language",
+      "reason": "Pure dispatch alias; expression method stays with Design.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": ".agents/skills/task-progression",
+      "replacement": ".agents/skills/sdlc-build",
+      "reason": "Pure dispatch alias; admission/checkpoints remain Build-owned.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": ".agents/skills/b2b-product-ux",
+      "replacement": ".agents/skills/sdlc-design/skills/design-ux",
+      "reason": "Duplicate discoverable entry and ancillary copy; owned capability retains all substantive assets.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": "doc/workflow/INTENT-DESIGN-WORKFLOW.md",
+      "replacement": ".agents/skills/sdlc-design/references/intent-design-v2.md",
+      "reason": "Empty document forward.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": "doc/workflow/DESIGN-HANDOFF-CONTRACT.md",
+      "replacement": ".agents/skills/sdlc-design/references/design-handoff-v2.md",
+      "reason": "Empty document forward.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": "doc/workflow/MODULE-OUTCOME-CONTRACT.md",
+      "replacement": ".agents/skills/sdlc-workflow/references/module-outcome-v1.md",
+      "reason": "Empty document forward.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": "doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md",
+      "replacement": ".agents/skills/sdlc-workflow/references/legacy-protocols.md",
+      "reason": "Empty document forward.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": "doc/workflow/project-profile.md",
+      "replacement": "doc/workflow/SDLC-ADOPTION.md",
+      "reason": "Duplicated project routing/commands/policy; use project binding and canonical CI map.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": "doc/workflow/build-loop-pilot.md",
+      "replacement": ".agents/skills/sdlc-build/references/method.md",
+      "reason": "One-time stale pilot checklist, not an active task or current authority.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": ".agents/skills/sdlc-build/references/build-loop.md",
+      "replacement": ".agents/skills/sdlc-build/references/method.md",
+      "reason": "Repeated composite Skill instructions; unique mode/evidence semantics merged.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": ".agents/skills/sdlc-build/references/progression-method.md",
+      "replacement": ".agents/skills/sdlc-build/references/admission.md",
+      "reason": "Narrowed and renamed to actual single admission responsibility.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": "doc/workflow/b2b-product-ux-source.json",
+      "replacement": ".agents/skills/sdlc-design/skills/design-ux/references/upstream-source.json",
+      "reason": "Move immutable upstream provenance to its owned capability.",
+      "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    }
+  ]
+}

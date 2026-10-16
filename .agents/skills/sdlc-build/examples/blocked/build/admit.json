@@ -4,9 +4,9 @@
   "stage": "build",
   "step": "admit",
   "status": "blocked",
-  "definition_sha256": "a460a2866a725b6753919769a68c33668f3b16a3957ccde3f51c29749cf8d3a7",
+  "definition_sha256": "9d6f99829fdd98abeea01d197f7bbf4dded523f7f1e701d5d2e01b6e09edd00f",
   "input_sha256": {
-    "design-to-build.json": "0bde769a693f14961486590c4effa5ec4bfb0fa271d6598592f6cdd5861fd754"
+    "design-to-build.json": "6fd0b495cbd9cb2146c317bd696bb28f060661547a93808fe2ce42a442f439b4"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

@@ -1,44 +1,30 @@
-# Frontend validation — Fast/Full gates
+# Frontend 验证
 
-**Current delivery:** [Risk-based Gates](../../doc/ci/RISK-BASED-GATES.md) replaces the historical duplicate Fast/Targeted and Human-only merge wait described below. `quality.yml` runs final frontend Fast/build/all browser suites once and produces an independent exact-SHA receipt; old workflows are manual diagnostics only. Default local check stays Fast. No test coverage is retired.
+现行交付遵循 [风险门禁](../../doc/ci/RISK-BASED-GATES.md)。唯一自动 quality.yml 为最终前端候选执行 Fast、一次生产构建、全部 tester-army 与 retained Playwright 浏览器旅程，并生成独立精确 SHA 回执；旧前端 workflow 只留手动诊断。
 
-Authoritative process: [No-Stall Delivery Gates](../../doc/ci/NO-STALL-GATES.md).
-Pinned toolchain: Node ^22.22.3 or ^24.8.0, pnpm 10.33.4 from Corepack.
-New E2E uses [tester-army/e2e](../doc/e2e.md); existing Playwright coverage remains required during migration.
+## 本地命令（frontend 目录）
 
-## Local run (from frontend/)
+Node 范围和 pnpm 版本只以 [package.json](../package.json) / 锁文件为准。先安装依赖，编辑时选择相关断言后运行 Fast：
 
 ```sh
-corepack enable && corepack install
-corepack pnpm install --frozen-lockfile       # once per lockfile version
-corepack pnpm check:fast                      # every iteration and default 'pnpm check'
-corepack pnpm exec playwright install chromium  # once, only when UI browser work requires it
-corepack pnpm exec e2e-web install chromium      # pinned web-engine browser, independently versioned
-E2E_TELEMETRY_DISABLED=1 corepack pnpm test:e2e:journey  # targeted members journey, after build
-corepack pnpm check:desktop:runtime           # UI-only: one build, targeted Desktop E2E
-corepack pnpm check:full                      # explicit Human-only; not for Agent iteration
+corepack pnpm install --frozen-lockfile
+corepack pnpm check:fast
 ```
 
-Do not reinstall Chromium or rerun all customer/tenant journeys after every CSS
-edit. Fast includes typecheck, oxlint, bilingual product-copy checks, Desktop
-semantic Token checks, self-tested pipeline/collapse checks, and unit tests.
-Full adds the actual production build, tester-army journeys and all retained Playwright journeys.
+`corepack pnpm check` 等同 Fast：类型、lint、双语文案、Desktop tokens/policy、E2E 类型与单元测试，不含 build/E2E。
 
-## GitHub workflows
+UI 浏览器前提是各 engine 独立安装，不能只安装一个 Chromium 后假定两套 runner 通用：
 
-- `.github/workflows/frontend.yml`: **Frontend Fast Gate**, automatic on
-  internal branch push and external PR, no browser installation. A duplicate
-  PR hook for an internal push is skipped.
-- `.github/workflows/frontend-full.yml`: **Frontend Full Gate** is **Human-only manual workflow_dispatch**, never PR/Push-triggered. Human chooses Actions → Frontend Full Gate → Run workflow, selects **main** and provides the open non-Draft `pr_number` and exact 40-character `candidate_sha`. A trusted preflight checks PR head; independent receipt signer checks it again after successful tests. Configure required reviewers and main-only branch restriction on the `full-ci-human-approval` environment in repository Settings; this cannot be done by the Skill text. The Full run receipt is an artifact, not a PR-head required status; read it independently before merge. Without a trusted attestation bridge, GitHub required-check rules for the previous PR-triggered `frontend-validation` job need admin reconciliation; do not weaken merge safety.
-- `.github/workflows/repository.yml`: cheap structure validation; duplicate
-  internal PR job skipped; external fork PRs are checked.
+```sh
+corepack pnpm exec playwright install chromium
+corepack pnpm exec e2e-web install chromium
+corepack pnpm check:desktop:runtime
+```
 
-Run `bash doc/ci/check.sh --fast` from the root for a structural preflight
-plus Fast; default `bash doc/ci/check.sh` is **Fast**. Full is only an explicit Human decision; see [Human Full Control](../../doc/ci/HUMAN-FULL-CONTROL.md).
+Desktop runtime 构建并运行受影响的 Desktop spec；完整本地诊断用 check:full，包含 Fast/build/test:e2e。独立运行 tester-army journey 前先 build；`test:e2e` 顺序运行新旧两套 runner。新用例写法和证据见 [E2E](../doc/e2e.md)。不要每次 CSS 编辑都重新安装/全量运行浏览器。
 
-## Stop conditions
+## 证明范围
 
-Do not mark a result PASS if its command failed, was skipped, or references an
-older SHA. If one targeted UI assertion fails, repair its cause before promotion.
-S01 Mock authorization is not production server authority.
-The branch protection required-check controls need repository admin rights.
+固定 candidate/source hashes、真实命令、报告和屏幕证据；保留既有断言、三个 Desktop 尺寸及唯一历史 Mobile skip。Mock 验证页面/本地服务，不证明真实 IAM/DB。缺 provider、环境或失败用例不得跳过求通过。
+
+实际外部 Full/回执与 main 回读由自动 quality 执行并核实。[手动 Full](../../doc/ci/HUMAN-FULL-CONTROL.md) 是可选诊断工具，没有逐 PR 重复 Human 批准要求。完整跨端命令和后端前提见 [全局 CI](../../doc/ci/README.md)。

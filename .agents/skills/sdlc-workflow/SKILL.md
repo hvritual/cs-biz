@@ -20,3 +20,5 @@ Stop at the authorized outcome boundary: a reviewed-design task need not Build, 
 For source/meaning/acceptance changes return to Design, implementation defects to Build, and value/exception/irreversible/authority or stalled-progress decisions to Human. Handoffs carry exact task/version/scope/AC, input hashes and evidence references, never an entire transcript or new permission. A missing tool, unverified external record or static candidate remains unverified.
 
 Run `python3 .agents/skills/sdlc-workflow/scripts/check_packages.py` for package ownership, native mirrors, identical generic runtimes, consumer contracts, examples and portable package checks. Legacy protocols and compatibility entrypoints are indexed in [migration](references/migration.md). Historical sealed task files remain unchanged.
+
+For project knowledge routing, start with [the document map](../../../doc/README.md); run `scripts/check_docs.py` for live ownership, reachability, retired references and documented command drift. It does not prove semantic freshness. [Definition sources](references/standards.md) explain Agent/Skill formats.

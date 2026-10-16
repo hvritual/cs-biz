@@ -13,9 +13,7 @@ import sys
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[2]
-SKILLS = ("prompt-optimizer", "sdlc-design", "sdlc-build", "sdlc-deploy",
-          "task-progression", "engineering-language", "sdlc-workflow", "b2b-product-ux",
-          "intent-to-outcome-closure")
+SKILLS = ("sdlc-design", "sdlc-build", "sdlc-deploy", "sdlc-workflow", "intent-to-outcome-closure")
 AUTH = ("read_only", "draft_only", "code_change", "external_action")
 STAGES = ("intent", "design", "build")
 
@@ -49,20 +47,18 @@ def structure(root: Path) -> list[str]:
             errors.append(f"missing skill: {skill}")
         elif not re.search(r"(?m)^name: " + re.escape(skill) + r"\s*$", f.read_text(encoding="utf-8")):
             errors.append(f"invalid frontmatter: {skill}")
-    for name in ["AGENTS.md", "doc/workflow/project-profile.md",
-                 "doc/ci/NO-STALL-GATES.md", "doc/templates/task.md",
-                 "doc/workflow/INTENT-DESIGN-WORKFLOW.md",
-                 "doc/workflow/DESIGN-HANDOFF-CONTRACT.md",
-                 "doc/ci/check_design_workflow.py", "doc/ci/check_module_workflow.py",
-                 "doc/workflow/MODULE-OUTCOME-CONTRACT.md"]:
+    for name in ["AGENTS.md", "doc/README.md", "doc/roadmap.md", "doc/templates/task.md",
+                 "doc/workflow/SDLC-ADOPTION.md", "doc/ci/RISK-BASED-GATES.md",
+                 ".agents/skills/sdlc-design/references/intent-design-v2.md",
+                 ".agents/skills/sdlc-design/references/design-handoff-v2.md",
+                 ".agents/skills/sdlc-workflow/references/module-outcome-v1.md",
+                 "doc/ci/check_design_workflow.py", "doc/ci/check_module_workflow.py"]:
         if not (root / name).is_file():
             errors.append(f"missing project authority: {name}")
     guide = root / "AGENTS.md"
     if guide.is_file():
         content = guide.read_text(encoding="utf-8")
-        for name in ["sdlc-workflow", "prompt-optimizer", "sdlc-design", "sdlc-build", "sdlc-deploy", "sdlc-deploy",
-                     "task-progression", "engineering-language", "b2b-product-ux",
-                     "intent-to-outcome-closure"]:
+        for name in SKILLS:
             if name not in content:
                 errors.append(f"AGENTS missing skill routing: {name}")
     return errors
