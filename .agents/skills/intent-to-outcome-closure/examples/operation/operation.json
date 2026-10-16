@@ -1,0 +1,23 @@
+{
+  "basis_sha256": "007b5db5aba9067e045c156d676a1b7520b41170deed02386002bf7e70792827",
+  "assessment_sha256": "e59a9b59adfb16d4cffc94a7a270cd5ed73a4d4fc1413982742df9d04188423f",
+  "environment": "synthetic-only",
+  "as_of": "2026-10-16T08:00:00+00:00",
+  "target_predicate": "All two synthetic active distributors at the recorded observation.",
+  "inventory_ref": {
+    "path": "inventory.json",
+    "sha256": "304a260e082580ec9ad34b23a73904c67b81a202e3c3c38d80ed1f9b0c67a775"
+  },
+  "targets": [
+    "dealer-a",
+    "dealer-b"
+  ],
+  "exclusions": [],
+  "operation_id": "synthetic-operation-001",
+  "expected": "The selected marketing feature becomes effective without changing unrelated IAM.",
+  "verification": "Read current feature state for each target.",
+  "recovery": "Read preserved operation ID after unknown reply; never replay blindly.",
+  "criterion_ids": [
+    "AC1"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "observed_at": "2026-10-16T08:39:51.170872+00:00",
+  "changes_after_source_candidate": "Prepared-decision preflight guidance and evidence/navigation only. The checker source is unchanged; original trials are preserved, not relabeled as post-guidance runs.",
+  "source_paths": [
+    {
+      "path": ".agents/skills/intent-to-outcome-closure/agents/agent.md",
+      "sha256": "4399a535b5b188cdf80644aa8d29329fe8ff338b1608489d0d071ed91c13c11b"
+    },
+    {
+      "path": ".agents/skills/intent-to-outcome-closure/references/goal-coordination.md",
+      "sha256": "95006681655962be2061adb7522838cd525241c770e00b6a7f66aeb6bb578fda"
+    },
+    {
+      "path": "doc/roadmap.md",
+      "sha256": "3c4be527d1d70fbe8179e4d9dc8c5acfb544ac6a2fd351196cdd65a9ef577100"
+    },
+    {
+      "path": "doc/tasks/W06-validation.md",
+      "sha256": "c3250cc5290772505ea1f09438c69382309e0372293e641680740e67fa50fae4"
+    },
+    {
+      "path": "doc/tasks/W06-goal-coordination.md",
+      "sha256": "c8468f8f65c11095df2df08b6c1a56c120ffb7406d9f40e2f9aa59d952e3f313"
+    }
+  ],
+  "checks": [
+    {
+      "command": [
+        "python3",
+        "doc/ci/check_repository.py"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: 18 required directories, 28 required files, 546 relative file links\nScope: S00 structure and documentation only; no application/runtime validation.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        ".agents/skills/sdlc-workflow/scripts/check_docs.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"contract\": \"PASS_STATIC_ONLY\",\n  \"documents\": 105,\n  \"reachable\": 105,\n  \"public_skills\": 5,\n  \"capabilities\": 22,\n  \"retired_entries\": 13,\n  \"issues\": [],\n  \"semantic_freshness\": \"NOT_VERIFIED\",\n  \"authentic_approval\": \"NOT_VERIFIED\",\n  \"execution_granted\": false\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        ".agents/skills/sdlc-workflow/scripts/check_packages.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"contract\": \"PASS_STATIC_ONLY\", \"stages\": [\"design\", \"build\", \"deploy\"], \"portable_checked\": true, \"native_runtime\": \"NOT_VERIFIED\", \"authentic_approval\": \"NOT_VERIFIED\", \"runtime\": \"NOT_VERIFIED\", \"execution_granted\": false}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/root/.codex/skills/oai/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/intent-to-outcome-closure"
+      ],
+      "exit_code": 0,
+      "stdout": "Skill is valid!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "review_repairs": [
+    "Roadmap is a navigation statement and no longer asserts candidate W06 as current main fact.",
+    "Technical analysis is labeled separate, without claiming a distinct independent evaluator."
+  ]
+}

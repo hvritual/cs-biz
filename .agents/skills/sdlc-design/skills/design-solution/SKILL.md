@@ -17,5 +17,7 @@ Produce the `design/solution.json` artifact (the final step uses `design-to-buil
 ## Method
 Write distinct solution and design artifacts: background/impact/goal/conditions/alternatives/module flow versus concrete interaction/contracts/reuse/files. Ground selected technology in accepted sources; retain material design decisions for exact-version review.
 
+Consume the bound Architecture analysis for a broad software goal: actual state, mature pattern fit/limits, reuse/adapt/gap and vertical implementation roadmap. Return feasibility-driven goal changes to product/Human with evidence and alternatives. Carry accepted feedback into the original solution/design packet; never use a technical preference to silently alter business acceptance. Small settled tasks can perform the same role in the current session without another process.
+
 ## Boundary
 Do not select the next step, spawn a successor, approve your own work, grant permissions, change frozen criteria or claim another stage's result. The Agent owns the control loop and external evidence verification. Stop this capability at its declared output; a static check is not authenticated approval or runtime proof.

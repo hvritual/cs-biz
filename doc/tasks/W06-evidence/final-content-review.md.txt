@@ -1,0 +1,9 @@
+# Post-exercise instruction and delivery-document review
+
+The two added decision-preflight paragraphs are consistent with the actual source findings: reconcile proposed questions against accepted requirements and prior answers, carry the unchanged route as a fact, ask only missing actions/Owner/resources or evidenced changes, and distinguish accepting a new proposal from reopening an established baseline. They do not introduce a permission, alter criteria, remove the requirement for a material Human decision, or override branch/stage boundaries.
+
+W06-validation.md preserves the real forward-trial limitations and failures, explicitly records the P2/P1 decision-quality caveat, and says the preflight guidance has not received a full post-change forward rerun. The operation test-exposure disclosure, simulation boundary, non-native host execution boundary and distinction between initial local evidence and final remote Full/receipt are represented. That is an accurate description of the evidence examined in the separate operation/software reports. This content follow-up does not turn the guidance change into proven future Agent behavior.
+
+Precision recommendations sent to the delivery owner: the new roadmap workflow row should be labeled a W06 candidate/pending qualification and merge while it appears under current main facts; it cannot establish main delivery before readback. The AC3 link label independently worded in Chinese can be changed to separately produced technical analysis to avoid implying that the producing host activated a separately independent evaluator or process. Neither issue requires application/runtime changes.
+
+No other content/scope issue found in these four files at this follow-up. Exact observed file hashes are in final-content-review-hashes.json. The earlier software-evidence-review.md remains intact, including its caveat and evidence boundary.

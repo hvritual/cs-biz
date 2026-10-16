@@ -1,0 +1,75 @@
+{
+  "protocol": "goal-progress-v1",
+  "goal_id": "synthetic-saas",
+  "revision": "r001",
+  "mode": "example",
+  "baseline_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "raw_ref": {
+    "path": "raw.txt",
+    "sha256": "503a72015219f688f074ab9379d546907f0cd45b0c259d7855b679e0a911a284"
+  },
+  "feedback_refs": [],
+  "authority_ref": "example://not-authenticated-Human-intent",
+  "requested_boundary": "operational",
+  "required_channels": [
+    "local",
+    "github"
+  ],
+  "sources": [
+    {
+      "id": "local",
+      "channel": "local",
+      "locator": "example://local",
+      "version": "synthetic-v1",
+      "artifact_ref": {
+        "path": "sources/local.txt",
+        "sha256": "11a56dc089fdcaa2f185bd95783d572e1f945b8989e2ecc979152da59055f948"
+      }
+    },
+    {
+      "id": "github",
+      "channel": "github",
+      "locator": "example://github",
+      "version": "synthetic-v1",
+      "artifact_ref": {
+        "path": "sources/github.txt",
+        "sha256": "cb3aa44225e3899b8933f17f9350e3ae3e79f30f0b87bb0639043dc4199d5882"
+      }
+    }
+  ],
+  "searches": [
+    {
+      "channel": "local",
+      "query": "synthetic scope and current capability",
+      "status": "observed",
+      "source_ids": [
+        "local"
+      ],
+      "reason": "Example data only, not a real search result."
+    },
+    {
+      "channel": "github",
+      "query": "synthetic scope and current capability",
+      "status": "observed",
+      "source_ids": [
+        "github"
+      ],
+      "reason": "Example data only, not a real search result."
+    }
+  ],
+  "budget": {
+    "policy_ref": "example://cumulative-budget",
+    "max_without_progress": 2,
+    "attempts_without_progress": 0
+  },
+  "records": {
+    "assessment": {
+      "path": "assessment.json",
+      "sha256": "1f67a782eab949b53b490bed17fa6eb6d19ba8fa3975af43cc00a68d01d85cb8"
+    },
+    "architecture": {
+      "path": "architecture.json",
+      "sha256": "63e78a54e77bad62f187afc799242cf911d5afde1382fd9b4cedbd17cb70fac4"
+    }
+  }
+}

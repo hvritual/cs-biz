@@ -1,0 +1,59 @@
+{
+  "basis_sha256": "007b5db5aba9067e045c156d676a1b7520b41170deed02386002bf7e70792827",
+  "route": "operation",
+  "background": "Synthetic existing state; actual state requires host retrieval.",
+  "impact": "Only the stated tenant scope; no production action in this example.",
+  "goals": [
+    "Make the current required result observable without changing unrelated rights."
+  ],
+  "flows": [
+    "Owner inspects scope, reviews change, operator applies once, and verifier reads back success/denial/unknown recovery."
+  ],
+  "options": [
+    {
+      "id": "reuse",
+      "description": "Reuse the existing capability under its current constraints.",
+      "tradeoffs": "Smallest change; actual compatibility still needs inspection.",
+      "counterevidence": "An absent API or incompatible contract invalidates this option.",
+      "source_ids": [
+        "service"
+      ]
+    },
+    {
+      "id": "defer",
+      "description": "Defer activation until the material gap is resolved.",
+      "tradeoffs": "Delays value but avoids unsupported effects.",
+      "counterevidence": "Unnecessary if current capability and authority can be verified.",
+      "source_ids": [
+        "service"
+      ]
+    }
+  ],
+  "recommended": "reuse",
+  "requirements": [
+    {
+      "id": "R1",
+      "classification": "explicit",
+      "rationale": "The original requested outcome.",
+      "source_ids": [
+        "service"
+      ],
+      "criterion_ids": [
+        "AC1"
+      ]
+    }
+  ],
+  "criteria": [
+    {
+      "id": "AC1",
+      "given": "Verified target inventory and current authority.",
+      "when": "The authorized operator applies the reviewed change.",
+      "then": "Every in-scope target has the exact expected effective state.",
+      "negative": "Out-of-scope tenants gain no access.",
+      "recovery": "Lost reply is read back by operation ID before any retry.",
+      "verification": "Query each target through the authoritative service.",
+      "environment": "synthetic-only"
+    }
+  ],
+  "decisions": []
+}

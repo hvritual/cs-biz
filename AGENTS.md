@@ -18,13 +18,15 @@ Requirements and accepted same-version design define the promised result. Source
 
 | Need | Read next | Output boundary |
 | --- | --- | --- |
-| Qualify a whole business outcome / complete module batch | [intent-to-outcome-closure](.agents/skills/intent-to-outcome-closure/SKILL.md) | Fixed full denominator and observable integration proof |
+| Explore incomplete intent, prepare choices/resources, qualify an outcome or module | [intent-to-outcome-closure](.agents/skills/intent-to-outcome-closure/SKILL.md) | Sourced proposal/decisions; fixed promised denominator and actual proof |
 | Start/resume one task or choose its stage | [sdlc-workflow](.agents/skills/sdlc-workflow/SKILL.md) | Route within existing task authority |
 | Discover facts, design solution/journey and freeze acceptance | [sdlc-design](.agents/skills/sdlc-design/SKILL.md) | design-to-build.json |
 | Implement, verify, independently review and integrate | [sdlc-build](.agents/skills/sdlc-build/SKILL.md) | build-to-deploy.json |
 | Release/read back/recover an explicitly authorized target | [sdlc-deploy](.agents/skills/sdlc-deploy/SKILL.md) | deploy-receipt.json |
 
 Each stage Agent owns sequencing, bounded repair and handoff. Its checker returns only the next capability, bound inputs and resource paths; capability Skills produce one result and never dispatch successors. Inherit host model/tools/budgets/permissions. Agent TOML and agents/openai.yaml do not prove runtime activation or grant authority. No unattended Issue-to-Agent service is installed.
+
+The goal role routes incomplete intents through evidence/choices and prepared Human decisions; Design owns the optional architecture specialist. Discover before freezing current implementation promises. Existing-capability business operations use the goal-owned inventory/preview/action/readback route, without mandatory software development. Human supplies knowledge, resources, aesthetics or authorization as distinct inputs. Prepare facts/options/recommendation/impact/Owner/action before asking; preserve valid prior decisions and actual authority. Review-ready candidates and effective results are different states.
 
 Use [task template](doc/templates/task.md) and [project workflow binding](doc/workflow/SDLC-ADOPTION.md). Freeze observable AC, pass/fail, negative/recovery/protected behavior, exact source/scope, dependencies, resources, budget and actual authorization before autonomous implementation. Reuse valid confirmations. Advance already-authorized work without routine continuation prompts; return changed design/value, exceptions, authority, irreversible risk or exhausted progress to the appropriate Human owner. Unknown side effects require readback before retry. After two materially identical failures without new information, stop the affected branch unless a stricter existing budget applies.
 

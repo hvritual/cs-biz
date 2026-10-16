@@ -1,0 +1,26 @@
+{
+  "protocol": "goal-progress-v1",
+  "goal_id": "synthetic-explore",
+  "revision": "r001",
+  "mode": "example",
+  "baseline_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "raw_ref": {
+    "path": "raw.txt",
+    "sha256": "503a72015219f688f074ab9379d546907f0cd45b0c259d7855b679e0a911a284"
+  },
+  "feedback_refs": [],
+  "authority_ref": "example://not-authenticated-Human-intent",
+  "requested_boundary": "operational",
+  "required_channels": [
+    "local",
+    "github"
+  ],
+  "sources": [],
+  "searches": [],
+  "budget": {
+    "policy_ref": "example://cumulative-budget",
+    "max_without_progress": 2,
+    "attempts_without_progress": 0
+  },
+  "records": {}
+}

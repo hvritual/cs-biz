@@ -10,6 +10,7 @@
 | 系统边界与已采纳决定 | [架构](architecture/README.md) | [ADR-0001](architecture/adr/0001-frontend.md)、[ADR-0003](architecture/adr/0003-yunka-f0-consumer-contract.md)、[历史选型](research/vue-admin-selection.md) |
 | 何处是合同源，什么只是提案 | [契约索引](contracts/README.md) | canonical typed PB、Access 需求或具体已审设计；不复制第二份 schema |
 | 如何选择/恢复阶段、消费哪个格式 | [工作流接入](workflow/SDLC-ADOPTION.md) | 所属工作流 Skill、当前能力与其引用；不预加载所有 Skill |
+| 意图不完整、如何调查/准备决定/选择操作路线 | [目标协调](../.agents/skills/intent-to-outcome-closure/SKILL.md) | 多源证据、产品方案、独立架构分析、资源与 Human 请求；沿当前任务按需读取 |
 | 当前检查、失败恢复与交付条件 | [CI 地图](ci/README.md) | [风险门禁](ci/RISK-BASED-GATES.md)、[恢复](ci/NO-STALL-GATES.md)、适用端的检查 |
 | 前端布局/数据/浏览器 | [前端文档](../frontend/doc/README.md) | [Desktop 契约](design/desktop-ui.md)、[来源适配](design/biz-v12-sync.md)、Mock、E2E |
 | 后端权限/Consumer/生成/Trace | [后端文档](../backend/doc/README.md) | Authz、接入规程、实际锁/生成源与 CI |

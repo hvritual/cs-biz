@@ -6,7 +6,7 @@
   "status": "blocked",
   "definition_sha256": "9d6f99829fdd98abeea01d197f7bbf4dded523f7f1e701d5d2e01b6e09edd00f",
   "input_sha256": {
-    "design-to-build.json": "6fd0b495cbd9cb2146c317bd696bb28f060661547a93808fe2ce42a442f439b4"
+    "design-to-build.json": "030c19c57982121b4b37b2056f220c1867f0a487c5fd855aca898c84f102487e"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

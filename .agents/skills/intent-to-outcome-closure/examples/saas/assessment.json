@@ -1,0 +1,62 @@
+{
+  "basis_sha256": "2087dc44974a23190cf13a9d01b32d55d44deb8009f57023cd128b778e95f65c",
+  "route": "software",
+  "background": "Synthetic existing state; actual state requires host retrieval.",
+  "impact": "Only the stated tenant scope; no production action in this example.",
+  "goals": [
+    "Make the current required result observable without changing unrelated rights."
+  ],
+  "flows": [
+    "Owner inspects scope, reviews change, operator applies once, and verifier reads back success/denial/unknown recovery."
+  ],
+  "options": [
+    {
+      "id": "reuse",
+      "description": "Reuse the existing capability under its current constraints.",
+      "tradeoffs": "Smallest change; actual compatibility still needs inspection.",
+      "counterevidence": "An absent API or incompatible contract invalidates this option.",
+      "source_ids": [
+        "local",
+        "github"
+      ]
+    },
+    {
+      "id": "defer",
+      "description": "Defer activation until the material gap is resolved.",
+      "tradeoffs": "Delays value but avoids unsupported effects.",
+      "counterevidence": "Unnecessary if current capability and authority can be verified.",
+      "source_ids": [
+        "local",
+        "github"
+      ]
+    }
+  ],
+  "recommended": "reuse",
+  "requirements": [
+    {
+      "id": "R1",
+      "classification": "explicit",
+      "rationale": "The original requested outcome.",
+      "source_ids": [
+        "local",
+        "github"
+      ],
+      "criterion_ids": [
+        "AC1"
+      ]
+    }
+  ],
+  "criteria": [
+    {
+      "id": "AC1",
+      "given": "Verified target inventory and current authority.",
+      "when": "The authorized operator applies the reviewed change.",
+      "then": "Every in-scope target has the exact expected effective state.",
+      "negative": "Out-of-scope tenants gain no access.",
+      "recovery": "Lost reply is read back by operation ID before any retry.",
+      "verification": "Query each target through the authoritative service.",
+      "environment": "synthetic-only"
+    }
+  ],
+  "decisions": []
+}

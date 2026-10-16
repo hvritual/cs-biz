@@ -4,10 +4,10 @@
   "stage": "design",
   "step": "handoff",
   "status": "ready",
-  "definition_sha256": "d6540eb715bf18cfce662e6f524d862d2760e37766827e27544e33fa5964394b",
+  "definition_sha256": "634b7bcb7b658043e2143c588e2ba98ba70aec7538d2d062fbcffaf39a9badff",
   "input_sha256": {
     "request.json": "aeacce3be4766ea6a9cb33ea4ba68f6afb18dfbe8e163ebc5704be9d91f42fe3",
-    "design/language.json": "7b7c486c7b006ecb5e26fbad7c53de5c8e078a37010a84d2a67f2a13003f074d"
+    "design/language.json": "09e9fefcaa4c02855c568fc408707cd94621e754807839d1b9114658083d1d20"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

@@ -1,4 +1,4 @@
 interface:
   display_name: "Intent to Outcome Closure"
-  short_description: "Freeze acceptance and coordinate complete module delivery"
-  default_prompt: "Use $intent-to-outcome-closure to freeze module acceptance, advance authorized issues and verify closure evidence."
+  short_description: "Explore goals, prepare decisions and verify outcomes"
+  default_prompt: "Use $intent-to-outcome-closure to investigate an incomplete goal, prepare sourced choices and advance the right route to verified results."
