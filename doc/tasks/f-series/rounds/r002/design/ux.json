@@ -7,7 +7,7 @@
   "definition_sha256": "2f82587af497c4b411a0cd5c99482fa5042dc16ce5ca793f2165ca9452e754d3",
   "input_sha256": {
     "request.json": "4473e3491609d9895b82e8ecc8a29f06a0f3d92d73abfe82b089d736d9bd1139",
-    "design/solution.json": "f80c6f14613f097cd0d278b3f7007210f3219cedf54f8e22191bfe246698a826"
+    "design/solution.json": "0d852f7655a5aee534553fca4bf3fb7f0cd86c1a0ea4de80ce30d6a21174f4eb"
   },
   "contract": {
     "repository": "hvritual/cs-biz",
@@ -44,7 +44,7 @@
   "assets": {
     "journey": {
       "path": "journey.md",
-      "sha256": "8ea2ddfc674074bf32b8e4113706bb678a7e0de3f269f825e94c8a6fb3e2f388"
+      "sha256": "c2648165064dff22886999c03375f7faec2f84ea3c4fea6ba7029133a1c522c4"
     },
     "flow": {
       "path": "flow.mmd",

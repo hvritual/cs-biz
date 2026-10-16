@@ -1,5 +1,6 @@
 import { computed, onUnmounted, ref } from 'vue';
 import type { CopyKey } from './copy';
+import { setFunctionOnly } from './install';
 import { useWorkspaceStore } from '#/store';
 import { installWorkspaceRoutes } from '#/platform/routing';
 function createState() {
@@ -14,9 +15,9 @@ if (!activeTenant.value) identity.value = localStorage.getItem(sessionKey) ? 'ma
 const reviewUser = workspace.user;
 type Outcome = 'unknown' | 'succeeded' | 'failed';
 const readbackResult = ref<Outcome | 'denied'>('succeeded');
-function queryOperation() {
+async function queryOperation() {
   if (readbackResult.value === 'denied') { notice.value = 'queryDenied'; return; }
-  recordOutcome(readbackResult.value);
+  await recordOutcome(readbackResult.value);
 }
 function journal<T>(key: string, fallback: T): T {
   try { return JSON.parse(localStorage.getItem(key) || 'null') || fallback; }
@@ -26,15 +27,29 @@ const operationJournalKey = 'cs-biz:f-series-design:operations';
 const invitationJournalKey = 'cs-biz:f-series-design:invitations';
 const operations = ref(journal<Record<string, Outcome>>(operationJournalKey, {}));
 const invitationBatches = ref(journal<Record<string, { addresses: string[]; results: Record<string, 'unknown' | 'created'> }>>(invitationJournalKey, {}));
-function recordOutcome(value: Outcome) {
-  operations.value[operationKey.value] = value;
-  localStorage.setItem(operationJournalKey, JSON.stringify(operations.value));
+// One origin-wide fixture lock makes read/merge/write atomic across real tabs.
+async function updateJournal<T>(key: string, update: (latest: T) => T): Promise<T> {
+  return navigator.locks.request('cs-biz:f-series-design:journal', () => {
+    const next = update(journal<T>(key, {} as T));
+    localStorage.setItem(key, JSON.stringify(next));
+    return next;
+  });
 }
-function readInvitation(address: string) {
-  const batch = invitationBatches.value[operationKey.value];
-  if (!batch || !(address in batch.results)) return;
-  batch.results[address] = 'created';
-  localStorage.setItem(invitationJournalKey, JSON.stringify(invitationBatches.value));
+async function recordOutcome(value: Outcome) {
+  const key = operationKey.value;
+  operations.value = await updateJournal<Record<string, Outcome>>(operationJournalKey, latest => {
+    if (identity.value !== 'active' || key !== operationKey.value) return latest;
+    if (latest[key] === 'succeeded' || latest[key] === 'failed') return latest;
+    return { ...latest, [key]: value };
+  });
+}
+async function readInvitation(address: string) {
+  const key = operationKey.value;
+  invitationBatches.value = await updateJournal<typeof invitationBatches.value>(invitationJournalKey, latest => {
+    const batch = latest[key];
+    if (identity.value !== 'active' || key !== operationKey.value || !batch || !(address in batch.results)) return latest;
+    return { ...latest, [key]: { ...batch, results: { ...batch.results, [address]: 'created' } } };
+  });
 }
 const currentBatch = computed(() => invitationBatches.value[operationKey.value]);
 const invited = computed(() => !!currentBatch.value);
@@ -63,7 +78,11 @@ function switchFailed() {
 function membershipScenario(value: 'zero' | 'many') {
   beginSignIn(); identity.value = value; workspace.tenant = null; workspace.context = null;
 }
-const sessionChanged = (event: StorageEvent) => { if (event.key === sessionKey && event.newValue === null) endSession(); };
+const sessionChanged = (event: StorageEvent) => {
+  if (event.key === sessionKey && event.newValue === null) endSession();
+  if (event.key === operationJournalKey) operations.value = journal(operationJournalKey, {});
+  if (event.key === invitationJournalKey) invitationBatches.value = journal(invitationJournalKey, {});
+};
 window.addEventListener('storage', sessionChanged);
 onUnmounted(() => { window.removeEventListener('storage', sessionChanged); shared = undefined; });
 const organization = computed(() => workspace.tenants.find(item => item.id === activeTenant.value)?.name || '');
@@ -96,16 +115,20 @@ const analyzed = computed(() => {
 });
 const blocked = computed(()=>scenario.value !== 'ready');
 async function selectTab(value: CopyKey) {
+  setFunctionOnly(value === 'marketing');
   tab.value=value; notice.value=''; dialog.value='';
   if (value === 'marketing') await installWorkspaceRoutes([], false, () => true);
 }
 function setScenario(value: typeof scenario.value) { scenario.value=value;  notice.value=''; }
-function submit() {
-  if (dialog.value==='campaign' && !blocked.value && campaignState.value==='ready') recordOutcome('unknown');
+async function submit() {
+  if (dialog.value==='campaign' && !blocked.value && campaignState.value==='ready') await recordOutcome('unknown');
   if (dialog.value==='invite' && !currentBatch.value && identity.value === 'active') {
     const addresses = [...analyzed.value.addresses];
-    invitationBatches.value[operationKey.value] = { addresses, results: Object.fromEntries(addresses.map((address,index) => [address,index === 0 ? 'created' : 'unknown'])) };
-    localStorage.setItem(invitationJournalKey, JSON.stringify(invitationBatches.value));
+    const key = operationKey.value;
+    invitationBatches.value = await updateJournal<typeof invitationBatches.value>(invitationJournalKey, latest => {
+      if (identity.value !== 'active' || key !== operationKey.value || latest[key]) return latest;
+      return { ...latest, [key]: { addresses, results: Object.fromEntries(addresses.map((address,index) => [address,index === 0 ? 'created' : 'unknown'])) } };
+    });
   }
   if (dialog.value==='export') notice.value='exported';
   dialog.value='';

@@ -1,6 +1,6 @@
 # r002 用户旅程与屏幕状态
 
-同版项目入口 /__design/f-series，外层明确设计预览与无真实发送。实际可点击的旅程是供Human评审的模拟，不证明真实IdP/DB/授权。功能状态均由隔离内存fixture决定；后端断言另见requirements.md。
+同版项目入口 /__design/f-series，外层明确设计预览与无真实发送。实际可点击的旅程是供Human评审的模拟，不证明真实IdP/DB/授权。功能状态均由隔离origin下的合成fixture（按用户/企业journal、每标签页企业选择）决定；后端断言另见requirements.md。
 
 | Screen / State | 用户目标与系统动作 | 用户动作、影响与结果/恢复 | AC |
 | --- | --- | --- | --- |

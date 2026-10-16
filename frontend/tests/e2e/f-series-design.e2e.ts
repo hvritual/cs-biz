@@ -1,5 +1,7 @@
 import { afterAll, beforeAll, test } from '@e2e-dev/web';
 import { expect } from 'e2e';
+import { chromium, expect as pwExpect } from '@playwright/test';
+import { mkdir } from 'node:fs/promises';
 import { spawn, type ChildProcess } from 'node:child_process';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -103,6 +105,8 @@ test('F-series design: 1440 campaign denial and unknown readback', async ({ app,
   await screen.getByRole('button', {name:'查看后台入口', exact:true}).click();
   await expect(browser.locator('[data-design-preview]')).toHaveCount(0);
   expect(await browser.evaluate(() => location.pathname)).toBe('/forbidden');
+  await browser.goto('http://127.0.0.1:5790/members/create');
+  expect(await browser.evaluate(() => location.pathname)).toBe('/forbidden');
 });
 
 test('F-series design: 1536 invitations, scope and safe support in both languages', async ({ app, screen, browser }) => {
@@ -110,8 +114,9 @@ test('F-series design: 1536 invitations, scope and safe support in both language
   await browser.goto('http://127.0.0.1:5790/__design/f-series');
   await screen.getByRole('button', { name: '一家企业', exact: true }).click();
   await screen.getByRole('button', { name: '成员邀请', exact: true }).click();
+  await browser.locator('textarea').fill('lin@example.test\nyu@example.test\nmei@example.test\nLIN@example.test\ninvalid\nnot-in-scope@example.org');
   await screen.getByRole('button', { name: '核对名单', exact: true }).click();
-  await expect(browser.locator('.outcome').first()).toContainText('已选定 2');
+  await expect(browser.locator('.outcome').first()).toContainText('已选定 3');
   await expect(browser.locator('.outcome').first()).toContainText('格式错误 1 · 重复合并 1 · 范围外 1');
   await expect(screen.getByRole('heading', { name: '邀请创建结果', exact: true })).toHaveCount(0);
   await screen.getByRole('button', { name: '创建邀请', exact: true }).click();
@@ -121,7 +126,9 @@ test('F-series design: 1536 invitations, scope and safe support in both language
   await screen.getByRole('button', { name: '核对名单', exact: true }).click();
   await expect(screen.getByRole('button', {name:'创建邀请', exact:true})).toBeDisabled();
   await expect(browser.locator('[role="status"]')).toContainText('yu@example.test');
-  await screen.getByRole('button', { name: '查询此项', exact: true }).click();
+  await expect(screen.getByRole('button', {name:'查询此项', exact:true})).toHaveCount(2);
+  await screen.getByRole('button', { name: '查询此项', exact: true }).first().click();
+  await expect(screen.getByRole('button', {name:'查询此项', exact:true})).toHaveCount(1);
   await expect(browser.locator('[role="status"]')).toContainText('投递状态待确认');
   await app.screenshot('f-series-1536-invitation-results');
   await screen.getByRole('button', { name: '角色与负责人', exact: true }).click();
@@ -146,4 +153,43 @@ test('F-series design: 1536 invitations, scope and safe support in both language
   await expect(screen.getByRole('heading', { name: 'Release qualification', exact: true })).toBeVisible();
   expect(await browser.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await app.screenshot('f-series-1536-english-operations');
+});
+
+// Public Playwright API is used for two simultaneous tabs; the normal runner
+// owns and reports this test, and the additional browser is closed in finally.
+test('F-series design: two actual tabs retain scoped unknown results and share logout', async () => {
+  const engine = await chromium.launch();
+  try {
+    const context = await engine.newContext({viewport:{width:1440,height:900},locale:'zh-CN'});
+    const a = await context.newPage();
+    const b = await context.newPage();
+    await Promise.all([a.goto('http://127.0.0.1:5790/__design/f-series'),b.goto('http://127.0.0.1:5790/__design/f-series')]);
+    for (const page of [a,b]) await page.getByRole('button', {name:'一家企业',exact:true}).click();
+    await b.getByRole('combobox', {name:'选择企业',exact:true}).click();
+    await b.getByRole('option', {name:'云岚生活',exact:true}).click();
+    for (const page of [a,b]) {
+      await page.getByRole('button', {name:'营销活动',exact:true}).click();
+      await page.getByRole('button', {name:'执行活动',exact:true}).click();
+      await page.getByRole('button', {name:'确认执行',exact:true}).click();
+      await pwExpect(page.getByRole('heading', {name:'操作结果待确认',exact:true})).toBeVisible();
+    }
+    for (const [page,tenant] of [[a,'qinghe'],[b,'yunlan']] as const) {
+      await page.reload();
+      await page.getByRole('button', {name:'营销活动',exact:true}).click();
+      await pwExpect(page.getByRole('heading', {name:'操作结果待确认',exact:true})).toBeVisible();
+      await pwExpect(page.locator('.review-card')).toContainText(`operation-review-${tenant}-001`);
+    }
+    await b.getByRole('combobox', {name:'查询结果场景',exact:true}).click();
+    await b.getByRole('option', {name:'活动未启动',exact:true}).click();
+    await b.getByRole('button', {name:'查询原操作',exact:true}).click();
+    await pwExpect(b.getByRole('heading', {name:'活动未启动',exact:true})).toBeVisible();
+    await pwExpect(a.getByRole('heading', {name:'操作结果待确认',exact:true})).toBeVisible();
+    await mkdir(resolve(frontend,'.e2e/artifacts/f-series-design'),{recursive:true});
+    await b.screenshot({path:resolve(frontend,'.e2e/artifacts/f-series-design/two-tabs-failed.png')});
+    await b.getByRole('button', {name:'退出当前浏览器',exact:true}).click();
+    for (const page of [a,b]) {
+      await pwExpect(page.getByRole('button', {name:'执行活动',exact:true})).toHaveCount(0);
+      await pwExpect(page.getByRole('heading', {name:'当前无法执行此操作',exact:true})).toBeVisible();
+    }
+  } finally { await engine.close(); }
 });

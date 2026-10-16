@@ -38,7 +38,7 @@ Outbox：提交后至少一次投递，消费者验证服务/Worker Audience，�
 
 ## 预览与正式客户端隔离
 
-只在 Vite mode=design 且独立 loopback 端口 5790 安装 /__design/f-series；复用现有 layouts/basic.vue、Vben/Element Plus、语言/主题/Token、PageHeader。现有 Mock 仅作为该独立 origin 下的壳层夹具，会话/租户/待确认记录由单一设计状态协调，顶栏与内容共享该状态。合成结果 journal 存在5790 origin的localStorage（按用户+tenant分隔），租户选择只存每标签页sessionStorage；退出跨标签清会话而保留原操作供重登同租户查询。全部是可清除的样例数据，不是真实业务结果；与 5777/5778 的存储 origin 分离。不得把此入口作为生产身份旁路。
+只在 Vite mode=design 且独立 loopback 端口 5790 安装 /__design/f-series；复用现有 layouts/basic.vue、Vben/Element Plus、语言/主题/Token、PageHeader。现有 Mock 仅作为该独立 origin 下的壳层夹具，合成journal通过Web Locks进行跨标签页读合并写，并订阅storage同步；这不代替后续真实DB幂等或权限事务。会话/租户/待确认记录由单一设计状态协调，顶栏与内容共享该状态。合成结果 journal 存在5790 origin的localStorage（按用户+tenant分隔），租户选择只存每标签页sessionStorage；退出跨标签清会话而保留原操作供重登同租户查询。全部是可清除的样例数据，不是真实业务结果；与 5777/5778 的存储 origin 分离。不得把此入口作为生产身份旁路。
 
 预览只模拟拟议业务行为，不访问 BFF/营销/客户真实写 API，不发送邀请；外层审阅工具栏明确设计边界，产品内容只用业务语言。mode=production 分支不导入预览模块；生产构建后独立检查 dist 无预览路径、源码标记或 fixture，正常旅程仍回归。
 
@@ -49,3 +49,5 @@ Outbox：提交后至少一次投递，消费者验证服务/Worker Audience，�
 真实 API 接入 authz 后，当前 backend 快档“未被 API 消费”的隔离假设失效。先准备集成测试与可信分类调整的独立治理审查，不降低 Full 或绕过新 API 影响。此轮不修改门禁；它是 S1/S2 准入中的明确前提，不冒称现有 Mock 浏览器能证明后端授权。
 
 营销效果的精确业务含义见 P7：推荐 draft→active，包含真实活动状态与唯一回执；不将旧 Mock executions++ 当作领域完成。当前预览还提供持续未知、终态失败、查询权限撤销，保留原操作编号；这些仍是合成状态。CRM/F6 的完整屏幕在对应切片准入前继续补齐，当前仅整体设计提案，不宣称全模块 UI 冻结。
+
+无后台菜单场景由design-only路由约束覆盖所有Console路径（包含嵌套地址），并跨刷新保存该样例身份。它仅用于审阅拟议拒绝行为；当前生产Mock guard未覆盖所有嵌套路径，S2真实BFF/PEP必须重新证明全入口拒绝，不能据预览关闭该义务。
