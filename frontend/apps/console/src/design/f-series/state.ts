@@ -1,12 +1,12 @@
 import { computed, onUnmounted, ref } from 'vue';
 import type { CopyKey } from './copy';
-import { setFunctionOnly } from './install';
 import { useWorkspaceStore } from '#/store';
-import { installWorkspaceRoutes } from '#/platform/routing';
 function createState() {
 const workspace = useWorkspaceStore();
-const tab = ref<CopyKey>('identity');
 const tabs: CopyKey[] = ['identity', 'marketing', 'invitations', 'roles', 'customers', 'operations'];
+const tabKey = 'cs-biz:f-series-design:tab';
+const savedTab = sessionStorage.getItem(tabKey) as CopyKey | null;
+const tab = ref<CopyKey>(savedTab && tabs.includes(savedTab) ? savedTab : 'identity');
 const sessionKey = 'cs-biz:f-series-design:session';
 const identity = ref<'signed_out'|'zero'|'many'|'active'|'switch_error'>(localStorage.getItem(sessionKey) && workspace.tenant ? 'active' : 'signed_out');
 const savedTenant = sessionStorage.getItem('cs-biz:f-series-design:tenant');
@@ -16,6 +16,7 @@ const reviewUser = workspace.user;
 type Outcome = 'unknown' | 'succeeded' | 'failed';
 const readbackResult = ref<Outcome | 'denied'>('succeeded');
 async function queryOperation() {
+  notice.value = '';
   if (readbackResult.value === 'denied') { notice.value = 'queryDenied'; return; }
   await recordOutcome(readbackResult.value);
 }
@@ -114,10 +115,9 @@ const analyzed = computed(() => {
   return { addresses:[...unique], invalid, duplicate, outside };
 });
 const blocked = computed(()=>scenario.value !== 'ready');
-async function selectTab(value: CopyKey) {
-  setFunctionOnly(value === 'marketing');
+function selectTab(value: CopyKey) {
+  sessionStorage.setItem(tabKey, value);
   tab.value=value; notice.value=''; dialog.value='';
-  if (value === 'marketing') await installWorkspaceRoutes([], false, () => true);
 }
 function setScenario(value: typeof scenario.value) { scenario.value=value;  notice.value=''; }
 async function submit() {

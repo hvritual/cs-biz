@@ -33,7 +33,7 @@ export async function bootstrap(namespace: string) {
   if (workspace.error && workspace.error.status >= 500) throw workspace.error;
   if (import.meta.env.MODE === 'design') {
     const { installFSeriesPreview } = await import('./design/f-series/install');
-    installFSeriesPreview(router);
+    await installFSeriesPreview(router);
   }
   app.use(router);
   await router.isReady();

@@ -2,7 +2,7 @@
 
 当前状态：`RESUMED_DESIGN / S0_RESOURCE_VERIFIED`。2026-10-16 22:49 Human 明确要求恢复 F2–F6，22:54 要求开始第一步，即同版业务设计与准入对账；来源见 [r002原文](rounds/r002/raw-user.txt)。此前 Human stop 保留为历史，不再被当成本次设计阻塞。后续正式 Build 仍需每个切片真实设计准入；生产发布未获授权。
 
-当前单一工作分支 `feat/yunka-f-series-delivery` 从 main `191189ba63ffcbda8f62be1981ae3b892172a9c9` 建立。[r002方案](rounds/r002/solution.md)、[技术分析](rounds/r002/architecture.md)、[实现设计](rounds/r002/design.md)、[完整验收/准入图](rounds/r002/requirements.md)、[旅程](rounds/r002/journey.md) 与 [集中决策包](rounds/r002/decision-review.md) 是本轮审阅入口。尚未签发 Build handoff 或完整模块锁，未关闭任何 F Issue。
+当前单一工作分支 `feat/yunka-f-series-delivery` 从 main `191189ba63ffcbda8f62be1981ae3b892172a9c9` 建立。[r002方案](rounds/r002/solution.md)、[技术分析](rounds/r002/architecture.md)、[实现设计](rounds/r002/design.md)、[完整验收/准入图](rounds/r002/requirements.md)、[旅程](rounds/r002/journey.md) 与 [集中决策包](rounds/r002/decision-review.md) 是本轮审阅入口。尚未签发 Build handoff 或完整模块锁，未关闭任何 F Issue。 本步总入口见 [集中审阅](rounds/r002/review-summary.md)，实际验证与失败保留见 [验证](rounds/r002/validation.md)。
 
 S0 资源切片已由 [PR #38](https://github.com/hvritual/cs-biz/pull/38) 合入 main `9272114c7e79f3267820f393fcdd4b747b503f89`；真实资源资格见 [S0](S0-resources.md)，不是业务 IAM/Session/Domain DB 或生产资格。
 

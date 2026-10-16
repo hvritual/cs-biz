@@ -23,7 +23,7 @@ const { tab, tabs, identity, organization, scenario, dialog, notice, emails, par
       <template v-else-if="identity==='switch_error'"><h2>{{ t('switchDenied') }}</h2><p>{{ t('switchHelp') }}</p><ElButton type="primary" @click="membershipScenario('many')">{{ t('retry') }}</ElButton></template>
       <template v-else><ElTag type="success">{{ t('active') }}</ElTag><h2>{{ organization }}</h2><p>{{ t('independent') }}</p><ElButton @click="membershipScenario('many')">{{ t('chooseAgain') }}</ElButton><ElButton @click="signOut">{{ t('signout') }}</ElButton><p class="subtle">{{ t('signoutHelp') }}</p></template>
     </section>
-    <section v-else-if="identity!=='active'" class="review-card" role="alert"><h2>{{ t('denied') }}</h2><p>{{ t('loginHelp') }}</p><ElButton @click="tab='identity'">{{ t('login') }}</ElButton></section>
+    <section v-else-if="identity!=='active'" class="review-card" role="alert"><h2>{{ t('denied') }}</h2><p>{{ t('loginHelp') }}</p><ElButton @click="selectTab('identity')">{{ t('login') }}</ElButton></section>
     <section v-else-if="tab==='marketing'" class="review-card">
       <div class="scenario-controls"><ElButton v-for="state in (['ready','revoked','disabled','unavailable'] as const)" :key="state" :type="scenario===state?'primary':'default'" @click="setScenario(state)">{{ t(state) }}</ElButton></div>
       <h2>{{ t('campaign') }}</h2><p>{{ t('campaignHelp') }}</p><p>{{ t('marketingScope') }}</p><ElButton @click="router.push('/members')">{{ t('consoleEntry') }}</ElButton>

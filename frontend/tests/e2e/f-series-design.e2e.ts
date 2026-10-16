@@ -98,6 +98,7 @@ test('F-series design: 1440 campaign denial and unknown readback', async ({ app,
   await screen.getByRole('option', {name:'活动已启动', exact:true}).click();
   await screen.getByRole('button', { name: '查询原操作', exact: true }).click();
   await expect(screen.getByRole('heading', { name: '活动已启动', exact: true })).toBeVisible();
+  await expect(browser.locator('.review-notice')).toHaveCount(0);
   await expect(browser.locator('.outcome')).toContainText('operation-review-qinghe-001');
   await screen.getByRole('button', { name: '切换深色', exact: true }).click();
   await expect(screen.getByRole('button', {name:'切换浅色', exact:true})).toBeVisible();
@@ -105,13 +106,24 @@ test('F-series design: 1440 campaign denial and unknown readback', async ({ app,
   await app.screenshot('f-series-1440-dark-result');
   await screen.getByRole('button', {name:'查看后台入口', exact:true}).click();
   await expect(browser.locator('[data-design-preview]')).toHaveCount(0);
-  await browser.waitForURL(/\/forbidden$/);
+  await browser.waitForURL(/\/forbidden(?:\?.*)?$/);
   await expect(screen.getByRole('heading', {name:'暂时无法访问此页面', exact:true})).toBeVisible();
   expect(await browser.evaluate(() => location.pathname)).toBe('/forbidden');
+  await expect(browser.locator('.cl-primary-link')).toHaveCount(0);
+  await screen.getByRole('button', {name:'返回工作空间', exact:true}).click();
+  await expect(screen.getByRole('heading', {name:'活动已启动', exact:true})).toBeVisible();
   await browser.goto('http://127.0.0.1:5790/members/create');
-  await browser.waitForURL(/\/forbidden$/);
+  await browser.waitForURL(/\/forbidden(?:\?.*)?$/);
   await expect(screen.getByRole('heading', {name:'暂时无法访问此页面', exact:true})).toBeVisible();
   expect(await browser.evaluate(() => location.pathname)).toBe('/forbidden');
+  await expect(browser.locator('.cl-primary-link')).toHaveCount(0);
+  await screen.getByRole('button', {name:'返回工作空间', exact:true}).click();
+  await screen.getByRole('button', {name:'营销活动', exact:true}).click();
+  await expect(screen.getByRole('heading', {name:'活动已启动', exact:true})).toBeVisible();
+  await browser.goto('http://127.0.0.1:5790/__design/unknown');
+  await browser.waitForURL(/\/forbidden(?:\?.*)?$/);
+  await expect(screen.getByRole('heading', {name:'暂时无法访问此页面', exact:true})).toBeVisible();
+  await expect(browser.locator('.cl-primary-link')).toHaveCount(0);
 });
 
 test('F-series design: 1536 invitations, scope and safe support in both languages', async ({ app, screen, browser }) => {
@@ -157,7 +169,8 @@ test('F-series design: 1536 invitations, scope and safe support in both language
   await screen.getByText('English', { exact: true }).click();
   await expect(screen.getByRole('heading', { name: 'Organization and business workflows', exact: true })).toBeVisible();
   await expect(screen.getByRole('heading', { name: 'Release qualification', exact: true })).toBeVisible();
-  await expect(browser.locator('.cl-primary-rail').getByRole('button', {name:'Customers', exact:true})).toBeVisible();
+  await expect(screen.getByRole('combobox', {name:'Select a workspace', exact:true})).toBeVisible();
+  await expect(screen.getByText('Connected coffee operations', {exact:true})).toBeVisible();
   expect(await browser.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await app.screenshot('f-series-1536-english-operations');
 });

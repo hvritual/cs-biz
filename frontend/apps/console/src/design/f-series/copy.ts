@@ -1,5 +1,6 @@
 /** Design-only bilingual copy follows the existing Vben locale preference. */
 const entries = {
+  deniedPage: ['暂时无法访问此页面','Access restricted'], returnWorkspace: ['返回工作空间','Return to workspace'],
   queryScenario: ['查询结果场景','Readback scenario'], queryDenied: ['当前无权查询原操作','Original operation is no longer readable'], failed: ['活动未启动','Campaign did not start'], failedHelp: ['原操作已确认失败，活动仍为草稿。保留原编号核对原因，不能把失败记录改写为成功。','The original operation failed and the campaign remains a draft. Keep its reference to inspect the cause.'],
 
   marketingScope: ['可读取与执行：本人负责的活动。后台菜单不授予营销权限。','Read and execute: campaigns assigned to me. Console menus do not grant campaign access.'],
