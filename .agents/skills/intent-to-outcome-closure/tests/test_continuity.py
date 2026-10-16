@@ -248,6 +248,19 @@ class ContinuityTests(unittest.TestCase):
         result = api.check(self.task); self.assertEqual(result['next_action'],'REVIEW_GOAL_CLOSURE')
         self.assertFalse(result['coordination']['goal_complete']); self.assertEqual(result['runtime'],'NOT_VERIFIED')
 
+    def test_proven_completed_work_does_not_loop_verifying_blocked_unbuilt_work(self):
+        self.complete('database'); self.complete('login'); self.proof('AC1','login')
+        self.observed('invitation')['blocker'] = {'owner':'Mail resource owner',
+            'recovery_action':'Provide the admitted test delivery resource.','evidence_ref':self.evidence}
+        self.save()
+        self.assertEqual(api.check(self.task)['next_action'],'RESOLVE_BLOCKERS')
+
+    def test_independent_business_verification_continues_with_other_decision_pending(self):
+        self.complete('database'); self.complete('login'); self.decision(); self.save()
+        result = api.check(self.task)
+        self.assertEqual(result['next_action'],'VERIFY_BUSINESS_OUTCOME')
+        self.assertEqual(result['coordination']['verifiable_criteria'],['AC1'])
+
     def test_prerequisite_evidence_cannot_prove_business_and_environment_must_match(self):
         self.complete('database'); self.proof('AC1','database'); self.save()
         with self.assertRaisesRegex(ValueError,'prerequisite'): api.check(self.task)

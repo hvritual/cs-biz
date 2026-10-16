@@ -200,8 +200,11 @@ def evaluate(api, root, goal, assessment, architecture, record):
                 'pending_decisions': sorted(pending)}
     ready = [key for key, node in nodes.items() if not blocked[key] and observations[key]['state'] in ('pending', 'suspended')
              and all(observations[d]['state'] == 'completed' for d in node['depends_on'])]
+    verifiable = sorted({ac for key, node in nodes.items() if node['kind'] == 'outcome'
+                         and observations[key]['state'] == 'completed' and not blocked[key]
+                         for ac in node['criterion_ids']} - proven)
     result = {'owner': 'goal', 'progress': progress, 'blocked_work': {k: v for k, v in blocked.items() if v},
-              'ready_work': ready, 'goal_complete': False, 'definition_sha256': definitions,
+              'ready_work': ready, 'verifiable_criteria': verifiable, 'goal_complete': False, 'definition_sha256': definitions,
               'requires_stage_validation': True}
     unknown = [key for key, item in observations.items() if item['state'] == 'unknown']
     returned = [key for key, item in observations.items() if item['state'] == 'returned']
@@ -217,7 +220,7 @@ def evaluate(api, root, goal, assessment, architecture, record):
         action = 'RESUME_STAGE' if observations[selected]['state'] == 'suspended' else 'ROUTE_STAGE' if selected in admissions else 'ADMIT_WORK_ITEM'
     elif all(o['state'] == 'completed' for o in observations.values()) and proven == criteria.keys() and not pending and not any(blocked.values()):
         action, selected = 'REVIEW_GOAL_CLOSURE', None
-    elif not pending and any(o['state'] == 'completed' and nodes[k]['kind'] == 'outcome' and not blocked[k] for k, o in observations.items()) and criteria.keys()-proven:
+    elif verifiable:
         action, selected = 'VERIFY_BUSINESS_OUTCOME', None
     else:
         action, selected = 'HUMAN_DECISION' if pending else 'RESOLVE_BLOCKERS', None
