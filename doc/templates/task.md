@@ -16,7 +16,7 @@
 | --- | --- | --- | --- | --- |
 | 实际任务/源码/同版设计、真实环境或外部依赖 | 单一 canonical 源和消费者 | 精确、可检查 | 邻近未承诺成果 | 可用/缺失/未知、Owner、恢复条件 |
 
-引用唯一产品/ADR/typed PB/API/权限来源，区分 proposed/accepted/implemented。描述兼容、生成/开发者所有权、租户/Scope 与副作用边界。UI 读 [Desktop](../design/desktop-ui.md)，实际项目 Preview/三尺寸/负例证据按 Design 要求填写，不制造独立假 demo。
+引用唯一产品/ADR/typed PB/API/权限来源，区分 proposed/accepted/implemented。描述兼容、生成/开发者所有权、租户/Scope 与副作用边界。UI 的唯一全局规范是 **doc/design/desktop-ui.md**，读 [Desktop](../design/desktop-ui.md)，实际项目 Preview/三尺寸/负例证据按 Design 要求填写，不制造独立假 demo。
 
 ## 先定义验收，再自动推进
 

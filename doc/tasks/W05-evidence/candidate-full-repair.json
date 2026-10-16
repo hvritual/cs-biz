@@ -1,0 +1,27 @@
+{
+  "record_type": "w05-candidate-full-repair-v1",
+  "run_id": 38853226376,
+  "head": "0ae37aa6d75f731c9a0a97b193026493fcc1ead7",
+  "job_id": 116818983866,
+  "job_result": "failure",
+  "observed_log_excerpts": [
+    "2026-10-16T04:58:22.7757763Z > node ci/check-desktop-ui.mjs",
+    "2026-10-16T04:58:22.8052511Z Missing global UI contract reference",
+    "2026-10-16T04:58:22.8726716Z ##[error]Process completed with exit code 1."
+  ],
+  "boundary": "Original remote failed job log excerpts, not a passing receipt. Frontend browser steps did not execute. Backend and governance passed; aggregate gate failed.",
+  "repair": "Restore canonical literal doc/design/desktop-ui.md reference alongside existing relative Desktop link in task template. Existing UI checker and assertions unchanged.",
+  "focused_recheck": {
+    "commands": [
+      "node frontend/ci/check-desktop-ui.mjs",
+      "python3 doc/ci/check_repository.py",
+      "python3 .agents/skills/sdlc-workflow/scripts/check_docs.py"
+    ],
+    "observed_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "boundary": "Observed focused outputs; final candidate must obtain a fresh complete Full."
+  }
+}
