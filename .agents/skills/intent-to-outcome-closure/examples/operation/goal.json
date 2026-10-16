@@ -1,0 +1,55 @@
+{
+  "protocol": "goal-progress-v1",
+  "goal_id": "synthetic-operation",
+  "revision": "r001",
+  "mode": "example",
+  "baseline_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "raw_ref": {
+    "path": "raw.txt",
+    "sha256": "afa9b7bf9786138571488679334d9503745f309702ee3ac2d4313bc2f7414fce"
+  },
+  "feedback_refs": [],
+  "authority_ref": "example://not-authenticated-Human-intent",
+  "requested_boundary": "operational",
+  "required_channels": [
+    "service"
+  ],
+  "sources": [
+    {
+      "id": "service",
+      "channel": "service",
+      "locator": "example://service",
+      "version": "synthetic-v1",
+      "artifact_ref": {
+        "path": "sources/service.txt",
+        "sha256": "71f530ef8ce93e85609ef8571db25cf1931e640a8e1f477e0873ed98c7b90d5c"
+      }
+    }
+  ],
+  "searches": [
+    {
+      "channel": "service",
+      "query": "synthetic scope and current capability",
+      "status": "observed",
+      "source_ids": [
+        "service"
+      ],
+      "reason": "Example data only, not a real search result."
+    }
+  ],
+  "budget": {
+    "policy_ref": "example://cumulative-budget",
+    "max_without_progress": 2,
+    "attempts_without_progress": 0
+  },
+  "records": {
+    "assessment": {
+      "path": "assessment.json",
+      "sha256": "e59a9b59adfb16d4cffc94a7a270cd5ed73a4d4fc1413982742df9d04188423f"
+    },
+    "operation": {
+      "path": "operation.json",
+      "sha256": "47fccafb2ea7910ad27c2fa0127728f01b3cd3eea69bfb82052d7d124087256d"
+    }
+  }
+}

@@ -2,6 +2,8 @@
 
 从 [AGENTS](../../AGENTS.md) 和真实 Issue/task 开始；[文档地图](../README.md) 按问题选择事实源，[路线](../roadmap.md) 提供带基线的交付投影。可查事实自行核实，材料性目标/权限/不可逆选择保留 Owner，不重复询问已确认的决定。
 
+不完整意图先由 [目标协调](../../.agents/skills/intent-to-outcome-closure/SKILL.md) 调查和收敛；[记录合同](../../.agents/skills/intent-to-outcome-closure/references/goal-coordination.md) 定义版本绑定、候选比较、准备充分的决定与资源请求。广义软件目标使用 Design 内的 architecture 角色形成独立技术路线，再进入原三阶段；已有业务能力的批量操作走完整清单/预览/审核/获准生效/实际回读。探索可有假设，实施前冻结当期承诺与验收；新反馈按影响集处理。新方法不改写旧冻结合同、不接管 #22 的外循环候选。
+
 ## 选择当前阶段
 
 读 [sdlc-workflow](../../.agents/skills/sdlc-workflow/SKILL.md) 路由；整体板块先读 [intent-to-outcome-closure](../../.agents/skills/intent-to-outcome-closure/SKILL.md)，冻结完整成员/R/AC/集成出口后再逐项推进。各阶段所需 Agent、内部 Skill、方法、契约、模板、样例与检测器只在所属包维护。

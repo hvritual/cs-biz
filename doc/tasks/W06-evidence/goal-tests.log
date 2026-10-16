@@ -1,0 +1,39 @@
+test_architecture_decision_returns_its_actual_id_and_goal_resources (packaged_goal_tests.GoalTests.test_architecture_decision_returns_its_actual_id_and_goal_resources) ... ok
+test_channel_cannot_be_filled_with_other_channel_source (packaged_goal_tests.GoalTests.test_channel_cannot_be_filled_with_other_channel_source) ... ok
+test_derived_work_needs_named_acceptance_obligation (packaged_goal_tests.GoalTests.test_derived_work_needs_named_acceptance_obligation) ... ok
+test_drift_hint_rejects_unbound_operation_identity (packaged_goal_tests.GoalTests.test_drift_hint_rejects_unbound_operation_identity) ... ok
+test_drift_preserves_only_readonly_inflight_identity_hint (packaged_goal_tests.GoalTests.test_drift_preserves_only_readonly_inflight_identity_hint) ... ok
+test_duplicate_inventory_rejected (packaged_goal_tests.GoalTests.test_duplicate_inventory_rejected) ... ok
+test_duplicate_key_and_unsafe_path_fail_closed (packaged_goal_tests.GoalTests.test_duplicate_key_and_unsafe_path_fail_closed) ... ok
+test_empty_authoritative_inventory_is_a_reviewable_noop (packaged_goal_tests.GoalTests.test_empty_authoritative_inventory_is_a_reviewable_noop) ... ok
+test_exclusion_requires_decision_evidence (packaged_goal_tests.GoalTests.test_exclusion_requires_decision_evidence) ... ok
+test_failed_attempt_with_unknown_or_missing_targets_reads_back (packaged_goal_tests.GoalTests.test_failed_attempt_with_unknown_or_missing_targets_reads_back) ... ok
+test_feedback_invalidates_previously_bound_work (packaged_goal_tests.GoalTests.test_feedback_invalidates_previously_bound_work) ... ok
+test_human_receives_prepared_options (packaged_goal_tests.GoalTests.test_human_receives_prepared_options) ... ok
+test_incomplete_intent_discovers_before_freezing_acceptance (packaged_goal_tests.GoalTests.test_incomplete_intent_discovers_before_freezing_acceptance) ... ok
+test_inventory_cannot_silently_drop_target (packaged_goal_tests.GoalTests.test_inventory_cannot_silently_drop_target) ... ok
+test_live_main_drift_rejected (packaged_goal_tests.GoalTests.test_live_main_drift_rejected) ... ok
+test_missing_channel_is_not_success (packaged_goal_tests.GoalTests.test_missing_channel_is_not_success) ... ok
+test_nonobject_hashed_stage_is_rejected_without_traceback (packaged_goal_tests.GoalTests.test_nonobject_hashed_stage_is_rejected_without_traceback) ... ok
+test_not_applicable_cannot_satisfy_required_discovery_channel (packaged_goal_tests.GoalTests.test_not_applicable_cannot_satisfy_required_discovery_channel) ... ok
+test_operation_candidate_is_not_business_completion (packaged_goal_tests.GoalTests.test_operation_candidate_is_not_business_completion) ... ok
+test_operation_does_not_route_through_software (packaged_goal_tests.GoalTests.test_operation_does_not_route_through_software) ... ok
+test_operation_environment_cannot_override_acceptance (packaged_goal_tests.GoalTests.test_operation_environment_cannot_override_acceptance) ... ok
+test_other_plan_or_operation_cannot_supply_readback (packaged_goal_tests.GoalTests.test_other_plan_or_operation_cannot_supply_readback) ... ok
+test_portable_checker (packaged_goal_tests.GoalTests.test_portable_checker) ... ok
+test_proposal_change_invalidates_architecture (packaged_goal_tests.GoalTests.test_proposal_change_invalidates_architecture) ... ok
+test_readback_must_cover_every_target (packaged_goal_tests.GoalTests.test_readback_must_cover_every_target) ... ok
+test_reference_commands_are_never_executed (packaged_goal_tests.GoalTests.test_reference_commands_are_never_executed) ... ok
+test_reply_must_choose_current_option_and_preserve_real_record (packaged_goal_tests.GoalTests.test_reply_must_choose_current_option_and_preserve_real_record) ... ok
+test_review_only_goal_cannot_activate_operation (packaged_goal_tests.GoalTests.test_review_only_goal_cannot_activate_operation) ... ok
+test_software_cannot_claim_operation_receipt (packaged_goal_tests.GoalTests.test_software_cannot_claim_operation_receipt) ... ok
+test_software_uses_architecture_then_existing_design (packaged_goal_tests.GoalTests.test_software_uses_architecture_then_existing_design) ... ok
+test_symlinked_parent_is_rejected (packaged_goal_tests.GoalTests.test_symlinked_parent_is_rejected) ... ok
+test_target_coverage_does_not_replace_criterion_proof (packaged_goal_tests.GoalTests.test_target_coverage_does_not_replace_criterion_proof) ... ok
+test_unknown_result_requires_readback_never_replay (packaged_goal_tests.GoalTests.test_unknown_result_requires_readback_never_replay) ... ok
+test_unprepared_human_request_rejected (packaged_goal_tests.GoalTests.test_unprepared_human_request_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.552s
+
+OK

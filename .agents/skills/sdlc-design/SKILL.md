@@ -13,6 +13,8 @@ The final file is `design-to-build.json`. Its source hashes, task ID, acceptance
 
 Read [stage method](references/method.md) when resolving a stage-specific decision or failure. [Complete example](examples/complete/design-to-build.json) and [blocked example](examples/blocked/design/capture.json) are synthetic, always EXAMPLE_ONLY or BLOCKED, never runtime evidence. The blocked template is [artifact.json](templates/artifact.json); fill real values before claiming readiness.
 
+For incomplete broad goals start with [goal coordination](../intent-to-outcome-closure/SKILL.md). Use the Design-owned [Architecture Agent](agents/architecture.md) for actual technical constraints, mature patterns, compatibility and a separate roadmap. Carry its bound evidence into the existing research/solution packet; do not create a second product specification or retrofit sealed legacy tasks. Product discovery and architecture may return feedback to each other before current implementation acceptance freezes. A dedicated role process is optional and host-dependent.
+
 The native Agent definition is [agents/design.toml](agents/design.toml); its `.codex/agents` copy is an installation mirror, not a second authority. Inherit host model, provider, tools, permissions and existing budgets. If no separate Agent can be spawned, disclose the limitation and use the same bounded role only within current authority.
 
 Legacy approved `intent-design-v2` is verified by `scripts/check_design_workflow.py`; read [v2 protocol](references/intent-design-v2.md) only for that artifact type. Design freezes the whole module acceptance before autonomous Build.

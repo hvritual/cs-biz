@@ -1,6 +1,6 @@
 ---
 name: intent-to-outcome-closure
-description: Turn business intent or an approved module design into frozen, observable acceptance; discover necessary work, coordinate every required issue within existing authority, and verify whole-module closure. Use for end-to-end outcomes, autonomous module issue batches, missing prerequisites, or diagnosing false completion. Exclude ordinary single-step tasks and unrequested project management.
+description: Advance incomplete intent through sourced choices, prepared Human decisions, architecture and the smallest software or business-operation route to observable results. Use for outcome discovery, resource gaps, autonomous module delivery, batch operations or false-completion diagnosis. Exclude unrelated project management and trivial edits.
 ---
 
 # Intent to Outcome Closure
@@ -18,6 +18,20 @@ Operate as a thin coordinator, not a new workflow engine. Make the user's intend
 - Continue through safe, relevant next steps within authority; do not stop merely because one artifact is finished. Stop at genuine decision, permission, dependency, or validation boundaries.
 
 Read [references/closure-record.md](references/closure-record.md) when forming the contract and maintaining the evidence record. Adapt it to existing project formats; do not require a new saved file for every task.
+
+## Incomplete intent and task routing
+
+Operate as the [goal Agent](agents/agent.md), using [goal coordination and its record contract](references/goal-coordination.md) for incomplete intents, multi-source exploration, material Human resources or existing-capability operations. Read only the current role and bound sources. Start discovery without inventing complete acceptance; compare sourced options, retain counterevidence, and distinguish explicit/derived/optional work. Prepare the decision before asking Human to supply it.
+
+Use the packaged `scripts/check_goal.py --task TASK --live-baseline LIVE_SHA` to check current bindings and suggest the next action. The host performs actual retrieval, interviews, authorized actions and independent proof checks. The [intake template](templates/goal.json) and [synthetic examples](examples/explore/goal.json) are starting formats, never actual evidence. Preserve cumulative budgets and prior raw/decision records across sessions.
+
+For broad software goals invoke [Architecture](../sdlc-design/agents/architecture.md) to inspect actual consumers/constraints and mature patterns, then return the separate technical roadmap to Design. Product goals and technical design can iterate; freeze current promises and acceptance before implementation. Reuse the existing Design/Build/Deploy stages, not a new fixed mega-pipeline.
+
+For business operations, inspect the existing capability first. Prepare a complete object inventory, explicit exclusions, change preview, durable operation ID, expected state and recovery/readback. Follow actual review/action authority before activation; prepared is not complete. Unknown effects require readback before retry. Missing capability returns the affected branch to Design. No code, deployment or new service is mandatory simply to complete a task.
+
+Human may provide knowledge, aesthetics, resources or authorization. Present facts/sources, exact gap, viable choices, recommendation, impact, Owner and requested action. UI questions use the existing real project Preview. Reuse valid answers, bind feedback to the reviewed revision, and reconcile affected work instead of resetting everything. Do not send requests to other people without authority.
+
+On software handoff use the existing stage/module validators and exact external evidence; goal static outputs cannot replace them. Continue within authority, prepare the requested Human release review, then verify actual results after separately authorized activation. Definitions do not install unattended wakeup, persistent execution services or notification channels.
 
 ## Module batch mode: freeze before autonomous advance
 

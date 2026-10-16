@@ -46,6 +46,23 @@ def check(bundle=ROOT,portable=True):
   result=run(skills/'sdlc-deploy','--task',skills/f'sdlc-deploy/examples/{outcome}')
   expected='rolled_back' if outcome=='failed' else 'unknown'
   if result['reported_outcome']!=expected or result['state']!='EXAMPLE_ONLY':raise ValueError('Deploy outcome example misreported')
+ for owner,role in (('intent-to-outcome-closure','goal'),('sdlc-design','architecture')):
+  package=skills/owner;native=package/f'agents/{role}.toml'
+  definition=tomllib.loads(native.read_text())
+  if set(definition)!={'name','description','developer_instructions'} or definition['name']!=role:
+   raise ValueError('specialist must inherit model/provider/permissions: '+role)
+  if (repo/f'.codex/agents/{role}.toml').read_bytes()!=native.read_bytes():raise ValueError('native registration mirror drift: '+role)
+  instructions='agents/agent.md' if role=='goal' else 'agents/architecture.md'
+  if not (package/instructions).is_file():raise ValueError('missing role instructions: '+role)
+ goal=skills/'intent-to-outcome-closure'
+ for kind in ('explore','saas','operation'):
+  result=subprocess.run([sys.executable,str(goal/'scripts/check_goal.py'),'--task',str(goal/'examples'/kind)],capture_output=True,text=True,timeout=10)
+  if result.returncode or json.loads(result.stdout).get('state')!='EXAMPLE_ONLY':raise ValueError('invalid goal example: '+kind)
+ if portable:
+  with tempfile.TemporaryDirectory(prefix='goal-package-') as tmp:
+   copied=Path(tmp)/goal.name;shutil.copytree(goal,copied,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+   result=subprocess.run([sys.executable,str(copied/'scripts/check_goal.py'),'--task',str(copied/'examples/explore')],cwd=tmp,capture_output=True,text=True,timeout=10)
+   if result.returncode or json.loads(result.stdout).get('next_action')!='DISCOVER':raise ValueError('nonportable goal checker')
  return seen
 
 def main():

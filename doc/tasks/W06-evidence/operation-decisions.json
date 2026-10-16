@@ -1,0 +1,81 @@
+{
+  "status": "PREPARED_NOT_ANSWERED",
+  "basis_sha256": "e8e5ec4c97364ef3685937b10fe348b6d29f784d100a4b2ae43e0d2d3a641e88",
+  "assessment_ref": {
+    "path": "assessment.json",
+    "sha256": "dd4ef572f2ab4a39639b78de27a8ab63bd4194edc338416cf1baf9da740c7bd7"
+  },
+  "decisions": [
+    {
+      "id": "D-LIFECYCLE-POLICY",
+      "kind": "knowledge",
+      "owner": "营销/经销商服务 Owner（由请求人确认实际负责人；本次未联系）",
+      "facts": [
+        "Simulated full inventory has d03 suspended and d04 archived, both disabled.",
+        "User said all dealers; no exclusion or inactive eligibility policy is supplied.",
+        "Feature availability and IAM permission are separate; no account reactivation is authorized."
+      ],
+      "source_ids": [
+        "S-SNAPSHOT",
+        "S-REQUEST",
+        "S-AUTHZ"
+      ],
+      "missing": "Authoritative rule whether marketing-campaign grants are allowed for suspended/archived dealers, what effective availability means there, and whether granting can change lifecycle or permissions.",
+      "options": [
+        {
+          "id": "provide-policy",
+          "description": "Provide versioned authoritative service policy/contract and assess the full all-dealer candidate; retain every ID until eligibility is resolved.",
+          "tradeoffs": "Preserves requested scope and enables concrete review. If policy forbids any ID, return exact IDs/reasons to the requester for explicit scope revision; do not self-exclude."
+        },
+        {
+          "id": "defer",
+          "description": "Defer production readiness until the policy owner can resolve inactive-lifecycle grant semantics.",
+          "tradeoffs": "No production effect; the simulated preview remains reviewable but cannot be activated."
+        }
+      ],
+      "recommended": "provide-policy",
+      "impact": "Blocks production eligibility/effectiveness claims for d03/d04 and final activation review; does not block completing current simulated inventory and preview.",
+      "action_needed": "Service Owner: provide existing versioned lifecycle/grant/effective-entitlement rules, including whether granting has any reactivation or IAM side effect. Requester decides any required scope exception only after that evidence.",
+      "response": null
+    },
+    {
+      "id": "D-PRODUCTION-RESOURCE",
+      "kind": "resource",
+      "owner": "请求人/生产服务管理员（具体组织及环境尚未提供；本次未联系）",
+      "facts": [
+        "Only an isolated simulated file is available; it expressly has no production connection or execution authority.",
+        "The snapshot lists POST /admin/features/grants, GET /admin/features/grants and idempotency support without host, request schema, operator identity or recovery contract.",
+        "The repository documentation is local and does not authenticate an external existing production service."
+      ],
+      "source_ids": [
+        "S-REQUEST",
+        "S-SNAPSHOT",
+        "S-ROADMAP",
+        "S-CONTRACTS"
+      ],
+      "missing": "Actual organization/environment identity, authoritative complete current dealer/grant inventory and minimal approved read-only access or equivalent exported evidence, plus existing API/idempotency/audit/recovery contract. Production write authority remains a separate exact-version review gate.",
+      "options": [
+        {
+          "id": "read-only-resources",
+          "description": "Provide approved read-only service access, actual organization/environment and canonical API/policy/recovery references so a fresh production candidate can be prepared.",
+          "tradeoffs": "Recommended: allows authoritative scope and capability qualification without activation; separate exact-version Human release review still required before writes."
+        },
+        {
+          "id": "authoritative-export",
+          "description": "Provide an attributable timestamped complete organization/dealer/grant export and canonical contracts for provisional production review preparation.",
+          "tradeoffs": "Can narrow the gap without a connection, but live preflight, activation and readback still remain blocked; refresh drift before approval."
+        },
+        {
+          "id": "defer",
+          "description": "Keep this result at simulated preparation and postpone production work.",
+          "tradeoffs": "No production grants or effectiveness proof; request remains incomplete."
+        }
+      ],
+      "recommended": "read-only-resources",
+      "impact": "All production preparation/activation/readback branches remain blocked; local artifacts are ready for review within the stated simulation-only boundary.",
+      "action_needed": "Requester/service administrator: choose the resource path and provide the actual target organization/environment plus authoritative inventory/contracts. No secret should be pasted into these artifacts. Do not treat this resource response as write approval.",
+      "response": null
+    }
+  ],
+  "later_activation_gate": "Only after actual production resources, policy and current inventory are qualified: generate production revision with exact scope/hash/operation/environment and notify requester for authentic activation approval. This simulated revision cannot authorize production."
+}

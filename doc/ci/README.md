@@ -9,6 +9,7 @@
 | 目录/普通相对文件链接 | `python3 doc/ci/check_repository.py` | Python 3.10+；不验证远端/锚点、应用或审批 |
 | Skill/文档所有权与当前导航 | `python3 .agents/skills/sdlc-workflow/scripts/check_docs.py` | Python 3.11+；静态引用/可达性/退休路径，不自动证明文档语义真实 |
 | 工作流包/样例/分发副本 | `python3 .agents/skills/sdlc-workflow/scripts/check_packages.py` | Python 3.11+；三包分别复制运行，EXAMPLE_ONLY 不认证真实结果 |
+| 当前目标的探索/决定/操作路由 | `python3 .agents/skills/intent-to-outcome-closure/scripts/check_goal.py --task TASK --live-baseline LIVE_SHA` | 替换真实目录和独立回读的基线；离线只读路由与摘要检查，不执行工具、不认证 Human 或业务结果 |
 | 全部 Python 治理反例 | `python3 -m unittest discover -s doc/ci -p 'test_*.py' -v` | 先按 `doc/ci/requirements.txt` 安装固定解析器；包括兼容协议、文档与 Agent 工作流测试 |
 | 前端迭代 Fast | `cd frontend && corepack pnpm check:fast` | Node/pnpm 按 package.json；类型/lint/copy/Desktop/policy/E2E类型/单测，不含 build/E2E |
 | 前端 UI 受影响部分 | `cd frontend && corepack pnpm check:desktop:runtime` | 按 [前端 CI](../../frontend/ci/README.md) 安装实际 engine；构建+Desktop probe，不代替全部浏览器门禁 |
