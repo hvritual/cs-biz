@@ -1,0 +1,36 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "f-series-resource-design",
+  "stage": "design",
+  "step": "ux",
+  "definition_sha256": "e1cb87485f6292f73f5b7be415c970059db4ec0c41c2d1c06df613e04feab638",
+  "input_sha256": {
+    "request.json": "2d7c2bc47486e46b9f80589b41013f3a808400b3cf912112a7819ed56099f4b9",
+    "design/solution.json": "fc872d6150c75a2a1302fc41845527db56af22857fe6d14136c16290130f5aaa"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "071078f597f8248ac1b282e6039ab02311bb85d8",
+    "frontend_change": false,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/**",
+      "doc/tasks/README.md"
+    ],
+    "forbidden_paths": [
+      "frontend/**",
+      "backend/**",
+      ".agents/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "status": "not_applicable",
+  "payload": {
+    "reason": "本轮只提出后端/资源准入与策略，不改frontend；后续F3/营销UI仍须项目Preview，不能用本次N/A签UI交接。"
+  },
+  "assets": {},
+  "blockers": []
+}

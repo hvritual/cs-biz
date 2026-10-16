@@ -1,0 +1,40 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "f-series-resource-design",
+  "stage": "design",
+  "step": "capture",
+  "definition_sha256": "a0c31f3fbe0dae19e4dba8435fe5cc20b5572b440f84dbeef129cb147a2266ca",
+  "input_sha256": {
+    "request.json": "2d7c2bc47486e46b9f80589b41013f3a808400b3cf912112a7819ed56099f4b9"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "071078f597f8248ac1b282e6039ab02311bb85d8",
+    "frontend_change": false,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/**",
+      "doc/tasks/README.md"
+    ],
+    "forbidden_paths": [
+      "frontend/**",
+      "backend/**",
+      ".agents/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "status": "ready",
+  "payload": {
+    "raw_ref": "raw-user.txt"
+  },
+  "assets": {
+    "raw": {
+      "path": "raw-user.txt",
+      "sha256": "b95f0a5493b29a880988bdacc47745ec5072181a6c49ea8aa50594bc99f081f5"
+    }
+  },
+  "blockers": []
+}

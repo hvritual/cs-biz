@@ -1,0 +1,135 @@
+{
+  "baseline_sha": "071078f597f8248ac1b282e6039ab02311bb85d8",
+  "repository": [
+    {
+      "path": "AGENTS.md",
+      "commit": "071078f597f8248ac1b282e6039ab02311bb85d8",
+      "sha256": "4c5c0d6fa6a169663dfdb9df3854847283c226f85cd1384f9923d0796e204462",
+      "locator": "AGENTS.md",
+      "relevance": "真实工作流、审批和证明边界",
+      "status": "documented",
+      "use": "background"
+    },
+    {
+      "path": "doc/architecture/adr/0003-yunka-f0-consumer-contract.md",
+      "commit": "071078f597f8248ac1b282e6039ab02311bb85d8",
+      "sha256": "7740ff8e0fb67a43377f14642a0fbc1d4326519dd43d54b4b2eb9cdb882af838",
+      "locator": "doc/architecture/adr/0003-yunka-f0-consumer-contract.md",
+      "relevance": "原三权/单一执行权威和阶段条件",
+      "status": "accepted",
+      "use": "constraint"
+    },
+    {
+      "path": "doc/tasks/issue-11-f0/handoffs/r005/decisions.md",
+      "commit": "071078f597f8248ac1b282e6039ab02311bb85d8",
+      "sha256": "829583fc5c46616968c4b1b38c8414dc51c12a7f2de8c1bb40ae899548dcc386",
+      "locator": "doc/tasks/issue-11-f0/handoffs/r005/decisions.md",
+      "relevance": "已决和待决条件原件，本轮不改",
+      "status": "documented",
+      "use": "background"
+    },
+    {
+      "path": "backend/.yunka/consumer-lock.json",
+      "commit": "071078f597f8248ac1b282e6039ab02311bb85d8",
+      "sha256": "9dd17714784501dd4ab5ecde1125d0409ffec23fe8812adcf7fe59a4f304c778",
+      "locator": "backend/.yunka/consumer-lock.json",
+      "relevance": "实际固定Consumer，不把上游当本项目业务能力",
+      "status": "current_source",
+      "use": "current_fact"
+    },
+    {
+      "path": "backend/ci/check.sh",
+      "commit": "071078f597f8248ac1b282e6039ab02311bb85d8",
+      "sha256": "0f0dfacc8162bbf66eb71d71443e86c827be83d62d28a7ef100abe2b3ea9cd04",
+      "locator": "backend/ci/check.sh",
+      "relevance": "真实CI资源与工具要求",
+      "status": "current_source",
+      "use": "current_fact"
+    },
+    {
+      "path": "doc/contracts/access-context.md",
+      "commit": "071078f597f8248ac1b282e6039ab02311bb85d8",
+      "sha256": "091f0d8a5a82dfedfc0382e73c338ceab2d08249482f3d2bfb23c52fcba03ead",
+      "locator": "doc/contracts/access-context.md",
+      "relevance": "尚未发布的访问语义需求，不自升级为已批准合同",
+      "status": "proposed",
+      "use": "option"
+    }
+  ],
+  "live_issue_sources": [
+    "sources/issues.json",
+    "sources/issue-19.json"
+  ],
+  "primary_sources": [
+    {
+      "url": "https://www.keycloak.org/downloads",
+      "observation": "26.8.1 当前下载候选；不是安装或兼容证明"
+    },
+    {
+      "url": "https://www.keycloak.org/server/supported-configurations",
+      "observation": "列出MySQL8.4兼容线，仍需真实Consumer验证"
+    },
+    {
+      "url": "https://www.keycloak.org/server/containers",
+      "observation": "start-dev只适用于明确非生产；生产需独立配置"
+    },
+    {
+      "url": "https://dev.mysql.com/doc/relnotes/mysql/8.4/en/news-8-4-12.html",
+      "observation": "8.4.12为容器安全补丁说明；不能仅据版本差异判具体镜像安全"
+    },
+    {
+      "url": "https://github.com/docker-library/official-images/blob/master/library/mysql",
+      "observation": "Docker Library来源需和registry实际manifest比对"
+    },
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc9700.html",
+      "observation": "code/PKCE/重定向安全与不用password grant的技术依据；不规定本项目会话时长"
+    },
+    {
+      "url": "https://openid.net/specs/openid-connect-core-1_0.html",
+      "observation": "issuer/subject、ID token验证与标准OIDC接口依据"
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "observation": "服务器会话、cookie和有界期限的安全背景；P1数值仍是待审策略"
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "observation": "CSRF防护不能只靠Cookie或已登录状态"
+    }
+  ],
+  "registry_observations": [
+    {
+      "image": "quay.io/keycloak/keycloak:26.8.1",
+      "index_digest": "sha256:79c623a22abacf3fe6c00a5fb30f5b7843d717b234033b80995891c06116d244",
+      "amd64_digest": "sha256:ed1cab21814c7d18ce8f0e11d5a1fa1c6923de12dd4c7625a18c5d34452a57a4",
+      "method": "anonymous HTTPS registry manifest GET",
+      "qualification": "NOT_PULLED_NOT_RUN_NOT_SCANNED"
+    },
+    {
+      "image": "docker.io/library/mysql:8.4",
+      "observed_version": "8.4.11",
+      "index_digest": "sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70",
+      "amd64_digest": "sha256:1f8411cc085d2f2f92060fca926746cbf97f87b76c3008e9741ad62e604c4ffa",
+      "method": "public registry manifest GET with anonymous pull token; token not stored",
+      "qualification": "CANDIDATE_ONLY_NOT_PULLED_NOT_RUN_NOT_SCANNED"
+    },
+    {
+      "image": "docker.io/library/mysql:8.4.12",
+      "result": "manifest HTTP404 at observation; no fallback adopted"
+    },
+    {
+      "image": "container-registry.oracle.com/mysql/community-server:8.4.12",
+      "result": "response was not usable JSON manifest; no digest or availability inferred"
+    }
+  ],
+  "environment_observations": {
+    "local_docker": "command not available",
+    "local_go": "command not available",
+    "github_ci": "actual existing backend quality job previously has Docker/Go; this r001 did not run new resources"
+  },
+  "limitations": [
+    "No Docker pull, image vulnerability assessment, MySQL process, IdP instance, token exchange or business API executed in this design turn.",
+    "Source availability is distinct from version/security/runtime qualification."
+  ]
+}

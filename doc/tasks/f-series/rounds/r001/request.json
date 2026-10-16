@@ -1,0 +1,30 @@
+{
+  "protocol": "sdlc-request-v1",
+  "task_id": "f-series-resource-design",
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "071078f597f8248ac1b282e6039ab02311bb85d8",
+    "frontend_change": false,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/**",
+      "doc/tasks/README.md"
+    ],
+    "forbidden_paths": [
+      "frontend/**",
+      "backend/**",
+      ".agents/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "authority_ref": "Human current conversation 2026-10-16T17:51:15+08:00 and 17:57:16+08:00 (raw-user.txt); r001 novel policies not yet approved",
+  "assets": {
+    "raw": {
+      "path": "raw-user.txt",
+      "sha256": "b95f0a5493b29a880988bdacc47745ec5072181a6c49ea8aa50594bc99f081f5"
+    }
+  }
+}
