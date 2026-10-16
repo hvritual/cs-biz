@@ -4,9 +4,9 @@
   "stage": "deploy",
   "step": "admit",
   "status": "ready",
-  "definition_sha256": "eac21fee400bd3c6318485a1468ff4ceccafa71aa627731e7c43884e314095c7",
+  "definition_sha256": "9fb59f98e8476dd83196e8e558e643c2398f157545d02c65704b6ac0245dfc9c",
   "input_sha256": {
-    "build-to-deploy.json": "2deda6445b4013b4c768214347d404d36e502b639445256cda32b5aeac58785d",
+    "build-to-deploy.json": "e8114391f20063ec2ce57b93bdcd5a306485137b51bc481c229c3654f483cafb",
     "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa"
   },
   "contract": {

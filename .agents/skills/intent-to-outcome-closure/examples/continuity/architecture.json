@@ -1,0 +1,41 @@
+{
+  "basis_sha256": "139b0750ada1e1c6ab9fafc29d237f2f10ba8fa076b934b7b47aadb71c030a66",
+  "assessment_sha256": "b0b226d7a234be31450209334a7e78c97069e9e68e2f46bd06c19be974c01e09",
+  "current_state": [
+    "Synthetic example; no actual IAM, database or Yunka compatibility is proved."
+  ],
+  "patterns": [
+    {
+      "name": "Separate identity, access and domain responsibility.",
+      "fit": "Protect the requested tenant operation.",
+      "limitations": "Requires actual runtime authority and storage.",
+      "source_ids": [
+        "local",
+        "github"
+      ]
+    }
+  ],
+  "compatibility": [
+    {
+      "area": "Operation contract",
+      "disposition": "adapt",
+      "reason": "Inspect actual accepted PB and consumers before implementation.",
+      "source_ids": [
+        "local",
+        "github"
+      ]
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "S1",
+      "depends_on": [],
+      "outcome": "One actual tenant operation under the accepted boundary.",
+      "verification": "Real API/DB positive, denial and recovery observations.",
+      "resources": [
+        "Identity and DB Owner decisions"
+      ]
+    }
+  ],
+  "decisions": []
+}

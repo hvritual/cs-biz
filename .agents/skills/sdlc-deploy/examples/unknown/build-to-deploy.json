@@ -4,10 +4,10 @@
   "stage": "build",
   "step": "handoff",
   "status": "ready",
-  "definition_sha256": "f0609b5fc6247d91c1a4ba124173a4d370f08f64317df1f2b193050c5d118f7f",
+  "definition_sha256": "b7b136166c30bf386281555cb75896d5002945a5dbedc6950b152b69267dc22e",
   "input_sha256": {
-    "design-to-build.json": "030c19c57982121b4b37b2056f220c1867f0a487c5fd855aca898c84f102487e",
-    "build/integrate.json": "2dd82b76ad2c398e48f8252201d403a3224c0b03d89f1a5b0866eb6ce84137fc"
+    "design-to-build.json": "4cdcd6c7e1d925c779ff8416f9257d0b51cff86d8af8080f07a57a59ea0acc6b",
+    "build/integrate.json": "cca095da5fb9df2191e7beeac002d0149e1bbb7eb7af0912ffe220a2aff3ada6"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

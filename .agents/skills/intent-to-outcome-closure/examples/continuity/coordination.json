@@ -1,0 +1,123 @@
+{
+  "protocol": "goal-coordination-v1",
+  "basis_sha256": "139b0750ada1e1c6ab9fafc29d237f2f10ba8fa076b934b7b47aadb71c030a66",
+  "goal_id": "synthetic-saas",
+  "assessment_sha256": "b0b226d7a234be31450209334a7e78c97069e9e68e2f46bd06c19be974c01e09",
+  "work_items": [
+    {
+      "id": "database",
+      "task_id": "database",
+      "kind": "prerequisite",
+      "requirement_ids": [
+        "R1"
+      ],
+      "criterion_ids": [
+        "AC1"
+      ],
+      "depends_on": [],
+      "stage": "build",
+      "task_ref": "fixture://database",
+      "outcome": "Observable synthetic result for database",
+      "omission_impact": "Without this work the named original criterion cannot be fulfilled.",
+      "admission_ref": {
+        "path": "database-admission.json",
+        "sha256": "cc67bbb2f1ab8ff107032c58d71aa28ee980c5d44a103a8ee9a190bcc2c4b757"
+      }
+    },
+    {
+      "id": "login",
+      "task_id": "login",
+      "kind": "outcome",
+      "requirement_ids": [
+        "R1"
+      ],
+      "criterion_ids": [
+        "AC1"
+      ],
+      "depends_on": [
+        "database"
+      ],
+      "stage": "build",
+      "task_ref": "fixture://login",
+      "outcome": "Observable synthetic result for login",
+      "omission_impact": "Without this work the named original criterion cannot be fulfilled.",
+      "admission_ref": {
+        "path": "login-admission.json",
+        "sha256": "c497e7fa050d85badb21e3ba42e203446c5e17922e47296f6ac05bd08d4d62c4"
+      }
+    },
+    {
+      "id": "invitation",
+      "task_id": "invitation",
+      "kind": "outcome",
+      "requirement_ids": [
+        "R2"
+      ],
+      "criterion_ids": [
+        "AC2"
+      ],
+      "depends_on": [],
+      "stage": "build",
+      "task_ref": "fixture://invitation",
+      "outcome": "Observable synthetic result for invitation",
+      "omission_impact": "Without this work the named original criterion cannot be fulfilled.",
+      "admission_ref": null
+    }
+  ],
+  "observations": [
+    {
+      "work_id": "database",
+      "state": "completed",
+      "candidate_ref": "fixture://existing-database",
+      "return_ref": {
+        "path": "database-return.json",
+        "sha256": "9bff460729887a4149f8167f0308e43bea0f60641e7218cff7a13951d7dca1f0"
+      },
+      "readback_ref": {
+        "path": "synthetic-evidence.json",
+        "sha256": "a64959be206c2244497b01fe00295685bf2a501c45808c4988fa3bb6e0438c8f"
+      },
+      "blocker": null,
+      "attempts_without_progress": 0
+    },
+    {
+      "work_id": "login",
+      "state": "pending",
+      "candidate_ref": null,
+      "return_ref": null,
+      "readback_ref": null,
+      "blocker": null,
+      "attempts_without_progress": 0
+    },
+    {
+      "work_id": "invitation",
+      "state": "pending",
+      "candidate_ref": null,
+      "return_ref": null,
+      "readback_ref": null,
+      "blocker": null,
+      "attempts_without_progress": 0
+    }
+  ],
+  "decision_scopes": [
+    {
+      "decision_id": "D-invite",
+      "work_ids": [
+        "invitation"
+      ],
+      "reason": "Only this behavior consumes the undecided policy."
+    }
+  ],
+  "business_proofs": [],
+  "last_event": {
+    "kind": "stage_return",
+    "record_ref": {
+      "path": "database-return.json",
+      "sha256": "9bff460729887a4149f8167f0308e43bea0f60641e7218cff7a13951d7dca1f0"
+    }
+  },
+  "reconciliation_ref": {
+    "path": "reconciliation.json",
+    "sha256": "987b9eea25bfc16bab6f2904f9bf9be51407de9e5181027ca1c50acc7d1f5886"
+  }
+}

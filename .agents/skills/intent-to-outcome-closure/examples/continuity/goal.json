@@ -1,0 +1,79 @@
+{
+  "protocol": "goal-progress-v1",
+  "goal_id": "synthetic-saas",
+  "revision": "r001",
+  "mode": "example",
+  "baseline_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "raw_ref": {
+    "path": "raw.txt",
+    "sha256": "4f456383790d9343cf219fe05f1896c6e9c8c2e7fd571b791d6b7ea6d69e5344"
+  },
+  "feedback_refs": [],
+  "authority_ref": "example://not-authenticated-Human-intent",
+  "requested_boundary": "integrated_main",
+  "required_channels": [
+    "local",
+    "github"
+  ],
+  "sources": [
+    {
+      "id": "local",
+      "channel": "local",
+      "locator": "example://local",
+      "version": "synthetic-v1",
+      "artifact_ref": {
+        "path": "sources/local.txt",
+        "sha256": "11a56dc089fdcaa2f185bd95783d572e1f945b8989e2ecc979152da59055f948"
+      }
+    },
+    {
+      "id": "github",
+      "channel": "github",
+      "locator": "example://github",
+      "version": "synthetic-v1",
+      "artifact_ref": {
+        "path": "sources/github.txt",
+        "sha256": "cb3aa44225e3899b8933f17f9350e3ae3e79f30f0b87bb0639043dc4199d5882"
+      }
+    }
+  ],
+  "searches": [
+    {
+      "channel": "local",
+      "query": "synthetic scope and current capability",
+      "status": "observed",
+      "source_ids": [
+        "local"
+      ],
+      "reason": "Example data only, not a real search result."
+    },
+    {
+      "channel": "github",
+      "query": "synthetic scope and current capability",
+      "status": "observed",
+      "source_ids": [
+        "github"
+      ],
+      "reason": "Example data only, not a real search result."
+    }
+  ],
+  "budget": {
+    "policy_ref": "example://cumulative-budget",
+    "max_without_progress": 2,
+    "attempts_without_progress": 0
+  },
+  "records": {
+    "assessment": {
+      "path": "assessment.json",
+      "sha256": "b0b226d7a234be31450209334a7e78c97069e9e68e2f46bd06c19be974c01e09"
+    },
+    "architecture": {
+      "path": "architecture.json",
+      "sha256": "9d681774ebe96f51d89d735ebb280a760cd46a8e6ab5fa4d6b17f7e0af1e50b2"
+    },
+    "coordination": {
+      "path": "coordination.json",
+      "sha256": "3a8aff554713ceeb656e3ba99dd4a75f3be4ef5d4b783d390ef2503393ffe161"
+    }
+  }
+}

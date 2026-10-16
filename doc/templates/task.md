@@ -10,6 +10,8 @@
 
 ## 目标、责任和边界
 
+软件任务由 Goal 持续维护父目标，Design 提议拆分、Goal 准入、独立角色反查原始成果。当前单元必须引用父 R/AC、必要性、完成后的业务后继和实际阶段 intake；见 [任务连续性](../../.agents/skills/intent-to-outcome-closure/references/task-continuity.md)。未决决定逐项限定阻塞范围；阶段终态回 Goal 对账/选择下一步，不把资源完成当父目标完成。Human stop 优先，不从设计讨论推定恢复。
+
 哪个角色、在什么条件下、完成什么动作、看到什么结果？WHY / WHAT / BOUNDARY / PROOF：
 
 | 输入与依赖 | 交付物/所有者 | 允许/禁止路径 | 排除范围 | 资源/预算/恢复 |

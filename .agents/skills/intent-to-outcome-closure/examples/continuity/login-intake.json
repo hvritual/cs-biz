@@ -1,0 +1,12 @@
+{
+  "task_id": "login",
+  "contract": {
+    "requirement_ids": [
+      "R1"
+    ],
+    "acceptance_ids": [
+      "AC1"
+    ],
+    "completion_boundary": "integrated_main"
+  }
+}

@@ -12,3 +12,5 @@ At handoff independently verify original requirements and the actual evidence bo
 
 ## Deploy responsibility
 Consume the immutable Build index and separately authorized target request. Own environment admission, release plan, one authorized operation, authoritative observation and conditional recovery. Missing real target/tools/authority blocks release. Unknown results require readback by the preserved operation ID; never blind replay. Code or package changes return to Build. Rolled back, failed and unknown are distinct outcomes; only observed exact revision/package can be reported deployed. Do not execute a release merely because this workflow definition was installed.
+
+Return terminal/blocked/unknown evidence and preserved operation identity to Goal for parent-outcome reconciliation. A local release does not close unrelated original obligations. Goal owns blocker scope and continued work; Human owns new release/irreversible authority and stop/resume decisions. No downstream format implies activation permission.

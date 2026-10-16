@@ -1,0 +1,20 @@
+{
+  "protocol": "goal-stage-return-v1",
+  "goal_id": "synthetic-saas",
+  "basis_sha256": "139b0750ada1e1c6ab9fafc29d237f2f10ba8fa076b934b7b47aadb71c030a66",
+  "work_id": "database",
+  "candidate_ref": "fixture://existing-database",
+  "definition_sha256": "02a5fa63340890063753d587d72957ba1d2cdc1d187ff385028966623b22cb51",
+  "stage": "build",
+  "status": "completed",
+  "evidence_refs": [
+    {
+      "path": "synthetic-evidence.json",
+      "sha256": "a64959be206c2244497b01fe00295685bf2a501c45808c4988fa3bb6e0438c8f"
+    }
+  ],
+  "review_ref": {
+    "path": "synthetic-evidence.json",
+    "sha256": "a64959be206c2244497b01fe00295685bf2a501c45808c4988fa3bb6e0438c8f"
+  }
+}

@@ -60,8 +60,8 @@ class GoalTests(unittest.TestCase):
         self.assertFalse(result['execution_granted'])
 
     def test_software_uses_architecture_then_existing_design(self):
-        task = self.fixture('saas'); self.assertEqual(api.check(task)['next_action'], 'ROUTE_SOFTWARE')
-        self.assertEqual(api.check(task)['resources'], ['../sdlc-workflow/SKILL.md'])
+        task = self.fixture('saas'); self.assertEqual(api.check(task)['next_action'], 'PREPARE_COORDINATION')
+        self.assertEqual(api.check(task)['resources'], ['references/task-continuity.md'])
         goal = self.read(task, 'goal.json'); goal['records'].pop('architecture'); self.write(task, 'goal.json', goal)
         result = api.check(task); self.assertEqual(result['next_action'], 'ARCHITECTURE')
         self.assertEqual(result['resources'], ['../sdlc-design/agents/architecture.md'])

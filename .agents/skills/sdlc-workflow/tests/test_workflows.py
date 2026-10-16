@@ -188,6 +188,21 @@ class AgentWorkflowTests(unittest.TestCase):
             p,t,w = self.fixture(stage)
             self.assertEqual(self.run_check(p,t)['state'], 'EXAMPLE_ONLY')
 
+    def test_terminal_and_blocked_stages_return_to_parent_goal(self):
+        for stage in ('design','build','deploy'):
+            for example in ('complete','blocked'):
+                with self.subTest(stage=stage,example=example):
+                    p,t,w = self.fixture(stage,example)
+                    result = self.run_check(p,t)
+                    returned = result['coordinator_return']
+                    self.assertEqual(returned['owner'],'goal')
+                    self.assertEqual(returned['next_action'],'RECONCILE_GOAL')
+                    self.assertEqual(returned['task_id'],read(t/w['intake_files'][0])['task_id'])
+                    self.assertEqual(returned['stage'],stage)
+                    self.assertFalse(returned['goal_complete'])
+                    self.assertEqual(returned['completion_boundary'],'deployed')
+                    shutil.rmtree(t)
+
     def test_all_blocked_examples_have_recovery(self):
         for stage in ('design', 'build', 'deploy'):
             p,t,w = self.fixture(stage, 'blocked')

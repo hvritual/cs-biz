@@ -4,10 +4,10 @@
   "stage": "build",
   "step": "integrate",
   "status": "ready",
-  "definition_sha256": "c3fdb5ce6e5baf12dd1fa01a0aca0ff28296a2661462ddfc27409c6e6715a8c3",
+  "definition_sha256": "92ef3c2af834cc22fee4d24e44ad16d1a3a995239b8de160d9713188fa6fe51f",
   "input_sha256": {
-    "design-to-build.json": "030c19c57982121b4b37b2056f220c1867f0a487c5fd855aca898c84f102487e",
-    "build/review.json": "132f7a338e33c7582d16da7afac58cf1348dac0845a6e3381b217d061a411047"
+    "design-to-build.json": "4cdcd6c7e1d925c779ff8416f9257d0b51cff86d8af8080f07a57a59ea0acc6b",
+    "build/review.json": "bdb04b8c739ef256af1e463815e911430750f10f23b1f80634817ca7b084f618"
   },
   "contract": {
     "repository": "hvritual/cs-biz",
