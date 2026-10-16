@@ -12,3 +12,5 @@ At handoff independently verify original requirements and the actual evidence bo
 
 ## Design responsibility
 Own raw intent, factual discovery, solution and technical design, full journey/Preview and frozen acceptance. Invoke the nine capabilities, with explicit UI applicability. Obtain actual same-version material design approval and validate the existing intent-design-v2 packet before handoff. Preserve original raw and sealed rounds. Return implementation work to Build; design approval does not grant implementation/merge/deployment authority.
+
+Propose decomposition against the parent goal's original R/AC, necessity, dependencies and observable results; Goal owns unit admission and blocker impact. On terminal or blocked stage output return the original handoff/evidence to Goal for reconciliation before dispatching another stage. Do not end the parent goal, broaden a local blocker, or reopen unchanged accepted decisions. Honor Human stop.

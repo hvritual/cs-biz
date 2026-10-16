@@ -1,0 +1,113 @@
+{
+  "basis_sha256": "139b0750ada1e1c6ab9fafc29d237f2f10ba8fa076b934b7b47aadb71c030a66",
+  "route": "software",
+  "background": "Synthetic existing state; actual state requires host retrieval.",
+  "impact": "Only the stated tenant scope; no production action in this example.",
+  "goals": [
+    "Make the current required result observable without changing unrelated rights."
+  ],
+  "flows": [
+    "Owner inspects scope, reviews change, operator applies once, and verifier reads back success/denial/unknown recovery."
+  ],
+  "options": [
+    {
+      "id": "reuse",
+      "description": "Reuse the existing capability under its current constraints.",
+      "tradeoffs": "Smallest change; actual compatibility still needs inspection.",
+      "counterevidence": "An absent API or incompatible contract invalidates this option.",
+      "source_ids": [
+        "local",
+        "github"
+      ]
+    },
+    {
+      "id": "defer",
+      "description": "Defer activation until the material gap is resolved.",
+      "tradeoffs": "Delays value but avoids unsupported effects.",
+      "counterevidence": "Unnecessary if current capability and authority can be verified.",
+      "source_ids": [
+        "local",
+        "github"
+      ]
+    }
+  ],
+  "recommended": "reuse",
+  "requirements": [
+    {
+      "id": "R1",
+      "classification": "explicit",
+      "rationale": "An enabled member must log in through the chosen IdP and access only its tenant.",
+      "source_ids": [
+        "local",
+        "github"
+      ],
+      "criterion_ids": [
+        "AC1"
+      ]
+    },
+    {
+      "id": "R2",
+      "classification": "explicit",
+      "rationale": "Tenant invitations must create only the intended membership and cannot be reused.",
+      "source_ids": [
+        "local",
+        "github"
+      ],
+      "criterion_ids": [
+        "AC2"
+      ]
+    }
+  ],
+  "criteria": [
+    {
+      "id": "AC1",
+      "given": "An enabled member of tenant A and a real nonproduction IdP.",
+      "when": "The member completes code+PKCE login and selects tenant A.",
+      "then": "The session endpoint identifies the member and tenant A; the protected API accepts its granted action.",
+      "negative": "A cross-tenant request or revoked membership is denied by the server.",
+      "recovery": "A lost login reply is reconciled through session readback without duplicate accounts.",
+      "verification": "Query each target through the authoritative service.",
+      "environment": "synthetic-only"
+    },
+    {
+      "id": "AC2",
+      "given": "A tenant-bound invitation and an explicitly approved expiry policy.",
+      "when": "Its intended identity accepts it within the approved validity window.",
+      "then": "Exactly one intended tenant membership is created and the invitation is consumed.",
+      "negative": "Replay, wrong identity and acceptance outside the approved window are denied.",
+      "recovery": "A lost acceptance reply reads the existing membership without consuming again.",
+      "verification": "Query each target through the authoritative service.",
+      "environment": "synthetic-only"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D-invite",
+      "kind": "business",
+      "owner": "Product owner",
+      "facts": [
+        "Invitation expiry has no accepted value."
+      ],
+      "source_ids": [
+        "local"
+      ],
+      "missing": "Expiry policy",
+      "options": [
+        {
+          "id": "short",
+          "description": "24-hour single-use invitation",
+          "tradeoffs": "More resends"
+        },
+        {
+          "id": "long",
+          "description": "72-hour single-use invitation",
+          "tradeoffs": "Longer exposure"
+        }
+      ],
+      "recommended": "short",
+      "impact": "Only invitation acceptance semantics are undefined.",
+      "action_needed": "Choose invitation expiry.",
+      "response": null
+    }
+  ]
+}

@@ -242,7 +242,8 @@ def inspect(root, task, include_skill=False):
             require(not any((task / s['output']).exists() or (task / s['output']).is_symlink()
                             for s in workflow['steps'][index + 1:]),
                     'downstream output exists after blocked/failed artifact')
-            return {'state': 'BLOCKED', 'step': step['id'], 'blockers': data['blockers']}
+            return {'state': 'BLOCKED', 'step': step['id'], 'blockers': data['blockers'],
+                    'coordinator_return': coordinator_return(workflow, intake, step['output'], 'blocked')}
     outcome = completed[workflow['steps'][-1]['id']]['payload'].get('outcome')
     state = 'HANDOFF_CANDIDATE_STATIC'
     if workflow['stage'] == 'deploy' and outcome != 'deployed':
@@ -250,7 +251,19 @@ def inspect(root, task, include_skill=False):
     return {'state': 'EXAMPLE_ONLY' if intake['contract']['mode'] == 'example' else state,
             'reported_outcome': outcome,
             'handoff': workflow['handoff'], 'consumer': workflow['consumer'],
+            'coordinator_return': coordinator_return(workflow, intake, workflow['handoff'], state),
             'handoff_sha256': digest(relative(task, workflow['handoff']).read_bytes())}
+
+
+def coordinator_return(workflow, intake, result_ref, result):
+    # The downstream consumer names a data format, not permission to dispatch
+    # it. Goal must reconcile the parent contract and actual result first.
+    contract = intake['contract']
+    return {'owner': 'goal', 'next_action': 'RECONCILE_GOAL', 'task_id': intake['task_id'],
+            'stage': workflow['stage'], 'stage_result': result, 'result_ref': result_ref,
+            'completion_boundary': contract['completion_boundary'],
+            'requirement_ids': contract.get('requirement_ids', []),
+            'acceptance_ids': contract.get('acceptance_ids', []), 'goal_complete': False}
 
 
 def main(argv=None):

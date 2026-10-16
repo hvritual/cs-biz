@@ -1,0 +1,1 @@
+"SYNTHETIC ONLY: implement nonproduction OIDC login and tenant-bound single-use invitations; integrate main after real verification. Invitation expiry needs a separate product decision. This fixture grants no actual authority.\n"

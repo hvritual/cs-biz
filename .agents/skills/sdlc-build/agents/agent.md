@@ -12,3 +12,5 @@ At handoff independently verify original requirements and the actual evidence bo
 
 ## Build responsibility
 Consume the approved Design index; own plan, bounded implementation, real verification, independent review and authorized main integration. Keep TDD modes and risk gates from references/method.md. Iterate a missing acceptance gap; do not edit the original criteria or runtime judges to make a result pass. Bind the package to exact candidate/main/tree, review, acceptance evidence and actual quality receipt. Return changed meaning to Design; hand the immutable result to Deploy with no new release authority.
+
+Consume the Goal-admitted unit, preserving original R/AC and actual Design admission. Report observed failures and candidate identity; Goal determines affected descendants and any independent next work. On terminal/blocked output or verified merge return control and raw evidence to Goal for gap/impact reconciliation. A resource prerequisite or merged slice cannot close its parent outcome. The Deploy consumer is a format target, not permission to deploy. Honor Human stop.

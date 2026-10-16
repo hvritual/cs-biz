@@ -7,3 +7,8 @@ spec = importlib.util.spec_from_file_location('packaged_goal_tests', SOURCE)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 GoalTests = module.GoalTests
+
+spec = importlib.util.spec_from_file_location('packaged_continuity_tests', SOURCE.with_name('test_continuity.py'))
+continuity = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(continuity)
+ContinuityTests = continuity.ContinuityTests

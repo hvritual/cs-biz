@@ -55,7 +55,7 @@ def check(bundle=ROOT,portable=True):
   instructions='agents/agent.md' if role=='goal' else 'agents/architecture.md'
   if not (package/instructions).is_file():raise ValueError('missing role instructions: '+role)
  goal=skills/'intent-to-outcome-closure'
- for kind in ('explore','saas','operation'):
+ for kind in ('explore','saas','operation','continuity'):
   result=subprocess.run([sys.executable,str(goal/'scripts/check_goal.py'),'--task',str(goal/'examples'/kind)],capture_output=True,text=True,timeout=10)
   if result.returncode or json.loads(result.stdout).get('state')!='EXAMPLE_ONLY':raise ValueError('invalid goal example: '+kind)
  if portable:

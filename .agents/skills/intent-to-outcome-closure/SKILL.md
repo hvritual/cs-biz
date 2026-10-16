@@ -33,6 +33,10 @@ Human may provide knowledge, aesthetics, resources or authorization. Present fac
 
 On software handoff use the existing stage/module validators and exact external evidence; goal static outputs cannot replace them. Continue within authority, prepare the requested Human release review, then verify actual results after separately authorized activation. Definitions do not install unattended wakeup, persistent execution services or notification channels.
 
+## Parent goal continuity
+
+Remain accountable across all stage calls. For software routing/return/resume read [task continuity](references/task-continuity.md): preserve the complete original requirement denominator, admit each necessary unit against original R/AC and actual stage intake, map material decisions to their affected work and descendants, and reconcile every stage return before selecting the next action. Report business proof separately from satisfied prerequisites; local success never closes the parent goal. Missing coordination requests preparation, not a standalone implementation bypass. Human stop dominates; a workflow design request does not resume stopped product work.
+
 ## Module batch mode: freeze before autonomous advance
 
 For a complete module or all issues in a designed area, read [the module protocol](../sdlc-workflow/references/module-outcome-v1.md) before selecting work. The outer SDLC now has Design, Build and Deploy Agent workflows; its old design-only boundary applies only to the Design subworkflow. The actual Issue/task records remain authoritative; the module contract is a frozen acceptance/index view, never another task database.

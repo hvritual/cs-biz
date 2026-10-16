@@ -1,0 +1,10 @@
+{
+  "goal_id": "synthetic-saas",
+  "event_sha256": "111391b3734d4a028fbde763f7fdf370bdb579c09e464fe22a6aa41d8922ab46",
+  "observation_sha256": "fcf257e4c7264b39dad222c654ed727e0165a4eb76338e1a2c831f89bb327805",
+  "definition_sha256": "b538539cccc0bf7b3b5ad3ca2be41c96c83ebc3fcfd9a3a68df576fb00c40bab",
+  "readback_ref": {
+    "path": "synthetic-evidence.json",
+    "sha256": "a64959be206c2244497b01fe00295685bf2a501c45808c4988fa3bb6e0438c8f"
+  }
+}

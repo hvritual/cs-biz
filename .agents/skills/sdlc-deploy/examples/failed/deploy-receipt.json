@@ -4,11 +4,11 @@
   "stage": "deploy",
   "step": "handoff",
   "status": "ready",
-  "definition_sha256": "bc842906705980899a394084477a68a683c7ccf90f1097b1343d99f5cb62aafc",
+  "definition_sha256": "b0c2cb4019183788d18b890e9cb0f18f65dc4e172e53d30e3e3a1cf847ceed3a",
   "input_sha256": {
-    "build-to-deploy.json": "2deda6445b4013b4c768214347d404d36e502b639445256cda32b5aeac58785d",
+    "build-to-deploy.json": "e8114391f20063ec2ce57b93bdcd5a306485137b51bc481c229c3654f483cafb",
     "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa",
-    "deploy/recover.json": "da4a4ebd5b0091337dd73f5a1dc1283b4b817ad1f18684e6d27790611b0c1a17"
+    "deploy/recover.json": "6fd7903b30bfa6e2a2be3cfdb82b9b88488bbdb463a1a65a3f57124206befbf8"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

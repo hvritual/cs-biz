@@ -1,0 +1,19 @@
+{
+  "goal_id": "synthetic-saas",
+  "basis_sha256": "139b0750ada1e1c6ab9fafc29d237f2f10ba8fa076b934b7b47aadb71c030a66",
+  "work_id": "login",
+  "definition_sha256": "2cfbdab8cc4363b16c32f47b5d5406948161c15f0228653575d388b806fe80c6",
+  "decision": "approved",
+  "stage_intake_ref": {
+    "path": "login-intake.json",
+    "sha256": "17eed74857b3e79d07f030fd6e078a9fd1937ddeb4c4b0e1c67e1ea3c5779b75"
+  },
+  "authority_ref": {
+    "path": "synthetic-evidence.json",
+    "sha256": "a64959be206c2244497b01fe00295685bf2a501c45808c4988fa3bb6e0438c8f"
+  },
+  "review_ref": {
+    "path": "synthetic-evidence.json",
+    "sha256": "a64959be206c2244497b01fe00295685bf2a501c45808c4988fa3bb6e0438c8f"
+  }
+}

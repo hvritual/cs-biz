@@ -13,6 +13,7 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 import sys
+from types import SimpleNamespace
 
 PACKAGE = Path(__file__).resolve().parents[1]
 
@@ -227,6 +228,18 @@ def check(task, live_baseline=None):
     require(goal['protocol'] == 'goal-progress-v1' and text(goal['goal_id'])
             and re.fullmatch(r'r[0-9]{3,}', goal['revision']), 'invalid goal identity')
     require(goal['mode'] in ('real', 'example') and re.fullmatch('[0-9a-f]{40}', goal['baseline_sha']), 'invalid goal baseline/mode')
+    require(isinstance(goal['records'], dict), 'goal records must be an object')
+    # A user stop dominates stage progress and drift. Authenticate its source in
+    # the host; a later design conversation is not authority to resume execution.
+    control = bound(task, goal, 'control')
+    if control is not None:
+        fields(control, ('basis_sha256', 'goal_id', 'state', 'record_ref'))
+        require(control['goal_id'] == goal['goal_id'] and control['state'] in ('stopped', 'running'), 'invalid goal control')
+        asset(task, control['record_ref'])
+        if control['state'] == 'stopped':
+            return {'contract': 'PASS_STATIC_ONLY', 'state': 'STOPPED', 'next_action': 'NO_ACTION',
+                    'goal_id': goal['goal_id'], 'owner': 'goal', 'authentic_approval': 'NOT_VERIFIED',
+                    'runtime': 'NOT_VERIFIED', 'execution_granted': False}
     require(live_baseline is None or live_baseline == goal['baseline_sha'], 'live baseline drift; re-assess affected evidence')
     require(text(goal['authority_ref']), 'authority source missing')
     require(goal['requested_boundary'] in ('reviewed_design', 'integrated_main', 'deployed', 'operational'), 'invalid completion boundary')
@@ -256,23 +269,23 @@ def check(task, live_baseline=None):
     fields(budget, ('policy_ref', 'max_without_progress', 'attempts_without_progress'))
     require(text(budget['policy_ref']) and type(budget['max_without_progress']) is int and 1 <= budget['max_without_progress'] <= 2
             and type(budget['attempts_without_progress']) is int and budget['attempts_without_progress'] >= 0, 'invalid progress budget')
-    require(isinstance(goal['records'], dict) and goal['records'].keys() <= {'assessment', 'architecture', 'operation', 'execution'}, 'unknown goal record')
+    require(isinstance(goal['records'], dict) and goal['records'].keys() <= {'assessment', 'architecture', 'operation', 'execution', 'coordination', 'control'}, 'unknown goal record')
     # Bind every submitted artifact. Route-specific validation follows below;
     # no downstream record can override an unresolved earlier decision.
     for kind in goal['records']:
         bound(task, goal, kind)
     proposed, pending = assessment(task, goal, known)
-    require(proposed is not None or not (goal['records'].keys() - {'assessment'}), 'downstream record without assessment')
+    require(proposed is not None or not (goal['records'].keys() - {'assessment', 'control'}), 'downstream record without assessment')
     arch_pending, plan = None, None
     if proposed is not None:
         if proposed['route'] == 'software':
             require(not (goal['records'].keys() & {'operation', 'execution'}), 'software evidence must use existing stage/module validators')
             arch_pending = architecture(task, goal, known)
         elif proposed['route'] == 'operation':
-            require('architecture' not in goal['records'], 'architecture record on operation route')
+            require(not goal['records'].keys() & {'architecture', 'coordination'}, 'software record on operation route')
             plan = operation(task, goal, proposed)
         else:
-            require(not (goal['records'].keys() - {'assessment'}), 'downstream record on research route')
+            require(not (goal['records'].keys() - {'assessment', 'control'}), 'downstream record on research route')
     next_action, resources = 'DISCOVER', ['references/goal-coordination.md']
     if pending:
         next_action = 'HUMAN_DECISION'
@@ -331,10 +344,31 @@ def check(task, live_baseline=None):
         ['assessment', 'architecture'] if pending and arch_pending else
         ['assessment', 'operation', 'execution'] if next_action in ('REVIEW_OPERATION', 'READBACK_OPERATION', 'REPAIR_OPERATION', 'VERIFY_OUTCOME_EXTERNALLY') else
         ['assessment'], ['references/goal-coordination.md']))
+    coordinated = None
+    if 'coordination' in goal['records']:
+        require(proposed is not None and proposed['route'] == 'software', 'coordination needs software assessment')
+        # Missing discovery/architecture remains conservative. Scoped decisions
+        # are usable only with an explicit complete work/impact projection.
+        require(not channels - searched and arch_pending is not None, 'coordination before discovery/architecture')
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('goal_coordination', Path(__file__).with_name('coordination.py'))
+        coordinator = importlib.util.module_from_spec(spec); spec.loader.exec_module(coordinator)
+        coordinated = coordinator.evaluate(SimpleNamespace(
+            require=require, fields=fields, strings=strings, asset=asset, digest=digest, text=text, basis=basis),
+            task, goal, proposed, bound(task, goal, 'architecture'), bound(task, goal, 'coordination'))
+        next_action, role = coordinated['next_action'], coordinated['role']
+        pending = coordinated['progress']['pending_decisions']
+        input_names = ['assessment', 'architecture', 'coordination', 'control']
+        resources = ['references/task-continuity.md']
+    elif proposed is not None and proposed['route'] == 'software' and next_action == 'ROUTE_SOFTWARE':
+        # Legacy discovery packets remain readable; absence of a parent task
+        # graph cannot silently admit another standalone implementation slice.
+        next_action, role, resources = 'PREPARE_COORDINATION', 'goal', ['references/task-continuity.md']
     return {'contract': 'PASS_STATIC_ONLY', 'state': 'EXAMPLE_ONLY' if goal['mode'] == 'example' else 'ROUTE_CANDIDATE_STATIC',
             'goal_id': goal['goal_id'], 'revision': goal['revision'], 'basis_sha256': basis(goal),
             'next_action': next_action, 'pending_decisions': pending, 'missing_channels': sorted(channels - searched),
             'role': role, 'resources': resources, 'inputs': {kind: goal['records'][kind] for kind in input_names if kind in goal['records']},
+            'coordination': coordinated,
             'authentic_approval': 'NOT_VERIFIED', 'runtime': 'NOT_VERIFIED', 'execution_granted': False,
             'proof_boundary': 'Host must authenticate decisions, current resources and actual outcomes; this checker cannot.'}
 
@@ -368,7 +402,7 @@ def main():
     args = parser.parse_args()
     try:
         result = check(args.task.resolve(), args.live_baseline)
-    except (ValueError, TypeError, KeyError, OSError) as exc:
+    except (ValueError, TypeError, KeyError, OSError, RecursionError, ImportError) as exc:
         print(json.dumps({'contract': 'FAIL', 'issues': [str(exc)], 'execution_granted': False,
                           'recovery_hint': recovery_hint(args.task.resolve())}, ensure_ascii=False))
         return 2
