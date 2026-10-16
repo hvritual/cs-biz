@@ -10,6 +10,12 @@ from resources import initialize, permission_denied, Resources
 
 
 class ResourceOwnershipTests(unittest.TestCase):
+    def test_realm_import_filename_matches_realm(self):
+        directory = Path(__file__).resolve().parent
+        realm = json.loads((directory/'realm.json').read_text())['realm']
+        self.assertIn('./realm.json:/opt/keycloak/data/import/'+realm+'-realm.json:ro',
+                      (directory/'compose.yaml').read_text())
+
     def test_failure_diagnostics_redact_runtime_secrets_and_urls(self):
         with tempfile.TemporaryDirectory() as directory:
             state = Path(directory)/'state'

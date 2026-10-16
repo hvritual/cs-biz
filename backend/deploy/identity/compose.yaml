@@ -33,7 +33,7 @@ services:
     depends_on:
       mysql: {condition: service_healthy}
     ports: ["127.0.0.1:${CS_OIDC_PORT:?}:8080"]
-    volumes: ["./realm.json:/opt/keycloak/data/import/cs-biz-realm.json:ro"]
+    volumes: ["./realm.json:/opt/keycloak/data/import/cs-biz-nonprod-realm.json:ro"]
     mem_limit: 1g
 volumes:
   mysql-data: {}
