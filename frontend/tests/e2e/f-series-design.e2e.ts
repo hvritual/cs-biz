@@ -78,23 +78,23 @@ test('F-series design: 1440 campaign denial and unknown readback', async ({ app,
   await expect(screen.getByRole('button', { name: '执行活动', exact: true })).toBeDisabled();
   await app.screenshot('f-series-1440-unknown');
   await expect(browser.locator('.cl-primary-link')).toHaveCount(0);
-  await screen.getByRole('combobox', {name:'选择企业', exact:true}).click();
+  await browser.locator('.cs-tenant-select .el-select__wrapper').click();
   await screen.getByRole('option', {name:'云岚生活', exact:true}).click();
   await expect(screen.getByRole('button', {name:'执行活动', exact:true})).toBeEnabled();
   await expect(browser.locator('.review-card')).not.toContainText('operation-review-qinghe-001');
-  await screen.getByRole('combobox', {name:'选择企业', exact:true}).click();
+  await browser.locator('.cs-tenant-select .el-select__wrapper').click();
   await screen.getByRole('option', {name:'青禾咖啡', exact:true}).click();
   await expect(screen.getByRole('heading', {name:'操作结果待确认', exact:true})).toBeVisible();
-  await screen.getByRole('combobox', {name:'查询结果场景', exact:true}).click();
+  await browser.locator('.outcome .el-select__wrapper').click();
   await screen.getByRole('option', {name:'操作结果待确认', exact:true}).click();
   await screen.getByRole('button', {name:'查询原操作', exact:true}).click();
   await expect(screen.getByRole('heading', {name:'操作结果待确认', exact:true})).toBeVisible();
-  await screen.getByRole('combobox', {name:'查询结果场景', exact:true}).click();
+  await browser.locator('.outcome .el-select__wrapper').click();
   await screen.getByRole('option', {name:'当前无权查询原操作', exact:true}).click();
   await screen.getByRole('button', {name:'查询原操作', exact:true}).click();
   await expect(browser.locator('.review-notice')).toHaveText('当前无权查询原操作');
   await expect(screen.getByRole('heading', {name:'操作结果待确认', exact:true})).toBeVisible();
-  await screen.getByRole('combobox', {name:'查询结果场景', exact:true}).click();
+  await browser.locator('.outcome .el-select__wrapper').click();
   await screen.getByRole('option', {name:'活动已启动', exact:true}).click();
   await screen.getByRole('button', { name: '查询原操作', exact: true }).click();
   await expect(screen.getByRole('heading', { name: '活动已启动', exact: true })).toBeVisible();
@@ -166,7 +166,7 @@ test('F-series design: two actual tabs retain scoped unknown results and share l
     const b = await context.newPage();
     await Promise.all([a.goto('http://127.0.0.1:5790/__design/f-series'),b.goto('http://127.0.0.1:5790/__design/f-series')]);
     for (const page of [a,b]) await page.getByRole('button', {name:'一家企业',exact:true}).click();
-    await b.getByRole('combobox', {name:'选择企业',exact:true}).click();
+    await b.locator('.cs-tenant-select .el-select__wrapper').click();
     await b.getByRole('option', {name:'云岚生活',exact:true}).click();
     for (const page of [a,b]) {
       await page.getByRole('button', {name:'营销活动',exact:true}).click();
@@ -180,7 +180,7 @@ test('F-series design: two actual tabs retain scoped unknown results and share l
       await pwExpect(page.getByRole('heading', {name:'操作结果待确认',exact:true})).toBeVisible();
       await pwExpect(page.locator('.review-card')).toContainText(`operation-review-${tenant}-001`);
     }
-    await b.getByRole('combobox', {name:'查询结果场景',exact:true}).click();
+    await b.locator('.outcome .el-select__wrapper').click();
     await b.getByRole('option', {name:'活动未启动',exact:true}).click();
     await b.getByRole('button', {name:'查询原操作',exact:true}).click();
     await pwExpect(b.getByRole('heading', {name:'活动未启动',exact:true})).toBeVisible();
