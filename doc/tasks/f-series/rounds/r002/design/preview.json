@@ -42,7 +42,7 @@
   "assets": {
     "preview_evidence": {
       "path": "preview-evidence.json",
-      "sha256": "0cb7313ab10830b9b66b3d41d86909b54e7a0077128a6c811196b831bed2691b"
+      "sha256": "24166c3d8214bf3588354b4c90a3d0b4764f306dbb3e369bee52b7c318972311"
     }
   },
   "blockers": []

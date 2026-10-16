@@ -12,7 +12,6 @@
 | C3 `d5b51c4` / [38924558890](https://github.com/hvritual/cs-biz/actions/runs/38924558890) | 类型核实发现runner Locator不支持嵌套locator；该run被替代取消 | 同义顶层CSS定位；实际类型检查通过；不计PASS |
 | C4 `935b58d` / [38924775697](https://github.com/hvritual/cs-biz/actions/runs/38924775697) | 身份与邀请/范围/双语通过；营销/双tab在Select输入被文字层覆盖时点击超时 | 点击可见wrapper、真实选项选择及全部结果断言不变 |
 | C5 `f80c3fa` / [38925798479](https://github.com/hvritual/cs-biz/actions/runs/38925798479) | 身份、邀请、双真实tab通过；最后一次嵌套深链在应用启动完成前即时读路径失败；原failure DOM仅有root | 等待路由及拒绝标题真实出现；不取消原路径断言；主题/英文截图等待对应控件/壳层加载 |
-
 | C6 `5eaf258` / [38926600179](https://github.com/hvritual/cs-biz/actions/runs/38926600179) | 真实拒绝URL包含合法from查询参数，测试结尾正则不接纳；英文DOM已经翻译而测试误查button，实际为menuitem | 接纳URL查询参数但保留pathname/拒绝标题；验证壳层真实ARIA和品牌英译 |
 
 独立内容审查曾以CHANGES_REQUESTED指出租户/Session分裂、跨tab旧快照覆盖未知记录、整批邀请误消除、营销Scope和旧导航状态。修复使用单一设计状态、Web Locks最新合并、storage同步、逐项回读和隔离guard。它们只是预览夹具机制，不冒充真实BFF/DB权限或幂等事务。
