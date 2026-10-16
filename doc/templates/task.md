@@ -83,3 +83,9 @@ Use **doc/ci/RISK-BASED-GATES.md**. Record failing assertion/source, Fast and fo
 - 交给工作流外执行模型的 R/AC、保留项、允许/禁止路径、资源/风险、验证建议、独立实施授权与退回条件：
 
 实施模型负责落地、核实、门禁和证据回读；Design 交接、Fast、Human Full、合并、部署与业务完成分别记。
+
+## 板块批次（仅整个板块/全部 Issue 任务适用）
+
+按 [板块成果协议](../workflow/MODULE-OUTCOME-CONTRACT.md) 在本任务目录引用 module-contract.json。填写完整成员（含 closed/blocked/必要未建任务）、排除决定、设计/R/AC/状态双向追踪、可观察条件与失败/恢复/约束、板块集成出口、依赖与资源/owner、范围/预算及分别获准的动作。冻结前做独立语义审查并引用真实同版批准和 locked commit；实现者不能重算摘要冒充批准。
+
+每轮记录实际 main/Issue/PR 回读、当前 AC 证据、阻塞恢复动作和一个 next action。授权内连续推进所有必需成员，保留完整分母。最终逐项证据及整体集成核验通过才关闭父板块；静态检查、Issue closed 或单项 merge 不能代替完成。

@@ -13,6 +13,8 @@ Use the current project quality policy first: cs-biz follows `doc/ci/RISK-BASED-
 Read AGENTS.md, project-profile.md, current approved Design and locked Acceptance, approved implementation scope, and task-progression. If there is no approved implementation slice, perform read-only assessment and propose the slice; do not claim implementation authorization. Do not substitute a locally generated approval.
 
 ## Main loop: close one unproven acceptance gap
+For a module batch, first read doc/workflow/MODULE-OUTCOME-CONTRACT.md and its approved lock. Admit only the selected member with current dependencies, resources, scope and authority. Do not edit module membership/criteria or stop the whole batch at a single slice result; return verified evidence and remaining gaps to intent-to-outcome-closure for the next selection. Existing one-candidate and risk gates still apply.
+
 1. Reconcile via task-progression. Enumerate every approved R/AC and protected behavior; locate current evidence. Choose the smallest independent unproven outcome, not the easiest file.
 2. Establish evidence: observable result, relevant negative case, existing capability, correct test entrypoint, exact allowed/forbidden paths, environment and reviewer exit. If already satisfied, collect current proof and do not manufacture code changes.
 3. Select loop mode based on actual work:

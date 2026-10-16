@@ -68,6 +68,7 @@ jobs:
           python3 doc/ci/check_repository.py
           python3 doc/ci/check_build_workflow.py
           python3 doc/ci/check_sdlc_workflow.py --mode structure
+          python3 doc/ci/check_module_workflow.py --all
           python3 doc/ci/check_human_full_policy.py
           python3 doc/ci/check_quality_policy.py
           python3 -m unittest discover -s doc/ci -p 'test_*.py' -v
