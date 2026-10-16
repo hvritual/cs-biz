@@ -71,7 +71,7 @@
     },
     {
       "path": "doc/workflow/ORIGINAL-RUNTIME-VALIDATION.md",
-      "replacement": ".agents/skills/sdlc-workflow/references/legacy-protocols.md",
+      "replacement": ".agents/skills/sdlc-workflow/references/current-protocols.md",
       "reason": "Empty document forward.",
       "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
     },
@@ -104,6 +104,48 @@
       "replacement": ".agents/skills/sdlc-design/skills/design-ux/references/upstream-source.json",
       "reason": "Move immutable upstream provenance to its owned capability.",
       "last_present_commit": "29c525d7f90cf61075f00a20efc1465a29b2c6db"
+    },
+    {
+      "path": "doc/ci/check_intent_v02.py",
+      "replacement": ".agents/skills/sdlc-workflow/references/current-protocols.md",
+      "reason": "No real task input consumers; synthetic compatibility format retired. Recover original implementation and tests from Git, without claiming its assertions migrated.",
+      "last_present_commit": "a13def36f8abd411e7b601b088845f900256222b"
+    },
+    {
+      "path": "doc/ci/check_revision_v04.py",
+      "replacement": ".agents/skills/sdlc-workflow/references/current-protocols.md",
+      "reason": "No real task input consumers; synthetic compatibility format retired. Recover original implementation and tests from Git, without claiming its assertions migrated.",
+      "last_present_commit": "a13def36f8abd411e7b601b088845f900256222b"
+    },
+    {
+      "path": "doc/ci/check_build_v04.py",
+      "replacement": ".agents/skills/sdlc-workflow/references/current-protocols.md",
+      "reason": "No real task input consumers; synthetic compatibility format retired. Recover original implementation and tests from Git, without claiming its assertions migrated.",
+      "last_present_commit": "a13def36f8abd411e7b601b088845f900256222b"
+    },
+    {
+      "path": ".agents/skills/sdlc-design/scripts/check_intent_v02.py",
+      "replacement": ".agents/skills/sdlc-workflow/references/current-protocols.md",
+      "reason": "No real task input consumers; synthetic compatibility format retired. Recover original implementation and tests from Git, without claiming its assertions migrated.",
+      "last_present_commit": "a13def36f8abd411e7b601b088845f900256222b"
+    },
+    {
+      "path": ".agents/skills/sdlc-design/scripts/check_revision_v04.py",
+      "replacement": ".agents/skills/sdlc-workflow/references/current-protocols.md",
+      "reason": "No real task input consumers; synthetic compatibility format retired. Recover original implementation and tests from Git, without claiming its assertions migrated.",
+      "last_present_commit": "a13def36f8abd411e7b601b088845f900256222b"
+    },
+    {
+      "path": ".agents/skills/sdlc-build/scripts/check_build_v04.py",
+      "replacement": ".agents/skills/sdlc-workflow/references/current-protocols.md",
+      "reason": "No real task input consumers; synthetic compatibility format retired. Recover original implementation and tests from Git, without claiming its assertions migrated.",
+      "last_present_commit": "a13def36f8abd411e7b601b088845f900256222b"
+    },
+    {
+      "path": ".agents/skills/sdlc-workflow/references/legacy-protocols.md",
+      "replacement": ".agents/skills/sdlc-workflow/references/current-protocols.md",
+      "reason": "No real task input consumers; synthetic compatibility format retired. Recover original implementation and tests from Git, without claiming its assertions migrated.",
+      "last_present_commit": "a13def36f8abd411e7b601b088845f900256222b"
     }
   ]
 }

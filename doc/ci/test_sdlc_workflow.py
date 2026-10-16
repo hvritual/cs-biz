@@ -1,52 +1,39 @@
 #!/usr/bin/env python3
+"""Keep current structure admission; reject retired compatibility modes."""
 import importlib.util
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
 SPEC = importlib.util.spec_from_file_location("sdlc_check", HERE / "check_sdlc_workflow.py")
 checker = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(checker)
 
+
 class WorkflowContractTests(unittest.TestCase):
-    def test_reject_absolute(self):
-        with tempfile.TemporaryDirectory() as d:
-            with self.assertRaises(ValueError): checker.child(Path(d), "/etc/passwd")
+    def test_current_repository_structure(self):
+        self.assertEqual(checker.structure(ROOT), [])
 
-    def test_reject_traversal(self):
-        with tempfile.TemporaryDirectory() as d:
-            with self.assertRaises(ValueError): checker.child(Path(d), "../outside")
+    def test_missing_current_authorities_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            errors = checker.structure(Path(directory))
+        for authority in ("missing skill: sdlc-design", "intent-design-v2.md", "current-protocols.md"):
+            self.assertTrue(any(authority in error for error in errors), authority)
 
-    def test_absent_intent(self):
-        with tempfile.TemporaryDirectory() as d:
-            with self.assertRaises(ValueError): checker.intent(Path(d))
+    def test_retired_modes_cannot_admit_new_work(self):
+        for mode in ("intent", "design", "build"):
+            with self.subTest(mode=mode):
+                result = subprocess.run(
+                    [sys.executable, str(HERE / "check_sdlc_workflow.py"), "--mode", mode],
+                    capture_output=True, text=True, check=False,
+                )
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("invalid choice", result.stderr)
 
-    def test_unresolved_decision(self):
-        with tempfile.TemporaryDirectory() as d:
-            p = Path(d) / "intent.json"
-            p.write_text('{"objective":"o","original_request":"o","authorization":"draft_only","hard_constraints":[],"unresolved_decisions":["policy"],"decision":"READY"}')
-            self.assertIn("material decisions not resolved", checker.intent(Path(d)))
-
-    def test_external_needs_separate_permission(self):
-        with tempfile.TemporaryDirectory() as d:
-            p = Path(d) / "intent.json"
-            p.write_text('{"objective":"o","original_request":"o","authorization":"external_action","hard_constraints":[],"unresolved_decisions":[],"decision":"READY"}')
-            self.assertTrue(any("separate authorization" in s for s in checker.intent(Path(d))))
-
-    def test_positive_intent_is_only_static(self):
-        with tempfile.TemporaryDirectory() as d:
-            p = Path(d) / "intent.json"
-            p.write_text('{"objective":"o","original_request":"o","authorization":"draft_only","hard_constraints":[],"unresolved_decisions":[],"decision":"READY"}')
-            self.assertEqual(checker.intent(Path(d)), [])
-
-    def test_stale_preview(self):
-        with tempfile.TemporaryDirectory() as d:
-            root = Path(d)
-            (root / "intent.json").write_text('{"objective":"o","original_request":"o","authorization":"draft_only","hard_constraints":[],"unresolved_decisions":[],"decision":"READY"}')
-            (root / "design-preview.json").write_text('{"intent_sha256":"bad","assets":{},"revisions":[]}')
-            (root / "design-approval.json").write_text('{"artifacts":{},"preview_sha256":"bad"}')
-            self.assertIn("preview bound to stale intent", checker.design(root))
 
 if __name__ == "__main__":
     unittest.main()

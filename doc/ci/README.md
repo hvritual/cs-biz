@@ -10,7 +10,7 @@
 | Skill/文档所有权与当前导航 | `python3 .agents/skills/sdlc-workflow/scripts/check_docs.py` | Python 3.11+；静态引用/可达性/退休路径，不自动证明文档语义真实 |
 | 工作流包/样例/分发副本 | `python3 .agents/skills/sdlc-workflow/scripts/check_packages.py` | Python 3.11+；三包分别复制运行，EXAMPLE_ONLY 不认证真实结果 |
 | 当前目标的探索/决定/操作路由 | `python3 .agents/skills/intent-to-outcome-closure/scripts/check_goal.py --task TASK --live-baseline LIVE_SHA` | 替换真实目录和独立回读的基线；离线只读路由与摘要检查，不执行工具、不认证 Human 或业务结果 |
-| 全部 Python 治理反例 | `python3 -m unittest discover -s doc/ci -p 'test_*.py' -v` | 先按 `doc/ci/requirements.txt` 安装固定解析器；包括兼容协议、文档与 Agent 工作流测试 |
+| 全部 Python 治理反例 | `python3 -m unittest discover -s doc/ci -p 'test_*.py' -v` | 先按 `doc/ci/requirements.txt` 安装固定解析器；包括现行协议、文档与 Agent 工作流测试 |
 | 前端迭代 Fast | `cd frontend && corepack pnpm check:fast` | Node/pnpm 按 package.json；类型/lint/copy/Desktop/policy/E2E类型/单测，不含 build/E2E |
 | 前端 UI 受影响部分 | `cd frontend && corepack pnpm check:desktop:runtime` | 按 [前端 CI](../../frontend/ci/README.md) 安装实际 engine；构建+Desktop probe，不代替全部浏览器门禁 |
 | 后端完整资格 | `bash backend/ci/check.sh` | [Consumer 工具/制品权限](../../backend/doc/YUNKA-CONSUMER.md) 与 Docker；实际生成/审计/build/unit/race/vet/security/Trace |
@@ -26,6 +26,6 @@
 
 [文档资格](DOCS-AUTO-DELIVERY.md) 只用于可信分类器允许的普通文档资产；本次治理/Skill 整理属于 Full。可选 [手动 Full](HUMAN-FULL-CONTROL.md) 的身份/回执规则仅约束该手动端点，不是每个 PR 的等待条件。实际 GitHub branch/ruleset 保护须回读，不能由文字推断。
 
-旧任务先读 [兼容协议表](../../.agents/skills/sdlc-workflow/references/legacy-protocols.md)，再用匹配的 doc/ci CLI；不能因旧文件路径或历史 Human 等待要求重新批准当前普通工程任务。
+[现行协议](../../.agents/skills/sdlc-workflow/references/current-protocols.md) 列出实际检测器与消费者；退休格式按 [迁移记录](../../.agents/skills/sdlc-workflow/references/migration.md) 在原 Git 版本恢复。历史 Human 等待要求不能自动覆盖当前任务授权。
 
 提交时使用 [PR 证据模板](../../.github/PULL_REQUEST_TEMPLATE.md)，按具体任务保留原始输出与外部回执。
