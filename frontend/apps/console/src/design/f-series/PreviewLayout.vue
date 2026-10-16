@@ -7,7 +7,7 @@ import { $t } from '#/locales';
 import { useAppearanceStore } from '#/store';
 import { text, type CopyKey } from './copy';
 import { useFSeriesDesignState } from './state';
-const { workspace, activeTenant, identity, chooseOrganization, signOut } = useFSeriesDesignState();
+const { workspace, activeTenant, identity, tab, chooseOrganization, signOut } = useFSeriesDesignState();
 const appearance = useAppearanceStore();
 const { isDark } = usePreferences();
 const t = (key: CopyKey) => text(key, preferences.app.locale === 'en-US');
@@ -21,6 +21,7 @@ async function language(value: string) {
 </script>
 <template>
   <BasicLayout>
+    <template v-if="tab==='marketing'" #primary-links><span class="sr-only">{{ t('ready') }}</span></template>
     <template #header-tenant>
       <div class="cs-tenant-tools"><span class="cl-tenant-building" aria-hidden="true">▤</span>
         <ElSelect :model-value="activeTenant" :disabled="identity!=='active'" :aria-label="$t('shell.selectWorkspace')" :placeholder="$t('shell.selectWorkspace')" class="cs-tenant-select" @change="choose">

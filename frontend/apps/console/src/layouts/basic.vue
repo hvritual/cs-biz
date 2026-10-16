@@ -64,6 +64,7 @@ watch(() => workspace.generation, () => { flyout.value = false; });
     </header>
     <nav class="cl-primary-rail" :class="{ 'is-collapsed': collapsed }" :aria-label="$t('shell.primaryNavigation')">
       <div class="cl-primary-links" role="menu">
+        <slot name="primary-links">
         <button
           v-for="item in domains" :key="item.key" type="button" role="menuitem"
           class="cl-primary-link" :data-domain="item.key" :class="{ 'is-active': activeDomain(item.key, item.path) }"
@@ -75,6 +76,7 @@ watch(() => workspace.generation, () => { flyout.value = false; });
           <component :is="item.icon" :size="20" aria-hidden="true" />
           <span v-if="!collapsed" class="cl-primary-text">{{ item.title }}</span>
         </button>
+        </slot>
       </div>
       <button class="cl-rail-toggle" type="button"
         :aria-label="$t(collapsed ? 'shell.expandSidebar' : 'shell.collapseSidebar')" @click="collapseRail">

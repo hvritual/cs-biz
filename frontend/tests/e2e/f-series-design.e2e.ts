@@ -139,7 +139,8 @@ test('F-series design: 1536 invitations, scope and safe support in both language
   await screen.getByRole('button', { name: '客户与范围', exact: true }).click();
   await browser.locator('tbody tr').last().getByRole('button', { name: '修改', exact: true }).click();
   await expect(browser.locator('[role="status"]')).toContainText('此客户不在您的修改范围内');
-  await screen.getByRole('checkbox', { name: '青禾科技园', exact: true }).check();
+  await browser.locator('tbody tr').first().locator('.el-checkbox').click();
+  await expect(screen.getByRole('button', {name:'导出选定客户', exact:true})).toBeEnabled();
   await screen.getByRole('button', { name: '导出选定客户', exact: true }).click();
   await browser.locator('.el-dialog').getByRole('button', { name: '导出选定客户', exact: true }).click();
   await expect(browser.locator('[role="status"]')).toContainText('导出请求已提交');
