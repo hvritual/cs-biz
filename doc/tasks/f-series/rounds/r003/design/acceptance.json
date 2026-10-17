@@ -1,0 +1,61 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "yunka-f-series-r003-full-ui-design",
+  "stage": "design",
+  "step": "acceptance",
+  "status": "blocked",
+  "definition_sha256": "58437ff6a70864af83fd7b6cb3e95a30f472af686b1f90f2516fbbd45eb1301b",
+  "input_sha256": {
+    "request.json": "ac2eaa11d68fe158922aa216335ebd3ca48b416aba5dc127d279e386ba0dd7a4",
+    "design/preview.json": "c7140ab6d4de73d1a13de92931e2c2fcc91e912e3dfb6f3d62ce2c9f6a2910da"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+    "frontend_change": true,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/rounds/r003/**",
+      "doc/tasks/f-series/task.md",
+      "doc/roadmap.md",
+      "doc/tasks/README.md",
+      "frontend/apps/console/src/design/f-series/**",
+      "frontend/apps/console/src/layouts/basic.vue",
+      "frontend/tests/e2e/f-series-design.e2e.ts",
+      "frontend/tests/e2e/f-series-full.ts"
+    ],
+    "forbidden_paths": [
+      "backend/**",
+      ".agents/**",
+      ".codex/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**",
+      "doc/tasks/f-series/rounds/r001/**",
+      "frontend/pnpm-lock.yaml",
+      "doc/tasks/f-series/rounds/r002/**"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "payload": {
+    "acceptance_ref": "decision-review.md",
+    "review_ref": "decision-review.md"
+  },
+  "assets": {
+    "requirements": {
+      "path": "requirements.md",
+      "sha256": "b7e56f68d0461b403f6e189a5902a81d4541fa0435f4a5841177327ea8ca2def"
+    },
+    "acceptance": {
+      "path": "decision-review.md",
+      "sha256": "ffb5de0fd8b6d0533cece88e6f84b2c617ee87495a3e7ee48e8c5fa8c3fbe156"
+    }
+  },
+  "blockers": [
+    {
+      "owner": "Human product/security owner",
+      "next_action": "Review same-version r003 complete pages and exception flows; resolve P1/P2/P4/P7 and any material feedback; production P6 separately scoped",
+      "evidence_ref": "decision-review.md"
+    }
+  ]
+}

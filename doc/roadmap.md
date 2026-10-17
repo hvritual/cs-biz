@@ -14,12 +14,12 @@
 
 ## Yunka F：恢复设计，保留完整出口
 
-当前状态为 **RESUMED_DESIGN**：Human 于2026-10-16 22:49明确恢复F2–F6，22:54要求开始同版设计/旅程/验收与准入对账；见 [F系列任务](tasks/f-series/task.md)。r002是待审设计，不是业务实现完成；P1/P2/P4/P7按影响范围待决定，生产P6只阻塞相应出口。Goal继续维护完整原R/AC与逐切片准入。
+当前状态为 **DESIGN_REVIEW_READY**：Human 于2026-10-16 22:49明确恢复F2–F6，22:54要求开始同版设计/旅程/验收与准入对账；见 [F系列任务](tasks/f-series/task.md)。r003完整交互候选等待Human同版审阅；r002保留历史，不代表本版验收；P1/P2/P4/P7按影响范围待决定，生产P6只阻塞相应出口。Goal继续维护完整原R/AC与逐切片准入。
 
 | 单元 | 必需结果与依赖 | 当前缺口 |
 | --- | --- | --- |
 | [F2 #13](https://github.com/hvritual/cs-biz/issues/13) | 首条营销 Function-only Operation；无 Menu 仍依法执行，Scope/跨租户/未知结果负例和跨端 Trace | 设计准入、真实主体/grants 与业务纵向链待完成 |
-| [F3 #14](https://github.com/hvritual/cs-biz/issues/14) | 持久 Access/Session、0/1/N 企业、标签页上下文、撤权/CSRF/并发及真实 DB/API/浏览器 | 资源已具备局部前提；业务策略、前端同版设计和真实实现/证据仍缺 |
+| [F3 #14](https://github.com/hvritual/cs-biz/issues/14) | 持久 Access/Session、0/1/N 企业、标签页上下文、撤权/CSRF/并发及真实 DB/API/浏览器 | 资源已具备局部前提；业务策略、前端同版设计待Human审核，真实实现/证据仍缺 |
 | [F4 #15](https://github.com/hvritual/cs-biz/issues/15) | F2+F3；CRM/营销查询/写入/批量/导出/统计强制 Tenant AND Scope | 待依赖与真实 Domain 实现 |
 | [F5 #16](https://github.com/hvritual/cs-biz/issues/16) | F2–F4；统一受保护执行链，兼容/负例/回退验证后下线旧 Router | 不能在本轮“旧协议清理”中直接删除业务 Router |
 | [F6 #17](https://github.com/hvritual/cs-biz/issues/17) | F3–F5；真库、安全、审计、幂等/恢复、性能、生产发布/回读 | 缺实际目标环境资格与生产发布授权 |
@@ -35,3 +35,5 @@
 当前工程交付政策只在 [风险门禁](ci/RISK-BASED-GATES.md)。局部完成或阻塞先返回 Goal，按原目标回读实际证据、限定受影响范围并选择下一项已授权工作；Human stop 优先。
 
 当前F2–F6设计推进到 [r003完整页面与异常旅程](tasks/f-series/rounds/r003/solution.md)：先完成可交互设计及浏览器验证，再由Human同版审阅。业务Build与生产资格不因设计页面完成而通过。
+
+F系列r003现已形成[完整交互审阅候选](tasks/f-series/rounds/r003/review-summary.md)，精确源码Full验证见该轮记录。当前返回Human同版设计审阅；业务F2–F6/O1与生产资格继续保持未完成。

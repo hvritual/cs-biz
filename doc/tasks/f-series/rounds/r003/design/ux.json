@@ -53,7 +53,7 @@
     },
     "ux_analysis": {
       "path": "ux-analysis.yaml",
-      "sha256": "2ae38276f708e239686565463d4dfe13bb0008123ead4ada6d432dd1779d1398"
+      "sha256": "f4f53307b47a992696594e6bafdeae2a62428eb551a63993277050f3d690c3a8"
     }
   },
   "blockers": []

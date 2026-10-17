@@ -1,0 +1,27 @@
+{
+  "authentic_approval": "NOT_VERIFIED",
+  "runtime": "NOT_VERIFIED",
+  "execution_granted": false,
+  "state": "BLOCKED",
+  "step": "acceptance",
+  "blockers": [
+    {
+      "owner": "Human product/security owner",
+      "next_action": "Review same-version r003 complete pages and exception flows; resolve P1/P2/P4/P7 and any material feedback; production P6 separately scoped",
+      "evidence_ref": "decision-review.md"
+    }
+  ],
+  "coordinator_return": {
+    "owner": "goal",
+    "next_action": "RECONCILE_GOAL",
+    "task_id": "yunka-f-series-r003-full-ui-design",
+    "stage": "design",
+    "stage_result": "blocked",
+    "result_ref": "design/acceptance.json",
+    "completion_boundary": "reviewed_design",
+    "requirement_ids": [],
+    "acceptance_ids": [],
+    "goal_complete": false
+  },
+  "contract": "PASS_STATIC_ONLY"
+}

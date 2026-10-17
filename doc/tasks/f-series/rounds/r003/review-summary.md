@@ -22,3 +22,7 @@
 请结合[方案](solution.md)、[设计](design.md)、[完整验收](requirements.md)、[跨页义务](cross-screen-obligations.md)与界面审阅。P1会话期限、P2邀请期限与恢复、P4委派细则、P7营销实际效果仍为待审候选，详见[集中决策](decision-review.md)。P6生产目标、资源、阈值与执行授权单独留到对应生产范围。
 
 声明场景入口渲染与真实连续动作验证分别记录，不能以233个菜单选项代替233条动作链或后端验收。当前测试与托管证据见[验证记录](validation.md)。未收到Human同版实质设计批准，不签Build handoff，不合并设计PR。
+
+交互入口：[打开私有审阅界面](https://cs-biz-f-series-review.citrus-sloth-6447.chatgpt.site)。启动后从组织账号进入；所有操作使用隔离样例。实际验证与边界见本轮验证记录。
+
+独立源码、原始运行及截图复核结论：[independent-review](independent-review.md)。本版可交Human审阅；该结论不代替同版业务设计批准。

@@ -4,7 +4,7 @@ status: draft
 task_ref:
   issue: https://github.com/hvritual/cs-biz/issues/10
   baseline_commit: 191189ba63ffcbda8f62be1981ae3b892172a9c9
-  candidate_commit: null
+  candidate_commit: 1ef0e792e09e7d999071707574d3ac63fd339d9b
   name: F2–F6 r003 complete frontend
 classification:
   type: full_business_task
