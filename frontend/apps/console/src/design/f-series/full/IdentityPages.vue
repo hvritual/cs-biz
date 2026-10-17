@@ -41,8 +41,8 @@ function choose(name: string) {
     s.legacy.switchFailed();
     return;
   }
-  s.legacy.chooseOrganization(name);
-  s.go("campaigns");
+  s.chooseOrganization(name);
+  s.go("modules");
 }
 function logout() {
   s.legacy.signOut();

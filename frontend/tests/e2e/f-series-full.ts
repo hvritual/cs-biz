@@ -1,6 +1,10 @@
 import { test } from "@e2e-dev/web";
 import { chromium, expect, type Page } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, readdirSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { reviewPages } from "../../apps/console/src/design/f-series/full/catalog";
 const origin = "http://127.0.0.1:5790";
@@ -27,6 +31,14 @@ async function check(p: Page, name: string, checked: boolean) {
 }
 async function role(p: Page, value: string) {
   await select(p, "审阅角色", value);
+}
+async function account(p: Page, value: string) {
+  await select(p, "审阅账号", value);
+  await expect(
+    p.getByRole("heading", { name: "选择本标签页要使用的企业", exact: true }),
+  ).toBeVisible();
+  await p.getByRole("button", { name: "进入 青禾咖啡", exact: true }).click();
+  await expect(p.locator("[data-page]")).toHaveAttribute("data-page", "modules");
 }
 async function reset(p: Page) {
   await p.goto(origin + base + "/identity");
@@ -104,6 +116,92 @@ export function registerFullReviewTests() {
         }));
         expect(geometry).toEqual({ height: 56, x: 0 });
       }));
+  test("F-series full: built private-origin root mounts the complete review UI", async () =>
+    owned(async (p) => {
+      const privateOrigin = "https://cs-biz-f-series-review.citrus-sloth-6447.chatgpt.site";
+      const distribution = mkdtempSync(join(tmpdir(), "cs-biz-review-dist-"));
+      const frontend = fileURLToPath(new URL("../../", import.meta.url));
+      const faults: string[] = [];
+      const missing: string[] = [];
+      p.on("pageerror", (error) => faults.push(error.message));
+      p.on("console", (message) => {
+        if (message.type() === "error") faults.push(message.text());
+      });
+      try {
+        // Pinned source/toolchain rebuild: not a claim that the deployed URL was browsed.
+        execFileSync(
+          process.execPath,
+          [
+            join(frontend, "node_modules/vite/bin/vite.js"),
+            "build",
+            "--mode",
+            "design",
+            "--outDir",
+            distribution,
+            "--emptyOutDir",
+          ],
+          {
+            cwd: join(frontend, "apps/console"),
+            env: {
+              ...process.env,
+              NODE_ENV: "production",
+              VITE_F_SERIES_REVIEW_ORIGIN: privateOrigin,
+            },
+            timeout: 40000,
+            stdio: "pipe",
+          },
+        );
+        const assets = new Map<string, string>();
+        const collect = (directory: string, prefix = "") => {
+          for (const entry of readdirSync(directory, { withFileTypes: true })) {
+            const relative = prefix + entry.name;
+            if (entry.isDirectory()) collect(join(directory, entry.name), relative + "/");
+            else if (entry.isFile()) assets.set("/" + relative, join(directory, entry.name));
+          }
+        };
+        collect(distribution);
+        await p.context().route("**/*", async (route) => {
+          const url = new URL(route.request().url());
+          if (url.origin !== privateOrigin || route.request().method() !== "GET") {
+            missing.push(url.origin + url.pathname);
+            await route.abort("blockedbyclient");
+            return;
+          }
+          const asset =
+            assets.get(url.pathname) ??
+            (url.pathname === "/" || url.pathname.startsWith(base + "/")
+              ? assets.get("/index.html")
+              : undefined);
+          if (!asset) {
+            missing.push(url.pathname);
+            await route.fulfill({
+              status: 404,
+              body: "Missing static resource",
+              contentType: "text/plain",
+            });
+            return;
+          }
+          await route.fulfill({ path: asset });
+        });
+        await p.goto(privateOrigin + "/");
+        await expect(p).toHaveURL(privateOrigin + base + "/identity");
+        await expect(
+          p.getByRole("heading", { name: "使用组织账号安全进入", exact: true }),
+        ).toBeVisible();
+        await expect(p.locator("[data-page]")).toHaveAttribute("data-page", "identity");
+        await p.getByRole("button", { name: "继续使用组织账号", exact: true }).click();
+        await p.getByRole("button", { name: "进入 青禾咖啡", exact: true }).click();
+        await expect(p.locator("[data-page]")).toHaveAttribute("data-page", "modules");
+        await select(p, "审阅页面", "UI-17 · 客户管理");
+        await expect(p.getByRole("heading", { name: "客户管理", exact: true })).toBeVisible();
+        await expect(p.locator(".full-table tbody")).toContainText("C-1001");
+        expect(missing).toEqual([]);
+        expect(faults).toEqual([]);
+        await shot(p, "built-private-root");
+      } finally {
+        rmSync(distribution, { recursive: true, force: true });
+      }
+    }));
   test("F-series full: unknown receipt reads immutable success after a later version change", async () =>
     owned(async (p) => {
       await reset(p);
@@ -309,7 +407,7 @@ export function registerFullReviewTests() {
   test("F-series full: multiple roles union per action and revoke one role immediately", async () =>
     owned(async (p) => {
       await reset(p);
-      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await account(p, "林沐 · lin@example.test");
       await p.goto(origin + base + "/customers");
       await expect(p.locator(".full-table tbody")).toContainText("C-1001");
       await p.goto(origin + base + "/customer?target=C-1001");
@@ -321,7 +419,7 @@ export function registerFullReviewTests() {
       await p.getByRole("button", { name: "核对修改影响", exact: true }).click();
       await confirm(p);
       await expect(p.locator(".full-table tbody")).toContainText("已完成");
-      await select(p, "审阅账号", "陈予安 · yuan.chen@example.test");
+      await account(p, "陈予安 · yuan.chen@example.test");
       await p.goto(origin + base + "/members");
       await p
         .locator('tr:has(td:text-is("林沐"))')
@@ -337,7 +435,7 @@ export function registerFullReviewTests() {
       await p.getByRole("button", { name: "核对角色调整", exact: true }).click();
       await confirm(p);
       await expect(p.locator(".full-table tbody")).toContainText("已完成");
-      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await account(p, "林沐 · lin@example.test");
       await p.goto(origin + base + "/customer?target=C-1002");
       await expect(p.locator(".full-card")).toContainText("两个角色合并后只修改本人客户");
       await expect(p.getByRole("button", { name: "修改客户", exact: true })).toBeDisabled();
@@ -348,7 +446,7 @@ export function registerFullReviewTests() {
   test("F-series full: assigned and explicit sets retain independent scope after revocation", async () =>
     owned(async (p) => {
       await reset(p);
-      await select(p, "审阅账号", "周明 · scope@example.test");
+      await account(p, "周明 · scope@example.test");
       await p.goto(origin + base + "/members");
       await p
         .locator('tr:has(td:text-is("林沐"))')
@@ -360,7 +458,7 @@ export function registerFullReviewTests() {
       await check(p, "成员角色 指定客户集合只读", true);
       await p.getByRole("button", { name: "核对角色调整", exact: true }).click();
       await confirm(p);
-      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await account(p, "林沐 · lin@example.test");
       await p.goto(origin + base + "/customers");
       await expect(p.locator(".full-table tbody tr")).toHaveCount(1);
       await expect(p.locator(".full-table tbody")).toContainText("C-1001");
@@ -371,7 +469,7 @@ export function registerFullReviewTests() {
       await p.getByRole("button", { name: "核对修改影响", exact: true }).click();
       await confirm(p);
       await expect(p.locator(".full-table tbody")).toContainText("已完成");
-      await select(p, "审阅账号", "周明 · scope@example.test");
+      await account(p, "周明 · scope@example.test");
       await p.goto(origin + base + "/members");
       await p
         .locator('tr:has(td:text-is("林沐"))')
@@ -381,11 +479,11 @@ export function registerFullReviewTests() {
       await p.getByRole("button", { name: "核对资源指派", exact: true }).click();
       await confirm(p);
       await expect(p.locator(".full-table tbody")).toContainText("已完成");
-      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await account(p, "林沐 · lin@example.test");
       await p.goto(origin + base + "/customer?target=C-1001");
       await expect(p.locator(".full-card")).toContainText("指派允许修改，负责人保持不变");
       await expect(p.getByRole("button", { name: "修改客户", exact: true })).toBeDisabled();
-      await select(p, "审阅账号", "周明 · scope@example.test");
+      await account(p, "周明 · scope@example.test");
       await p.goto(origin + base + "/role-edit?target=explicit-reader");
       const input = p.getByRole("combobox", { name: "客户读取指定对象", exact: true });
       await p
@@ -399,7 +497,7 @@ export function registerFullReviewTests() {
       await p.getByRole("button", { name: "核对权限变化", exact: true }).click();
       await confirm(p);
       await expect(p.locator(".full-table tbody")).toContainText("已完成");
-      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await account(p, "林沐 · lin@example.test");
       await p.goto(origin + base + "/customers");
       await expect(p.locator(".full-table tbody tr")).toHaveCount(1);
       await expect(p.locator(".full-table tbody")).toContainText("C-1003");

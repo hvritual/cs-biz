@@ -1328,23 +1328,28 @@ function createState() {
   function openInvitation(id: string) {
     go("invitation-accept", { invite: id });
   }
-  async function selectAccount(id: string) {
+  function chooseOrganization(name: string) {
+    legacy.chooseOrganization(name);
+    const current = membership();
+    const grants = assignedRoles();
+    role.value =
+      current?.state === "active" && hasRole(current, "owner")
+        ? "owner"
+        : grants.some((grant) => grant.access || grant.menu)
+          ? "manager"
+          : grants.some((grant) => grant.update !== "none" || grant.marketingExecute !== "none")
+            ? "operator"
+            : "reader";
+  }
+  async function selectAccount(id: string, preserveInvitation = false) {
     const account = database.value.accounts.find((x) => x.id === id);
     if (!account) return;
     legacy.setReviewIdentity(account);
     role.value = "reader";
     syncOrganizations();
-    const current = membership();
-    if (current?.state === "active")
-      role.value = hasRole(current, "owner")
-        ? "owner"
-        : assignedRoles().some((grant) => grant.access || grant.menu)
-          ? "manager"
-          : assignedRoles().some(
-                (grant) => grant.update !== "none" || grant.marketingExecute !== "none",
-              )
-            ? "operator"
-            : "reader";
+    // A new account explicitly selects its organization; incoming verification
+    // stays on the invitation until acceptance establishes membership.
+    if (!preserveInvitation) go("organizations");
   }
   async function verifyInvitedAccount() {
     const raw = database.value.invites.find((x) => x.id === incomingInvitation.value?.id);
@@ -1368,19 +1373,14 @@ function createState() {
         db.accounts.push(account);
       });
     }
-    if (account) await selectAccount(account.id);
+    if (account) await selectAccount(account.id, true);
   }
   function continueInvitation(task: Task) {
     const target = database.value.tenants.find((x) => x.id === task.tenant);
     const member = membership(database.value, task.tenant);
     if (!target || member?.state !== "active") return;
     syncOrganizations();
-    legacy.chooseOrganization(target.name);
-    role.value = hasRole(member, "owner")
-      ? "owner"
-      : assignedRoles().some((grant) => grant.access)
-        ? "manager"
-        : "reader";
+    chooseOrganization(target.name);
     go("modules");
   }
   function acceptInvitation() {
@@ -1518,6 +1518,7 @@ function createState() {
     enter,
     selectRole,
     selectAccount,
+    chooseOrganization,
     verifyInvitedAccount,
     acceptInvitation,
     openInvitation,

@@ -1,0 +1,22 @@
+{
+  "candidate": "65eaa5ab9525026a0054cdc7a862efd07ec768c2",
+  "run_id": 38996417089,
+  "attempt": 1,
+  "result": "failed",
+  "tester_army": {
+    "passed": 47,
+    "failed": 2,
+    "total": 49
+  },
+  "legacy": "not_run_due_to_preceding_failure",
+  "artifact_id": 12087039609,
+  "archive_sha256": "1d4d6373f5c33ec2dfe413c9a921135c7270a449c5ebd19b12479d63ebe71c01",
+  "failure": "New multi-role journeys switched accounts, which correctly cleared the active organization, then navigated into a business page without selecting an organization.",
+  "repair": [
+    "Guide review account switching to explicit organization selection; derive capability from actual grants only after selection.",
+    "Keep incoming invitation verification on the invitation until acceptance.",
+    "Retain explicit organization selection in both new continuous journeys; do not force active tenant or inject grants.",
+    "Add a pinned static design-build private-origin root startup probe, isolated from real network and distinguished from deployed-URL QA."
+  ],
+  "success_claimed": false
+}
