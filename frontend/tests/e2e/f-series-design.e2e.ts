@@ -11,6 +11,10 @@ const frontend = fileURLToPath(new URL('../..', import.meta.url));
 let preview: ChildProcess | undefined;
 let startupLog = '';
 beforeAll(async () => {
+  if (process.env.R004_REUSE_PREVIEW === '1') {
+    if (!(await fetch('http://127.0.0.1:5790/')).ok) throw new Error('Explicit preview reuse requested, but the owned local entry is unavailable.');
+    return;
+  }
   preview = spawn(process.execPath, [resolve(frontend, 'node_modules/vite/bin/vite.js'), '--mode', 'design', '--host', '127.0.0.1', '--port', '5790', '--strictPort'], {
     cwd: resolve(frontend, 'apps/console'), stdio: ['ignore', 'pipe', 'pipe'],
     env: { ...process.env, TURBO_TELEMETRY_DISABLED: '1', DO_NOT_TRACK: '1' },
@@ -179,7 +183,7 @@ test('F-series design: 1536 invitations, scope and safe support in both language
 // Public Playwright API is used for two simultaneous tabs; the normal runner
 // owns and reports this test, and the additional browser is closed in finally.
 test('F-series design: two actual tabs retain scoped unknown results and share logout', async () => {
-  const engine = await chromium.launch();
+  const engine = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {});
   try {
     const context = await engine.newContext({viewport:{width:1440,height:900},locale:'zh-CN'});
     const a = await context.newPage();

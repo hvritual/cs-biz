@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import {
   ElButton,
   ElCheckbox,
@@ -14,7 +14,12 @@ import { useFullReviewState } from "./state";
 const s = useFullReviewState();
 const query = ref("");
 const validation = ref("");
+const entitlementText = ref(''); const entitlementError = ref(''); const moduleNames = ref('');
+const moduleVersion = ref(0);
 const form = computed(() => s.draft("tenant-create", { name: "", code: "", owner: "" }));
+watch(() => [s.taskMode, form.value.name], () => {
+  if (s.taskMode && form.value.name.trim() && !form.value.code) form.value.code = 'org-' + crypto.randomUUID().slice(0, 8);
+});
 const grant = computed(() =>
   s.draft("module-grant", {
     modules: [] as string[],
@@ -59,6 +64,11 @@ function nominate() {
 const target = computed(() =>
   s.query.target ? s.data.tenants.find((x) => x.id === s.query.target) : s.data.tenants[0],
 );
+watch(() => [s.contextKey, s.page.id, s.query.target], () => {
+  entitlementText.value = ''; entitlementError.value = ''; moduleNames.value = ''; validation.value = '';
+  grant.value.modules = [];
+  moduleVersion.value = 0;
+});
 function create() {
   validation.value = "";
   if (
@@ -72,7 +82,7 @@ function create() {
     );
     return;
   }
-  s.request(
+  (s.taskMode ? s.requestInline : s.request)(
     ["创建企业并指定负责人", "Create organization and nominate owner"],
     {
       kind: "tenant",
@@ -84,11 +94,12 @@ function create() {
 }
 function enable() {
   if (!target.value) return;
+  if (s.taskMode && (!entitlementText.value || entitlementError.value || validation.value || moduleVersion.value !== target.value.version)) return;
   if (!grant.value.modules.length) {
     validation.value = l("请先选择已发布模块。", "Select a published module.");
     return;
   }
-  s.request(
+  (s.taskMode ? s.requestInline : s.request)(
     ["核对模块开通影响", "Review module activation"],
     {
       kind: "module",
@@ -96,7 +107,7 @@ function enable() {
       values: {
         tenant: target.value?.id || "",
         name: target.value?.name || "",
-        version: String(target.value?.version),
+        version: String(s.taskMode ? moduleVersion.value : target.value?.version),
         state: grant.value.mode,
         expiresAt: grant.value.expiresAt,
         quota: grant.value.quota,
@@ -104,6 +115,25 @@ function enable() {
     },
     "platform",
   );
+}
+function applyModules(value: string) {
+  if (!moduleNames.value) moduleVersion.value = target.value?.version || 0;
+  moduleNames.value = value;
+  const names = [...new Set(value.split(/[\n,;|]/).map(v => v.trim()).filter(Boolean))];
+  const modules: Record<string, string> = { '客户管理': 'crm', '营销': 'marketing', 'CRM': 'crm', 'Marketing': 'marketing' };
+  validation.value = names.some(name => !modules[name]) ? l('请填写已发布的客户管理或营销模块名称。', 'Enter published CRM or Marketing module names.') : '';
+  grant.value.modules = names.map(name => modules[name]).filter((id): id is string => !!id);
+}
+function applyEntitlement(value: string) {
+  entitlementText.value = value;
+  const cells = value.replaceAll('\r', '').split('\t');
+  if (cells.length !== 3 || !['开通', '关闭', 'Enable', 'Disable'].includes(cells[0] || '') ||
+    (cells[1] && !/^\d{4}-\d{2}-\d{2}$/.test(cells[1])) || !/^(不限|unlimited|[1-9]\d*)$/.test(cells[2] || '')) {
+    entitlementError.value = l('请粘贴方式、有效期、额度三列。有效期可空；额度填正整数或不限。', 'Paste three columns: Enable/Disable, expiry date (optional), quota (positive integer or unlimited).'); return;
+  }
+  grant.value.mode = ['开通', 'Enable'].includes(cells[0]!) ? 'enabled' : 'disabled';
+  grant.value.expiresAt = cells[1]!; grant.value.quota = ['不限','unlimited'].includes(cells[2]!) ? 'unlimited' : cells[2]!;
+  entitlementError.value = '';
 }
 </script>
 <template>
@@ -178,6 +208,7 @@ function enable() {
           >{{ l("唯一标识", "Unique code")
           }}<ElInput
             v-model="form.code"
+            :readonly="s.taskMode"
             :aria-label="l('企业唯一标识', 'Organization unique code')"
             maxlength="32"
           /><small>{{
@@ -199,11 +230,12 @@ function enable() {
           }}</small></label
         >
       </div>
+      <p v-if="s.taskMode" class="inline-impact">{{ l('确认将创建：', 'Confirm creation: ') }}{{ form.name || '—' }} · {{ form.code || l('输入名称后自动生成标识', 'Reference is generated after entering a name') }} · {{ l('指定负责人', 'Nominated owner') }} {{ form.owner || '—' }}。{{ l('创建者不会自动成为负责人，负责人需要验证并接受邀请。', 'The creator does not become an owner. The nominee must verify and accept the invitation.') }}</p>
       <p v-if="validation" class="full-error-text" role="alert">{{ validation }}</p>
       <div class="full-actions">
         <ElButton @click="s.go('tenants')">{{ l("返回列表", "Back to list") }}</ElButton
         ><ElButton type="primary" data-primary :disabled="s.blocked" @click="create">{{
-          l("核对创建信息", "Review organization details")
+          s.taskMode ? l('确认创建企业', 'Confirm organization creation') : l("核对创建信息", "Review organization details")
         }}</ElButton>
       </div>
     </section>
@@ -256,6 +288,12 @@ function enable() {
     </section>
     <section v-else-if="target" class="full-card">
       <h2>{{ l("核对模块开通范围", "Review module activation scope") }} · {{ target?.name }}</h2>
+      <div v-if="s.taskMode" class="full-form">
+        <label>{{ l('本次模块名称（竖线或换行分隔）', 'Module names for this change (vertical bar or newline separated)') }}<ElInput :model-value="moduleNames" :aria-label="l('本次模块名称', 'Module names for this change')" :placeholder="l('客户管理|营销', 'CRM|Marketing')" @input="applyModules"/></label>
+        <label>{{ l('权益配置行：方式、有效期、额度（从表格一次粘贴）', 'Entitlement row: mode, expiry, quota (paste once from a table)') }}<ElInput :model-value="entitlementText" type="textarea" :rows="2" :aria-label="l('权益配置行', 'Entitlement configuration row')" :placeholder="l('开通\t2027-12-31\t不限', 'Enable\t2027-12-31\tunlimited')" @input="applyEntitlement"/></label>
+        <p v-if="entitlementError" role="alert" class="full-error-text">{{ entitlementError }}</p>
+        <div class="inline-impact"><strong>{{ target.name }} · {{ l('已选模块', 'Selected modules') }} {{ grant.modules.length }}</strong><p v-for="id in grant.modules" :key="id">{{ id === 'crm' ? l('客户管理', 'CRM') : l('营销', 'Marketing') }} · {{ l('原配置', 'Previous settings') }}: {{ target.modules.includes(id) ? l('已开通', 'Enabled') : l('未开通', 'Disabled') }} / {{ target.moduleConfig[id]?.expiresAt || l('无到期日', 'No expiry') }} / {{ target.moduleConfig[id]?.quota === 'unlimited' ? l('不限额度', 'No quota cap') : target.moduleConfig[id]?.quota || '—' }} → {{ grant.mode === 'enabled' ? l('开通或更新', 'Enable or update') : l('关闭', 'Disable') }} / {{ grant.expiresAt || l('无到期日', 'No expiry') }} / {{ grant.quota === 'unlimited' ? l('不限额度', 'No quota cap') : grant.quota }}</p><p>{{ l('不购买套餐、不扣费；未选模块保持现有配置。', 'No plan purchase or charges. Unselected modules keep their current settings.') }}</p><p v-if="moduleNames && moduleVersion !== target.version" role="alert">{{ l('企业配置已有变化，先核对上方最新配置。', 'Organization settings changed. Review the latest settings above.') }}<ElButton @click="moduleVersion = target.version">{{ l('保留输入并核对最新配置', 'Keep input and review latest settings') }}</ElButton></p></div>
+      </div>
       <p>
         {{
           l(
@@ -264,9 +302,9 @@ function enable() {
           )
         }}
       </p>
-      <div class="full-form">
+      <div v-show="!s.taskMode" class="full-form">
         <label
-          >{{ l("生效方式", "Activation mode")
+          v-show="!s.taskMode">{{ l("生效方式", "Activation mode")
           }}<ElSelect v-model="grant.mode" :aria-label="l('模块生效方式', 'Module activation mode')"
             ><ElOption value="enabled" :label="l('开通或更新配置', 'Enable or update')" /><ElOption
               value="disabled"
@@ -290,7 +328,7 @@ function enable() {
           )
         }}
       </p>
-      <ElCheckboxGroup v-model="grant.modules"
+      <ElCheckboxGroup v-show="!s.taskMode" v-model="grant.modules"
         ><div class="full-grid">
           <div class="full-card">
             <ElCheckbox value="crm">{{ l("客户管理", "Customer management") }}</ElCheckbox>
@@ -327,8 +365,8 @@ function enable() {
         <ElButton @click="s.go('tenant', { target: target?.id || '' })">{{
           l("取消配置", "Cancel configuration")
         }}</ElButton
-        ><ElButton type="primary" data-primary :disabled="s.blocked" @click="enable">{{
-          l("核对开通影响", "Review activation effects")
+        ><ElButton type="primary" data-primary :disabled="s.blocked || (s.taskMode && (!grant.modules.length || !entitlementText || !!entitlementError || !!validation || moduleVersion !== target.version))" @click="enable">{{
+          s.taskMode ? l('确认模块变更', 'Confirm module change') : l("核对开通影响", "Review activation effects")
         }}</ElButton>
       </div>
       <ElTag style="margin-top: 16px">{{

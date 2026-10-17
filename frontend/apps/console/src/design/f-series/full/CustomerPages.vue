@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import {
   ElButton,
   ElCheckbox,
@@ -11,8 +11,55 @@ import {
 } from "element-plus";
 import { l } from "./copy";
 import { useFullReviewState } from "./state";
+import BulkPicker from './BulkPicker.vue';
+import targetTemplate from './assets/targets.xlsx?url';
+import { preserveSelectionVersions } from './operation-guard';
 const s = useFullReviewState();
 const validation = ref("");
+const quickIds = computed({
+  get: () => s.draft('r004-customer-selection-' + s.contextKey, { ids: [] as string[], versions: {} as Record<string, number> }).ids,
+  set: ids => {
+    const draft = s.draft('r004-customer-selection-' + s.contextKey, { ids: [] as string[], versions: {} as Record<string, number> });
+    const notes = s.draft('r004-selection-notes-' + s.contextKey, { values: {} as Record<string, string> });
+    notes.values = Object.fromEntries(ids.map(id => [id, draft.ids.includes(id) ? notes.values[id] || '' : s.data.customers.find(row => row.id === id)?.note || '']));
+    draft.versions = preserveSelectionVersions(ids, draft.ids, draft.versions, s.data.customers);
+    draft.ids = ids;
+  },
+});
+const quickNote = computed({ get: () => s.draft('r004-note', { note: '' }).note, set: note => { s.draft('r004-note', { note: '' }).note = note; } });
+const quickReady = ref(false);
+const quickRecords = computed(() => s.data.customers.map(row => ({ id: row.id, name: row.name, eligible: s.readable(row, s.page.id === 'export' ? 'export' : 'update') })));
+const changedSelection = computed(() => quickIds.value.some(id => s.data.customers.find(row => row.id === id)?.version !== s.draft('r004-customer-selection-' + s.contextKey, { versions: {} as Record<string, number> }).versions[id]));
+function reviewSelection() {
+  const draft = s.draft('r004-customer-selection-' + s.contextKey, { versions: {} as Record<string, number> });
+  draft.versions = Object.fromEntries(s.data.customers.filter(row => quickIds.value.includes(row.id)).map(row => [row.id, row.version]));
+  s.draft('r004-selection-notes-' + s.contextKey, { values: {} as Record<string, string> }).values = Object.fromEntries(s.data.customers.filter(row => quickIds.value.includes(row.id)).map(row => [row.id, row.note]));
+}
+const inlineId = ref(''); const inlineNote = ref(''); const inlineOriginal = ref(''); const inlineVersion = ref(0); const selectedDetails = ref(false);
+const inlineCustomer = computed(() => s.data.customers.find(row => row.id === inlineId.value));
+function reviewInline() {
+  if (!inlineCustomer.value) return;
+  inlineVersion.value = inlineCustomer.value.version; inlineOriginal.value = inlineCustomer.value.note;
+}
+watch(() => s.contextKey, () => { inlineId.value = ''; selectedDetails.value = false; });
+function inlineEdit(id: string) {
+  const row = s.data.customers.find(row => row.id === id); if (!row) return;
+  inlineId.value = id; inlineNote.value = row.note; inlineOriginal.value = row.note; inlineVersion.value = row.version;
+}
+async function saveInline() {
+  const row = inlineCustomer.value; if (!row || !inlineNote.value.trim()) return;
+  await s.requestInline(['修改客户服务备注', 'Update customer service note'], { kind: 'customer', ids: [row.id], values: { name: row.name, note: inlineNote.value, version: String(inlineVersion.value) } });
+  if (s.inlineResult?.effect.kind === 'customer' && s.inlineResult.effect.ids[0] === row.id && s.inlineResult.status === 'succeeded') inlineId.value = '';
+}
+async function submitQuick() {
+  if (!quickReady.value || (s.page.id === 'batch' && (!quickNote.value.trim() || changedSelection.value))) return;
+  const exporting = s.page.id === 'export';
+  await s.requestInline(exporting ? ['导出选定客户', 'Export selected customers'] : ['批量修改客户备注', 'Update selected customer notes'], {
+    kind: exporting ? 'export' : 'batch', ids: [...quickIds.value], values: exporting
+      ? { name: l('当前明确选定集合', 'Current explicit selection') }
+      : { note: quickNote.value, versions: JSON.stringify(s.draft('r004-customer-selection-' + s.contextKey, { versions: {} as Record<string, number> }).versions) },
+  }, exporting ? 'export' : 'write');
+}
 const filter = computed(() => s.draft("customer-filter", { text: "", page: 1, ownership: "all" }));
 const current = computed(() =>
   s.scene === "not_found"
@@ -173,7 +220,15 @@ function rowState(id: string) {
 </script>
 <template>
   <div class="full-stack">
-    <template v-if="s.page.id === 'customers'">
+    <section v-if="s.taskMode && ['batch', 'export'].includes(s.page.id)" class="full-card">
+      <h2>{{ s.page.id === 'export' ? l('选好客户，核对后导出', 'Choose customers, review, and export') : l('一次选取，统一修改备注', 'Select once and update service notes') }}</h2>
+      <BulkPicker :key="s.contextKey + s.page.id" v-model="quickIds" :records="quickRecords" :scope="s.legacy.organization + l(' · 本次客户范围', ' · Current customer scope')" :template-url="targetTemplate" @valid="quickReady = $event" />
+      <label v-if="s.page.id === 'batch'" class="inline-edit">{{ l('统一服务备注', 'Service note for selected targets') }}<ElInput v-model="quickNote" :aria-label="l('本次统一备注', 'Service note for this operation')" maxlength="300" /></label>
+      <div class="inline-impact"><strong>{{ l('确认前核对影响', 'Review effects before confirming') }}</strong><p>{{ s.legacy.organization }} · {{ l('本次仅处理已选', 'Only the selected') }} {{ quickIds.length }} {{ l('位客户', 'customers are affected') }}</p><p v-if="s.page.id === 'batch'">{{ l('服务备注改为：', 'Service note becomes: ') }}{{ quickNote || l('请填写', 'Enter a note') }}</p><p v-else>{{ l('只导出本次已选且当前有导出权限的对象；下载时再次核对权限。', 'Exports only selected targets currently permitted for export. Download checks permission again.') }}</p><p class="full-muted">{{ l('不改变负责人、企业归属或其他客户；待核实结果先查原操作。', 'Ownership, organization and other customers do not change. Query unknown outcomes first.') }}</p></div>
+      <div v-if="s.page.id === 'batch'" class="inline-impact"><p v-for="id in quickIds" :key="id">{{ id }} · {{ l('选取时', 'When selected') }} v{{ s.draft('r004-customer-selection-' + s.contextKey, { versions: {} as Record<string, number> }).versions[id] }}: {{ s.draft('r004-selection-notes-' + s.contextKey, { values: {} as Record<string, string> }).values[id] || '—' }} · {{ l('当前', 'Current') }} v{{ s.data.customers.find(row => row.id === id)?.version }}: {{ s.data.customers.find(row => row.id === id)?.note || '—' }} → {{ quickNote || '—' }}</p><p v-if="changedSelection" role="alert">{{ l('选取后有记录变化。请保留输入并核对最新集合后再确认。', 'Records changed after selection. Keep your input and review the latest set before confirming.') }}</p><ElButton v-if="changedSelection" @click="reviewSelection">{{ l('保留输入并核对最新集合', 'Keep input and review latest set') }}</ElButton></div>
+      <ElButton type="primary" :disabled="!quickReady || s.blocked || (s.page.id === 'batch' && (!quickNote.trim() || changedSelection)) || !s.can(s.page.id === 'export' ? 'export' : 'write')" :loading="s.busy" @click="submitQuick">{{ s.page.id === 'export' ? l('确认导出', 'Confirm export') : l('确认批量修改', 'Confirm batch update') }}</ElButton>
+    </section>
+    <template v-else-if="s.page.id === 'customers'">
       <div class="full-grid three">
         <section class="full-card">
           <span>{{ l("当前筛选客户", "Customers in current filter") }}</span
@@ -197,20 +252,20 @@ function rowState(id: string) {
             :placeholder="l('客户名称或精确编号', 'Customer name or exact reference')"
             @input="
               filter.page = 1;
-              s.selected = [];
+              if (!s.taskMode) s.selected = [];
             "
           /><ElSelect
             v-model="filter.ownership"
             :aria-label="l('负责关系筛选', 'Ownership filter')"
             @change="
               filter.page = 1;
-              s.selected = [];
+              if (!s.taskMode) s.selected = [];
             "
             ><ElOption value="all" :label="l('当前企业全部', 'All in organization')" /><ElOption
               value="self"
               :label="l('本人负责', 'Owned by me')" /></ElSelect
           ><ElButton @click="s.go('batch')">{{
-            l("文本批量选定", "Select by pasted text")
+            s.taskMode ? l('批量修改', 'Batch update') : l("文本批量选定", "Select by pasted text")
           }}</ElButton
           ><ElButton
             type="primary"
@@ -218,7 +273,9 @@ function rowState(id: string) {
             @click="toExport"
             >{{ l("导出选定集合", "Export selected set") }}</ElButton
           >
+          <ElButton v-if="s.taskMode" link @click="selectedDetails = !selectedDetails">{{ l('查看已选', 'View selected') }} ({{ s.selected.length }})</ElButton>
         </div>
+        <div v-if="s.taskMode && selectedDetails" class="bulk-selected"><div v-for="id in s.selected" :key="id"><span>{{ s.data.customers.find(row => row.id === id)?.name }} · {{ id }}</span><ElButton link @click="s.selected = s.selected.filter(value => value !== id)">{{ l('排除', 'Exclude') }}</ElButton></div></div>
         <p class="full-muted">
           {{
             l(
@@ -272,6 +329,7 @@ function rowState(id: string) {
                   </td>
                   <td>{{ row.note || "—" }}</td>
                   <td>
+                    <ElButton v-if="s.taskMode && s.readable(row, 'update') && s.can('write')" link type="primary" :aria-label="l('行内修改', 'Edit inline') + ' ' + row.id" @click="inlineEdit(row.id)">{{ l('修改备注', 'Edit note') }}</ElButton>
                     <ElButton link type="primary" @click="s.go('customer', { target: row.id })">{{
                       l("查看详情", "View details")
                     }}</ElButton>
@@ -281,6 +339,7 @@ function rowState(id: string) {
             </table>
           </div></ElCheckboxGroup
         >
+        <div v-if="s.taskMode && inlineCustomer" class="inline-edit"><h3>{{ inlineCustomer.name }} · {{ inlineCustomer.id }}</h3><ElInput v-model="inlineNote" :aria-label="l('行内服务备注', 'Inline service note')" maxlength="300"/><p>{{ l('仅修改此客户服务备注。原值：', 'Only this customer note changes. Previous value: ') }}{{ inlineOriginal || '—' }} → {{ inlineNote }}</p><p v-if="inlineVersion !== inlineCustomer.version" role="alert">{{ l('记录已有变化，当前备注：', 'This record changed. Current note: ') }}{{ inlineCustomer.note }} · v{{ inlineCustomer.version }}</p><div class="full-actions"><ElButton v-if="inlineVersion !== inlineCustomer.version" @click="reviewInline">{{ l('保留备注并重新读取', 'Keep note and read current version') }}</ElButton><ElButton type="primary" :disabled="!inlineNote.trim() || !s.readable(inlineCustomer, 'update') || inlineVersion !== inlineCustomer.version || s.blocked" @click="saveInline">{{ l('确认保存备注', 'Confirm note update') }}</ElButton><ElButton @click="inlineId = ''">{{ l('取消修改', 'Cancel edit') }}</ElButton></div></div>
         <div v-if="!rows.length" class="full-empty">
           <p>{{ l("当前筛选没有客户", "No customers match this filter") }}</p>
           <ElButton

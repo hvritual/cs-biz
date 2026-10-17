@@ -3,6 +3,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useFSeriesDesignState } from "../state";
 import { reviewBase, reviewPages, type ReviewPageId, type ReviewRole } from "./catalog";
 import { l } from "./copy";
+import { conflictDomain } from './operation-guard';
 import {
   databaseKey,
   emptySpace,
@@ -41,6 +42,7 @@ interface Confirmation {
   key: string;
   slot: string;
   origin: string;
+  inline?: boolean;
 }
 function createState() {
   const legacy = useFSeriesDesignState();
@@ -65,6 +67,7 @@ function createState() {
     () => page.value.scenarios.find((x) => x.id === route.query.scene) || page.value.scenarios[0],
   );
   const scene = computed<string>(() => scenario.value.id);
+  const taskMode = computed(() => route.query.r === '4');
   const authenticated = computed(() => legacy.identity.value !== "signed_out");
   const actor = computed(() => legacy.workspace.user?.id || "none");
   const tenantId = computed(() => legacy.activeTenant.value || "");
@@ -352,7 +355,7 @@ function createState() {
     return drafts.value[id] as T;
   }
   function go(id: ReviewPageId, query: Record<string, string> = {}) {
-    void router.push({ path: `${reviewBase}/${id}`, query });
+    void router.push({ path: `${reviewBase}/${id}`, query: taskMode.value ? { ...query, r: '4' } : query });
   }
   function setScene(id: string) {
     void router.replace({ path: route.path, query: { ...route.query, scene: id } });
@@ -445,13 +448,13 @@ function createState() {
     const slot = task.intentSlot;
     if (sessionStorage.getItem(slot) === task.key) sessionStorage.removeItem(slot);
   }
-  function request(title: Text, effect: Effect, permission = "write") {
+  function request(title: Text, effect: Effect, permission = "write", inline = false) {
     if (!guard(permission)) return;
     const uncertain = visibleTasks.value.find(
       (x) =>
-        x.effect.kind === effect.kind &&
-        x.effect.ids.join("|") === effect.ids.join("|") &&
-        x.items.some((i) => ["unknown", "pending"].includes(i.status)),
+        x.tenant === tenantId.value &&
+        conflictDomain(x.effect.kind) === conflictDomain(effect.kind) &&
+        x.items.some((i) => effect.ids.includes(i.id) && ["unknown", "pending"].includes(i.status)),
     );
     if (uncertain) {
       announce(
@@ -461,7 +464,8 @@ function createState() {
           `${uncertain.id} is unresolved; no second action is created.`,
         ],
       );
-      go("task", { record: uncertain.id });
+      if (inline) draft<Record<string, string>>('inline-results', {})[page.value.id] = uncertain.id;
+      else go("task", { record: uncertain.id });
       return;
     }
     const slot = intentSlot(effect);
@@ -475,6 +479,7 @@ function createState() {
       key,
       slot,
       origin: page.value.id,
+      inline,
     };
   }
   function delegationError(
@@ -1088,6 +1093,15 @@ function createState() {
           else saved = previous;
           return;
         }
+        const unresolved = db.tasks.find(task => task.tenant === tenantId.value &&
+          conflictDomain(task.effect.kind) === conflictDomain(command.effect.kind) &&
+          task.items.some(item => command.effect.ids.includes(item.id) && ['unknown', 'pending'].includes(item.status)));
+        if (unresolved) {
+          announce(['先查询原操作结果', 'Check original outcome first'],
+            ['同一对象存在未决变更，不建立第二次写入。', 'An overlapping change is unresolved; no second write is created.']);
+          if (canReadTask(unresolved, db)) saved = unresolved;
+          return;
+        }
         const error = validate(d, db, command.effect);
         if (error) {
           announce(["变更未执行", "Change was not applied"], [error, error], "error");
@@ -1179,7 +1193,9 @@ function createState() {
         releaseIntent(saved);
         dialog.value = null;
         selected.value = [];
-        go("task", { record: saved.id });
+        if (command.inline || taskMode.value)
+          draft<Record<string, string>>('inline-results', {})[page.value.id] = saved.id;
+        else go("task", { record: saved.id });
       }
     } finally {
       busy.value = false;
@@ -1484,6 +1500,21 @@ function createState() {
       );
     }
   }
+  async function requestInline(title: Text, effect: Effect, permission = 'write') {
+    const previous = dialog.value;
+    request(title, effect, permission, true);
+    if (dialog.value && dialog.value !== previous && dialog.value.inline) await confirm();
+  }
+  function failedEffect(task: Task): Effect | undefined {
+    if (!['batch', 'invite'].includes(task.effect.kind) || !canReadTask(task)) return;
+    const ids = task.items.filter(item => item.status === 'failed').map(item => item.id);
+    if (!ids.length) return;
+    const values = { ...task.effect.values };
+    if (task.effect.kind === 'batch') values.versions = JSON.stringify(Object.fromEntries(
+      data.value.customers.filter(row => ids.includes(row.id)).map(row => [row.id, row.version]),
+    ));
+    return { ...task.effect, ids, values };
+  }
   return {
     legacy,
     role,
@@ -1491,6 +1522,7 @@ function createState() {
     page,
     scenario,
     scene,
+    taskMode,
     query: computed(() => route.query),
     authenticated,
     active,
@@ -1545,6 +1577,12 @@ function createState() {
     scope,
     moduleActive,
     request,
+    requestInline,
+    failedEffect,
+    inlineResult: computed(() => {
+      const id = draft<Record<string, string>>('inline-results', {})[page.value.id];
+      return visibleTasks.value.find(task => task.id === id);
+    }),
     confirm,
     queryTask,
     copy,

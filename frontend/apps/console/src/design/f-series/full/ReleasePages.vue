@@ -9,7 +9,7 @@ const validation = ref("");
 const plan = computed(() =>
   s.draft("release-plan", {
     target: "nonproduction-review",
-    version: "review-r003",
+    version: s.taskMode ? 'review-r004' : "review-r003",
     range: "审阅环境全量",
     note: "",
     confirmed: false,
@@ -117,14 +117,14 @@ const stages = computed(() =>
 function submit() {
   validation.value = "";
   const p = s.page.id === "recovery" ? recovery.value : plan.value;
-  if (!p.version.trim() || !p.target || !p.confirmed) {
+  if (!p.version.trim() || !p.target || (!s.taskMode && !p.confirmed)) {
     validation.value = l(
       "请核对固定版本、目标及影响确认。",
       "Review the fixed version, target, and impact confirmation.",
     );
     return;
   }
-  s.request(
+  (s.taskMode ? s.requestInline : s.request)(
     s.page.id === "recovery"
       ? ["核对恢复审阅方案", "Review recovery plan"]
       : ["核对发布审阅方案", "Review release plan"],
@@ -210,7 +210,8 @@ function submit() {
     </section>
     <section v-else-if="s.page.id === 'release'" class="full-card">
       <h2>{{ l("目标、固定版本与阶段范围", "Target, fixed version, and stage scope") }}</h2>
-      <div class="full-form">
+      <div v-if="s.taskMode" class="inline-impact"><p>{{ plan.target }} · {{ plan.version }} · {{ plan.range }}</p><p>{{ l('仅保存上述同版模拟计划，不执行发布。资格、目标和实际授权未具备时，真实操作保持阻断。', 'Saves only this same-version simulated plan; no release is executed. Real actions remain blocked without qualification, target and authorization.') }}</p></div>
+      <div v-show="!s.taskMode" class="full-form">
         <label
           >{{ l("目标环境", "Target environment")
           }}<ElSelect v-model="plan.target" :aria-label="l('发布审阅目标', 'Release review target')"
@@ -261,8 +262,8 @@ function submit() {
         <ElButton @click="s.go('qualification')">{{
           l("返回资格材料", "Back to qualification")
         }}</ElButton
-        ><ElButton type="primary" data-primary :disabled="s.blocked" @click="submit">{{
-          l("核对计划与影响", "Review plan and effects")
+        ><ElButton type="primary" data-primary :disabled="s.blocked || ['missing_authority', 'missing_evidence'].includes(s.scene)" @click="submit">{{
+          s.taskMode ? l('确认仅保存模拟计划', 'Confirm saving simulation only') : l("核对计划与影响", "Review plan and effects")
         }}</ElButton>
       </div>
     </section>
@@ -319,7 +320,8 @@ function submit() {
           )
         }}
       </h2>
-      <div class="full-form">
+      <div v-if="s.taskMode" class="inline-impact"><p>{{ recovery.target }} · {{ recovery.version }} · {{ recovery.backup }}</p><p>{{ l('核对上述原计划关联、样例备份和兼容风险；只保存模拟恢复，不操作环境，不撤销外部效果。', 'Review the original plan reference, example backup and compatibility risk. Saves a simulation only; no environment changes or reversal of external effects.') }}</p></div>
+      <div v-show="!s.taskMode" class="full-form">
         <label
           >{{ l("恢复目标", "Recovery target")
           }}<ElSelect
@@ -376,7 +378,7 @@ function submit() {
           l("取消并返回阶段状态", "Cancel and return to stages")
         }}</ElButton
         ><ElButton type="primary" data-primary :disabled="s.blocked" @click="submit">{{
-          l("核对恢复方案", "Review recovery plan")
+          s.taskMode ? l('确认仅保存模拟恢复', 'Confirm saving recovery simulation only') : l("核对恢复方案", "Review recovery plan")
         }}</ElButton>
       </div>
     </section>

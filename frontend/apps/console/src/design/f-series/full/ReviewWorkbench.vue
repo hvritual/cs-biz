@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed, nextTick, watch } from "vue";
 import { ElButton, ElDialog, ElOption, ElSelect, ElTag } from "element-plus";
 import { ArrowRight, BookOpen, CheckCircle2, RotateCcw } from "lucide-vue-next";
 import PageHeader from "#/components/PageHeader.vue";
@@ -14,8 +14,15 @@ import CustomerPages from "./CustomerPages.vue";
 import OperationPages from "./OperationPages.vue";
 import ObservabilityPages from "./ObservabilityPages.vue";
 import ReleasePages from "./ReleasePages.vue";
+import LocalOutcome from './LocalOutcome.vue';
+import TaskGuide from './TaskGuide.vue';
 import "./review.css";
 const s = useFullReviewState();
+watch(() => s.inlineResult?.id, async value => {
+  if (!value || !s.taskMode) return;
+  await nextTick();
+  document.querySelector('[data-local-outcome]')?.scrollIntoView({ block: 'center', behavior: 'instant' });
+});
 watch(
   () => [s.page.id, s.scene],
   () => {
@@ -90,7 +97,7 @@ function back() {
 <template>
   <section
     class="full-review"
-    data-design-preview="f-series-r003"
+    :data-design-preview="s.taskMode ? 'f-series-r004' : 'f-series-r003'"
     :data-page="s.page.id"
     :data-scene="s.scene"
   >
@@ -106,6 +113,7 @@ function back() {
         {{ l("状态", "states") }}</ElTag
       >
     </aside>
+    <details :open="!s.taskMode" class="review-fixtures"><summary>{{ l('审阅账号与异常样例', 'Review accounts and exception fixtures') }}</summary>
     <div class="full-review-tools" :aria-label="l('审阅工具', 'Review controls')">
       <label
         >{{ l("页面", "Page")
@@ -180,16 +188,18 @@ function back() {
         l("重置全部审阅样例", "Reset all review fixtures")
       }}</ElButton>
     </div>
+    </details>
     <p v-if="s.lateRead" class="full-muted">
       {{ l("最近核对的读取结果", "Last checked read result") }}: {{ s.lateRead }}
     </p>
     <PageHeader
       :title="pair(s.page.title)"
-      :description="`${s.legacy.organization || l('账号工作区', 'Account workspace')} · ${roleTitle(s.effectiveRole || s.role)} · ${s.page.screen}`"
+      :description="`${s.legacy.organization || l('账号工作区', 'Account workspace')} · ${roleTitle(s.effectiveRole || s.role)}${s.taskMode ? '' : ' · ' + s.page.screen}`"
       ><ElButton v-if="!s.active" type="primary" @click="s.selectRole(s.role)"
         >{{ l("使用当前审阅身份", "Use current review identity")
         }}<ArrowRight :size="15" /></ElButton
     ></PageHeader>
+    <TaskGuide v-if="s.taskMode" />
     <div v-if="s.notice" class="full-message" :class="s.notice.kind" role="status" data-notice>
       <strong>{{ pair(s.notice.title) }}</strong>
       <p>{{ pair(s.notice.help) }}</p>
@@ -204,10 +214,11 @@ function back() {
       <strong>{{ pair(s.scenario.title) }}</strong>
       <p>{{ pair(s.scenario.help) }}</p>
       <ElButton
-        v-if="['csrf', 'conflict', 'scope_denied', 'missing_evidence'].includes(s.scene)"
+        v-if="['csrf', 'conflict', 'scope_denied', 'missing_evidence'].includes(s.scene) || (s.taskMode && s.scene === 'failed')"
         @click="s.setScene('normal')"
         >{{ l("保留输入并重新核对", "Keep input and review again") }}</ElButton
       >
+      <ElButton v-if="s.taskMode && ['unavailable', 'unknown', 'partial'].includes(s.scene) && ['modules','customers','tasks','delivery','diagnostics','audit','telemetry'].includes(s.page.id)" @click="back">{{ l('重新读取当前记录', 'Reload current records') }}</ElButton>
     </div>
     <section v-if="hardDenied" class="full-state" role="alert">
       <h2>{{ l("当前访问受到限制", "Current access is restricted") }}</h2>
@@ -239,6 +250,7 @@ function back() {
       }}</ElButton>
     </section>
     <component :is="component" v-else :key="s.page.group" />
+    <LocalOutcome v-if="s.taskMode && s.inlineResult" :key="s.inlineResult.id" :task="s.inlineResult" />
     <details class="full-help">
       <summary>{{ l("操作与审阅说明", "Task and review guidance") }}</summary>
       <p>
@@ -259,7 +271,7 @@ function back() {
       </p>
     </details>
     <ElDialog
-      :model-value="!!s.dialog"
+      :model-value="!!s.dialog && !s.dialog.inline"
       :title="s.dialog ? pair(s.dialog.title) : ''"
       width="580px"
       :close-on-click-modal="false"

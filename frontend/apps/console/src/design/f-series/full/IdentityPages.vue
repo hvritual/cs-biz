@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { ElButton, ElDialog, ElTag } from "element-plus";
 import { ArrowRight, Building2, KeyRound, Laptop, ShieldCheck } from "lucide-vue-next";
 import { l, roleTitle, statusTitle } from "./copy";
 import { useFullReviewState } from "./state";
 const s = useFullReviewState();
 const recovery = ref(false);
+const recoveryHandoff = ref(false);
 const revoke = ref("");
 const account = computed(() => (s.authenticated ? s.legacy.workspace.user : null));
 const sessions = computed(() => s.draft("sessions", { otherRevoked: false }));
@@ -30,7 +31,9 @@ const organizations = computed(() =>
 function login() {
   if (loginFailed.value) return;
   s.legacy.beginSignIn();
-  s.go("organizations");
+  const orgs = String(s.query.orgs || '');
+  s.go("organizations", { ...(['one', 'zero'].includes(orgs) ? { scene: orgs } : {}),
+    ...(s.taskMode && typeof s.query.returnRecord === 'string' ? { returnRecord: s.query.returnRecord } : {}) });
 }
 function freshLogin() {
   s.legacy.signOut();
@@ -42,11 +45,22 @@ function choose(name: string) {
     return;
   }
   s.chooseOrganization(name);
-  s.go("modules");
+  const record = s.taskMode && typeof s.query.returnRecord === 'string' ? s.query.returnRecord : '';
+  if (record && s.visibleTasks.some(task => task.id === record)) s.go('task', { record });
+  else s.go("modules");
 }
+watch(() => [s.page.id, s.scene, s.taskMode], () => {
+  if (s.taskMode && s.page.id === 'organizations' && s.scene === 'one' && organizations.value[0]) choose(organizations.value[0].name);
+}, { immediate: true });
 function logout() {
   s.legacy.signOut();
   s.go("identity");
+}
+function finishRecovery() {
+  recovery.value = false; recoveryHandoff.value = false;
+  if (s.taskMode) {
+    s.legacy.signOut(); s.legacy.beginSignIn(); s.go('organizations');
+  } else logout();
 }
 function confirmRevoke() {
   if (revoke.value === "other") sessions.value.otherRevoked = true;
@@ -277,7 +291,10 @@ function confirmRevoke() {
       v-model="recovery"
       :title="l('前往组织账号服务恢复', 'Recover through organization identity service')"
       width="540px"
-      ><p>
+      ><div v-if="s.taskMode" class="full-message">
+        <ElButton v-if="!recoveryHandoff" @click="recoveryHandoff = true">{{ l('查看账号服务恢复交接示意', 'View identity-service recovery handoff') }}</ElButton>
+        <template v-else><h3>{{ l('组织账号服务负责恢复验证', 'The identity service owns recovery verification') }}</h3><p>{{ l('交接示意已打开。用户在组织账号服务完成或取消恢复，再返回这里重新验证；本预览不发送恢复请求，也不表示账号已经恢复。', 'Handoff illustration opened. Complete or cancel recovery with the organization identity service, then return here for fresh verification. This preview sends no recovery request and does not claim the account was recovered.') }}</p><ol><li>{{ l('在账号服务核对受控身份', 'Verify the controlled identity with the identity service') }}</li><li>{{ l('由账号服务恢复验证方式或取消', 'Recover verification or cancel with the identity service') }}</li><li>{{ l('返回本平台重新登录并核对企业', 'Return to sign in and check organization access') }}</li></ol></template>
+      </div><p>
         {{
           l(
             "密码重置、验证码及多重验证恢复在组织账号服务完成，本系统不收集这些信息。完成后必须重新登录并核对企业权限。",
@@ -297,14 +314,11 @@ function confirmRevoke() {
         </p>
       </div>
       <template #footer
-        ><ElButton @click="recovery = false">{{ l("取消并返回", "Cancel and return") }}</ElButton
+        ><ElButton @click="recovery = false; recoveryHandoff = false">{{ l("取消并返回", "Cancel and return") }}</ElButton
         ><ElButton
           type="primary"
-          @click="
-            recovery = false;
-            logout();
-          "
-          >{{ l("已完成恢复，重新登录", "Recovery complete, sign in again") }}</ElButton
+          @click="finishRecovery"
+          >{{ s.taskMode ? l('返回并重新登录', 'Return and sign in again') : l("已完成恢复，重新登录", "Recovery complete, sign in again") }}</ElButton
         ></template
       ></ElDialog
     >

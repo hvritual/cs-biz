@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { ElButton, ElInput, ElOption, ElSelect, ElTag } from "element-plus";
 import { l, statusTitle } from "./copy";
 import { useFullReviewState } from "./state";
+import LocalOutcome from './LocalOutcome.vue';
 const s = useFullReviewState();
 const inspected = ref("");
 const filter = computed(() => s.draft("task-filter", { text: "", state: "all" }));
@@ -154,6 +155,7 @@ function failedOnly() {
       </div>
     </section>
     <template v-else-if="s.page.id === 'task'">
+      <LocalOutcome v-if="s.taskMode && task && s.inlineResult?.id !== task.id" :key="task.id" :task="task" />
       <section v-if="task" class="full-card">
         <div class="full-toolbar">
           <ElTag
@@ -249,7 +251,7 @@ function failedOnly() {
           }}</ElButton
           ><ElButton
             v-if="
-              task.items.some((x) => x.status === 'failed') &&
+              !s.taskMode && task.items.some((x) => x.status === 'failed') &&
               ['invite', 'batch'].includes(task.effect.kind)
             "
             @click="failedOnly"

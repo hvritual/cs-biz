@@ -3,6 +3,29 @@
   color: var(--color-text);
   min-width: 0;
 }
+.review-fixtures { margin: 14px 0; }
+.review-fixtures > summary { cursor: pointer; color: var(--color-text-muted); font-size: 12px; }
+.task-guide { margin: 0 0 22px; color: var(--color-text); }
+.task-guide svg { display: block; width: 100%; max-height: 68px; }
+.task-guide figcaption { font-size: 12px; color: var(--color-text-muted); margin-top: 8px; }
+.bulk-picker { display: flex; flex-direction: column; gap: 14px; }
+.bulk-methods { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.bulk-methods .el-button { margin-left: 0; }
+.bulk-candidates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.bulk-candidates > span { border: 1px solid var(--color-border); padding: 10px 12px; border-radius: 8px; font-size: 13px; display: flex; gap: 10px; flex-wrap: wrap; }
+.bulk-candidates code { color: var(--color-text-muted); }
+.bulk-selection-bar { border: 1px solid var(--el-color-primary); border-radius: 10px; padding: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: var(--color-surface-soft); }
+.bulk-selected { border: 1px solid var(--color-border); border-radius: 10px; padding: 6px 14px; max-height: 260px; overflow: auto; }
+.bulk-selected > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
+.bulk-file { padding: 16px; border: 1px dashed var(--color-border); border-radius: 10px; background: var(--color-surface-soft); }
+.bulk-file label { display: flex; flex-direction: column; gap: 12px; }
+.bulk-file a { color: var(--el-color-primary); display: inline-block; margin-top: 12px; text-decoration: underline; }
+.outcome-counts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
+.outcome-counts > div { padding: 14px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface-soft); }
+.outcome-counts span { color: var(--color-text-muted); font-size: 12px; }
+.outcome-counts strong { display: block; font-size: 25px; margin-top: 6px; }
+.inline-impact { margin: 16px 0; padding: 16px; border-left: 3px solid var(--el-color-primary); background: var(--color-surface-soft); border-radius: 8px; }
+.inline-edit { display: flex; flex-direction: column; gap: 10px; padding: 12px; }
 .full-review-boundary {
   display: flex;
   align-items: center;

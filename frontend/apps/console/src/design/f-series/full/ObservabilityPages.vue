@@ -82,8 +82,14 @@ const errorTitle = computed(
     })[s.scene] || l("操作反馈与恢复", "Action feedback and recovery"),
 );
 function signIn() {
+  const record = s.taskMode && typeof s.query.record === 'string' ? s.query.record : '';
   s.legacy.signOut();
-  s.go("identity");
+  s.go("identity", record ? { returnRecord: record } : {});
+}
+function originalRecord() {
+  const record = typeof s.query.record === 'string' ? s.query.record : '';
+  if (s.taskMode && s.visibleTasks.some(task => task.id === record)) s.go('task', {record});
+  else s.go('tasks');
 }
 </script>
 <template>
@@ -334,7 +340,7 @@ function signIn() {
         ><ElButton
           v-else-if="['timeout', 'server_error', 'cancelled'].includes(s.scene)"
           type="primary"
-          @click="s.go('tasks')"
+          @click="originalRecord"
           >{{
             l("查询原操作，避免重复提交", "Check original activity before resubmitting")
           }}</ElButton

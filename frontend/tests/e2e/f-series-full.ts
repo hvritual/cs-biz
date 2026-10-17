@@ -58,7 +58,7 @@ async function shot(p: Page, name: string) {
   await p.screenshot({ path: output + name + ".png", fullPage: true });
 }
 async function owned(run: (p: Page) => Promise<void>) {
-  const b = await chromium.launch();
+  const b = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {});
   try {
     const c = await b.newContext({ viewport: { width: 1440, height: 900 }, locale: "zh-CN" });
     c.setDefaultTimeout(8000);
@@ -382,6 +382,11 @@ export function registerFullReviewTests() {
   test("F-series full: pasted selection resolves ambiguity and retains partial original results", async () =>
     owned(async (p) => {
       await reset(p);
+      // Normal write targets must have a known original outcome, including
+      // across the single-customer and batch-note entrypoints.
+      await p.goto(origin + base + "/task?record=ACT-SAMPLE-0-2");
+      await p.getByRole("button", { name: "查询原操作结果", exact: true }).click();
+      await expect(p.locator(".full-table tbody")).toContainText("已完成");
       await p.goto(origin + base + "/batch?scene=partial");
       await p
         .getByRole("textbox", { name: "批量客户输入", exact: true })
@@ -567,7 +572,7 @@ export function registerFullReviewTests() {
       }
     }));
   test("F-series full: real tabs isolate late reads, tenant results and shared logout", async () => {
-    const b = await chromium.launch();
+    const b = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {});
     try {
       const c = await b.newContext({ viewport: { width: 1366, height: 768 }, locale: "zh-CN" });
       const a = await c.newPage();

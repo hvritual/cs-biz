@@ -11,20 +11,51 @@ import {
 } from "element-plus";
 import { l, roleTitle, statusTitle } from "./copy";
 import { useFullReviewState } from "./state";
+import BulkPicker from './BulkPicker.vue';
+import inviteTemplate from './assets/invitations.xlsx?url';
+import targetTemplate from './assets/targets.xlsx?url';
+import { parseRoleTable, roleTableExample, roleTableExampleEn } from './role-table';
 const s = useFullReviewState();
 const validation = ref("");
+const quickInviteIds = computed({ get: () => s.draft('r004-invite-selection-' + s.contextKey, { ids: [] as string[] }).ids, set: ids => { s.draft('r004-invite-selection-' + s.contextKey, { ids: [] as string[] }).ids = ids; } });
+const quickInviteReady = ref(false); const assignmentReady = ref(false);
+const roleTable = ref(''); const roleTableError = ref(''); const memberRoleText = ref('');
+const quickInviteRecords = computed(() => ['a','b','c','d','e','f'].map(letter => {
+  const email = `new-${letter}@example.test`;
+  return { id: email, name: l('待邀候选', 'Invitation candidate') + ' ' + letter.toUpperCase(), eligible: !s.data.members.some(member => member.email === email && member.state !== 'removed') && !s.data.invites.some(invite => invite.email === email && invite.state === 'created' && Date.parse(invite.expiresAt) > Date.now()) };
+}));
+const quickAssignmentRecords = computed(() => assignmentResources.value.map(row => ({ id: row.id, name: row.name, eligible: s.readable(row, row.id.startsWith('M-') ? 'marketingExecute' : 'update') })));
+async function submitQuickInvites() {
+  if (!quickInviteReady.value) return;
+  await s.requestInline(['创建选定成员邀请', 'Create selected invitations'], { kind: 'invite', ids: [...quickInviteIds.value], values: { role: invite.value.role } }, 'access');
+}
+function applyRoleTable(value: string) {
+  roleTable.value = value;
+  try { Object.assign(roleForm.value, parseRoleTable(value)); roleTableError.value = ''; }
+  catch (error) { roleTableError.value = l(error instanceof Error ? error.message : '请核对角色配置表。', 'Use the complete 13-column table, one role row, Allowed/Not allowed and the scope names in the example. Only Explicit targets accepts reference lists; formulas and legacy scopes are rejected.'); }
+}
+function applyMemberRoles(value: string) {
+  memberRoleText.value = value;
+  const names = [...new Set(value.split(/[\n,;|]/).map(v => v.trim()).filter(Boolean))];
+  const matched = names.map(name => s.data.roles.find(role => role.name === name || role.id === name));
+  validation.value = matched.some(role => !role) ? l('存在无法匹配的角色，请使用下方实际角色名称。', 'Some roles cannot be matched. Use the role names shown below.') : '';
+  memberRole.value = matched.filter((role): role is NonNullable<typeof role> => !!role).map(role => role.id);
+}
 const detail = ref("");
 const memberRole = ref<string[]>(["reader"]);
 const memberAssignments = ref<string[]>([]);
+const memberVersion = ref(0); const resourceVersions = ref<Record<string, number>>({});
 watch(
-  () => [s.contextKey, s.page.id],
+  () => [s.contextKey, s.page.id, s.query.target],
   () => {
     detail.value = "";
     memberRole.value = [];
     memberAssignments.value = [];
     validation.value = "";
+    roleTable.value = ''; roleTableError.value = ''; memberRoleText.value = '';
   },
 );
+watch(detail, () => { memberRoleText.value = ''; validation.value = ''; });
 const filters = computed(() => s.draft("member-filter", { text: "", state: "all" }));
 const invite = computed(() =>
   s.draft("invite-create", {
@@ -45,6 +76,17 @@ const members = computed(() =>
 );
 const assignmentResources = computed(() => [...s.data.customers, ...s.data.campaigns]);
 const focused = computed(() => s.data.members.find((x) => x.id === detail.value));
+const assignmentChanged = computed(() => !!focused.value && (focused.value.version !== memberVersion.value || assignmentResources.value.some(row => resourceVersions.value[row.id] !== row.version)));
+function reviewMemberVersions() {
+  memberVersion.value = focused.value?.version || 0;
+  resourceVersions.value = Object.fromEntries(assignmentResources.value.map(row => [row.id, row.version]));
+}
+function openMember(id: string) {
+  const member = s.data.members.find(row => row.id === id); if (!member) return;
+  detail.value = id; memberRole.value = [...s.roleIds(member)];
+  memberAssignments.value = assignmentResources.value.filter(row => row.assignedTo?.includes(member.accountId)).map(row => row.id);
+  reviewMemberVersions();
+}
 const inviteRows = computed(() => (s.scene === "empty" ? [] : s.data.invites));
 const roleRows = computed(() => (s.scene === "empty" ? [] : s.data.roles));
 const targetRole = computed(() => s.data.roles.find((x) => x.id === s.query.target));
@@ -115,7 +157,7 @@ const activeOwners = computed(
 function changeMember(id: string, state?: string, role?: string | string[]) {
   const row = s.data.members.find((x) => x.id === id);
   if (!row) return;
-  s.request(
+  (s.taskMode && role ? s.requestInline : s.request)(
     [
       role ? `调整 ${row.name} 的角色` : `调整 ${row.name} 的成员状态`,
       role ? `Change ${row.name}'s role` : `Change ${row.name}'s membership`,
@@ -126,7 +168,7 @@ function changeMember(id: string, state?: string, role?: string | string[]) {
       values: {
         ...(state ? { state } : {}),
         ...(role ? { roles: JSON.stringify(Array.isArray(role) ? role : [role]) } : {}),
-        version: String(row.version),
+        version: String(s.taskMode && role && detail.value === id ? memberVersion.value : row.version),
       },
     },
     "access",
@@ -137,7 +179,7 @@ function roleName(id: string) {
 }
 function changeAssignments() {
   const member = focused.value;
-  if (!member) return;
+  if (!member || (s.taskMode && assignmentChanged.value)) return;
   const previous = assignmentResources.value
     .filter((row) => row.assignedTo?.includes(member.accountId))
     .map((row) => row.id);
@@ -145,20 +187,20 @@ function changeAssignments() {
   const remove = previous.filter((id) => !memberAssignments.value.includes(id));
   if (!add.length && !remove.length) return;
   const changed = [...add, ...remove];
-  s.request(
+  (s.taskMode ? s.requestInline : s.request)(
     ["核对资源指派变化", "Review resource assignments"],
     {
       kind: "assignment",
       ids: [member.id],
       values: {
-        version: String(member.version),
+        version: String(s.taskMode ? memberVersion.value : member.version),
         add: JSON.stringify(add),
         remove: JSON.stringify(remove),
         versions: JSON.stringify(
           Object.fromEntries(
             assignmentResources.value
               .filter((row) => changed.includes(row.id))
-              .map((row) => [row.id, row.version]),
+              .map((row) => [row.id, s.taskMode ? resourceVersions.value[row.id] : row.version]),
           ),
         ),
       },
@@ -180,11 +222,12 @@ function createInvites() {
 }
 function saveRole() {
   validation.value = "";
+  if (s.taskMode && (!roleTable.value.trim() || roleTableError.value)) return;
   if (!roleForm.value.name.trim()) {
     validation.value = l("请填写角色名称。", "Enter a role name.");
     return;
   }
-  s.request(
+  (s.taskMode ? s.requestInline : s.request)(
     ["核对角色权限变化", "Review role permission changes"],
     {
       kind: "role",
@@ -319,13 +362,7 @@ function parsedState(id: string) {
                 <td>
                   <ElButton
                     link
-                    @click="
-                      detail = row.id;
-                      memberRole = [...s.roleIds(row)];
-                      memberAssignments = assignmentResources
-                        .filter((customer) => customer.assignedTo?.includes(row.accountId))
-                        .map((customer) => customer.id);
-                    "
+                    @click="openMember(row.id)"
                     >{{ l("查看详情", "View details") }}</ElButton
                   ><ElButton
                     v-if="row.state === 'active'"
@@ -352,7 +389,7 @@ function parsedState(id: string) {
         <p v-if="!members.length" class="full-empty">
           {{ l("当前筛选没有成员", "No members match the current filter") }}
         </p>
-        <div v-if="focused" class="full-row-detail">
+        <div v-if="focused" class="full-row-detail"><p v-if="s.taskMode && assignmentChanged" class="full-message" role="alert">{{ l('成员或资源已有变化。核对当前角色、指派及差异后再确认。', 'The member or resources changed. Review the current roles, assignments and differences before confirming.') }}<ElButton @click="reviewMemberVersions">{{ l('保留输入并核对当前成员与资源', 'Keep input and review current member and resources') }}</ElButton></p>
           <h3>{{ focused.name }} · {{ l("成员详情", "Member details") }}</h3>
           <dl class="full-facts">
             <dt>{{ l("当前角色", "Current role") }}</dt>
@@ -361,7 +398,9 @@ function parsedState(id: string) {
             <dd>{{ statusTitle(focused.state) }} · {{ focused.version }}</dd>
           </dl>
           <div class="full-actions">
+            <label v-if="s.taskMode" class="inline-edit">{{ l('本次完整角色集合（每行一个名称）', 'Complete role set for this change (one name per line)') }}<ElInput :model-value="memberRoleText" type="textarea" :rows="2" :aria-label="l('本次成员角色集合', 'Member role set for this change')" @input="applyMemberRoles"/><small>{{ s.data.roles.map(role => role.name).join(' · ') }}</small><p>{{ l('调整后角色：', 'Roles after this change: ') }}{{ memberRole.map(roleName).join(' + ') || l('不可为空', 'Must not be empty') }}</p><p v-if="validation" role="alert" class="full-error-text">{{ validation }}</p></label>
             <ElCheckboxGroup
+              v-show="!s.taskMode"
               v-model="memberRole"
               :aria-label="l('调整成员角色', 'Change member roles')"
             >
@@ -374,9 +413,9 @@ function parsedState(id: string) {
               >
             </ElCheckboxGroup>
             <ElButton
-              :disabled="!memberRole.length"
+              :disabled="!memberRole.length || (s.taskMode && (!memberRoleText.trim() || !!validation || memberVersion !== focused.version))"
               @click="changeMember(focused.id, undefined, memberRole)"
-              >{{ l("核对角色调整", "Review role assignment") }}</ElButton
+              >{{ s.taskMode ? l('确认角色调整', 'Confirm role change') : l("核对角色调整", "Review role assignment") }}</ElButton
             ><ElButton @click="changeMember(focused.id, undefined, 'reader')">{{
               l("调整为只读成员", "Make read-only")
             }}</ElButton
@@ -444,7 +483,9 @@ function parsedState(id: string) {
               )
             }}
           </p>
-          <ElCheckboxGroup
+          <BulkPicker v-if="s.taskMode" :key="s.contextKey + focused.id" v-model="memberAssignments" :records="quickAssignmentRecords" :scope="focused.name + l(' · 资源指派', ' · Resource assignments')" :template-url="targetTemplate" allow-empty @valid="assignmentReady = $event" />
+          <p v-if="s.taskMode" class="inline-impact">{{ l('原指派：', 'Previous assignments: ') }}{{ assignmentResources.filter(row => row.assignedTo?.includes(focused!.accountId)).map(row => row.id).join(' · ') || '—' }} → {{ memberAssignments.join(' · ') || l('全部撤销', 'Remove all') }} · {{ l('不改变负责人；只替换本成员的指派集合。', 'Ownership stays unchanged. Only this member’s assignments are replaced.') }}</p>
+          <ElCheckboxGroup v-if="!s.taskMode"
             v-model="memberAssignments"
             :aria-label="l('成员客户指派', 'Member customer assignments')"
             ><ElCheckbox
@@ -458,8 +499,8 @@ function parsedState(id: string) {
               >{{ customer.id }} · {{ customer.name }}</ElCheckbox
             ></ElCheckboxGroup
           >
-          <ElButton :disabled="focused.state !== 'active'" @click="changeAssignments">{{
-            l("核对资源指派", "Review assignments")
+          <ElButton :disabled="focused.state !== 'active' || (s.taskMode && (!assignmentReady || assignmentChanged))" @click="changeAssignments">{{
+            s.taskMode ? l('确认替换指派集合', 'Confirm replacement assignments') : l("核对资源指派", "Review assignments")
           }}</ElButton>
           <p class="full-muted">
             {{
@@ -499,7 +540,9 @@ function parsedState(id: string) {
                 {{
                   s.scene === "delivery_failed"
                     ? statusTitle("delivery_failed")
-                    : statusTitle(row.delivery)
+                    : s.taskMode && row.delivery === 'pending'
+                      ? l('等待投递', 'Awaiting delivery')
+                      : statusTitle(row.delivery)
                 }}
               </td>
               <td>
@@ -544,6 +587,14 @@ function parsedState(id: string) {
       <ElButton v-if="inviteRows[0]" link @click="s.openInvitation(inviteRows[0].id)">{{
         l("查看受邀者加入旅程", "Review the invitee journey")
       }}</ElButton>
+    </section>
+    <section v-else-if="s.page.id === 'invite-create' && s.taskMode" class="full-card">
+      <h2>{{ l('选好成员，再创建邀请', 'Choose people, then create invitations') }}</h2>
+      <p class="full-muted">{{ l('筛选来源是本轮隔离的待邀候选名单；创建、投递和加入分别显示，不发送真实邮件。', 'Filters use this review’s isolated candidate list. Creation, delivery and joining are separate; no real email is sent.') }}</p>
+      <BulkPicker :key="s.contextKey" v-model="quickInviteIds" :records="quickInviteRecords" :scope="s.legacy.organization + l(' · 本次邀请范围', ' · Invitation scope')" column="邮箱" :template-url="inviteTemplate" @valid="quickInviteReady = $event" />
+      <label class="inline-edit">{{ l('加入后的角色', 'Role after joining') }}<ElSelect v-model="invite.role" :aria-label="l('本次邀请角色', 'Role for these invitations')"><ElOption value="reader" :label="l('只读成员', 'Read-only member')"/><ElOption value="operator" :label="l('业务成员', 'Business member')"/></ElSelect></label>
+      <div class="inline-impact"><strong>{{ l('确认前核对影响', 'Review effects before confirming') }}</strong><p>{{ s.legacy.organization }} · {{ quickInviteIds.length }} {{ l('个地址', 'addresses') }} · {{ roleTitle(invite.role) }}</p><p>{{ l('创建邀请不等于已送达或已加入；72小时单次为待审建议。', 'Creating an invitation does not mean delivery or joining. The 72-hour single-use policy remains a proposal.') }}</p></div>
+      <ElButton type="primary" :disabled="!quickInviteReady || s.blocked" :loading="s.busy" @click="submitQuickInvites">{{ l('确认创建邀请', 'Confirm invitation creation') }}</ElButton>
     </section>
     <section v-else-if="s.page.id === 'invite-create'" class="full-card">
       <h2>{{ l("粘贴地址，核对后创建邀请", "Paste addresses, then review invitations") }}</h2>
@@ -675,7 +726,8 @@ function parsedState(id: string) {
       class="full-card"
     >
       <h2>{{ l("按动作核对权限与范围", "Review permissions and scope per action") }}</h2>
-      <div class="full-form">
+      <template v-if="s.taskMode"><ElButton @click="applyRoleTable(l(roleTableExample, roleTableExampleEn))">{{ l('使用完整示例配置', 'Use complete example settings') }}</ElButton><label class="inline-edit">{{ l('完整角色权限表（可从Excel一次粘贴）', 'Complete role permissions table (paste once from Excel)') }}<ElInput :model-value="roleTable" type="textarea" :rows="5" :aria-label="l('完整角色权限表', 'Complete role permissions table')" :placeholder="l(roleTableExample, roleTableExampleEn)" @input="applyRoleTable"/></label><p class="full-muted">{{ l('按示例13列粘贴表头和一行配置。范围用不允许、当前企业全部、本人负责、明确指派、指定对象；对象编号用竖线分隔。', 'Paste the 13-column header and one configuration row shown in the example. Use Not allowed, All in organization, Owned by me, Assigned, or Explicit targets; separate explicit references with a vertical bar.') }}</p><p v-if="roleTableError" role="alert" class="full-error-text">{{ roleTableError }}</p><div v-if="roleTable && !roleTableError" class="inline-impact"><h3>{{ targetRole?.name || l('新角色', 'New role') }} → {{ roleForm.name }}</h3><p>{{ l('后台入口', 'Console entry') }}: {{ targetRole?.menu ? l('允许', 'Allowed') : l('不允许', 'Not allowed') }} → {{ roleForm.menu ? l('允许', 'Allowed') : l('不允许', 'Not allowed') }} · {{ l('成员管理', 'Member management') }}: {{ targetRole?.access ? l('允许', 'Allowed') : l('不允许', 'Not allowed') }} → {{ roleForm.access ? l('允许', 'Allowed') : l('不允许', 'Not allowed') }}</p><p v-for="action in ['read','update','export','marketingRead','marketingExecute'] as const" :key="action">{{ ({ read: l('客户读取', 'Customer read'), update: l('客户修改', 'Customer update'), export: l('客户导出', 'Customer export'), marketingRead: l('营销读取', 'Marketing read'), marketingExecute: l('营销执行', 'Marketing execute') })[action] }}: {{ targetRole ? statusTitle(targetRole[action]) : l('新角色', 'New role') }} [{{ targetRole?.targets?.[action]?.join(' · ') || '—' }}] → {{ statusTitle(roleForm[action]) }} [{{ roleForm.targets[action]?.join(' · ') || '—' }}]</p></div></template>
+      <div v-show="!s.taskMode" class="full-form">
         <label
           >{{ l("角色名称", "Role name")
           }}<ElInput
@@ -810,8 +862,8 @@ function parsedState(id: string) {
           v-if="targetRole && roleForm.version !== targetRole.version"
           @click="roleForm.version = targetRole.version"
           >{{ l("保留配置并核对当前版本", "Keep settings and review current version") }}</ElButton
-        ><ElButton type="primary" data-primary :disabled="s.blocked" @click="saveRole">{{
-          l("核对权限变化", "Review permission changes")
+        ><ElButton type="primary" data-primary :disabled="s.blocked || (s.taskMode && (!roleTable.trim() || !!roleTableError))" @click="saveRole">{{
+          s.taskMode ? l('确认角色配置', 'Confirm role configuration') : l("核对权限变化", "Review permission changes")
         }}</ElButton>
       </div>
     </section>
