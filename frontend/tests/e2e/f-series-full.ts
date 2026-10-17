@@ -7,8 +7,16 @@ const origin = "http://127.0.0.1:5790";
 const base = "/__design/f-series/full";
 const output = fileURLToPath(new URL("../../.e2e/artifacts/f-series-full/", import.meta.url));
 async function select(p: Page, label: string, value: string) {
-  await p.locator(`.el-select:has(input[aria-label="${label}"]) .el-select__wrapper`).click();
-  await p.getByRole("option", { name: value, exact: true }).click();
+  const input = p.getByRole("combobox", { name: label, exact: true });
+  const control = p.locator(`.el-select:has(input[aria-label="${label}"]) .el-select__wrapper`);
+  await control.click();
+  await expect(input).toHaveAttribute("aria-expanded", "true");
+  const listId = await input.getAttribute("aria-controls");
+  expect(listId).toBeTruthy();
+  const list = p.locator(`[id="${listId}"]`);
+  await expect(list).toHaveAttribute("role", "listbox");
+  await list.getByRole("option", { name: value, exact: true }).click();
+  await expect(list).toBeHidden();
 }
 async function check(p: Page, name: string, checked: boolean) {
   const input = p.getByRole("checkbox", { name, exact: true });
