@@ -1,3 +1,4 @@
+import { registerFullReviewTests } from './f-series-full';
 import { afterAll, beforeAll, test } from '@e2e-dev/web';
 import { expect } from 'e2e';
 import { chromium, expect as pwExpect } from '@playwright/test';
@@ -213,3 +214,5 @@ test('F-series design: two actual tabs retain scoped unknown results and share l
     }
   } finally { await engine.close(); }
 });
+
+registerFullReviewTests();

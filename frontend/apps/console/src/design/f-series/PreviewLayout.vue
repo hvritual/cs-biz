@@ -2,12 +2,15 @@
 import { ChevronDown, Languages, MoonStar, Sun } from '@vben/icons';
 import { preferences, usePreferences } from '@vben/preferences';
 import { ElDropdown, ElDropdownItem, ElDropdownMenu, ElOption, ElSelect } from 'element-plus';
+import { useRoute } from 'vue-router';
+import FullNavigation from './full/FullNavigation.vue';
 import BasicLayout from '#/layouts/basic.vue';
 import { $t } from '#/locales';
 import { useAppearanceStore } from '#/store';
 import { text, type CopyKey } from './copy';
 import { useFSeriesDesignState } from './state';
 const { workspace, activeTenant, identity, chooseOrganization, signOut } = useFSeriesDesignState();
+const route = useRoute();
 const appearance = useAppearanceStore();
 const { isDark } = usePreferences();
 const t = (key: CopyKey) => text(key, preferences.app.locale === 'en-US');
@@ -21,6 +24,7 @@ async function language(value: string) {
 </script>
 <template>
   <BasicLayout>
+    <template v-if="route.path.startsWith('/__design/f-series/full')" #primary-navigation><FullNavigation /></template>
     <template #header-tenant>
       <div class="cs-tenant-tools"><span class="cl-tenant-building" aria-hidden="true">▤</span>
         <ElSelect :model-value="activeTenant" :disabled="identity!=='active'" :aria-label="$t('shell.selectWorkspace')" :placeholder="$t('shell.selectWorkspace')" class="cs-tenant-select" @change="choose">

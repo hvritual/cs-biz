@@ -1,0 +1,39 @@
+{
+  "protocol": "sdlc-request-v1",
+  "task_id": "yunka-f-series-r003-full-ui-design",
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+    "frontend_change": true,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/rounds/r003/**",
+      "doc/tasks/f-series/task.md",
+      "doc/roadmap.md",
+      "doc/tasks/README.md",
+      "frontend/apps/console/src/design/f-series/**",
+      "frontend/apps/console/src/layouts/basic.vue",
+      "frontend/tests/e2e/f-series-design.e2e.ts",
+      "frontend/tests/e2e/f-series-full.ts"
+    ],
+    "forbidden_paths": [
+      "backend/**",
+      ".agents/**",
+      ".codex/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**",
+      "doc/tasks/f-series/rounds/r001/**",
+      "frontend/pnpm-lock.yaml",
+      "doc/tasks/f-series/rounds/r002/**"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "authority_ref": "raw-user.txt#2026-10-17T08:43:02+08:00",
+  "assets": {
+    "raw": {
+      "path": "raw-user.txt",
+      "sha256": "1cebbcb358f41571d9a510783299979960cddc0bbe04787037ab240d43ddb096"
+    }
+  }
+}

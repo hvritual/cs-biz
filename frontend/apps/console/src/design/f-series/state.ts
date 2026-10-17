@@ -12,7 +12,23 @@ const identity = ref<'signed_out'|'zero'|'many'|'active'|'switch_error'>(localSt
 const savedTenant = sessionStorage.getItem('cs-biz:f-series-design:tenant');
 const activeTenant = ref<string | null>(identity.value === 'active' ? savedTenant : null);
 if (!activeTenant.value) identity.value = localStorage.getItem(sessionKey) ? 'many' : 'signed_out';
-const reviewUser = workspace.user;
+const baseUser = workspace.user;
+const initialOrganizations = [...workspace.tenants];
+const reviewProfileKey = 'cs-biz:f-series-design:review-profile';
+function readProfile() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(reviewProfileKey) || 'null');
+    return saved && typeof saved.id==='string' && typeof saved.email==='string' && saved.email.endsWith('@example.test') ? saved as NonNullable<typeof workspace.user> : baseUser;
+  } catch { return baseUser; }
+}
+let reviewUser = readProfile();
+if (localStorage.getItem(sessionKey)) workspace.user = reviewUser;
+function setReviewIdentity(user: NonNullable<typeof workspace.user>) {
+  signOut();
+  localStorage.setItem(reviewProfileKey, JSON.stringify(user));
+  reviewUser = user;
+  beginSignIn();
+}
 type Outcome = 'unknown' | 'succeeded' | 'failed';
 const readbackResult = ref<Outcome | 'denied'>('succeeded');
 async function queryOperation() {
@@ -63,8 +79,9 @@ function clearSelection() {
   selected.value = []; notice.value = ''; dialog.value = '';
 }
 function beginSignIn() {
+  reviewUser = readProfile();
   clearSelection(); activeTenant.value = null; identity.value = 'many';
-  localStorage.setItem(sessionKey, 'design-only-active');
+  localStorage.setItem(sessionKey, `design-only-active:${reviewUser?.id || 'none'}`);
   workspace.user = reviewUser;
 }
 function endSession() {
@@ -80,7 +97,7 @@ function membershipScenario(value: 'zero' | 'many') {
   beginSignIn(); identity.value = value; workspace.tenant = null; workspace.context = null;
 }
 const sessionChanged = (event: StorageEvent) => {
-  if (event.key === sessionKey && event.newValue === null) endSession();
+  if (event.key === sessionKey && (event.newValue === null || event.newValue !== `design-only-active:${reviewUser?.id || 'none'}`)) endSession();
   if (event.key === operationJournalKey) operations.value = journal(operationJournalKey, {});
   if (event.key === invitationJournalKey) invitationBatches.value = journal(invitationJournalKey, {});
 };
@@ -92,7 +109,7 @@ function chooseOrganization(name: string) {
   const target = workspace.tenants.find(item => item.name === name);
   if (!target) return;
   clearSelection();
-  localStorage.setItem(sessionKey, 'design-only-active');
+  localStorage.setItem(sessionKey, `design-only-active:${reviewUser?.id || 'none'}`);
   workspace.user = reviewUser; workspace.tenant = target;
   activeTenant.value = target.id; identity.value = 'active';
   sessionStorage.setItem('cs-biz:f-series-design:tenant', target.id);
@@ -138,7 +155,7 @@ async function copyReference() {
   catch { notice.value='sampleHelp'; }
 }
 
-return { workspace, tab, tabs, identity, activeTenant, organization, scenario, dialog, notice, emails, parsed, selected, rows, analyzed, blocked, campaignState, operationId, invited, currentBatch, readbackResult, selectTab, setScenario, submit, copyReference, readInvitation, queryOperation, beginSignIn, signOut, switchFailed, membershipScenario, chooseOrganization };
+return { baseUser, initialOrganizations, setReviewIdentity, workspace, tab, tabs, identity, activeTenant, organization, scenario, dialog, notice, emails, parsed, selected, rows, analyzed, blocked, campaignState, operationId, invited, currentBatch, readbackResult, selectTab, setScenario, submit, copyReference, readInvitation, queryOperation, beginSignIn, signOut, switchFailed, membershipScenario, chooseOrganization };
 }
 let shared: ReturnType<typeof createState> | undefined;
 export function useFSeriesDesignState() { return shared ??= createState(); }
