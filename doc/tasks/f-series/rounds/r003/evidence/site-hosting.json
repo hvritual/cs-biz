@@ -1,9 +1,9 @@
 {
   "kind": "private_design_review",
-  "id": "appgdep_6ad2d28fd31c8191b698e7862dc7bb62",
+  "id": "appgdep_6ad2d80d0488819193c8cded5ce24c47",
   "project_id": "appgprj_6ad2c50e408081918f7726b6c0c74d70",
   "title": "CoffeeLink · F2–F6 完整交互审阅",
-  "version_id": "appgprj_6ad2c50e408081918f7726b6c0c74d70~appgver_e70b8b6b92cc81919e6ba8bc802af7c3",
+  "version_id": "appgprj_6ad2c50e408081918f7726b6c0c74d70~appgver_313cf148c5608191be7f92894b205f8f",
   "type": "publish",
   "status": "succeeded",
   "url": "https://cs-biz-f-series-review.citrus-sloth-6447.chatgpt.site",
@@ -12,17 +12,17 @@
   "provider_deployment_id": "site---6ad2c50e408081918f7726b6c0c74d70",
   "failure_message": null,
   "env_set_revision": 0,
-  "updated_at": "2026-10-17T01:42:53.251279+00:00",
-  "source_commit": "afef518e78b7e62a2a51a1f79708fdc39e7ae703",
-  "canonical_source_commit": "8b1612949f9b324834374b93637f9571a3c0dd3f",
+  "updated_at": "2026-10-17T02:06:20.702153+00:00",
+  "source_commit": "f7eef703ece0176df9eefe51c216dc5977e9f4a7",
+  "canonical_source_commit": "950e70f44e4311e3b5a3addbbed5aad6766e1889",
   "source_repository": "hvritual/cs-biz",
-  "archive_path": ".artifacts/f-series-r003-site.tar",
+  "archive_path": ".artifacts/f-series-r003-site-C4.tar",
   "audience": "owner_private",
   "data_boundary": "browser-local review fixtures only; no business backend or external effects",
   "verification": {
     "deployment": "native_sites_terminal_success",
-    "canonical_browser": "pending_C2_Full",
+    "canonical_browser": "C4_38993407385_failed_45_pass_2_presentation_probes; next proof pending",
     "deployed_url_browser": "not_run: managed control-browser unavailable; no improvised browser path"
   },
-  "source_relation": "Canonical Console design build exported from exact C2 with bound origin; dedicated Site repository contains static output and provenance."
+  "source_relation": "Exact canonical C4 Console design build exported with bound origin; Site source contains static output and provenance."
 }

@@ -1,0 +1,20 @@
+{
+  "candidate": "950e70f44e4311e3b5a3addbbed5aad6766e1889",
+  "run_id": 38993407385,
+  "attempt": 1,
+  "result": "failed",
+  "tester_army": {
+    "passed": 45,
+    "failed": 2,
+    "total": 47
+  },
+  "legacy": "not_run_due_to_preceding_failure",
+  "artifact_id": 12086571376,
+  "archive_sha256": "5b94c74707985f66ddefc4435e95b23da17d2bf47f52f033386329bea8788ead",
+  "repairs": [
+    "Dismiss open selectors using a visible neutral header before screenshot, retaining the closed-overlay assertion.",
+    "Wait for actual canonical foreground/background colors after html.dark before measuring visible selected-label contrast.",
+    "Capture raw failure screenshots without requiring the screenshot-stability assertion first."
+  ],
+  "success_claimed": false
+}

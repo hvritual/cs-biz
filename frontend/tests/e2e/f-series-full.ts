@@ -28,6 +28,10 @@ async function confirm(p: Page) {
   await expect(p.locator(".el-dialog")).toBeHidden();
 }
 async function shot(p: Page, name: string) {
+  // Dismiss transient selectors through visible UI before visual capture.
+  const dialog = p.locator(".el-dialog:visible .el-dialog__header");
+  if (await dialog.count()) await dialog.first().click();
+  else await p.locator(".full-review-boundary").click();
   await expect(p.locator(".el-select-dropdown:visible")).toHaveCount(0);
   await mkdir(output, { recursive: true });
   await p.screenshot({ path: output + name + ".png", fullPage: true });
@@ -41,7 +45,11 @@ async function owned(run: (p: Page) => Promise<void>) {
     try {
       await run(p);
     } catch (error) {
-      await shot(p, "failure-" + new URL(p.url()).pathname.split("/").pop());
+      await mkdir(output, { recursive: true });
+      await p.screenshot({
+        path: output + "failure-" + new URL(p.url()).pathname.split("/").pop() + ".png",
+        fullPage: true,
+      });
       throw error;
     }
   } finally {
@@ -298,9 +306,26 @@ export function registerFullReviewTests() {
       await expect(p.getByRole("heading", { name: "Customers", exact: true })).toBeVisible();
       await p.getByRole("button", { name: "Use dark appearance", exact: true }).click();
       await expect(p.locator("html")).toHaveClass(/dark/);
+      const palette = await p.evaluate(() => {
+        const style = getComputedStyle(document.documentElement);
+        return {
+          surface: style.getPropertyValue("--color-surface").trim(),
+          text: style.getPropertyValue("--color-text").trim(),
+        };
+      });
+      const rgb = (hex: string) => {
+        if (!/^#[0-9a-f]{6}$/i.test(hex)) throw Error("Expected canonical hex palette");
+        return `rgb(${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)})`;
+      };
+      const control = p.locator(".full-review-tools .el-select__wrapper").first();
+      await expect(control).toHaveCSS("background-color", rgb(palette.surface));
+      await expect(control.locator(".el-select__placeholder")).toHaveCSS(
+        "color",
+        rgb(palette.text),
+      );
       const contrast = await p.evaluate(() => {
         const wrapper = document.querySelector(".full-review-tools .el-select__wrapper")!;
-        const text = wrapper.querySelector(".el-select__selected-item")!;
+        const text = wrapper.querySelector(".el-select__placeholder")!;
         const luminance = (color: string) => {
           const v = color
             .match(/[0-9.]+/g)!
