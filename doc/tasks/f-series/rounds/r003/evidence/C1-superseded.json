@@ -1,0 +1,20 @@
+{
+  "candidate": "03e3ca837857250eb2f6afbd8d5f434441182a5f",
+  "run_id": 38991136752,
+  "attempt": 1,
+  "conclusion": "cancelled_by_successor",
+  "success_claimed": false,
+  "artifact_id": 12085238161,
+  "archive_sha256": "2110a29810a75d73eab868c17faf7b501730f926b40d6e907c9a819de5ad7c67",
+  "observed_artifacts": {
+    "page_state_screens": 32,
+    "deep_screens": [
+      "immutable-readback",
+      "accepted-invitation"
+    ]
+  },
+  "limits": [
+    "Cancelled before complete test reports and Full receipt; screenshots do not establish the complete run passed."
+  ],
+  "successor": "8b1612949f9b324834374b93637f9571a3c0dd3f"
+}

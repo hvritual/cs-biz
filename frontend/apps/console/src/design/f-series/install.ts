@@ -24,6 +24,15 @@ export async function installFSeriesPreview(router: Router) {
     }
     return true;
   });
+  // The canonical authorization guard may redirect before this guard sees an
+  // inaccessible Console path. Record the successful review route itself.
+  router.afterEach((to) => {
+    if (to.path.startsWith(reviewBase) && reviewPaths.has(to.path)) {
+      sessionStorage.setItem('cs-biz:f-series:review-return', to.fullPath);
+    } else if (to.path === '/__design/f-series') {
+      sessionStorage.removeItem('cs-biz:f-series:review-return');
+    }
+  });
   router.addRoute({
     name: 'FSeriesDesign', path: '/__design', redirect: '/__design/f-series',
     component: () => import('./PreviewLayout.vue'),

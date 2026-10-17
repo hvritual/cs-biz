@@ -1,0 +1,20 @@
+{
+  "candidate": "8b1612949f9b324834374b93637f9571a3c0dd3f",
+  "run_id": 38991665568,
+  "attempt": 1,
+  "result": "failed",
+  "tester_army": {
+    "passed": 43,
+    "failed": 4,
+    "total": 47
+  },
+  "legacy": "not_run_due_to_preceding_failure",
+  "artifact_id": 12085865902,
+  "archive_sha256": "0a5a07193b7930c93cf044a7f32f74e9d7537ccc43a62b56f8829e1f46893744",
+  "repairs": [
+    "Use visible Element Plus label and assert hidden checkbox state; no force clicks.",
+    "Save last successful full review route because canonical guard redirects inaccessible Console paths earlier.",
+    "Complete actual organization selection for new tab; choosing the already selected fixture role does not emit change."
+  ],
+  "success_claimed": false
+}

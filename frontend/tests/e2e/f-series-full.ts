@@ -9,6 +9,13 @@ const output = fileURLToPath(new URL("../../.e2e/artifacts/f-series-full/", impo
 async function select(p: Page, label: string, value: string) {
   await p.locator(`.el-select:has(input[aria-label="${label}"]) .el-select__wrapper`).click();
   await p.getByRole("option", { name: value, exact: true }).click();
+  await expect(p.locator(".el-select-dropdown:visible")).toHaveCount(0);
+}
+async function check(p: Page, name: string, checked: boolean) {
+  const input = p.getByRole("checkbox", { name, exact: true });
+  if ((await input.isChecked()) !== checked)
+    await p.locator("label.el-checkbox").filter({ has: input }).click();
+  await expect(input).toBeChecked({ checked });
 }
 async function role(p: Page, value: string) {
   await select(p, "审阅角色", value);
@@ -31,7 +38,12 @@ async function owned(run: (p: Page) => Promise<void>) {
     const c = await b.newContext({ viewport: { width: 1440, height: 900 }, locale: "zh-CN" });
     c.setDefaultTimeout(8000);
     const p = await c.newPage();
-    await run(p);
+    try {
+      await run(p);
+    } catch (error) {
+      await shot(p, "failure-" + new URL(p.url()).pathname.split("/").pop());
+      throw error;
+    }
   } finally {
     await b.close();
   }
@@ -61,6 +73,7 @@ export function registerFullReviewTests() {
           await expect(p.locator("[data-page]")).toHaveAttribute("data-page", entry.id);
           await expect(p.locator("[data-scene]")).toHaveAttribute("data-scene", scene.id);
           await expect(p.getByRole("heading", { name: entry.title[0], exact: true })).toBeVisible();
+          if (scene.id === "normal") await shot(p, entry.screen + "-" + entry.id + "-normal");
           if (scene.id !== "normal")
             await expect(p.locator("[data-scenario-feedback]")).toContainText(scene.help[0]);
           expect(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
@@ -126,17 +139,13 @@ export function registerFullReviewTests() {
       await expect(p.locator("[data-notice]")).toContainText("指定另一位在任企业负责人");
       await p.getByRole("button", { name: "取消", exact: true }).click();
       await p.goto(origin + base + "/role-edit?target=owner");
-      await p
-        .getByRole("checkbox", { name: "允许当前范围内的成员与角色管理", exact: true })
-        .uncheck();
+      await check(p, "允许当前范围内的成员与角色管理", false);
       await p.getByRole("button", { name: "核对权限变化", exact: true }).click();
       await p.locator("[data-confirm-submit]").click();
       await expect(p.locator("[data-notice]")).toContainText("必须保留成员管理与转交能力");
       await p.getByRole("button", { name: "取消", exact: true }).click();
       await p.goto(origin + base + "/role-edit?target=owner");
-      await p
-        .getByRole("checkbox", { name: "允许当前范围内的成员与角色管理", exact: true })
-        .check();
+      await check(p, "允许当前范围内的成员与角色管理", true);
       await select(p, "客户修改范围", "无");
       await select(p, "客户导出范围", "无");
       await select(p, "营销执行范围", "无");
@@ -229,8 +238,8 @@ export function registerFullReviewTests() {
     owned(async (p) => {
       await reset(p);
       await p.goto(origin + base + "/customers");
-      await p.getByRole("checkbox", { name: "选定客户 C-1001", exact: true }).check();
-      await p.getByRole("checkbox", { name: "选定客户 C-1002", exact: true }).check();
+      await check(p, "选定客户 C-1001", true);
+      await check(p, "选定客户 C-1002", true);
       await p.getByRole("button", { name: "导出选定集合", exact: true }).click();
       await p.getByRole("button", { name: "排除不可导出项目", exact: true }).click();
       await p.getByRole("button", { name: "核对并创建导出记录", exact: true }).click();
@@ -245,7 +254,7 @@ export function registerFullReviewTests() {
       await role(p, "平台管理员");
       await p.goto(origin + base + "/module-grant?target=qinghe");
       await select(p, "模块生效方式", "关闭模块");
-      await p.getByRole("checkbox", { name: "客户管理", exact: true }).check();
+      await check(p, "客户管理", true);
       await p.getByRole("button", { name: "核对开通影响", exact: true }).click();
       await confirm(p);
       await role(p, "企业负责人");
@@ -308,6 +317,7 @@ export function registerFullReviewTests() {
       const z = await c.newPage();
       await reset(a);
       await z.goto(origin + base + "/customers");
+      await z.getByRole("button", { name: "使用当前审阅身份", exact: true }).click();
       await role(z, "企业负责人");
       await a.goto(origin + base + "/customers");
       await a.getByRole("button", { name: "挂起读取（审阅）", exact: true }).click();
