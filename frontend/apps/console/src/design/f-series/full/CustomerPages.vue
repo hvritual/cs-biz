@@ -50,7 +50,9 @@ const visible = computed(() =>
   rows.value.slice((filter.value.page - 1) * 4, filter.value.page * 4),
 );
 const eligibleExport = computed(() =>
-  exportForm.value.ids.filter((id) => s.data.customers.some((x) => x.id === id && s.owns(x.owner))),
+  exportForm.value.ids.filter((id) =>
+    s.data.customers.some((x) => x.id === id && s.readable(x, "export")),
+  ),
 );
 const analyzed = computed(() => {
   const seen = new Set<string>();
@@ -69,7 +71,7 @@ const analyzed = computed(() => {
       else if (matches.length > 1 && !bulk.value.resolved[key]) state = "ambiguous";
       if (bulk.value.resolved[key])
         matches = matches.filter((x) => x.id === bulk.value.resolved[key]);
-      if (state === "ready" && matches.some((x) => !s.owns(x.owner))) state = "outside";
+      if (state === "ready" && matches.some((x) => !s.readable(x, "update"))) state = "outside";
       seen.add(input.toLowerCase());
       return { key, input, matches, state, id: matches[0]?.id || "" };
     });
@@ -220,8 +222,8 @@ function rowState(id: string) {
         <p class="full-muted">
           {{
             l(
-              "读取：当前企业全部；修改与导出：本人负责。查看不等于选定，全选只作用于当前页。",
-              "Read: all in this organization; update and export: owned by me. Viewing does not select; select-all affects only the current page.",
+              "当前角色逐动作核对读取、修改与导出范围；负责、明确指派和指定集合分别判断。查看不等于选定，全选只作用于当前页。",
+              "Current grants are evaluated per action using ownership, assignments and explicit sets. Viewing does not select; select-all affects only the current page.",
             )
           }}
         </p>
@@ -322,7 +324,7 @@ function rowState(id: string) {
           <dt>{{ l("服务备注", "Service note") }}</dt>
           <dd>{{ current.note || "—" }}</dd>
         </dl>
-        <p v-if="!s.owns(current.owner) || !s.can('write')" class="full-message">
+        <p v-if="!s.readable(current, 'update') || !s.can('write')" class="full-message">
           {{
             l(
               "可以读取此客户，但不能因此获得修改权限。",
@@ -337,7 +339,7 @@ function rowState(id: string) {
           ><ElButton
             type="primary"
             data-primary
-            :disabled="!s.owns(current.owner) || !s.can('write') || s.blocked"
+            :disabled="!s.readable(current, 'update') || !s.can('write') || s.blocked"
             @click="edit"
             >{{ l("修改客户", "Edit customer") }}</ElButton
           >
@@ -393,7 +395,7 @@ function rowState(id: string) {
         ><ElButton
           type="primary"
           data-primary
-          :disabled="!current || !s.owns(current.owner) || !s.can('write') || s.blocked"
+          :disabled="!current || !s.readable(current, 'update') || !s.can('write') || s.blocked"
           @click="save"
           >{{ l("核对修改影响", "Review update effects") }}</ElButton
         >

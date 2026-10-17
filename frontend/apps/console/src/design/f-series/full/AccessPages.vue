@@ -1,12 +1,30 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { ElButton, ElCheckbox, ElInput, ElOption, ElSelect, ElTag } from "element-plus";
+import { computed, ref, watch } from "vue";
+import {
+  ElButton,
+  ElCheckbox,
+  ElCheckboxGroup,
+  ElInput,
+  ElOption,
+  ElSelect,
+  ElTag,
+} from "element-plus";
 import { l, roleTitle, statusTitle } from "./copy";
 import { useFullReviewState } from "./state";
 const s = useFullReviewState();
 const validation = ref("");
 const detail = ref("");
-const memberRole = ref("reader");
+const memberRole = ref<string[]>(["reader"]);
+const memberAssignments = ref<string[]>([]);
+watch(
+  () => [s.contextKey, s.page.id],
+  () => {
+    detail.value = "";
+    memberRole.value = [];
+    memberAssignments.value = [];
+    validation.value = "";
+  },
+);
 const filters = computed(() => s.draft("member-filter", { text: "", state: "all" }));
 const invite = computed(() =>
   s.draft("invite-create", {
@@ -25,6 +43,7 @@ const members = computed(() =>
           (filters.value.state === "all" || filters.value.state === x.state),
       ),
 );
+const assignmentResources = computed(() => [...s.data.customers, ...s.data.campaigns]);
 const focused = computed(() => s.data.members.find((x) => x.id === detail.value));
 const inviteRows = computed(() => (s.scene === "empty" ? [] : s.data.invites));
 const roleRows = computed(() => (s.scene === "empty" ? [] : s.data.roles));
@@ -39,6 +58,9 @@ const roleForm = computed(() =>
     marketingRead: targetRole.value?.marketingRead || "none",
     marketingExecute: targetRole.value?.marketingExecute || "none",
     access: targetRole.value?.access || false,
+    targets: JSON.parse(JSON.stringify(targetRole.value?.targets || {})) as Partial<
+      Record<"read" | "update" | "export" | "marketingRead" | "marketingExecute", string[]>
+    >,
     version: targetRole.value?.version || 0,
   }),
 );
@@ -88,9 +110,9 @@ const inviteSelected = computed(() =>
     .map((x) => x.email),
 );
 const activeOwners = computed(
-  () => s.data.members.filter((x) => x.role === "owner" && x.state === "active").length,
+  () => s.data.members.filter((x) => s.hasRole(x, "owner") && x.state === "active").length,
 );
-function changeMember(id: string, state?: string, role?: string) {
+function changeMember(id: string, state?: string, role?: string | string[]) {
   const row = s.data.members.find((x) => x.id === id);
   if (!row) return;
   s.request(
@@ -103,8 +125,42 @@ function changeMember(id: string, state?: string, role?: string) {
       ids: [id],
       values: {
         ...(state ? { state } : {}),
-        ...(role ? { role } : {}),
+        ...(role ? { roles: JSON.stringify(Array.isArray(role) ? role : [role]) } : {}),
         version: String(row.version),
+      },
+    },
+    "access",
+  );
+}
+function roleName(id: string) {
+  return s.data.roles.find((role) => role.id === id)?.name || roleTitle(id);
+}
+function changeAssignments() {
+  const member = focused.value;
+  if (!member) return;
+  const previous = assignmentResources.value
+    .filter((row) => row.assignedTo?.includes(member.accountId))
+    .map((row) => row.id);
+  const add = memberAssignments.value.filter((id) => !previous.includes(id));
+  const remove = previous.filter((id) => !memberAssignments.value.includes(id));
+  if (!add.length && !remove.length) return;
+  const changed = [...add, ...remove];
+  s.request(
+    ["核对资源指派变化", "Review resource assignments"],
+    {
+      kind: "assignment",
+      ids: [member.id],
+      values: {
+        version: String(member.version),
+        add: JSON.stringify(add),
+        remove: JSON.stringify(remove),
+        versions: JSON.stringify(
+          Object.fromEntries(
+            assignmentResources.value
+              .filter((row) => changed.includes(row.id))
+              .map((row) => [row.id, row.version]),
+          ),
+        ),
       },
     },
     "access",
@@ -142,6 +198,14 @@ function saveRole() {
         marketingRead: roleForm.value.marketingRead,
         marketingExecute: roleForm.value.marketingExecute,
         access: roleForm.value.access ? "yes" : "no",
+        ...Object.fromEntries(
+          ["read", "update", "export", "marketingRead", "marketingExecute"].map((action) => [
+            action + "Targets",
+            JSON.stringify(
+              roleForm.value.targets[action as keyof typeof roleForm.value.targets] || [],
+            ),
+          ]),
+        ),
         version: String(roleForm.value.version),
       },
     },
@@ -246,7 +310,7 @@ function parsedState(id: string) {
               <tr v-for="row in members" :key="row.id">
                 <td>{{ row.name }}</td>
                 <td>{{ row.email }}</td>
-                <td>{{ roleTitle(row.role) }}</td>
+                <td>{{ s.roleIds(row).map(roleName).join(" + ") }}</td>
                 <td>
                   <ElTag :type="row.state === 'active' ? 'success' : 'info'">{{
                     statusTitle(row.state)
@@ -257,7 +321,10 @@ function parsedState(id: string) {
                     link
                     @click="
                       detail = row.id;
-                      memberRole = row.role;
+                      memberRole = [...s.roleIds(row)];
+                      memberAssignments = assignmentResources
+                        .filter((customer) => customer.assignedTo?.includes(row.accountId))
+                        .map((customer) => customer.id);
                     "
                     >{{ l("查看详情", "View details") }}</ElButton
                   ><ElButton
@@ -289,29 +356,111 @@ function parsedState(id: string) {
           <h3>{{ focused.name }} · {{ l("成员详情", "Member details") }}</h3>
           <dl class="full-facts">
             <dt>{{ l("当前角色", "Current role") }}</dt>
-            <dd>{{ roleTitle(focused.role) }}</dd>
+            <dd>{{ s.roleIds(focused).map(roleName).join(" + ") }}</dd>
             <dt>{{ l("当前状态与版本", "State and version") }}</dt>
             <dd>{{ statusTitle(focused.state) }} · {{ focused.version }}</dd>
           </dl>
           <div class="full-actions">
-            <ElSelect v-model="memberRole" :aria-label="l('调整成员角色', 'Change member role')"
-              ><ElOption
+            <ElCheckboxGroup
+              v-model="memberRole"
+              :aria-label="l('调整成员角色', 'Change member roles')"
+            >
+              <ElCheckbox
                 v-for="item in s.data.roles"
                 :key="item.id"
                 :value="item.id"
-                :label="item.name" /></ElSelect
-            ><ElButton @click="changeMember(focused.id, undefined, memberRole)">{{
-              l("核对角色调整", "Review role assignment")
-            }}</ElButton
+                :aria-label="l('成员角色', 'Member role') + ' ' + item.name"
+                >{{ item.name }}</ElCheckbox
+              >
+            </ElCheckboxGroup>
+            <ElButton
+              :disabled="!memberRole.length"
+              @click="changeMember(focused.id, undefined, memberRole)"
+              >{{ l("核对角色调整", "Review role assignment") }}</ElButton
             ><ElButton @click="changeMember(focused.id, undefined, 'reader')">{{
               l("调整为只读成员", "Make read-only")
             }}</ElButton
             ><ElButton
-              :disabled="focused.state !== 'active' || focused.role === 'owner' || !s.can('owner')"
+              :disabled="
+                focused.state !== 'active' || s.hasRole(focused, 'owner') || !s.can('owner')
+              "
               @click="changeMember(focused.id, undefined, 'owner')"
               >{{ l("指定为另一位负责人", "Assign another owner") }}</ElButton
             ><ElButton @click="detail = ''">{{ l("关闭详情", "Close details") }}</ElButton>
           </div>
+          <h4>{{ l("当前角色的逐动作合并结果", "Current grants combined per action") }}</h4>
+          <p>
+            {{
+              l(
+                "同一动作取角色范围并集；读取、修改与导出不能互相拼接。撤掉一个角色后重新按剩余角色核对。",
+                "Roles are unioned within each action. Read, update and export never combine across actions. Removing a role recalculates the remaining grants.",
+              )
+            }}
+          </p>
+          <div class="full-table-wrap">
+            <table class="full-table" data-member-access>
+              <thead>
+                <tr>
+                  <th>{{ l("客户", "Customer") }}</th>
+                  <th>{{ l("负责与指派来源", "Ownership and assignment") }}</th>
+                  <th>{{ l("读取", "Read") }}</th>
+                  <th>{{ l("修改", "Update") }}</th>
+                  <th>{{ l("导出", "Export") }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="customer in s.data.customers" :key="customer.id">
+                  <td>{{ customer.id }} · {{ customer.name }}</td>
+                  <td>
+                    {{
+                      customer.owner === focused.accountId
+                        ? l("本人负责", "Owned by member")
+                        : l("其他成员负责", "Owned by another member")
+                    }}
+                    ·
+                    {{
+                      customer.assignedTo?.includes(focused.accountId)
+                        ? l("已明确指派", "Assigned to member")
+                        : l("未指派", "Not assigned")
+                    }}
+                  </td>
+                  <td v-for="action in ['read', 'update', 'export'] as const" :key="action">
+                    {{
+                      s.memberAccess(focused, customer, action)
+                        ? l("允许", "Allowed")
+                        : l("拒绝", "Denied")
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h4>{{ l("明确指派的资源", "Explicitly assigned resources") }}</h4>
+          <p>
+            {{
+              l(
+                "指派不改变负责人，仅让具有 assigned 动作范围的角色使用；指定集合 explicit 在角色中逐动作配置。只可指派当前有权修改的对象，撤销后立即重新核对读取、批量、导出和下载。",
+                "Assignment does not change ownership. It is used only by grants with assigned scope; explicit sets are configured per action on roles. Assign only targets in your current update scope. Revocation immediately rechecks reads, batches, exports and downloads.",
+              )
+            }}
+          </p>
+          <ElCheckboxGroup
+            v-model="memberAssignments"
+            :aria-label="l('成员客户指派', 'Member customer assignments')"
+            ><ElCheckbox
+              v-for="customer in assignmentResources"
+              :key="customer.id"
+              :value="customer.id"
+              :disabled="
+                !s.readable(customer, customer.id.startsWith('M-') ? 'marketingExecute' : 'update')
+              "
+              :aria-label="l('指派资源', 'Assign resource') + ' ' + customer.id"
+              >{{ customer.id }} · {{ customer.name }}</ElCheckbox
+            ></ElCheckboxGroup
+          >
+          <ElButton :disabled="focused.state !== 'active'" @click="changeAssignments">{{
+            l("核对资源指派", "Review assignments")
+          }}</ElButton>
           <p class="full-muted">
             {{
               l(
@@ -549,16 +698,15 @@ function parsedState(id: string) {
           }}<ElSelect
             v-model="roleForm.update"
             :aria-label="l('客户修改范围', 'Customer update scope')"
-            ><ElOption value="none" :label="statusTitle('none')" /><ElOption
+            ><ElOption value="assigned" :label="statusTitle('assigned')" /><ElOption
+              value="explicit"
+              :label="statusTitle('explicit')" /><ElOption
+              value="none"
+              :label="statusTitle('none')" /><ElOption
               value="self"
               :label="statusTitle('self')" /><ElOption
               value="tenant"
-              :label="
-                l(
-                  '当前企业全部（超出当前委派范围）',
-                  'All in organization (beyond current delegation)',
-                )
-              " /><ElOption
+              :label="statusTitle('tenant')" /><ElOption
               value="legacy"
               :label="
                 l('旧分组范围（含义未确认，不可授予）', 'Legacy group (unconfirmed; cannot grant)')
@@ -573,7 +721,7 @@ function parsedState(id: string) {
             v-model="roleForm.export"
             :aria-label="l('客户导出范围', 'Customer export scope')"
             ><ElOption
-              v-for="id in ['none', 'self', 'tenant']"
+              v-for="id in ['none', 'self', 'assigned', 'explicit', 'tenant']"
               :key="id"
               :value="id"
               :label="statusTitle(id)" /></ElSelect></label
@@ -583,7 +731,7 @@ function parsedState(id: string) {
             v-model="roleForm.marketingRead"
             :aria-label="l('营销读取范围', 'Campaign read scope')"
             ><ElOption
-              v-for="id in ['none', 'self', 'tenant']"
+              v-for="id in ['none', 'self', 'assigned', 'explicit', 'tenant']"
               :key="id"
               :value="id"
               :label="statusTitle(id)" /></ElSelect></label
@@ -593,10 +741,42 @@ function parsedState(id: string) {
             v-model="roleForm.marketingExecute"
             :aria-label="l('营销执行范围', 'Campaign execute scope')"
             ><ElOption
-              v-for="id in ['none', 'self', 'tenant']"
+              v-for="id in ['none', 'self', 'assigned', 'explicit', 'tenant']"
               :key="id"
               :value="id"
               :label="statusTitle(id)" /></ElSelect></label
+        ><template
+          v-for="entry in [
+            ['read', '客户读取指定对象', 'Customer read targets'],
+            ['update', '客户修改指定对象', 'Customer update targets'],
+            ['export', '客户导出指定对象', 'Customer export targets'],
+            ['marketingRead', '营销读取指定对象', 'Campaign read targets'],
+            ['marketingExecute', '营销执行指定对象', 'Campaign execute targets'],
+          ] as const"
+          :key="entry[0]"
+        >
+          <label v-if="roleForm[entry[0]] === 'explicit'"
+            >{{ l(entry[1], entry[2])
+            }}<ElSelect
+              v-model="roleForm.targets[entry[0]]"
+              multiple
+              :aria-label="l(entry[1], entry[2])"
+              ><ElOption
+                v-for="target in entry[0].startsWith('marketing')
+                  ? s.data.campaigns
+                  : s.data.customers"
+                :key="target.id"
+                :value="target.id"
+                :label="target.id + ' · ' + target.name" /></ElSelect
+          ></label>
+          <p v-if="roleForm[entry[0]] === 'assigned'">
+            {{
+              l(
+                "明确指派来源：成员详情中确认的资源指派；与负责关系独立，撤销后该动作立即失效。",
+                "Assigned scope uses confirmed resource assignments in member details, independently of ownership. Revoking an assignment removes this action immediately.",
+              )
+            }}
+          </p> </template
         ><ElCheckbox v-model="roleForm.access">{{
           l(
             "允许当前范围内的成员与角色管理",
@@ -617,8 +797,8 @@ function parsedState(id: string) {
         <p>
           {{
             l(
-              "读取：当前企业全部；修改：本人负责。不同动作的范围不能拼接。超出当前动作权限、未知权限或旧分组含义不清时拒绝。",
-              "Read: all in this organization; update: owned by me. Scope from different actions cannot be combined. Wider, unknown, or unconfirmed legacy grants are rejected.",
+              "按当前账户已授角色逐动作求并集，新增授权必须包含于该动作的当前可委派范围。指定集合必须明确选定；不能用有限集合推定未来所有负责或指派对象。超出范围、未知权限或旧分组含义不清时拒绝。",
+              "Current grants are unioned per action. New grants must fit that action’s delegation ceiling. Explicit targets must be selected; finite sets cannot imply authority over future owned or assigned objects. Wider, unknown and unconfirmed legacy grants are rejected.",
             )
           }}
         </p>

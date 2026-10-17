@@ -4,7 +4,7 @@ import { ElButton, ElDialog, ElOption, ElSelect, ElTag } from "element-plus";
 import { ArrowRight, BookOpen, CheckCircle2, RotateCcw } from "lucide-vue-next";
 import PageHeader from "#/components/PageHeader.vue";
 import { reviewPages } from "./catalog";
-import { l, pair, roles, roleTitle } from "./copy";
+import { l, pair, roles, roleTitle, statusTitle } from "./copy";
 import { useFullReviewState } from "./state";
 import IdentityPages from "./IdentityPages.vue";
 import PlatformPages from "./PlatformPages.vue";
@@ -49,6 +49,18 @@ const effectLabels: Record<string, readonly [string, string]> = {
   owner: ["指定负责人", "Nominated owner"],
   note: ["服务备注", "Service note"],
   role: ["目标角色", "Target role"],
+  roles: ["调整后的全部角色", "All roles after this change"],
+  add: ["新增指派对象", "Newly assigned targets"],
+  remove: ["撤销指派对象", "Assignments removed"],
+  export: ["客户导出范围", "Customer export scope"],
+  marketingRead: ["营销读取范围", "Campaign read scope"],
+  marketingExecute: ["营销执行范围", "Campaign execute scope"],
+  access: ["成员与角色管理", "Member and role management"],
+  readTargets: ["客户读取指定对象", "Customer read targets"],
+  updateTargets: ["客户修改指定对象", "Customer update targets"],
+  exportTargets: ["客户导出指定对象", "Customer export targets"],
+  marketingReadTargets: ["营销读取指定对象", "Campaign read targets"],
+  marketingExecuteTargets: ["营销执行指定对象", "Campaign execute targets"],
   state: ["目标状态", "Target state"],
   read: ["客户读取范围", "Customer read scope"],
   update: ["客户修改范围", "Customer update scope"],
@@ -58,6 +70,19 @@ const effectLabels: Record<string, readonly [string, string]> = {
   target: ["目标环境", "Target environment"],
   confirmation: ["影响确认", "Impact confirmation"],
 };
+function effectValue(key: string, value: string): string {
+  if (key === "roles")
+    return (JSON.parse(value) as string[])
+      .map((id) => s.data.roles.find((role) => role.id === id)?.name || roleTitle(id))
+      .join(" + ");
+  if (key.endsWith("Targets") || ["add", "remove"].includes(key))
+    return (JSON.parse(value) as string[]).join(" · ") || l("无", "None");
+  if (["read", "update", "export", "marketingRead", "marketingExecute", "state"].includes(key))
+    return statusTitle(value);
+  if (["menu", "access"].includes(key))
+    return value === "yes" ? l("允许", "Allowed") : l("不允许", "Not allowed");
+  return value || "—";
+}
 function back() {
   s.setScene("normal");
 }
@@ -270,7 +295,7 @@ function back() {
             )"
             :key="key"
             ><dt>{{ effectLabels[key] ? pair(effectLabels[key]) : key }}</dt>
-            <dd>{{ value || "—" }}</dd></template
+            <dd>{{ effectValue(String(key), value) }}</dd></template
           >
         </dl>
         <p class="full-muted">

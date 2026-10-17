@@ -16,7 +16,8 @@ async function select(p: Page, label: string, value: string) {
   const list = p.locator(`[id="${listId}"]`);
   await expect(list).toHaveAttribute("role", "listbox");
   await list.getByRole("option", { name: value, exact: true }).click();
-  await expect(list).toBeHidden();
+  // Semantic closure here; shot() separately verifies actual overlay disappearance.
+  await expect(input).toHaveAttribute("aria-expanded", "false");
 }
 async function check(p: Page, name: string, checked: boolean) {
   const input = p.getByRole("checkbox", { name, exact: true });
@@ -304,6 +305,109 @@ export function registerFullReviewTests() {
         "C-1003",
       );
       await shot(p, "partial-original-results");
+    }));
+  test("F-series full: multiple roles union per action and revoke one role immediately", async () =>
+    owned(async (p) => {
+      await reset(p);
+      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await p.goto(origin + base + "/customers");
+      await expect(p.locator(".full-table tbody")).toContainText("C-1001");
+      await p.goto(origin + base + "/customer?target=C-1001");
+      await expect(p.getByRole("button", { name: "修改客户", exact: true })).toBeDisabled();
+      await p.goto(origin + base + "/customer-edit?target=C-1002");
+      await p
+        .getByRole("textbox", { name: "客户服务备注", exact: true })
+        .fill("两个角色合并后只修改本人客户");
+      await p.getByRole("button", { name: "核对修改影响", exact: true }).click();
+      await confirm(p);
+      await expect(p.locator(".full-table tbody")).toContainText("已完成");
+      await select(p, "审阅账号", "陈予安 · yuan.chen@example.test");
+      await p.goto(origin + base + "/members");
+      await p
+        .locator('tr:has(td:text-is("林沐"))')
+        .getByRole("button", { name: "查看详情", exact: true })
+        .click();
+      await expect(
+        p.getByRole("checkbox", { name: "成员角色 只读成员", exact: true }),
+      ).toBeChecked();
+      await expect(
+        p.getByRole("checkbox", { name: "成员角色 负责客户可写", exact: true }),
+      ).toBeChecked();
+      await check(p, "成员角色 负责客户可写", false);
+      await p.getByRole("button", { name: "核对角色调整", exact: true }).click();
+      await confirm(p);
+      await expect(p.locator(".full-table tbody")).toContainText("已完成");
+      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await p.goto(origin + base + "/customer?target=C-1002");
+      await expect(p.locator(".full-card")).toContainText("两个角色合并后只修改本人客户");
+      await expect(p.getByRole("button", { name: "修改客户", exact: true })).toBeDisabled();
+      await p.goto(origin + base + "/customers");
+      await expect(p.getByRole("button", { name: "导出选定集合", exact: true })).toBeDisabled();
+      await shot(p, "multiple-role-revoked");
+    }));
+  test("F-series full: assigned and explicit sets retain independent scope after revocation", async () =>
+    owned(async (p) => {
+      await reset(p);
+      await select(p, "审阅账号", "周明 · scope@example.test");
+      await p.goto(origin + base + "/members");
+      await p
+        .locator('tr:has(td:text-is("林沐"))')
+        .getByRole("button", { name: "查看详情", exact: true })
+        .click();
+      await check(p, "成员角色 只读成员", false);
+      await check(p, "成员角色 负责客户可写", false);
+      await check(p, "成员角色 被指派客户可写", true);
+      await check(p, "成员角色 指定客户集合只读", true);
+      await p.getByRole("button", { name: "核对角色调整", exact: true }).click();
+      await confirm(p);
+      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await p.goto(origin + base + "/customers");
+      await expect(p.locator(".full-table tbody tr")).toHaveCount(1);
+      await expect(p.locator(".full-table tbody")).toContainText("C-1001");
+      await p.goto(origin + base + "/customer-edit?target=C-1001");
+      await p
+        .getByRole("textbox", { name: "客户服务备注", exact: true })
+        .fill("指派允许修改，负责人保持不变");
+      await p.getByRole("button", { name: "核对修改影响", exact: true }).click();
+      await confirm(p);
+      await expect(p.locator(".full-table tbody")).toContainText("已完成");
+      await select(p, "审阅账号", "周明 · scope@example.test");
+      await p.goto(origin + base + "/members");
+      await p
+        .locator('tr:has(td:text-is("林沐"))')
+        .getByRole("button", { name: "查看详情", exact: true })
+        .click();
+      await check(p, "指派资源 C-1001", false);
+      await p.getByRole("button", { name: "核对资源指派", exact: true }).click();
+      await confirm(p);
+      await expect(p.locator(".full-table tbody")).toContainText("已完成");
+      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await p.goto(origin + base + "/customer?target=C-1001");
+      await expect(p.locator(".full-card")).toContainText("指派允许修改，负责人保持不变");
+      await expect(p.getByRole("button", { name: "修改客户", exact: true })).toBeDisabled();
+      await select(p, "审阅账号", "周明 · scope@example.test");
+      await p.goto(origin + base + "/role-edit?target=explicit-reader");
+      const input = p.getByRole("combobox", { name: "客户读取指定对象", exact: true });
+      await p
+        .locator('.el-select:has(input[aria-label="客户读取指定对象"]) .el-select__wrapper')
+        .click();
+      const list = p.locator(`[id="${await input.getAttribute("aria-controls")}"]`);
+      await list.getByRole("option", { name: /^C-1001 ·/ }).click();
+      await list.getByRole("option", { name: /^C-1003 ·/ }).click();
+      await p.locator(".full-review-boundary").click();
+      await expect(list).toBeHidden();
+      await p.getByRole("button", { name: "核对权限变化", exact: true }).click();
+      await confirm(p);
+      await expect(p.locator(".full-table tbody")).toContainText("已完成");
+      await select(p, "审阅账号", "林沐 · lin@example.test");
+      await p.goto(origin + base + "/customers");
+      await expect(p.locator(".full-table tbody tr")).toHaveCount(1);
+      await expect(p.locator(".full-table tbody")).toContainText("C-1003");
+      await expect(p.locator(".full-table tbody")).not.toContainText("C-1001");
+      await expect(p.getByRole("button", { name: "导出选定集合", exact: true })).toBeDisabled();
+      await p.goto(origin + base + "/customer?target=C-1001");
+      await expect(p.getByRole("heading", { name: "客户记录不可访问", exact: true })).toBeVisible();
+      await shot(p, "assigned-explicit-revoked");
     }));
   test("F-series full: desktop languages and dark theme keep canonical geometry", async () =>
     owned(async (p) => {

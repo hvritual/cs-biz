@@ -1,5 +1,6 @@
 export type Outcome = "pending" | "unknown" | "succeeded" | "failed" | "partial";
-export type Scope = "none" | "self" | "tenant";
+export type Scope = "none" | "self" | "assigned" | "explicit" | "tenant";
+export type ScopeAction = "read" | "update" | "export" | "marketingRead" | "marketingExecute";
 export interface Account {
   id: string;
   name: string;
@@ -17,6 +18,7 @@ export interface Member {
   name: string;
   email: string;
   role: string;
+  roles?: string[];
   state: "active" | "invited" | "suspended" | "removed";
   version: number;
 }
@@ -34,16 +36,21 @@ export interface Invite {
   delegatorId: string;
   authority: "tenant_delegation" | "platform_nomination";
   roleVersion: number;
-  ceiling: Role;
+  ceiling: Role[];
 }
-export interface Customer {
+export interface Resource {
+  id: string;
+  owner: string;
+  assignedTo?: string[];
+}
+export interface Customer extends Resource {
   id: string;
   name: string;
   owner: string;
   note: string;
   version: number;
 }
-export interface Campaign {
+export interface Campaign extends Resource {
   id: string;
   name: string;
   owner: string;
@@ -60,6 +67,7 @@ export interface Role {
   access: boolean;
   marketingRead: Scope;
   marketingExecute: Scope;
+  targets?: Partial<Record<ScopeAction, string[]>>;
   version: number;
 }
 export interface Tenant {
@@ -78,6 +86,7 @@ export interface Effect {
     | "customer"
     | "batch"
     | "export"
+    | "assignment"
     | "member"
     | "role"
     | "invite"
@@ -131,7 +140,7 @@ export interface Space {
   roles: Role[];
 }
 export interface ReviewDatabase {
-  schema: 4;
+  schema: 5;
   revision: number;
   accounts: Account[];
   tenants: Tenant[];
@@ -147,7 +156,7 @@ export interface ReviewData extends Space {
   tasks: Task[];
   audits: Audit[];
 }
-export const databaseKey = "cs-biz:f-series-full:v4:database";
+export const databaseKey = "cs-biz:f-series-full:v5:database";
 export function emptySpace(): Space {
   return { members: [], customers: [], campaigns: [], roles: defaultRoles() };
 }
@@ -201,6 +210,55 @@ export function defaultRoles(): Role[] {
       marketingExecute: "none",
       version: 1,
     },
+    {
+      id: "scope-admin",
+      name: "范围配置管理员",
+      menu: true,
+      read: "tenant",
+      update: "tenant",
+      export: "tenant",
+      access: true,
+      marketingRead: "tenant",
+      marketingExecute: "tenant",
+      version: 1,
+    },
+    {
+      id: "self-writer",
+      name: "负责客户可写",
+      menu: false,
+      read: "self",
+      update: "self",
+      export: "none",
+      access: false,
+      marketingRead: "none",
+      marketingExecute: "none",
+      version: 1,
+    },
+    {
+      id: "assigned-writer",
+      name: "被指派客户可写",
+      menu: false,
+      read: "assigned",
+      update: "assigned",
+      export: "none",
+      access: false,
+      marketingRead: "none",
+      marketingExecute: "none",
+      version: 1,
+    },
+    {
+      id: "explicit-reader",
+      name: "指定客户集合只读",
+      menu: true,
+      read: "explicit",
+      update: "none",
+      export: "none",
+      access: false,
+      marketingRead: "none",
+      marketingExecute: "none",
+      targets: { read: ["C-1001"] },
+      version: 1,
+    },
   ];
 }
 export function seedDatabase(
@@ -218,6 +276,7 @@ export function seedDatabase(
     ["account-lin", "林沐", "lin@example.test"],
     ["account-yu", "陈雨", "yu@example.test"],
     ["account-xia", "夏宁", "xia@example.test"],
+    ["account-scope", "周明", "scope@example.test"],
   ].map(([id, name, email]) => ({
     id: id!,
     name: name!,
@@ -230,7 +289,7 @@ export function seedDatabase(
     systemRoles: [],
   }));
   const db: ReviewDatabase = {
-    schema: 4,
+    schema: 5,
     revision: 1,
     accounts: [account, ...others],
     tenants: [],
@@ -257,6 +316,15 @@ export function seedDatabase(
     db.spaces[org.id] = {
       members: [
         {
+          id: "scope-admin",
+          accountId: "account-scope",
+          name: "周明",
+          email: "scope@example.test",
+          role: "scope-admin",
+          state: "active",
+          version: 1,
+        },
+        {
           id: "me",
           accountId: base.id,
           name: base.name,
@@ -270,7 +338,8 @@ export function seedDatabase(
           accountId: "account-lin",
           name: "林沐",
           email: "lin@example.test",
-          role: "operator",
+          role: "reader",
+          roles: ["reader", "self-writer"],
           state: "active",
           version: 1,
         },
@@ -298,6 +367,7 @@ export function seedDatabase(
           id: "C-1001",
           name: index ? "云岚运营中心" : "青禾科技园",
           owner: base.id,
+          assignedTo: ["account-lin"],
           note: "每月核对服务情况",
           version: 1,
         },
@@ -406,7 +476,7 @@ export function seedDatabase(
       delegatorId: base.id,
       authority: "tenant_delegation",
       roleVersion: 1,
-      ceiling: { ...defaultRoles()[0]! },
+      ceiling: [{ ...defaultRoles()[0]! }],
       state: "created",
       delivery: "pending",
       version: 1,

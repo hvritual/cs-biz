@@ -44,6 +44,7 @@ export function statusTitle(id: string): string {
     self: ["本人负责", "Owned by me"],
     assigned: ["明确指派", "Explicitly assigned"],
     explicit: ["指定集合", "Explicit set"],
+    combined: ["同动作多范围并集", "Union of scopes for this action"],
     none: ["无", "None"],
     queued: ["等待处理", "Queued"],
     retrying: ["等待重试", "Awaiting retry"],

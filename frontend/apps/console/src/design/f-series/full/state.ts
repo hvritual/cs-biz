@@ -12,9 +12,21 @@ import {
   type ReviewData,
   type ReviewDatabase,
   type Scope,
+  type ScopeAction,
+  type Resource,
+  type Member,
   type Task,
   type Role,
 } from "./model";
+import {
+  delegationAllowed,
+  grantsFor,
+  hasRole,
+  permits,
+  roleIds,
+  scopeActions,
+  scopeSummary,
+} from "./authorization";
 type Text = readonly [string, string];
 interface Notice {
   title: Text;
@@ -57,7 +69,9 @@ function createState() {
   const actor = computed(() => legacy.workspace.user?.id || "none");
   const tenantId = computed(() => legacy.activeTenant.value || "");
   const contextKey = computed(() => `${actor.value}:${tenantId.value}:${role.value}`);
-  const draftKey = computed(() => `cs-biz:f-series-full:drafts:${actor.value}:${tenantId.value}`);
+  const draftKey = computed(
+    () => `cs-biz:f-series-full:drafts:v5:${actor.value}:${tenantId.value}`,
+  );
   const drafts = ref<Record<string, Record<string, unknown>>>({});
   const notice = ref<Notice | null>(null);
   const dialog = ref<Confirmation | null>(null);
@@ -69,12 +83,26 @@ function createState() {
   const profile = (db = database.value) => db.accounts.find((x) => x.id === actor.value);
   const membership = (db = database.value, target = tenantId.value) =>
     db.spaces[target]?.members.find((x) => x.accountId === actor.value);
-  const assignedRole = (db = database.value, target = tenantId.value) => {
-    const member = membership(db, target);
-    return member?.state === "active"
-      ? db.spaces[target]?.roles.find((x) => x.id === member.role)
-      : undefined;
-  };
+  const assignedRoles = (db = database.value, target = tenantId.value, account = actor.value) =>
+    grantsFor(
+      db.spaces[target]?.members.find((x) => x.accountId === account),
+      db.spaces[target]?.roles ?? [],
+    );
+  function activeGrants(db = database.value, target = tenantId.value) {
+    if (!authenticated.value || !["owner", "manager", "operator", "reader"].includes(role.value))
+      return [];
+    return assignedRoles(db, target).map((grant) =>
+      role.value === "reader"
+        ? {
+            ...grant,
+            update: "none" as const,
+            export: "none" as const,
+            marketingExecute: "none" as const,
+            access: false,
+          }
+        : grant,
+    );
+  }
   const active = computed(
     () =>
       authenticated.value && legacy.identity.value === "active" && membership()?.state === "active",
@@ -95,24 +123,8 @@ function createState() {
       (!expiry || new Date(expiry).getTime() > Date.now())
     );
   }
-  function scope(
-    action: "read" | "update" | "export" | "marketingRead" | "marketingExecute",
-    db = database.value,
-    target = tenantId.value,
-  ): Scope {
-    if (!authenticated.value || !["owner", "manager", "operator", "reader"].includes(role.value))
-      return "none";
-    const grant = assignedRole(db, target);
-    if (!grant) return "none";
-    const actual = grant[action];
-    const ceiling: Scope =
-      role.value === "reader" && !["read", "marketingRead"].includes(action)
-        ? "none"
-        : ["update", "export", "marketingExecute"].includes(action)
-          ? "self"
-          : "tenant";
-    if (actual === "none" || ceiling === "none") return "none";
-    return actual === "self" || ceiling === "self" ? "self" : "tenant";
+  function scope(action: ScopeAction, db = database.value, target = tenantId.value) {
+    return scopeSummary(activeGrants(db, target), action);
   }
   function can(permission: string, db = database.value): boolean {
     if (permission === "public") return true;
@@ -133,10 +145,13 @@ function createState() {
       return (
         role.value === "owner" &&
         membership(db)?.state === "active" &&
-        membership(db)?.role === "owner"
+        !!membership(db) &&
+        hasRole(membership(db)!, "owner")
       );
     if (permission === "access")
-      return ["owner", "manager"].includes(role.value) && !!assignedRole(db)?.access;
+      return (
+        ["owner", "manager"].includes(role.value) && activeGrants(db).some((grant) => grant.access)
+      );
     if (permission === "marketing.read")
       return moduleActive("marketing", db) && scope("marketingRead", db) !== "none";
     if (permission === "marketing.execute")
@@ -149,13 +164,12 @@ function createState() {
     return moduleActive("crm", db) && scope("read", db) !== "none";
   }
   function readable(
-    owner: string,
-    action: "read" | "update" | "export" | "marketingRead" | "marketingExecute",
+    resource: Resource,
+    action: ScopeAction,
     db = database.value,
     target = tenantId.value,
   ) {
-    const value = scope(action, db, target);
-    return value === "tenant" || (value === "self" && owner === actor.value);
+    return permits(activeGrants(db, target), action, resource, actor.value);
   }
   function view(db: ReviewDatabase, write = false): ReviewData {
     const space = db.spaces[tenantId.value] || emptySpace();
@@ -170,12 +184,12 @@ function createState() {
       customers: write
         ? space.customers
         : moduleActive("crm", db)
-          ? space.customers.filter((x) => readable(x.owner, "read", db))
+          ? space.customers.filter((x) => readable(x, "read", db))
           : [],
       campaigns: write
         ? space.campaigns
         : moduleActive("marketing", db)
-          ? space.campaigns.filter((x) => readable(x.owner, "marketingRead", db))
+          ? space.campaigns.filter((x) => readable(x, "marketingRead", db))
           : [],
       invites: write
         ? db.invites
@@ -197,7 +211,13 @@ function createState() {
     ["platform", "support", "ops"].includes(role.value)
       ? role.value
       : membership()?.state === "active"
-        ? membership()?.role
+        ? roleIds(membership()!)
+            .map(
+              (id) =>
+                database.value.spaces[tenantId.value]?.roles.find((grant) => grant.id === id)
+                  ?.name || id,
+            )
+            .join(" + ")
         : role.value,
   );
   const pagePermission = computed(() => {
@@ -266,7 +286,7 @@ function createState() {
     try {
       const raw = localStorage.getItem(databaseKey);
       database.value = raw ? (JSON.parse(raw) as ReviewDatabase) : fresh();
-      if (database.value.schema !== 4) throw Error("Wrong review database version");
+      if (database.value.schema !== 5) throw Error("Wrong review database version");
       storageFailed.value = false;
       syncOrganizations();
     } catch {
@@ -386,14 +406,14 @@ function createState() {
     if (["tenant", "nominate", "module"].includes(task.effect.kind)) return can("platform", db);
     if (["release", "recovery"].includes(task.effect.kind)) return can("ops", db);
     if (task.tenant !== tenantId.value) return false;
-    if (["member", "role", "invite", "invite-state"].includes(task.effect.kind))
+    if (["member", "role", "assignment", "invite", "invite-state"].includes(task.effect.kind))
       return can("access", db);
     if (task.effect.kind === "campaign")
       return (
         can("marketing.read", db) &&
         task.effect.ids.every((id) =>
           db.spaces[task.tenant]?.campaigns.some(
-            (x) => x.id === id && readable(x.owner, "marketingRead", db, task.tenant),
+            (x) => x.id === id && readable(x, "marketingRead", db, task.tenant),
           ),
         )
       );
@@ -401,7 +421,7 @@ function createState() {
       can("read", db) &&
       task.effect.ids.every((id) =>
         db.spaces[task.tenant]?.customers.some(
-          (x) => x.id === id && readable(x.owner, "read", db, task.tenant),
+          (x) => x.id === id && readable(x, "read", db, task.tenant),
         ),
       )
     );
@@ -419,7 +439,7 @@ function createState() {
       : visibleTasks.value.find((x) => x.status === scene.value) || visibleTasks.value[0],
   );
   const intentSlot = (effect: Effect) =>
-    `cs-biz:f-series-full:intent:${actor.value}:${tenantId.value}:${effect.kind}:${effect.ids.join("|")}`;
+    `cs-biz:f-series-full:intent:v5:${actor.value}:${tenantId.value}:${effect.kind}:${effect.ids.join("|")}`;
   function releaseIntent(task: Task) {
     if (task.items.some((x) => ["unknown", "pending"].includes(x.status))) return;
     const slot = task.intentSlot;
@@ -459,37 +479,55 @@ function createState() {
   }
   function delegationError(
     target: Role | undefined,
-    ceiling: Role | undefined,
+    ceilings: Role[] | undefined,
+    db = database.value,
+    tenant = tenantId.value,
+    grantor = actor.value,
   ): string | undefined {
-    if (!target || !ceiling || !ceiling.access)
+    if (!target || !ceilings?.some((grant) => grant.access))
       return l("角色或委派资格不可用", "Role or delegation authority is unavailable");
-    for (const action of ["read", "update", "export", "marketingRead", "marketingExecute"] as const)
-      if (
-        target[action] !== "none" &&
-        (ceiling[action] === "none" ||
-          (target[action] === "tenant" && ceiling[action] !== "tenant"))
+    const space = db.spaces[tenant];
+    if (
+      !delegationAllowed(
+        target,
+        ceilings,
+        [...(space?.customers ?? []), ...(space?.campaigns ?? [])],
+        grantor,
       )
-        return l("目标角色超出逐动作委派范围", "Target role exceeds per-action delegation scope");
+    )
+      return l("目标角色超出逐动作委派范围", "Target role exceeds per-action delegation scope");
   }
-  function currentCeiling(db: ReviewDatabase): Role | undefined {
-    const grant = assignedRole(db);
-    return grant
-      ? {
-          ...grant,
-          read: scope("read", db),
-          update: scope("update", db),
-          export: scope("export", db),
-          marketingRead: scope("marketingRead", db),
-          marketingExecute: scope("marketingExecute", db),
-          access: can("access", db),
-        }
-      : undefined;
+  function currentCeiling(db: ReviewDatabase): Role[] {
+    return activeGrants(db).map((grant) => ({
+      ...grant,
+      access: can("access", db) && grant.access,
+    }));
+  }
+  function proposedRole(effect: Effect, version: number): Role {
+    return {
+      id: effect.ids[0]!,
+      name: effect.values.name || "角色",
+      menu: effect.values.menu === "yes",
+      access: effect.values.access === "yes",
+      version,
+      read: (effect.values.read || "none") as Scope,
+      update: (effect.values.update || "none") as Scope,
+      export: (effect.values.export || "none") as Scope,
+      marketingRead: (effect.values.marketingRead || "none") as Scope,
+      marketingExecute: (effect.values.marketingExecute || "none") as Scope,
+      targets: Object.fromEntries(
+        scopeActions.map((action) => [
+          action,
+          JSON.parse(effect.values[action + "Targets"] || "[]") as string[],
+        ]),
+      ),
+    };
   }
   function validate(d: ReviewData, db: ReviewDatabase, effect: Effect): string | undefined {
     const id = effect.ids[0];
     if (effect.kind === "campaign") {
       const row = d.campaigns.find((x) => x.id === id);
-      if (!moduleActive("marketing", db) || !row || !readable(row.owner, "marketingExecute", db))
+      if (!moduleActive("marketing", db) || !row || !readable(row, "marketingExecute", db))
         return l("活动不可执行", "Campaign is not executable");
       if (row.state !== "draft" || row.version !== Number(effect.values.version))
         return l("活动状态或版本已变化", "Campaign state or version changed");
@@ -502,7 +540,7 @@ function createState() {
         : {};
       for (const target of effect.ids) {
         const row = d.customers.find((x) => x.id === target);
-        if (!row || !readable(row.owner, action, db))
+        if (!row || !readable(row, action, db))
           return l(
             "至少一项不在当前动作范围，未产生修改或文件",
             "At least one target is outside current action scope; no change or file was produced",
@@ -520,53 +558,85 @@ function createState() {
       const row = d.members.find((x) => x.id === id);
       if (!row || row.version !== Number(effect.values.version))
         return l("成员版本已变化", "Membership version changed");
+      const next = effect.values.roles
+        ? (JSON.parse(effect.values.roles) as string[])
+        : effect.values.role
+          ? [effect.values.role]
+          : roleIds(row);
       if (
-        row.role === "owner" &&
+        !next.length ||
+        new Set(next).size !== next.length ||
+        next.some((value) => !d.roles.some((grant) => grant.id === value))
+      )
+        return l("目标角色不可用", "Target roles are unavailable");
+      if (
+        hasRole(row, "owner") &&
         row.state === "active" &&
-        ((effect.values.state && effect.values.state !== "active") ||
-          (effect.values.role && effect.values.role !== "owner")) &&
-        d.members.filter((x) => x.role === "owner" && x.state === "active").length < 2
+        ((effect.values.state && effect.values.state !== "active") || !next.includes("owner")) &&
+        d.members.filter((x) => hasRole(x, "owner") && x.state === "active").length < 2
       )
         return l("请先指定另一位在任企业负责人", "Assign another active owner first");
-      const targetRole = d.roles.find((x) => x.id === (effect.values.role || row.role));
-      if (!targetRole) return l("目标角色不可用", "Target role is unavailable");
-      if (effect.values.role === "owner" && (!can("owner", db) || row.state !== "active"))
+      if (
+        next.includes("owner") &&
+        !hasRole(row, "owner") &&
+        (!can("owner", db) || row.state !== "active")
+      )
         return l(
           "负责人转交需要当前负责人及在任目标",
           "Ownership transfer requires current owner authority and an active target",
         );
-      if (effect.values.role) {
-        const error = delegationError(targetRole, currentCeiling(db));
-        if (error) return error;
+      if (effect.values.roles || effect.values.role)
+        for (const roleId of next) {
+          const error = delegationError(
+            d.roles.find((x) => x.id === roleId),
+            currentCeiling(db),
+            db,
+          );
+          if (error) return error;
+        }
+    }
+    if (effect.kind === "assignment") {
+      const member = d.members.find((x) => x.id === id && x.state === "active");
+      if (!member || member.version !== Number(effect.values.version))
+        return l("成员状态已变化", "Membership changed");
+      const changed = [
+        ...JSON.parse(effect.values.add || "[]"),
+        ...JSON.parse(effect.values.remove || "[]"),
+      ] as string[];
+      const versions = JSON.parse(effect.values.versions || "{}") as Record<string, number>;
+      for (const resource of changed) {
+        const row = [...d.customers, ...d.campaigns].find((x) => x.id === resource);
+        if (
+          !row ||
+          row.version !== versions[resource] ||
+          !readable(row, resource.startsWith("M-") ? "marketingExecute" : "update", db)
+        )
+          return l(
+            "指派对象超出当前修改范围或版本已变化",
+            "Assigned target is outside current update scope or its version changed",
+          );
       }
     }
     if (effect.kind === "role") {
       const row = d.roles.find((x) => x.id === id);
       if (row && row.version !== Number(effect.values.version))
         return l("角色版本已变化", "Role version changed");
-      for (const action of [
-        "read",
-        "update",
-        "export",
-        "marketingRead",
-        "marketingExecute",
-      ] as const) {
-        const value = effect.values[action] || "none";
-        if (!["none", "self", "tenant"].includes(value))
-          return l(
-            "未知权限或旧分组含义未确认，不能授予",
-            "Unknown permissions or unconfirmed legacy scopes cannot be granted",
-          );
-        const ceiling = scope(action, db);
-        if (
-          value !== "none" &&
-          (ceiling === "none" || (value === "tenant" && ceiling !== "tenant"))
+      const proposed = proposedRole(effect, (row?.version || 0) + 1);
+      if (
+        scopeActions.some(
+          (action) =>
+            !["none", "self", "assigned", "explicit", "tenant"].includes(proposed[action]),
         )
-          return l(
-            "不能授予超出该动作当前范围的权限",
-            "Cannot delegate a wider scope for this action",
-          );
-      }
+      )
+        return l(
+          "未知权限或旧分组含义未确认，不能授予",
+          "Unknown permissions or unconfirmed legacy scopes cannot be granted",
+        );
+      if (delegationError(proposed, currentCeiling(db), db))
+        return l(
+          "不能授予超出该动作当前范围的权限",
+          "Cannot delegate a wider scope for this action",
+        );
       if (id === "owner" && effect.values.access !== "yes")
         return l(
           "企业负责人必须保留成员管理与转交能力",
@@ -596,7 +666,7 @@ function createState() {
         !space ||
         tenant.state !== "pending_owner" ||
         tenant.version !== Number(effect.values.version) ||
-        space.members.some((x) => x.role === "owner" && x.state === "active") ||
+        space.members.some((x) => hasRole(x, "owner") && x.state === "active") ||
         db.invites.some(
           (x) =>
             x.tenantId === id &&
@@ -702,7 +772,13 @@ function createState() {
       if (
         !granted ||
         granted.version !== invitation.roleVersion ||
-        delegationError(granted, invitation.ceiling)
+        delegationError(
+          granted,
+          invitation.ceiling,
+          db,
+          invitation.tenantId,
+          invitation.delegatorId,
+        )
       )
         return l(
           "邀请权限已变化，请由管理员重新核对并邀请",
@@ -715,15 +791,15 @@ function createState() {
             ?.systemRoles.includes("platform") ||
           db.tenants.find((x) => x.id === invitation.tenantId)?.state !== "pending_owner" ||
           invitation.role !== "owner" ||
-          space.members.some((x) => x.role === "owner" && x.state === "active")
+          space.members.some((x) => hasRole(x, "owner") && x.state === "active")
         )
           return l("首次负责人指定条件已变化", "Initial owner nomination conditions changed");
       } else {
         const delegator = space.members.find(
           (x) => x.accountId === invitation.delegatorId && x.state === "active",
         );
-        const ceiling = space.roles.find((x) => x.id === delegator?.role);
-        if (delegationError(granted, ceiling))
+        const ceiling = grantsFor(delegator, space.roles);
+        if (delegationError(granted, ceiling, db, invitation.tenantId, invitation.delegatorId))
           return l(
             "邀请人的当前委派资格已变化，请重新核对",
             "Inviter delegation authority changed; review again",
@@ -783,6 +859,7 @@ function createState() {
       name: email.split("@")[0] || "",
       email,
       role: assigned,
+      roles: [assigned],
       state: "invited",
       version: 1,
     });
@@ -796,7 +873,7 @@ function createState() {
       authority: nomination ? "platform_nomination" : "tenant_delegation",
       roleVersion: space.roles.find((x) => x.id === assigned)?.version || 0,
       ceiling: structuredClone(
-        nomination ? space.roles.find((x) => x.id === "owner")! : currentCeiling(db)!,
+        nomination ? [space.roles.find((x) => x.id === "owner")!] : currentCeiling(db),
       ),
       state: "created",
       delivery: "pending",
@@ -830,24 +907,36 @@ function createState() {
       const x = d.members.find((r) => r.id === id);
       if (x) {
         if (effect.values.state) x.state = effect.values.state as typeof x.state;
-        if (effect.values.role) x.role = effect.values.role;
+        if (effect.values.roles || effect.values.role) {
+          x.roles = effect.values.roles
+            ? (JSON.parse(effect.values.roles) as string[])
+            : [effect.values.role!];
+          x.role = x.roles.includes("owner") ? "owner" : x.roles[0]!;
+        }
         x.version++;
+      }
+    }
+    if (effect.kind === "assignment") {
+      const member = d.members.find((x) => x.id === id);
+      if (member) {
+        const add = JSON.parse(effect.values.add || "[]") as string[];
+        const remove = JSON.parse(effect.values.remove || "[]") as string[];
+        for (const row of [...d.customers, ...d.campaigns])
+          if (add.includes(row.id) || remove.includes(row.id)) {
+            row.assignedTo = [
+              ...new Set([
+                ...(row.assignedTo || []).filter((account) => account !== member.accountId),
+                ...(add.includes(row.id) ? [member.accountId] : []),
+              ]),
+            ];
+            row.version++;
+          }
+        member.version++;
       }
     }
     if (effect.kind === "role") {
       const x = d.roles.find((r) => r.id === id);
-      const value = {
-        id,
-        name: effect.values.name || "角色",
-        menu: effect.values.menu === "yes",
-        read: (effect.values.read || "none") as Scope,
-        update: (effect.values.update || "none") as Scope,
-        export: (effect.values.export || "none") as Scope,
-        marketingRead: (effect.values.marketingRead || "none") as Scope,
-        marketingExecute: (effect.values.marketingExecute || "none") as Scope,
-        access: effect.values.access === "yes",
-        version: (x?.version || 0) + 1,
-      };
+      const value = proposedRole(effect, (x?.version || 0) + 1);
       if (x) Object.assign(x, value);
       else d.roles.push(value);
     }
@@ -929,6 +1018,7 @@ function createState() {
           name: account.name,
           email: account.email,
           role: invitation.role,
+          roles: [invitation.role],
           state: "active",
           version: member.version + 1,
         });
@@ -1158,7 +1248,9 @@ function createState() {
 
   const hasConsoleMenu = computed(
     () =>
-      active.value && ["owner", "manager", "reader"].includes(role.value) && !!assignedRole()?.menu,
+      active.value &&
+      ["owner", "manager", "reader"].includes(role.value) &&
+      activeGrants().some((grant) => grant.menu),
   );
   const race = ref<{ context: string; target: string; name: string; version: number } | null>(null);
   const lateRead = ref("");
@@ -1192,7 +1284,7 @@ function createState() {
       !can("read") ||
       !row ||
       row.version !== pending.version ||
-      !readable(row.owner, "read")
+      !readable(row, "read")
     ) {
       lateRead.value = "";
       announce(
@@ -1243,7 +1335,16 @@ function createState() {
     role.value = "reader";
     syncOrganizations();
     const current = membership();
-    if (current?.state === "active") role.value = current.role as ReviewRole;
+    if (current?.state === "active")
+      role.value = hasRole(current, "owner")
+        ? "owner"
+        : assignedRoles().some((grant) => grant.access || grant.menu)
+          ? "manager"
+          : assignedRoles().some(
+                (grant) => grant.update !== "none" || grant.marketingExecute !== "none",
+              )
+            ? "operator"
+            : "reader";
   }
   async function verifyInvitedAccount() {
     const raw = database.value.invites.find((x) => x.id === incomingInvitation.value?.id);
@@ -1275,7 +1376,11 @@ function createState() {
     if (!target || member?.state !== "active") return;
     syncOrganizations();
     legacy.chooseOrganization(target.name);
-    role.value = member.role === "owner" ? "owner" : assignedRole()?.access ? "manager" : "reader";
+    role.value = hasRole(member, "owner")
+      ? "owner"
+      : assignedRoles().some((grant) => grant.access)
+        ? "manager"
+        : "reader";
     go("modules");
   }
   function acceptInvitation() {
@@ -1339,7 +1444,7 @@ function createState() {
         return;
       }
       const ids = original.items.filter((x) => x.status === "succeeded").map((x) => x.id);
-      const rows = d.customers.filter((x) => ids.includes(x.id) && readable(x.owner, "export", db));
+      const rows = d.customers.filter((x) => ids.includes(x.id) && readable(x, "export", db));
       if (!ids.length || rows.length !== ids.length) {
         announce(
           ["导出范围已变化或文件未就绪", "Export scope changed or file is not ready"],
@@ -1425,6 +1530,17 @@ function createState() {
     changeAssignment,
     can,
     owns,
+    readable,
+    roleIds,
+    memberAccess: (member: Member, resource: Resource, action: ScopeAction) =>
+      moduleActive(action.startsWith("marketing") ? "marketing" : "crm") &&
+      permits(
+        grantsFor(member, database.value.spaces[tenantId.value]?.roles ?? []),
+        action,
+        resource,
+        member.accountId,
+      ),
+    hasRole,
     scope,
     moduleActive,
     request,

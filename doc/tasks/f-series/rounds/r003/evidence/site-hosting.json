@@ -1,9 +1,8 @@
 {
-  "kind": "private_design_review",
-  "id": "appgdep_6ad2d80d0488819193c8cded5ce24c47",
+  "id": "appgdep_6ad2e17f8e8481918d2461dab75bc7a1",
   "project_id": "appgprj_6ad2c50e408081918f7726b6c0c74d70",
   "title": "CoffeeLink · F2–F6 完整交互审阅",
-  "version_id": "appgprj_6ad2c50e408081918f7726b6c0c74d70~appgver_313cf148c5608191be7f92894b205f8f",
+  "version_id": "appgprj_6ad2c50e408081918f7726b6c0c74d70~appgver_b6bd1bec91548191b0beb3a0eadccc65",
   "type": "publish",
   "status": "succeeded",
   "url": "https://cs-biz-f-series-review.citrus-sloth-6447.chatgpt.site",
@@ -12,17 +11,18 @@
   "provider_deployment_id": "site---6ad2c50e408081918f7726b6c0c74d70",
   "failure_message": null,
   "env_set_revision": 0,
-  "updated_at": "2026-10-17T02:06:20.702153+00:00",
-  "source_commit": "f7eef703ece0176df9eefe51c216dc5977e9f4a7",
-  "canonical_source_commit": "950e70f44e4311e3b5a3addbbed5aad6766e1889",
+  "updated_at": "2026-10-17T02:46:40.982074+00:00",
+  "kind": "private_design_review",
+  "source_commit": "2c0df5f2448a790aa445f01c0688fcfd897c4377",
+  "canonical_source_commit": "32677f7b5b6f840fd6333611479c0f1b2ac60a49",
   "source_repository": "hvritual/cs-biz",
-  "archive_path": ".artifacts/f-series-r003-site-C4.tar",
+  "archive_path": ".artifacts/f-series-r003-site-C7.tar",
   "audience": "owner_private",
   "data_boundary": "browser-local review fixtures only; no business backend or external effects",
   "verification": {
     "deployment": "native_sites_terminal_success",
-    "canonical_browser": "C4_38993407385_failed_45_pass_2_presentation_probes; next proof pending",
+    "canonical_browser": "pending: added multi-role and assigned/explicit journeys require the new Full",
     "deployed_url_browser": "not_run: managed control-browser unavailable; no improvised browser path"
   },
-  "source_relation": "Exact canonical C4 Console design build exported with bound origin; Site source contains static output and provenance."
+  "source_relation": "Exact 32677f7 Console design build exported with bound origin. Subsequent test-only closure checks do not change Console source; source identity must be verified against the passed candidate."
 }

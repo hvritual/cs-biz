@@ -22,7 +22,7 @@ const current = computed(() =>
 const canExecute = computed(
   () =>
     !!current.value &&
-    s.owns(current.value.owner) &&
+    s.readable(current.value, "marketingExecute") &&
     current.value.state === "draft" &&
     s.can("write") &&
     !s.blocked,
@@ -74,7 +74,11 @@ function activate() {
           :aria-label="l('筛选营销活动', 'Filter campaigns')"
           :placeholder="l('搜索活动名称或编号', 'Search campaign name or reference')"
         /><ElTag>{{
-          l("读取当前企业 · 执行本人负责", "Read organization · Execute owned campaigns")
+          l("读取：", "Read: ") +
+          statusTitle(s.scope("marketingRead")) +
+          " · " +
+          l("执行：", "Execute: ") +
+          statusTitle(s.scope("marketingExecute"))
         }}</ElTag>
       </div>
       <div class="full-table-wrap">

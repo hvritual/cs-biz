@@ -1,0 +1,17 @@
+{
+  "candidate": "75d350728b71b5ebd584368e88b12cfa407d5483",
+  "run_id": 38995323733,
+  "result": "QUALIFIED_prior_UI_only",
+  "receipt_ref": "C6-quality-receipt.json",
+  "receipt_artifact_id": 12087395683,
+  "receipt_archive_sha256": "de96d619561da00b480817f7b9a3ba3a4f38b6943450d436d8a0ab1147744ab2",
+  "browser_artifact_id": 12086973541,
+  "browser_archive_sha256": "f635e73f124375d032a274a93efc531a21c7137d96a3574c1761f44e4e41584d",
+  "tester_army_passed": 47,
+  "legacy_passed": 16,
+  "legacy_original_mobile_skip": 1,
+  "unit_passed": 47,
+  "superseded_reason": "Reverse review identified original multi-role and assigned/explicit design obligations; candidate does not qualify the added UI or two new journeys.",
+  "test_efficiency_change": "Per selection check combobox aria-expanded=false; screenshot helper still requires visible dropdown count zero. This verifies semantic close on each selection and visual close at capture, without waiting for every CSS transition.",
+  "business_assertions_removed": false
+}
