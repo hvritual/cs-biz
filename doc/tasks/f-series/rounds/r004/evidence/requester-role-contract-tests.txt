@@ -1,0 +1,27 @@
+test_agent_walkthrough_is_not_human_material_approval (test_role_journeys.RoleJourneyTests.test_agent_walkthrough_is_not_human_material_approval) ... ok
+test_another_human_is_not_the_requirement_originator (test_role_journeys.RoleJourneyTests.test_another_human_is_not_the_requirement_originator) ... ok
+test_cross_role_object_cannot_be_replaced_with_a_seeded_record (test_role_journeys.RoleJourneyTests.test_cross_role_object_cannot_be_replaced_with_a_seeded_record) ... ok
+test_cumulative_actions_include_navigation_and_handoff (test_role_journeys.RoleJourneyTests.test_cumulative_actions_include_navigation_and_handoff) ... ok
+test_each_human_branch_role_receipt_binds_the_actual_version (test_role_journeys.RoleJourneyTests.test_each_human_branch_role_receipt_binds_the_actual_version) ... ok
+test_examples_use_full_role_journeys_and_keep_task_efficiency (test_role_journeys.RoleJourneyTests.test_examples_use_full_role_journeys_and_keep_task_efficiency) ... ok
+test_experience_is_for_the_requirement_originator (test_role_journeys.RoleJourneyTests.test_experience_is_for_the_requirement_originator) ... ok
+test_external_scope_cannot_be_shrunk_by_editing_the_plan (test_role_journeys.RoleJourneyTests.test_external_scope_cannot_be_shrunk_by_editing_the_plan) ... ok
+test_handoff_consumes_the_created_business_record (test_role_journeys.RoleJourneyTests.test_handoff_consumes_the_created_business_record) ... ok
+test_observation_cannot_skip_navigation (test_role_journeys.RoleJourneyTests.test_observation_cannot_skip_navigation) ... ok
+test_observed_page_paths_do_not_replace_continuous_walkthrough (test_role_journeys.RoleJourneyTests.test_observed_page_paths_do_not_replace_continuous_walkthrough) ... ok
+test_ordinary_business_task_does_not_authenticate_a_role (test_role_journeys.RoleJourneyTests.test_ordinary_business_task_does_not_authenticate_a_role) ... ok
+test_original_journey_mapping_is_required (test_role_journeys.RoleJourneyTests.test_original_journey_mapping_is_required) ... ok
+test_page_checks_without_journeys_are_rejected (test_role_journeys.RoleJourneyTests.test_page_checks_without_journeys_are_rejected) ... ok
+test_presented_operation_flow_must_match_the_plan (test_role_journeys.RoleJourneyTests.test_presented_operation_flow_must_match_the_plan) ... ok
+test_receiving_role_must_sign_in (test_role_journeys.RoleJourneyTests.test_receiving_role_must_sign_in) ... ok
+test_recovery_cannot_use_a_different_seeded_original (test_role_journeys.RoleJourneyTests.test_recovery_cannot_use_a_different_seeded_original) ... ok
+test_requester_operation_flow_is_a_bound_deliverable (test_role_journeys.RoleJourneyTests.test_requester_operation_flow_is_a_bound_deliverable) ... ok
+test_required_task_branch_cannot_disappear (test_role_journeys.RoleJourneyTests.test_required_task_branch_cannot_disappear) ... ok
+test_review_overlays_do_not_qualify_as_product_experience (test_role_journeys.RoleJourneyTests.test_review_overlays_do_not_qualify_as_product_experience) ... ok
+test_role_change_requires_visible_handoff (test_role_journeys.RoleJourneyTests.test_role_change_requires_visible_handoff) ... ok
+test_tools_and_mid_journey_reset_are_not_human_actions (test_role_journeys.RoleJourneyTests.test_tools_and_mid_journey_reset_are_not_human_actions) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 1.601s
+
+OK

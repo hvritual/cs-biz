@@ -13,3 +13,5 @@ Select by the actual current input, not a historical task's command list. Each c
 Resolve script paths from their owning package. Actual sources/authority/resources and required quality gates remain independently checked by the host. Integrated main, deployment and business effect are distinct exits.
 
 Retired formats have no current task-entry adapter. Reproduce their original files and tools at the recorded Git commit; do not relabel them as current artifacts, regenerate historical approvals or recreate discovery aliases. The retirement boundary and Git recovery are in [migration](migration.md). Current task navigation contains business delivery records; workflow methods and portable examples stay in their owning Skills.
+
+Current UI Design review assets are design-review-plan-v2 and design-review-delivery-v2, consumed by Design UX/Preview/acceptance through review_checks.py and role_journey_checks.py. They preserve task/path coverage and add complete role walkthroughs, same-object handoffs and actual Human journey review. Sealed v1 UI rounds are historical artifacts interpreted at their recorded commit; do not rewrite them into v2 approval.

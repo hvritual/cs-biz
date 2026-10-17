@@ -1,0 +1,1 @@
+SYNTHETIC R1: bulk customer selection and result recovery.

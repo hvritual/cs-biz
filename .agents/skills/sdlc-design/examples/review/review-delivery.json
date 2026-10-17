@@ -1,0 +1,721 @@
+{
+  "protocol": "design-review-delivery-v2",
+  "state": "AWAITING_HUMAN_REVIEW",
+  "plan_ref": {
+    "path": "review-plan.json",
+    "sha256": "1031fc05af1b798eb8808e477c8535d1168a461aa9d99b51e459d7131b08d738"
+  },
+  "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target": {
+    "url": "https://review.example.invalid/task",
+    "version": "synthetic-snapshot",
+    "access_instructions": "SYNTHETIC ONLY; not an accessible UI"
+  },
+  "observation": {
+    "kind": "final_entry_browser",
+    "result": "pass",
+    "url": "https://review.example.invalid/task",
+    "experience_ui": {
+      "product_interface": true,
+      "review_chrome_visible": false,
+      "engineering_copy_visible": false
+    },
+    "version": "synthetic-snapshot",
+    "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "actor": "synthetic-only",
+    "observed_at": "2026-10-17T00:00:00Z",
+    "record_ref": {
+      "path": "review-fixture/record.txt",
+      "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+    },
+    "task_runs": [
+      {
+        "id": "T1",
+        "result": "pass",
+        "record_ref": {
+          "path": "review-fixture/record.txt",
+          "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+        },
+        "path_runs": [
+          {
+            "id": "filter",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "select",
+              "select-results",
+              "owner",
+              "confirm"
+            ]
+          },
+          {
+            "id": "paste",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "select",
+              "owner",
+              "confirm"
+            ]
+          },
+          {
+            "id": "excel",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "select",
+              "owner",
+              "confirm"
+            ]
+          }
+        ],
+        "checks": {
+          "plain_language": "pass",
+          "visual_guidance": "pass",
+          "result_summary": "pass",
+          "failure_recovery": "pass",
+          "unknown_readback": "pass",
+          "selected_count": "pass",
+          "selected_details": "pass",
+          "affected_scope": "pass",
+          "filter": "pass",
+          "paste": "pass",
+          "excel": "pass",
+          "deduplication": "pass",
+          "ambiguity": "pass",
+          "import_errors": "pass",
+          "scope_guard": "pass"
+        },
+        "recovery_runs": [
+          {
+            "id": "failed",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "details",
+              "repair",
+              "retry",
+              "readback"
+            ]
+          },
+          {
+            "id": "unknown",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "original"
+            ]
+          },
+          {
+            "id": "import-error",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "errors",
+              "replace",
+              "owner",
+              "confirm"
+            ]
+          },
+          {
+            "id": "ambiguity",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "resolve",
+              "owner",
+              "confirm"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "id": "guide",
+            "image_ref": {
+              "path": "review-fixture/guide.svg",
+              "sha256": "c7a26000266b314249ebeeef44bd008a4121ff447403fbc089e992e1ae4be753"
+            }
+          }
+        ]
+      }
+    ],
+    "journey_runs": [
+      {
+        "id": "J1",
+        "result": "pass",
+        "walkthrough_runs": [
+          {
+            "id": "main",
+            "result": "pass",
+            "steps": [
+              "login",
+              "navigate",
+              "work-filter.select",
+              "work-filter.select-results",
+              "work-filter.owner",
+              "work-filter.confirm",
+              "handoff",
+              "support-login",
+              "locate"
+            ],
+            "action_count": 9,
+            "review_tools_used": false,
+            "reset_used": false,
+            "object_bindings": [
+              {
+                "step_id": "work-filter",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              },
+              {
+                "step_id": "handoff",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              },
+              {
+                "step_id": "locate",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              }
+            ],
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "actors": [
+              {
+                "step_id": "login",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "navigate",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.select",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.select-results",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.owner",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.confirm",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "handoff",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "support-login",
+                "role_id": "support"
+              },
+              {
+                "step_id": "locate",
+                "role_id": "support"
+              }
+            ],
+            "role_sessions": [
+              {
+                "id": "admin",
+                "account_id": "SYNTHETIC-admin",
+                "tenant_scope": "SYNTHETIC-tenant",
+                "record_ref": {
+                  "path": "review-fixture/record.txt",
+                  "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+                }
+              },
+              {
+                "id": "support",
+                "account_id": "SYNTHETIC-support",
+                "tenant_scope": "SYNTHETIC-tenant",
+                "record_ref": {
+                  "path": "review-fixture/record.txt",
+                  "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+                }
+              }
+            ]
+          },
+          {
+            "id": "paste",
+            "result": "pass",
+            "steps": [
+              "login",
+              "navigate",
+              "work-paste.select",
+              "work-paste.owner",
+              "work-paste.confirm"
+            ],
+            "action_count": 5,
+            "review_tools_used": false,
+            "reset_used": false,
+            "object_bindings": [
+              {
+                "step_id": "work-paste",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              }
+            ],
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "actors": [
+              {
+                "step_id": "login",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "navigate",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-paste.select",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-paste.owner",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-paste.confirm",
+                "role_id": "admin"
+              }
+            ],
+            "role_sessions": [
+              {
+                "id": "admin",
+                "account_id": "SYNTHETIC-admin",
+                "tenant_scope": "SYNTHETIC-tenant",
+                "record_ref": {
+                  "path": "review-fixture/record.txt",
+                  "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+                }
+              }
+            ]
+          },
+          {
+            "id": "excel",
+            "result": "pass",
+            "steps": [
+              "login",
+              "navigate",
+              "work-excel.select",
+              "work-excel.owner",
+              "work-excel.confirm"
+            ],
+            "action_count": 5,
+            "review_tools_used": false,
+            "reset_used": false,
+            "object_bindings": [
+              {
+                "step_id": "work-excel",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              }
+            ],
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "actors": [
+              {
+                "step_id": "login",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "navigate",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-excel.select",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-excel.owner",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-excel.confirm",
+                "role_id": "admin"
+              }
+            ],
+            "role_sessions": [
+              {
+                "id": "admin",
+                "account_id": "SYNTHETIC-admin",
+                "tenant_scope": "SYNTHETIC-tenant",
+                "record_ref": {
+                  "path": "review-fixture/record.txt",
+                  "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+                }
+              }
+            ]
+          },
+          {
+            "id": "failed",
+            "result": "pass",
+            "steps": [
+              "login",
+              "navigate",
+              "work-filter.select",
+              "work-filter.select-results",
+              "work-filter.owner",
+              "work-filter.confirm",
+              "work-failed.details",
+              "work-failed.repair",
+              "work-failed.retry",
+              "work-failed.readback"
+            ],
+            "action_count": 10,
+            "review_tools_used": false,
+            "reset_used": false,
+            "object_bindings": [
+              {
+                "step_id": "work-filter",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              },
+              {
+                "step_id": "work-failed",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              }
+            ],
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "actors": [
+              {
+                "step_id": "login",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "navigate",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.select",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.select-results",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.owner",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.confirm",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-failed.details",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-failed.repair",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-failed.retry",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-failed.readback",
+                "role_id": "admin"
+              }
+            ],
+            "role_sessions": [
+              {
+                "id": "admin",
+                "account_id": "SYNTHETIC-admin",
+                "tenant_scope": "SYNTHETIC-tenant",
+                "record_ref": {
+                  "path": "review-fixture/record.txt",
+                  "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+                }
+              }
+            ]
+          },
+          {
+            "id": "unknown",
+            "result": "pass",
+            "steps": [
+              "login",
+              "navigate",
+              "work-filter.select",
+              "work-filter.select-results",
+              "work-filter.owner",
+              "work-filter.confirm",
+              "work-unknown.original"
+            ],
+            "action_count": 7,
+            "review_tools_used": false,
+            "reset_used": false,
+            "object_bindings": [
+              {
+                "step_id": "work-filter",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              },
+              {
+                "step_id": "work-unknown",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              }
+            ],
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "actors": [
+              {
+                "step_id": "login",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "navigate",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.select",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.select-results",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.owner",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-filter.confirm",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-unknown.original",
+                "role_id": "admin"
+              }
+            ],
+            "role_sessions": [
+              {
+                "id": "admin",
+                "account_id": "SYNTHETIC-admin",
+                "tenant_scope": "SYNTHETIC-tenant",
+                "record_ref": {
+                  "path": "review-fixture/record.txt",
+                  "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+                }
+              }
+            ]
+          },
+          {
+            "id": "import-error",
+            "result": "pass",
+            "steps": [
+              "login",
+              "navigate",
+              "trigger-import-error",
+              "work-import-error.errors",
+              "work-import-error.replace",
+              "work-import-error.owner",
+              "work-import-error.confirm"
+            ],
+            "action_count": 7,
+            "review_tools_used": false,
+            "reset_used": false,
+            "object_bindings": [
+              {
+                "step_id": "work-import-error",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              }
+            ],
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "actors": [
+              {
+                "step_id": "login",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "navigate",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "trigger-import-error",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-import-error.errors",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-import-error.replace",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-import-error.owner",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-import-error.confirm",
+                "role_id": "admin"
+              }
+            ],
+            "role_sessions": [
+              {
+                "id": "admin",
+                "account_id": "SYNTHETIC-admin",
+                "tenant_scope": "SYNTHETIC-tenant",
+                "record_ref": {
+                  "path": "review-fixture/record.txt",
+                  "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+                }
+              }
+            ]
+          },
+          {
+            "id": "ambiguity",
+            "result": "pass",
+            "steps": [
+              "login",
+              "navigate",
+              "trigger-ambiguity",
+              "work-ambiguity.resolve",
+              "work-ambiguity.owner",
+              "work-ambiguity.confirm"
+            ],
+            "action_count": 6,
+            "review_tools_used": false,
+            "reset_used": false,
+            "object_bindings": [
+              {
+                "step_id": "work-ambiguity",
+                "object_key": "operation",
+                "value": "SYNTHETIC-OP-1"
+              }
+            ],
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "actors": [
+              {
+                "step_id": "login",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "navigate",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "trigger-ambiguity",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-ambiguity.resolve",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-ambiguity.owner",
+                "role_id": "admin"
+              },
+              {
+                "step_id": "work-ambiguity.confirm",
+                "role_id": "admin"
+              }
+            ],
+            "role_sessions": [
+              {
+                "id": "admin",
+                "account_id": "SYNTHETIC-admin",
+                "tenant_scope": "SYNTHETIC-tenant",
+                "record_ref": {
+                  "path": "review-fixture/record.txt",
+                  "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "url": "https://review.example.invalid/task",
+    "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "version": "synthetic-snapshot",
+    "record_ref": {
+      "path": "review-fixture/record.txt",
+      "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+    },
+    "experience_guide_ref": {
+      "path": "review-fixture/experience-flow.txt",
+      "sha256": "9b333435438dc7a8ad1ced0dfce91f763514c330b531506ab7641b0d803fb0f9"
+    },
+    "image_paths": [
+      "review-fixture/guide.svg"
+    ],
+    "review_sequence": [
+      "选取→核对→结果"
+    ],
+    "decision_questions": [
+      "选取、影响核对和失败处理是否符合实际工作？"
+    ],
+    "limitations": [
+      "Synthetic example only; no actual execution."
+    ],
+    "journey_ids": [
+      "J1"
+    ]
+  },
+  "independent_review": {
+    "implementer": "example-author",
+    "reviewer": "example-reviewer",
+    "decision": "pass",
+    "record_ref": {
+      "path": "review-fixture/record.txt",
+      "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+    },
+    "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "human_review": {
+    "decision": "pending",
+    "candidate_sha": null,
+    "record_ref": null
+  },
+  "blockers": []
+}

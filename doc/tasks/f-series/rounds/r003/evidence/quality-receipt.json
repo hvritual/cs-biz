@@ -1,0 +1,12 @@
+{
+  "REPOSITORY": "hvritual/cs-biz",
+  "PR_NUMBER": "41",
+  "BASE_SHA": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+  "HEAD_SHA": "1ef0e792e09e7d999071707574d3ac63fd339d9b",
+  "TIER": "full",
+  "GITHUB_RUN_ID": "38997320547",
+  "GITHUB_RUN_ATTEMPT": "1",
+  "result": "QUALIFIED",
+  "backend": "success",
+  "frontend": "success"
+}

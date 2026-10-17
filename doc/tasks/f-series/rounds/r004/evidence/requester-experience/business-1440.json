@@ -1,0 +1,22 @@
+{
+  "url": "http://127.0.0.1:5790/__design/f-series/full/task?record=ACT-2-ca9b3c&r=4&journey=J08",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    "正常登录入口",
+    "输入业务成员邮箱",
+    "继续组织账号验证",
+    "选择青禾咖啡",
+    "从业务导航打开客户",
+    "按实际客户编号筛选",
+    "打开本人客户行内修改",
+    "填写服务备注",
+    "确认并就地查看实际原操作结果",
+    "从本次结果打开同一原记录"
+  ],
+  "errors": [],
+  "review_tools_used": false,
+  "human_approval": false
+}

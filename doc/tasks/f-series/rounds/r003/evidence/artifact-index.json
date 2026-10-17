@@ -1,0 +1,90 @@
+{
+  "repository": "hvritual/cs-biz",
+  "candidate_sha": "1ef0e792e09e7d999071707574d3ac63fd339d9b",
+  "run_id": 38997320547,
+  "attempt": 1,
+  "run_url": "https://github.com/hvritual/cs-biz/actions/runs/38997320547",
+  "artifacts": [
+    {
+      "id": 12088365249,
+      "name": "quality-browser-38997320547-1",
+      "size_in_bytes": 26955571,
+      "url": "https://api.github.com/repos/hvritual/cs-biz/actions/artifacts/12088365249",
+      "archive_download_url": "https://api.github.com/repos/hvritual/cs-biz/actions/artifacts/12088365249/zip",
+      "expired": false,
+      "created_at": "2026-10-17T03:15:14Z",
+      "expires_at": "2026-10-24T03:15:12Z",
+      "updated_at": "2026-10-17T03:15:14Z",
+      "digest": "sha256:26dabc43fb807e592c3febc211ea2a60e08382866280e845d08bd87e8ed98586",
+      "workflow_run": {
+        "id": 38997320547,
+        "repository_id": 1415312614,
+        "head_repository_id": 1415312614,
+        "head_branch": "feat/yunka-f-series-delivery",
+        "head_sha": "1ef0e792e09e7d999071707574d3ac63fd339d9b"
+      },
+      "verified_download_sha256": "26dabc43fb807e592c3febc211ea2a60e08382866280e845d08bd87e8ed98586"
+    },
+    {
+      "id": 12088130059,
+      "name": "quality-plan-38997320547-1",
+      "size_in_bytes": 986,
+      "url": "https://api.github.com/repos/hvritual/cs-biz/actions/artifacts/12088130059",
+      "archive_download_url": "https://api.github.com/repos/hvritual/cs-biz/actions/artifacts/12088130059/zip",
+      "expired": false,
+      "created_at": "2026-10-17T03:04:09Z",
+      "expires_at": "2027-01-15T03:03:38Z",
+      "updated_at": "2026-10-17T03:04:09Z",
+      "digest": "sha256:34909e1aaafc5970a663a4adbd4e5679d31545a1506a55f169e3eed9efbd431f",
+      "workflow_run": {
+        "id": 38997320547,
+        "repository_id": 1415312614,
+        "head_repository_id": 1415312614,
+        "head_branch": "feat/yunka-f-series-delivery",
+        "head_sha": "1ef0e792e09e7d999071707574d3ac63fd339d9b"
+      },
+      "verified_download_sha256": null
+    },
+    {
+      "id": 12087514274,
+      "name": "quality-receipt-38997320547-1",
+      "size_in_bytes": 378,
+      "url": "https://api.github.com/repos/hvritual/cs-biz/actions/artifacts/12087514274",
+      "archive_download_url": "https://api.github.com/repos/hvritual/cs-biz/actions/artifacts/12087514274/zip",
+      "expired": false,
+      "created_at": "2026-10-17T03:15:22Z",
+      "expires_at": "2026-11-16T03:15:21Z",
+      "updated_at": "2026-10-17T03:15:22Z",
+      "digest": "sha256:0fb903f2a36430287e5d45a0f43c9d9d0f6c4470de56467de9b3b02afe121c7b",
+      "workflow_run": {
+        "id": 38997320547,
+        "repository_id": 1415312614,
+        "head_repository_id": 1415312614,
+        "head_branch": "feat/yunka-f-series-delivery",
+        "head_sha": "1ef0e792e09e7d999071707574d3ac63fd339d9b"
+      },
+      "verified_download_sha256": "0fb903f2a36430287e5d45a0f43c9d9d0f6c4470de56467de9b3b02afe121c7b"
+    },
+    {
+      "id": 12087458421,
+      "name": "quality-backend-38997320547-1",
+      "size_in_bytes": 14870349,
+      "url": "https://api.github.com/repos/hvritual/cs-biz/actions/artifacts/12087458421",
+      "archive_download_url": "https://api.github.com/repos/hvritual/cs-biz/actions/artifacts/12087458421/zip",
+      "expired": false,
+      "created_at": "2026-10-17T03:06:04Z",
+      "expires_at": "2026-10-24T03:06:02Z",
+      "updated_at": "2026-10-17T03:06:04Z",
+      "digest": "sha256:af32dc23dbcdf0526fc2a5cc5e6bfce49d5c9f3ad6edb302d0dbfb70dd454a01",
+      "workflow_run": {
+        "id": 38997320547,
+        "repository_id": 1415312614,
+        "head_repository_id": 1415312614,
+        "head_branch": "feat/yunka-f-series-delivery",
+        "head_sha": "1ef0e792e09e7d999071707574d3ac63fd339d9b"
+      },
+      "verified_download_sha256": null
+    }
+  ],
+  "boundary": "Browser and receipt ZIP bytes independently matched API digest; backend and plan metadata retained without independently downloading those archives."
+}

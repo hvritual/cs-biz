@@ -1,0 +1,146 @@
+{
+  "objective": "先完整设计F2–F6页面与正常/异常/恢复旅程，交付同版本现有Console可交互界面供Human审阅",
+  "boundary": "reviewed_design",
+  "baseline_sha": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+  "authority_ref": "raw-user.txt",
+  "implementation_authority": "本轮仅隔离设计预览，后续正式Build需实际准入；生产另授权",
+  "requirements": [
+    {
+      "id": "R1",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC01",
+        "AC02"
+      ]
+    },
+    {
+      "id": "R2",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC03",
+        "AC04"
+      ]
+    },
+    {
+      "id": "R3",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC05",
+        "AC06"
+      ]
+    },
+    {
+      "id": "R4",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC07",
+        "AC08"
+      ]
+    },
+    {
+      "id": "R5",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC09",
+        "AC10"
+      ]
+    },
+    {
+      "id": "R6",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC11",
+        "AC12"
+      ]
+    },
+    {
+      "id": "R7",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC13",
+        "AC14"
+      ]
+    },
+    {
+      "id": "R8",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC15"
+      ]
+    },
+    {
+      "id": "R9",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC16"
+      ]
+    }
+  ],
+  "pending_decisions": [
+    "P1",
+    "P2",
+    "P4",
+    "P7"
+  ],
+  "deferred_production_conditions": [
+    "P6"
+  ],
+  "inherited": [
+    "Docker MySQL",
+    "非生产OIDC/标准生产适配",
+    "一个分支分步合并",
+    "三权分离与group拒绝",
+    "F0/F1冻结不改"
+  ],
+  "state": "DESIGN_IN_PROGRESS",
+  "scope": [
+    "32页面/233初始状态，按独立审查扩充",
+    "原R1–R9/AC01–16与SAAS-01全部保留",
+    "私有审阅站点仅承载当前Console的设计构建"
+  ],
+  "exclusions": [
+    "真实后端实现、数据库迁移、真实邀请/外部营销",
+    "生产业务发布/生产数据/付费接入",
+    "重写r001/r002或已封存F0/F1"
+  ],
+  "authorization": {
+    "source": "raw-user.txt",
+    "design_preview": "authorized",
+    "private_interactive_review": "authorized by requested interactive display",
+    "business_build": "not admitted",
+    "human_design_approval": "pending"
+  },
+  "resources": {
+    "existing_console": "available",
+    "test_runner": "existing CI available; Browser plugin not available",
+    "private_review_host": "registered owner-private; not yet published",
+    "real_business_api": "not required for isolated proposed design; still unproven for business delivery"
+  },
+  "alternative_interpretations": [
+    {
+      "option": "继续仅关键场景",
+      "rejected_reason": "不满足用户完整页面及异常流程要求"
+    },
+    {
+      "option": "另做独立HTML样品",
+      "rejected_reason": "不能验证现有Console复用与完整交互"
+    },
+    {
+      "option": "补齐项目内各业务页面并导出私有设计构建",
+      "selected": true,
+      "reason": "同版源码、业务旅程与用户可操作界面一致"
+    }
+  ],
+  "raw_trace": [
+    {
+      "raw": "完整页面和异常流程",
+      "requirements": "screen-inventory.md + 原R/AC",
+      "design_acceptance": "DU01/DU02"
+    },
+    {
+      "raw": "可交互的前端界面展示出来让我审核",
+      "requirements": "private project-derived preview + original scene evidence",
+      "design_acceptance": "DU03/DU04"
+    }
+  ]
+}

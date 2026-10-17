@@ -58,11 +58,12 @@ watch(() => workspace.generation, () => { flyout.value = false; });
         <span class="cl-brand-icon cs-brand-mark" aria-hidden="true"><img :src="brandMark" alt="" /></span>
         <span class="cl-brand-words"><strong>CoffeeLink</strong><small>{{ $t('shell.productSubtitle') }}</small></span>
       </button>
-      <WorkspaceShellTools area="tenant" />
-      <WorkspaceShellTools area="search" />
-      <WorkspaceShellTools area="actions" />
+      <slot name="header-tenant"><WorkspaceShellTools area="tenant" /></slot>
+      <slot name="header-search"><WorkspaceShellTools area="search" /></slot>
+      <slot name="header-actions"><WorkspaceShellTools area="actions" /></slot>
     </header>
     <nav class="cl-primary-rail" :class="{ 'is-collapsed': collapsed }" :aria-label="$t('shell.primaryNavigation')">
+      <slot name="primary-navigation">
       <div class="cl-primary-links" role="menu">
         <button
           v-for="item in domains" :key="item.key" type="button" role="menuitem"
@@ -76,6 +77,7 @@ watch(() => workspace.generation, () => { flyout.value = false; });
           <span v-if="!collapsed" class="cl-primary-text">{{ item.title }}</span>
         </button>
       </div>
+      </slot>
       <button class="cl-rail-toggle" type="button"
         :aria-label="$t(collapsed ? 'shell.expandSidebar' : 'shell.collapseSidebar')" @click="collapseRail">
         <ChevronRight v-if="collapsed" :size="17" />

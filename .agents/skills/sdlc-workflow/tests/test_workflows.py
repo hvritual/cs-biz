@@ -8,6 +8,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import runpy
+import os
+import stat
 
 BUNDLE = Path(__file__).resolve().parents[1]
 SKILLS = BUNDLE.parent
@@ -28,6 +31,17 @@ def digest(path):
 
 
 class AgentWorkflowTests(unittest.TestCase):
+    def remove_tree(self, path):
+        target = Path(path).resolve()
+        self.assertTrue(target.is_relative_to(self.root.resolve()), 'test cleanup escaped its temporary root')
+        def repair_readonly(function, filename, error):
+            if not isinstance(error, PermissionError):
+                raise error
+            self.assertTrue(Path(filename).resolve().is_relative_to(self.root.resolve()))
+            os.chmod(filename, stat.S_IREAD | stat.S_IWRITE)
+            function(filename)
+        shutil.rmtree(target, onexc=repair_readonly)
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(prefix='agent-contract-test-')
         self.addCleanup(self.tmp.cleanup)
@@ -156,19 +170,27 @@ class AgentWorkflowTests(unittest.TestCase):
             replacements.update({role:{'path':'legacy/'+name,'sha256':digest(legacy/name)}
                                  for role,name in [('journey','journey.md'),('flow','flow.mmd'),
                                                    ('ux_analysis','ux-analysis.yaml'),('preview_evidence','browser.json')]})
+            fixture_builder = runpy.run_path(str(package/'scripts/create_review_examples.py'))
+            raw_ref = replacements['raw']
+            _, delivery = fixture_builder['review_assets'](task, raw_ref, commit)
+            delivery['state'] = 'DESIGN_APPROVED'
+            delivery['human_review'] = fixture_builder['synthetic_approval'](delivery)
+            write(task/'review-delivery.json',delivery)
+            replacements.update({role:{'path':name,'sha256':digest(task/name)} for role,name in
+                                 [('review_plan','review-plan.json'),('review_delivery','review-delivery.json')]})
         names = [workflow['intake_files'][0]] + [s['output'] for s in workflow['steps']]
         for name in names:
             data = read(task / name)
             data['contract']['mode'] = 'real'
             if ui:
-                data['contract'].update(frontend_change=True,baseline_sha=commit)
+                data['contract'].update(frontend_change=True,baseline_sha=commit,review_scope={'journey_ids':['J1'],'role_ids':['admin','support'],'role_journey_pairs':[('admin','J1'),('support','J1')],'task_paths':[(t['id'],kind,p['id']) for t in read(task/'review-plan.json')['tasks'] for kind,paths in [('normal',t['paths']),('recovery',t['recovery'])] for p in paths]})
                 if data.get('step') in ('ux','preview'):
                     step=next(s for s in workflow['steps'] if s['id']==data['step'])
                     schema=read(package/step['payload_contract'])
                     data['status']='ready';data['payload']={k:'synthetic' for k in schema['required']}
                     data['assets']={role:replacements[role] for role in step['required_assets']}
                 if data.get('step')=='handoff':
-                    data['assets'].update({k:v for k,v in replacements.items() if k in ('journey','flow','ux_analysis','preview_evidence')})
+                    data['assets'].update({k:v for k,v in replacements.items() if k in ('journey','flow','ux_analysis','preview_evidence','review_plan','review_delivery')})
             for role in list(data['assets']):
                 if role in replacements:
                     data['assets'][role] = replacements[role]
@@ -201,7 +223,7 @@ class AgentWorkflowTests(unittest.TestCase):
                     self.assertEqual(returned['stage'],stage)
                     self.assertFalse(returned['goal_complete'])
                     self.assertEqual(returned['completion_boundary'],'deployed')
-                    shutil.rmtree(t)
+                    self.remove_tree(t)
 
     def test_all_blocked_examples_have_recovery(self):
         for stage in ('design', 'build', 'deploy'):
@@ -212,7 +234,7 @@ class AgentWorkflowTests(unittest.TestCase):
         for example, expected in [('failed','rolled_back'), ('unknown','unknown')]:
             p,t,w = self.fixture('deploy', example)
             self.assertEqual(self.run_check(p,t)['reported_outcome'], expected)
-            shutil.rmtree(t)
+            self.remove_tree(t)
 
     def test_context_loads_only_current_skill(self):
         p,t,w = self.fixture()
@@ -246,7 +268,7 @@ class AgentWorkflowTests(unittest.TestCase):
     def test_wrong_task_stage_step(self):
         for field in ('task_id','stage','step'):
             p,t,w = self.fixture();self.mutate(t,'design/solution.json',lambda d:d.update({field:'wrong'}))
-            self.run_check(p,t,False,'identity|enum');shutil.rmtree(t)
+            self.run_check(p,t,False,'identity|enum');self.remove_tree(t)
 
     def test_stale_input_digest(self):
         p,t,w = self.fixture();self.mutate(t,'design/solution.json',lambda d:d['input_sha256'].update({'request.json':'0'*64}))
@@ -312,6 +334,157 @@ class AgentWorkflowTests(unittest.TestCase):
         p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
         self.assertEqual(self.run_check(p,t)['state'],'HANDOFF_CANDIDATE_STATIC')
 
+    def test_ui_review_delivery_rejects_unobserved_final_entry(self):
+        for kind in ('source_ci','offline_probe','not_run','deployment_success'):
+            with self.subTest(kind=kind):
+                p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+                self.change_asset(t,w,'review_delivery',lambda d:d['observation'].update(kind=kind))
+                self.run_check(p,t,False,'final review entry browser')
+                self.remove_tree(t.parent)
+
+    def test_ui_review_checks_actual_target_and_version(self):
+        for field,value in [('url','https://another.example.invalid'),('version','different'),('candidate_sha','c'*40)]:
+            with self.subTest(field=field):
+                p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+                self.change_asset(t,w,'review_delivery',lambda d:d['observation'].update({field:value}))
+                self.run_check(p,t,False,'target/version drift')
+                self.remove_tree(t.parent)
+
+    def test_ui_whole_delivery_cannot_swap_canonical_candidate(self):
+        p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+        def replace(d):
+            def replace_every_receipt(value):
+                if isinstance(value, dict):
+                    for key, item in value.items():
+                        if key == 'candidate_sha': value[key] = 'c'*40
+                        else: replace_every_receipt(item)
+                elif isinstance(value, list):
+                    for item in value: replace_every_receipt(item)
+            replace_every_receipt(d)
+        self.change_asset(t,w,'review_delivery',replace)
+        self.run_check(p,t,False,'canonical Preview candidate')
+
+    def test_ui_review_cannot_drop_frozen_original_requirements(self):
+        p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+        # Intake is the external expected denominator, not the plan's own list.
+        for name in ['request.json']+[s['output'] for s in w['steps']]:
+            self.mutate(t,name,lambda d:d['contract'].update(requirement_ids=['R1','R2']))
+        self.refresh(t,w)
+        self.run_check(p,t,False,'frozen original requirements')
+
+    def test_ui_delivery_available_is_not_human_approval(self):
+        p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+        self.change_asset(t,w,'review_delivery',lambda d:d.update(state='AWAITING_HUMAN_REVIEW',human_review={'decision':'pending'}))
+        self.run_check(p,t,False,'Human design review pending')
+        self.truncate(t,w,'acceptance')
+        result=self.run_check(p,t)
+        self.assertEqual(result['context']['step'],'acceptance')
+        self.assertFalse(result['execution_granted'])
+
+    def test_ui_delivery_blocker_cannot_be_a_disclaimer(self):
+        p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+        self.change_asset(t,w,'review_delivery',lambda d:d.update(blockers=[{'gap':'browser unavailable'}]))
+        self.run_check(p,t,False,'unresolved blockers')
+
+    def test_ui_unavailable_state_cannot_use_ready_envelope(self):
+        p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+        self.change_asset(t,w,'review_delivery',lambda d:d.update(state='DELIVERY_BLOCKED',blockers=[{
+            'owner':'preview','gap':'final browser unavailable','next_action':'restore allowed browser capability',
+            'evidence_ref':d['observation']['record_ref']}]))
+        self.run_check(p,t,False,'ready status contradicts')
+        self.truncate(t,w,'acceptance')
+        self.mutate(t,'design/preview.json',lambda d:d.update(status='blocked',blockers=[{
+            'owner':'preview','next_action':'restore allowed browser capability','evidence_ref':'review-delivery.json'}]))
+        self.refresh(t,w)
+        result=self.run_check(p,t)
+        self.assertEqual(result['state'],'BLOCKED');self.assertEqual(result['step'],'preview')
+
+    def test_ui_tasks_cover_original_requirements(self):
+        p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+        self.change_asset(t,w,'review_plan',lambda d:d['requirement_ids'].append('R2'))
+        self.run_check(p,t,False,'original requirement missing')
+
+    def test_ui_user_actions_cannot_be_hidden_above_four(self):
+        for recovery in (False,True):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            def extra(d):
+                item=d['tasks'][0]
+                seq=item['recovery'][0]['steps'] if recovery else item['paths'][0]['steps']
+                seq.append({'id':'extra','action':'extra required navigation','visible_result':'extra screen'})
+            self.change_asset(t,w,'review_plan',extra)
+            self.run_check(p,t,False,'exceeds four steps')
+            self.remove_tree(t.parent)
+
+    def test_ui_bulk_requires_paste_and_excel(self):
+        for method in ('filter','paste','excel'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_plan',lambda d:d['tasks'][0]['selection']['methods'].remove(method))
+            self.run_check(p,t,False,'filter, paste and Excel')
+            self.remove_tree(t.parent)
+
+    def test_ui_selection_has_count_details_and_scope(self):
+        for key in ('count_label','details_entry','scope_label'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_plan',lambda d:d['tasks'][0]['selection'].update({key:''}))
+            self.run_check(p,t,False,'selection')
+            self.remove_tree(t.parent)
+
+    def test_ui_results_need_failure_and_unknown_recovery(self):
+        for key in ('summary_entry','details_entry','readback','failure_action','unknown_action'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_plan',lambda d:d['tasks'][0]['results'].update({key:''}))
+            self.run_check(p,t,False,'results')
+            self.remove_tree(t.parent)
+
+    def test_ui_delivery_requires_observed_usability_and_selection(self):
+        for check in ('plain_language','visual_guidance','selected_count','selected_details','excel','result_summary','unknown_readback'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_delivery',lambda d:d['observation']['task_runs'][0]['checks'].update({check:'not_run'}))
+            self.run_check(p,t,False,'usability/selection/results')
+            self.remove_tree(t.parent)
+
+    def test_ui_review_needs_images_and_actual_presentation(self):
+        for key in ('image_paths','record_ref'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_delivery',lambda d:d['presentation'].update({key:[] if key=='image_paths' else None}))
+            self.run_check(p,t,False,'images|hashed review record')
+            self.remove_tree(t.parent)
+
+    def test_ui_review_preserves_observed_actions_and_recovery(self):
+        for key in ('path_runs','recovery_runs'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_delivery',lambda d:d['observation']['task_runs'][0].update({key:[]}))
+            self.run_check(p,t,False,'observed normal|observed recovery')
+            self.remove_tree(t.parent)
+
+    def test_ui_bulk_methods_each_need_a_counted_observed_path(self):
+        for method in ('filter','paste','excel'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_plan',lambda d:d['tasks'][0].update(paths=[
+                v for v in d['tasks'][0]['paths'] if v['method']!=method]))
+            self.run_check(p,t,False,'own counted path')
+            self.remove_tree(t.parent)
+
+    def test_ui_bulk_cannot_drop_required_recovery_kind(self):
+        for kind in ('failed','unknown','import_error','ambiguity'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_plan',lambda d:d['tasks'][0].update(recovery=[
+                v for v in d['tasks'][0]['recovery'] if v['kind']!=kind]))
+            self.run_check(p,t,False,'recovery paths required')
+            self.remove_tree(t.parent)
+
+    def test_ui_review_presentation_and_approval_bind_target_version(self):
+        for key in ('presentation','human_review'):
+            p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+            self.change_asset(t,w,'review_delivery',lambda d:d[key].update(version='old-snapshot'))
+            self.run_check(p,t,False,'version drift')
+            self.remove_tree(t.parent)
+
+    def test_ui_review_cannot_replace_bound_plan(self):
+        p,t,w=self.fixture();t=self.real_design(p,t,w,ui=True)
+        self.change_asset(t,w,'review_delivery',lambda d:d['plan_ref'].update(sha256='0'*64))
+        self.run_check(p,t,False,'another plan')
+
     def test_real_ui_cannot_replace_reviewed_ux_or_preview(self):
         for role in ('journey','flow','ux_analysis','preview_evidence'):
             with self.subTest(role=role):
@@ -325,8 +498,8 @@ class AgentWorkflowTests(unittest.TestCase):
                         for field,r in step['payload_asset_refs'].items():
                             if r==role:data['payload'][field]=new['path']
                     write(t/name,data)
-                self.refresh(t,w);self.run_check(p,t,False,'UI artifact drift|Preview evidence drift')
-                shutil.rmtree(t.parent)
+                self.refresh(t,w);self.run_check(p,t,False,'UI artifact drift|Preview evidence drift|canonical Preview candidate')
+                self.remove_tree(t.parent)
 
     def test_build_admission_rejects_expanded_scope(self):
         p,t,w = self.fixture();self.real_design(p,t,w)
@@ -364,7 +537,7 @@ class AgentWorkflowTests(unittest.TestCase):
                 self.refresh(t,bw)
                 result=self.run_check(bp,t,role is None,None if role is None else 'UI artifact drift|Preview evidence drift|UI evidence roles missing')
                 if role is None:self.assertEqual(result['context']['step'],'plan')
-                shutil.rmtree(t.parent)
+                self.remove_tree(t.parent)
 
     def test_build_verify_cannot_drop_ac(self):
         p,t,w=self.fixture('build');self.mutate(t,'build/verify.json',lambda d:d['payload'].update(acceptance_ids=['AC2']))

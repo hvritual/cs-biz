@@ -1,0 +1,30 @@
+{
+  "id": "appgdep_6ad2e611131c8191963781aaa7a4a16c",
+  "project_id": "appgprj_6ad2c50e408081918f7726b6c0c74d70",
+  "title": "CoffeeLink · F2–F6 完整交互审阅",
+  "version_id": "appgprj_6ad2c50e408081918f7726b6c0c74d70~appgver_1d17d007c01481918142498c2d103c30",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://cs-biz-f-series-review.citrus-sloth-6447.chatgpt.site",
+  "has_mcp": false,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "site---6ad2c50e408081918f7726b6c0c74d70",
+  "failure_message": null,
+  "env_set_revision": 0,
+  "updated_at": "2026-10-17T03:06:10.977564+00:00",
+  "kind": "private_design_review",
+  "source_commit": "8eb519b9c9587199d5c0501ae07b98e34790e52d",
+  "canonical_source_commit": "1ef0e792e09e7d999071707574d3ac63fd339d9b",
+  "source_repository": "hvritual/cs-biz",
+  "archive_path": ".artifacts/f-series-r003-site-C8.tar",
+  "audience": "owner_private",
+  "data_boundary": "browser-local review fixtures only; no business backend or external effects",
+  "source_provenance_ref": "site-source-provenance.json",
+  "verification": {
+    "deployment": "native_sites_terminal_success",
+    "canonical_browser": "passed: exact C8 Full run38997320547; 50 tester-army and 16 legacy passed; original mobile skip retained",
+    "deployed_url_browser": "not_run: managed control-browser unavailable; native blank capture is not QA evidence",
+    "private_static_origin_probe": "passed: pinned-source offline rebuilt root entry; not deployed URL QA"
+  },
+  "source_relation": "Exact C8 Console design build and 22 source hashes exported with the bound private origin; source and local archive entries verified independently."
+}

@@ -1,0 +1,96 @@
+{
+  "objective": "完成F2–F6原始业务结果；本轮先交同版可审阅设计及准入对账",
+  "boundary": "reviewed_design",
+  "baseline_sha": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+  "authority_ref": "raw-user.txt",
+  "implementation_authority": "本轮仅隔离设计预览，后续正式Build需实际准入；生产另授权",
+  "requirements": [
+    {
+      "id": "R1",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC01",
+        "AC02"
+      ]
+    },
+    {
+      "id": "R2",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC03",
+        "AC04"
+      ]
+    },
+    {
+      "id": "R3",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC05",
+        "AC06"
+      ]
+    },
+    {
+      "id": "R4",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC07",
+        "AC08"
+      ]
+    },
+    {
+      "id": "R5",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC09",
+        "AC10"
+      ]
+    },
+    {
+      "id": "R6",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC11",
+        "AC12"
+      ]
+    },
+    {
+      "id": "R7",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC13",
+        "AC14"
+      ]
+    },
+    {
+      "id": "R8",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC15"
+      ]
+    },
+    {
+      "id": "R9",
+      "source": "../r001/requirements.md",
+      "acceptance_ids": [
+        "AC16"
+      ]
+    }
+  ],
+  "pending_decisions": [
+    "P1",
+    "P2",
+    "P4",
+    "P7"
+  ],
+  "deferred_production_conditions": [
+    "P6"
+  ],
+  "inherited": [
+    "Docker MySQL",
+    "非生产OIDC/标准生产适配",
+    "一个分支分步合并",
+    "三权分离与group拒绝",
+    "F0/F1冻结不改"
+  ],
+  "state": "DESIGN_REVIEW_PROPOSAL_ONLY"
+}

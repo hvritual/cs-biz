@@ -1,0 +1,57 @@
+test_build_admission_preserves_reviewed_ui (test_workflows.AgentWorkflowTests.test_build_admission_preserves_reviewed_ui) ... 
+  test_build_admission_preserves_reviewed_ui (test_workflows.AgentWorkflowTests.test_build_admission_preserves_reviewed_ui) (role=None) ... ERROR
+test_build_admission_rejects_expanded_scope (test_workflows.AgentWorkflowTests.test_build_admission_rejects_expanded_scope) ... ok
+test_build_criterion_without_pass_rejected (test_workflows.AgentWorkflowTests.test_build_criterion_without_pass_rejected) ... ok
+test_build_package_digest_rejected (test_workflows.AgentWorkflowTests.test_build_package_digest_rejected) ... ok
+test_build_verify_cannot_drop_ac (test_workflows.AgentWorkflowTests.test_build_verify_cannot_drop_ac) ... ok
+test_deploy_requires_build_evidence_roles (test_workflows.AgentWorkflowTests.test_deploy_requires_build_evidence_roles) ... ok
+test_deploy_requires_separate_authority (test_workflows.AgentWorkflowTests.test_deploy_requires_separate_authority) ... ok
+test_optional_requires_reason (test_workflows.AgentWorkflowTests.test_optional_requires_reason) ... ok
+test_real_ui_cannot_replace_reviewed_ux_or_preview (test_workflows.AgentWorkflowTests.test_real_ui_cannot_replace_reviewed_ux_or_preview) ... ok
+test_real_ui_packet_preserves_reviewed_assets (test_workflows.AgentWorkflowTests.test_real_ui_packet_preserves_reviewed_assets) ... ok
+test_recovery_required_after_unknown (test_workflows.AgentWorkflowTests.test_recovery_required_after_unknown) ... ok
+test_ui_bulk_cannot_drop_required_recovery_kind (test_workflows.AgentWorkflowTests.test_ui_bulk_cannot_drop_required_recovery_kind) ... ok
+test_ui_bulk_methods_each_need_a_counted_observed_path (test_workflows.AgentWorkflowTests.test_ui_bulk_methods_each_need_a_counted_observed_path) ... ok
+test_ui_bulk_requires_paste_and_excel (test_workflows.AgentWorkflowTests.test_ui_bulk_requires_paste_and_excel) ... ok
+test_ui_cannot_skip_required_skill (test_workflows.AgentWorkflowTests.test_ui_cannot_skip_required_skill) ... ok
+test_ui_delivery_available_is_not_human_approval (test_workflows.AgentWorkflowTests.test_ui_delivery_available_is_not_human_approval) ... ok
+test_ui_delivery_blocker_cannot_be_a_disclaimer (test_workflows.AgentWorkflowTests.test_ui_delivery_blocker_cannot_be_a_disclaimer) ... ok
+test_ui_delivery_requires_observed_usability_and_selection (test_workflows.AgentWorkflowTests.test_ui_delivery_requires_observed_usability_and_selection) ... ok
+test_ui_results_need_failure_and_unknown_recovery (test_workflows.AgentWorkflowTests.test_ui_results_need_failure_and_unknown_recovery) ... ok
+test_ui_review_cannot_drop_frozen_original_requirements (test_workflows.AgentWorkflowTests.test_ui_review_cannot_drop_frozen_original_requirements) ... ok
+test_ui_review_cannot_replace_bound_plan (test_workflows.AgentWorkflowTests.test_ui_review_cannot_replace_bound_plan) ... ok
+test_ui_review_checks_actual_target_and_version (test_workflows.AgentWorkflowTests.test_ui_review_checks_actual_target_and_version) ... ok
+test_ui_review_delivery_rejects_unobserved_final_entry (test_workflows.AgentWorkflowTests.test_ui_review_delivery_rejects_unobserved_final_entry) ... ok
+test_ui_review_needs_images_and_actual_presentation (test_workflows.AgentWorkflowTests.test_ui_review_needs_images_and_actual_presentation) ... ok
+test_ui_review_presentation_and_approval_bind_target_version (test_workflows.AgentWorkflowTests.test_ui_review_presentation_and_approval_bind_target_version) ... ok
+test_ui_review_preserves_observed_actions_and_recovery (test_workflows.AgentWorkflowTests.test_ui_review_preserves_observed_actions_and_recovery) ... ok
+test_ui_selection_has_count_details_and_scope (test_workflows.AgentWorkflowTests.test_ui_selection_has_count_details_and_scope) ... ok
+test_ui_tasks_cover_original_requirements (test_workflows.AgentWorkflowTests.test_ui_tasks_cover_original_requirements) ... ok
+test_ui_unavailable_state_cannot_use_ready_envelope (test_workflows.AgentWorkflowTests.test_ui_unavailable_state_cannot_use_ready_envelope) ... ok
+test_ui_user_actions_cannot_be_hidden_above_four (test_workflows.AgentWorkflowTests.test_ui_user_actions_cannot_be_hidden_above_four) ... ok
+test_ui_whole_delivery_cannot_swap_canonical_candidate (test_workflows.AgentWorkflowTests.test_ui_whole_delivery_cannot_swap_canonical_candidate) ... ok
+
+======================================================================
+ERROR: test_build_admission_preserves_reviewed_ui (test_workflows.AgentWorkflowTests.test_build_admission_preserves_reviewed_ui) (role=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\code\ai\cs-biz\.agents\skills\sdlc-workflow\tests\test_workflows.py", line 538, in test_build_admission_preserves_reviewed_ui
+    result=self.run_check(bp,t,role is None,None if role is None else 'UI artifact drift|Preview evidence drift|UI evidence roles missing')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\code\ai\cs-biz\.agents\skills\sdlc-workflow\tests\test_workflows.py", line 60, in run_check
+    result = subprocess.run(args, cwd=REPO, text=True, capture_output=True, timeout=30)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hul\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hul\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hul\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 1630, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\hul\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe', 'F:\\code\\ai\\cs-biz\\.agents\\skills\\sdlc-build\\scripts\\check_workflow.py', '--task', 'C:\\Users\\hul\\AppData\\Local\\Temp\\agent-contract-test-khsbdycf\\ui-repo-7820llta\\task']' timed out after 30 seconds
+
+----------------------------------------------------------------------
+Ran 31 tests in 317.246s
+
+FAILED (errors=1)

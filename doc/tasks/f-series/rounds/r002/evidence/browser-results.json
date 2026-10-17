@@ -1,0 +1,56 @@
+{
+  "kind": "derived_index_of_raw_report",
+  "raw_report_sha256": "d3241276b3182bfbc5eadbbbf19f7d140e8b6ae886042d6b35ddf4615d4961ad",
+  "artifact_id": 12058306434,
+  "archive_sha256": "440b76e7fc2780f99de763e8b2c282645c2ff5482a26ddfd6a42351f01eba6a2",
+  "run_id": "01a14572-809f-74cc-bb3c-f1f610225b97",
+  "started_at": "2026-10-16T16:01:35.000Z",
+  "finished_at": "2026-10-16T16:02:19.098Z",
+  "summary": {
+    "discovered": 5,
+    "selected": 5,
+    "executed": 5,
+    "passed": 5,
+    "failed": 0,
+    "interrupted": 0,
+    "flaky": 0,
+    "skipped": 0
+  },
+  "results": [
+    {
+      "file": "tests/e2e/f-series-design.e2e.ts",
+      "title_path": [
+        "F-series design: production isolation and 1366 identity states"
+      ],
+      "status": "passed"
+    },
+    {
+      "file": "tests/e2e/f-series-design.e2e.ts",
+      "title_path": [
+        "F-series design: 1440 campaign denial and unknown readback"
+      ],
+      "status": "passed"
+    },
+    {
+      "file": "tests/e2e/f-series-design.e2e.ts",
+      "title_path": [
+        "F-series design: 1536 invitations, scope and safe support in both languages"
+      ],
+      "status": "passed"
+    },
+    {
+      "file": "tests/e2e/f-series-design.e2e.ts",
+      "title_path": [
+        "F-series design: two actual tabs retain scoped unknown results and share logout"
+      ],
+      "status": "passed"
+    },
+    {
+      "file": "tests/e2e/members.e2e.ts",
+      "title_path": [
+        "Desktop member query preserves data and existing service permissions"
+      ],
+      "status": "passed"
+    }
+  ]
+}

@@ -114,10 +114,12 @@
       "required_assets": [
         "journey",
         "flow",
-        "ux_analysis"
+        "ux_analysis",
+        "review_plan"
       ],
       "resources": [
-        "skills/design-ux/references/ux-method.md"
+        "skills/design-ux/references/ux-method.md",
+        "references/review-delivery.md"
       ],
       "when": {
         "file": "request.json",
@@ -127,7 +129,8 @@
       "payload_asset_refs": {
         "journey_ref": "journey",
         "flow_ref": "flow",
-        "ux_ref": "ux_analysis"
+        "ux_ref": "ux_analysis",
+        "review_plan_ref": "review_plan"
       }
     },
     {
@@ -143,10 +146,12 @@
       "output": "design/preview.json",
       "payload_contract": "contracts/steps/preview.json",
       "required_assets": [
-        "preview_evidence"
+        "preview_evidence",
+        "review_delivery"
       ],
       "resources": [
-        "references/intent-design-v2.md"
+        "references/intent-design-v2.md",
+        "references/review-delivery.md"
       ],
       "when": {
         "file": "request.json",
@@ -154,7 +159,8 @@
         "is": true
       },
       "payload_asset_refs": {
-        "preview_ref": "preview_evidence"
+        "preview_ref": "preview_evidence",
+        "review_delivery_ref": "review_delivery"
       }
     },
     {

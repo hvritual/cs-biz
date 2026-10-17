@@ -1,0 +1,17 @@
+{
+  "candidate": "51c4f20bac597117552e64e7ae8ef37cf601789f",
+  "run_id": 38994621180,
+  "attempt": 1,
+  "result": "failed",
+  "tester_army": {
+    "passed": 46,
+    "failed": 1,
+    "total": 47
+  },
+  "legacy": "not_run_due_to_preceding_failure",
+  "artifact_id": 12086379002,
+  "archive_sha256": "a91eeea56048c131638fe0e2f6ddad50c052ae63b1aad7c60eff27e080490f24",
+  "failure": "Global same-label option locator matched the closing previous select and current select simultaneously.",
+  "repair": "Bind option selection to the clicked combobox aria-controls listbox; require that listbox closed before the next selection. Preserve all current business and contrast assertions.",
+  "success_claimed": false
+}

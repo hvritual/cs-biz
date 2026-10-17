@@ -1,0 +1,248 @@
+schema_version: 1
+artifact_kind: analysis
+status: ready_for_review
+task_ref:
+  issue: https://github.com/hvritual/cs-biz/issues/10
+  baseline_commit: 191189ba63ffcbda8f62be1981ae3b892172a9c9
+  candidate_commit: ff488d1ceda6ed85d92607f1149d96a2aba3df39
+  name: F2–F6 r002
+classification:
+  type: full_business_task
+  reason: Identity, tenant, permission and consequential operations require explicit
+    recovery.
+  business_state_mutation: true
+  authorization_sensitive: true
+  asynchronous_effect: true
+context:
+  role:
+    summary: Member, tenant administrator and operator
+    source_refs:
+    - R
+    - AC
+  task:
+    summary: Sign in, select organization, execute and read back business effects
+    source_refs:
+    - R
+    - AC
+  entity:
+    summary: Account/Session/Tenant/Membership/Grant/Campaign/Customer/Receipt
+    source_refs:
+    - R
+    - AC
+  workflow:
+    summary: S1 precedes S2/S3; S2+S3 precede S4→S5→S6A→S6B; Goal reconciles every return
+    source_refs:
+    - R
+    - AC
+  state:
+    summary: 0/1/N membership; active/denied/revoked; pending/unknown/completed
+    source_refs:
+    - R
+    - AC
+  action:
+    summary: Select and validate first, review impact, execute only with authority,
+      query original unknown
+    source_refs:
+    - R
+    - AC
+  risk:
+    summary: Cross-tenant, scope expansion, duplicate effects, false delivery and
+      hidden failure
+    source_refs:
+    - R
+    - AC
+  decision:
+    summary: P1/P2/P4/P7 pending; inherited constraints unchanged; production P6 scoped
+    source_refs:
+    - R
+    - AC
+sources:
+- id: R
+  kind: user_requirement
+  path: raw-user.txt
+  commit: null
+  locator: '2026-10-16'
+  claim: Authorized design first
+- id: AC
+  kind: repository_contract
+  path: doc/tasks/f-series/rounds/r002/requirements.md
+  commit: null
+  locator: R/AC table
+  claim: Full original denominator and unproven runtime
+- id: UI
+  kind: repository_contract
+  path: doc/design/desktop-ui.md
+  commit: 191189ba63ffcbda8f62be1981ae3b892172a9c9
+  locator: geometry/shell
+  claim: Reuse current console and tokens
+page_pattern:
+  name: Existing Console shell with task-specific preview panels and Element Plus
+    dialogs
+  reason: Reuse current layout, theme, i18n and components, not another renderer
+  contract_ref: UI
+  gaps:
+  - Real BFF/DB/Domain/receipts/trace-source are NOT_IMPLEMENTED; preview only
+outcome:
+  definition: Human can inspect intended scope/effects/recovery; business execution
+    remains unproven
+  result_contract_refs:
+  - AC
+  recovery_contract_refs:
+  - AC
+humanized_ux:
+  time_to_information:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Expose current organization, affected object and access scope before action
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+  time_to_action:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Use trusted prefill and direct next action; no duplicate data entry
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+  context_switching:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Per-tab organization with old results invalidated; failed switch does not reuse
+      rights
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+  decision_load:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Separate selection, impact review and final result; ask only material choices
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+  interaction_cost:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Bulk text parse/normalize/deduplicate/scoped-match before creation; no fuzzy
+      execution
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+  error_recoverability:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Unknown retains operation key and queries original record; no blind replay
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+  how_to_guidance:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Show account/organization prerequisites and next allowed recovery step
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+  operation_effect_transparency:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Explicit object/count/tenant/action scope and created-versus-delivered states
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+  problem_resolution_guidance:
+    applicability: applies
+    reason: Required by the original permission/tenant/write/recovery journey
+    requirements:
+    - Safe support IDs plus authorized diagnostics; no secret/internal stack
+    evidence_types:
+    - browser_test
+    - user_test
+    - api_test
+    verification: not_verified
+    evidence: []
+acceptance:
+  scenarios:
+  - ID-01/02
+  - WS-01
+  - MKT-01/02/03
+  - IAM-01/02/03
+  - CRM-01
+  - OBS-01
+  - OPS-01
+  automated_checks:
+  - frontend/tests/e2e/f-series-design.e2e.ts; original quality unchanged
+  human_checks:
+  - Same-version solution, journey, preview, P1/P2/P4/P7; comprehension not measured
+    by script speed
+  metrics: []
+open_questions:
+- question: P1 Session, P2 invitations, P4 delegation and P7 campaign effect need same-version decisions
+  blocking: true
+  owner_role: Human product/security owner
+- question: Production P6 target, SLO and deployment authority are absent
+  blocking: true
+  owner_role: Production owner; only affected production work
+handoff:
+  allowed_paths:
+  - doc/tasks/f-series/rounds/r002/**
+  - doc/tasks/f-series/task.md
+  - doc/roadmap.md
+  - frontend/apps/console/src/design/f-series/**
+  - frontend/apps/console/src/layouts/basic.vue
+  - doc/tasks/README.md
+  - frontend/apps/console/src/bootstrap.ts
+  - frontend/tests/e2e/f-series-design.e2e.ts
+  forbidden_paths:
+  - backend/**
+  - .agents/**
+  - .codex/**
+  - .github/**
+  - doc/tasks/issue-11-f0/**
+  - doc/tasks/issue-12-f1/**
+  - doc/tasks/f-series/rounds/r001/**
+  - frontend/pnpm-lock.yaml
+  reuse_refs:
+  - UI
+  - AC
+  gates:
+  - Same-version Human design review; no Build handoff before actual approval
+review:
+  reviewer: null
+  actor_kind: null
+  scope: null
+  reference: null
+  analysis_ref: null
+  reviewed_at: null
+  candidate_sha: null
+  decision: not_reviewed

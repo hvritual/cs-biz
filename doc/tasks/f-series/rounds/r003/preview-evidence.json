@@ -1,0 +1,104 @@
+{
+  "kind": "in_project",
+  "root": "frontend/apps/console",
+  "candidate_sha": "1ef0e792e09e7d999071707574d3ac63fd339d9b",
+  "candidate_tree": "df37dc9a5bb3adf707f4fc10f62e50fa7d97f51f",
+  "route": "/__design/f-series/full/identity",
+  "url": "http://127.0.0.1:5790/__design/f-series/full/identity",
+  "run_cwd": "frontend/apps/console",
+  "run_command": "corepack pnpm exec vite --mode design --host 127.0.0.1 --port 5790 --strictPort",
+  "source_assets": {
+    "frontend/apps/console/src/bootstrap.ts": "7fcb132ecb3d9bf97fedd594f87b9cc7f182a026201ac40a2b863e7991df05f8",
+    "frontend/apps/console/src/design/f-series/DeniedPreview.vue": "7d632289c332fa58530c4487c30229fb0b2049c19d1861e4d3a7ba53daf9577d",
+    "frontend/apps/console/src/design/f-series/JourneyPreview.vue": "0fd5738acffca83fdeb8c2de53cdbe811de226b3fe5bdb4dc6e9184647b0f50a",
+    "frontend/apps/console/src/design/f-series/PreviewLayout.vue": "439f33e87a37de4d88dd58a3f1669b97bc94db0240deb75836415bf43bb3407d",
+    "frontend/apps/console/src/design/f-series/copy.ts": "3f1b1d0025c7ccac54cd2913d0add22dfcfdd58b70deb53cf6178f90cb4323ec",
+    "frontend/apps/console/src/design/f-series/full/AccessPages.vue": "64e4bb07e1c4915bdd46b7861712838ff199c03a88ef644642e13a1b3d0f0fe8",
+    "frontend/apps/console/src/design/f-series/full/CustomerPages.vue": "a667cf6c60017253600186f32d2d9554b8f9c80fb97714c1337fa65c16c53cdd",
+    "frontend/apps/console/src/design/f-series/full/FullNavigation.vue": "4a7cbdb7643ca612fd05b190126f08aef6f3b254f53c06ebe99c0e85a95434f7",
+    "frontend/apps/console/src/design/f-series/full/IdentityPages.vue": "5454b573dd42120acaf7fc236808ddfa80fcc99e751d2af1c9e9ba54df8c350e",
+    "frontend/apps/console/src/design/f-series/full/MarketingPages.vue": "d07e22a04354bff89617fc1cfa5aa286f66a15e31af1920d79f7ee74e6f429b8",
+    "frontend/apps/console/src/design/f-series/full/ObservabilityPages.vue": "f9ee48526e8aaafe18afd6d88fd05a86909ca1a65bd175991653cf74e7f209d9",
+    "frontend/apps/console/src/design/f-series/full/OperationPages.vue": "ee73cdfab39eafcfaeebb82dc7b2ae20a6399f8bdc09a661f0f6911af8993345",
+    "frontend/apps/console/src/design/f-series/full/PlatformPages.vue": "15f9d659b0086741d893111f6d1ba664566ca121d5661a16c668c1342e265cd2",
+    "frontend/apps/console/src/design/f-series/full/ReleasePages.vue": "8a786460002ddcaa99b0613eb44e7a39ed74d77fc0ff3feddca0fb258f3f4159",
+    "frontend/apps/console/src/design/f-series/full/ReviewWorkbench.vue": "b7056e260093720a675b6b1503c88ed4741c4328632bed7c147e00de672baf00",
+    "frontend/apps/console/src/design/f-series/full/authorization.ts": "ba3aff5478998d63cdb29d0af7f82d2e50007d6423a61cf9d34991c0ae11b361",
+    "frontend/apps/console/src/design/f-series/full/catalog.ts": "e08c55905d7443492f0f3a221fdb2849e8345c5ab590870c9af6333f01435353",
+    "frontend/apps/console/src/design/f-series/full/copy.ts": "60f956506c0cccb5c4590542988dcbc6a6f380e284ea9f2163477cb91611573a",
+    "frontend/apps/console/src/design/f-series/full/model.ts": "c3570c376d9498885efa44f9e4a46baab82f34dae8d0fb1e5ad822fd9f18619d",
+    "frontend/apps/console/src/design/f-series/full/review.css": "2707c51645853afc1591265801eecf8ce40214da96cd8e8ce3d495060b095226",
+    "frontend/apps/console/src/design/f-series/full/state.ts": "24a8a98beba1aa8edba3ec9607e515b152cb6957542298b0e73a4d793d4bb39a",
+    "frontend/apps/console/src/design/f-series/install.ts": "596f1acc7b4c0ea57f58f7cccbe772384f0cca0a58a6de4dcc4557091ef6c0ef",
+    "frontend/apps/console/src/design/f-series/state.ts": "8595eacce7cfb484276a4a7c944e2eff7e82cc29c6aa2459437c21c185e6fdc0",
+    "frontend/apps/console/src/layouts/basic.vue": "7ddaad224e0572067296a5ad58735181548137e8165960a0caa82f5d5ab780ef",
+    "frontend/tests/e2e/f-series-design.e2e.ts": "3ad5e0f9dcfe47802619121f27f3ce89084607055ae82ecf3e1172115b186af4",
+    "frontend/tests/e2e/f-series-full.ts": "6795f822c82a0648b38fb2f33e9035316f9abb31c666d63e57e725cb01d1614c"
+  },
+  "reuse_refs": [
+    "frontend/apps/console/src/layouts/basic.vue",
+    "frontend/apps/console/src/components/PageHeader.vue",
+    "frontend/apps/console/src/store/appearance.ts"
+  ],
+  "scenarios_ref": {
+    "path": "journey.md",
+    "sha256": "9ac772204c7395be1cf0c705805dea9ba8c32e7e04ee05d4b60eab4f9541ed6c"
+  },
+  "production_isolation_ref": {
+    "path": "validation.md",
+    "sha256": "bcc5478aef47b2ba6f26647a3682635ef23a98460d9d200f237aecfabf90a4ac"
+  },
+  "result": "pass",
+  "proof_boundary": "design_fixture_only",
+  "coverage": {
+    "pages": 32,
+    "declared_scene_entries_rendered": 233,
+    "new_continuous_journeys": 12,
+    "tester_army_total_passed": 50,
+    "private_static_entry_probes": 1,
+    "retained_legacy_passed": 16,
+    "retained_original_mobile_skip": 1,
+    "unit_passed": 47
+  },
+  "log": {
+    "path": "evidence/browser-summary.md",
+    "sha256": "62008cf9b0e44ac3c91dcccde380b17a9274427fdac8f60fedb80e95c0321674"
+  },
+  "results_index": {
+    "path": "evidence/browser-report.json",
+    "sha256": "642d2ffe2ffb5e95e142008133a3ca90e3056405935446f82e269f685c9566f7"
+  },
+  "screens": {
+    "path": "evidence/screens.json",
+    "sha256": "f845726a1a5a3363c5693ac774392fc6625ea91f1526ce6481e57b1a4aa1f0c3"
+  },
+  "qualification_receipt": {
+    "path": "evidence/quality-receipt.json",
+    "sha256": "e6437ef4e6c8919f89e9da2ce895ee20f841bf2929f028b16f15a0ebc22fff46"
+  },
+  "artifact_index": {
+    "path": "evidence/artifact-index.json",
+    "sha256": "7f63993594c3ec84436aebb8cabbc2ac246fee2dac431d4cd5e70f28d6ae2656"
+  },
+  "hosted_review": {
+    "path": "evidence/site-hosting.json",
+    "sha256": "c9829fe137c991ef6604e6f6cd7301fd912cae09ee50bd2f686ac0e8bea22803"
+  },
+  "ci": {
+    "run_id": 38997320547,
+    "attempt": 1,
+    "url": "https://github.com/hvritual/cs-biz/actions/runs/38997320547",
+    "conclusion": "success"
+  },
+  "browser_fallback_reason": "Browser plugin unavailable; local pinned browser download previously failed; unchanged project tester-army/Playwright CI used for canonical browser verification. Managed Sites control-browser unavailable, so deployed URL browser QA was not improvised.",
+  "business_proofs": [],
+  "human_review": "pending",
+  "limits": [
+    "233 scene entry rendering is distinct from 12 new continuous action journeys; not all 233 actions proven.",
+    "Fixtures do not prove real BFF/SQL/Domain/OIDC/transport/Outbox/external delivery/production completion.",
+    "No measured human comprehension/time or production SLO claim.",
+    "Dark primary links/status colors require further accessibility sampling; automated 4.5 contrast assertion covers the reviewed select label, not whole-interface AA.",
+    "Hosting verified by native terminal success; deployed URL was not independently browsed. Private-origin root probe rebuilds pinned source with all requests intercepted offline; not native archive or hosted transport/CSP/auth/rewrite QA.",
+    "Raw downloadable CI artifacts have retention limits; report, receipt and file digests retained."
+  ]
+}

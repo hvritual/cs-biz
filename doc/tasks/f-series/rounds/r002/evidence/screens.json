@@ -1,0 +1,42 @@
+{
+  "artifact_url": "https://github.com/hvritual/cs-biz/actions/runs/38928327116/artifacts/12058306434",
+  "retained_until": "2026-10-23T16:03:55Z",
+  "images": [
+    {
+      "artifact_path": ".e2e/results/f-series-design-f-series-design-1536-invitations-91a4dc74a0195c77/attempt-1/screenshots/002-f-series-1536-english-operations.png",
+      "sha256": "23c48e25e8216bef3f28f33936d9569d19b94f2d60bf6053e81721f2da7e1496",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "artifact_path": ".e2e/results/f-series-design-f-series-design-1536-invitations-91a4dc74a0195c77/attempt-1/screenshots/001-f-series-1536-invitation-results.png",
+      "sha256": "88a5386ca478074ac747239e8707c2410676353f47603f26e99de0f7953f90df",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "artifact_path": ".e2e/results/f-series-design-f-series-design-production-becc366e9ca8f5e0/attempt-1/screenshots/001-f-series-1366-identity.png",
+      "sha256": "fa0f41ab8a29170e569f811fa54598a6669b4441468665cd14a704a20fca95a3",
+      "width": 1366,
+      "height": 768
+    },
+    {
+      "artifact_path": ".e2e/results/f-series-design-f-series-design-1440-campaign-53d0d3d850a02de3/attempt-1/screenshots/002-f-series-1440-dark-result.png",
+      "sha256": "17630028ba07c2fe184093b2d30ad489f21ac970c661565f36ac59f6acae1287",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "artifact_path": ".e2e/results/f-series-design-f-series-design-1440-campaign-53d0d3d850a02de3/attempt-1/screenshots/001-f-series-1440-unknown.png",
+      "sha256": "8d3893e0953532cceea94b53319dddd10e7467a383e999cb50ece898c14b18fd",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "artifact_path": ".e2e/artifacts/f-series-design/two-tabs-failed.png",
+      "sha256": "489262254c04de1dcbba1c4aa13c2650315246f07016c67f843ef6c30119d523",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

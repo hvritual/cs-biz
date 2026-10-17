@@ -1,0 +1,15 @@
+{
+  "url": "http://127.0.0.1:5790/__design/f-series/full/customers?r=4&journey=J08",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    "只读成员正常登录并选择企业",
+    "从业务导航进入允许的客户读取",
+    "核对只读、安全终点与无管理入口"
+  ],
+  "errors": [],
+  "review_tools_used": false,
+  "human_approval": false
+}

@@ -1,0 +1,2 @@
+PASS: 18 required directories, 27 required files, 639 relative file links
+Scope: repository structure and documentation only; no application/runtime validation.

@@ -4,10 +4,15 @@
     "preview_ref": {
       "type": "string",
       "minLength": 1
+    },
+    "review_delivery_ref": {
+      "type": "string",
+      "minLength": 1
     }
   },
   "required": [
-    "preview_ref"
+    "preview_ref",
+    "review_delivery_ref"
   ],
   "additionalProperties": false
 }

@@ -1,0 +1,96 @@
+{
+  "protocol": "local-preview-observation-v1",
+  "state": "PARTIAL_NOT_QUALIFIED",
+  "candidate_sha": null,
+  "source_ref": {
+    "path": "preview-source.json",
+    "sha256": "b6de495dbd073e1c374f188dcd9f71c9b148b49a9cb1c2ec52a71599ec869790"
+  },
+  "review_plan_ref": {
+    "path": "review-plan.json",
+    "sha256": "6f11621cb2f8c17e01d4c34994d6613a7a57dcabd9b405afaef9296ea788ceed"
+  },
+  "planned_routes": 109,
+  "full_routes_verified": null,
+  "partial_browser_target": "http://127.0.0.1:5790",
+  "intended_delivery_target": "http://127.0.0.1:5790",
+  "partial_results": [
+    "7 scoped browser cases passed on the final product-experience entry; all 109 full routes remain unqualified."
+  ],
+  "evidence_refs": [
+    {
+      "path": "evidence/requester-experience/account-recovery.json",
+      "sha256": "83a71145c6529a26a7728c9dbfba2b2df494393f4e2a19e7a46e197714da26d2"
+    },
+    {
+      "path": "evidence/requester-experience/account-recovery.png",
+      "sha256": "4f86ed86ded709b0c65868be23e14b2c0cd9872dd28c6111bb42c209767ef0a5"
+    },
+    {
+      "path": "evidence/requester-experience/business-1366.json",
+      "sha256": "0d6b967812b497844dd314794f7bf32f369225418da5607b2a591f5b0e501882"
+    },
+    {
+      "path": "evidence/requester-experience/business-1366.png",
+      "sha256": "cd9a5a27edf03856bb9c830ab453ea7b4c7e99f46dde63f6b05657657b09e4c5"
+    },
+    {
+      "path": "evidence/requester-experience/business-1440.json",
+      "sha256": "9c859c10799db5f05420ccf6551e19fca9188abc63ca5f713a0e4af9568796e6"
+    },
+    {
+      "path": "evidence/requester-experience/business-1440.png",
+      "sha256": "e3c8d45207576066916e47f95d55fc9748f8e91b14f7e0b5e401831461776422"
+    },
+    {
+      "path": "evidence/requester-experience/business-1536.json",
+      "sha256": "96c07377110073da24d501c6641131fd2525d7d69b2761c94965391fea370f54"
+    },
+    {
+      "path": "evidence/requester-experience/business-1536.png",
+      "sha256": "41f40dacdd5908ed179696ffadd9c00879b695ed7c444d01b5a9a6184d3ffa2d"
+    },
+    {
+      "path": "evidence/requester-experience/invitation-handoff.json",
+      "sha256": "e9ba69a686de4d5ad52821316980671300eca49a27d11c34e27c485820ce413f"
+    },
+    {
+      "path": "evidence/requester-experience/invitation-handoff.png",
+      "sha256": "cccd3c0fbfe23ad2eed33b57e132d4f28eca5ad219457356a4ae98c7acabb05f"
+    },
+    {
+      "path": "evidence/requester-experience/onboarding-handoff.json",
+      "sha256": "e4553b8b15566f5a85936b339b933d3eccdce68e805e05349d9dccdc1107a7b7"
+    },
+    {
+      "path": "evidence/requester-experience/onboarding-handoff.png",
+      "sha256": "907951c408b63ec8f875bfc70cbd13960293a8c8377f5f971a50f903921a3167"
+    },
+    {
+      "path": "evidence/requester-experience/reader-boundary.json",
+      "sha256": "51cdb9ed16bdd8c24fc8d63df4fba6c6e3b1c100d3c238683a8091cdb7ec391d"
+    },
+    {
+      "path": "evidence/requester-experience/reader-boundary.png",
+      "sha256": "9f08f69ad376f796b81a76b50553d247c9c13a2992c8045822738364924a3d9a"
+    },
+    {
+      "path": "evidence/requester-experience/run-final.json",
+      "sha256": "1a5a80a55360a2232df67b64bfc8e009a8f84aebb438db4b89dfef7a79bb5598"
+    }
+  ],
+  "validation_ref": {
+    "path": "requester-experience-validation.md",
+    "sha256": "401f1fee9fa3af7e5b8181ffacaf44d7dd1efd822ad492df04a0e6fba2d68b54"
+  },
+  "limits": [
+    "Bounded observations do not replace the complete journey_runs, UX05 visuals, retained regressions or immutable candidate qualification.",
+    "The requirement originator has not approved this candidate."
+  ],
+  "experience_ui": {
+    "product_interface": true,
+    "review_chrome_visible": false,
+    "engineering_copy_visible": false,
+    "scope": "7 bounded cases, not all product states"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "yunka-f-series-r004-task-first-ui",
+  "stage": "design",
+  "step": "ux",
+  "status": "ready",
+  "definition_sha256": "b43fa224e2a0d4350b83018aa370b6de719a0d1ff1e2ae43a004012709607be9",
+  "input_sha256": {
+    "request.json": "af567179328a54b2ab9a3a85161b2f7cb290b9229facf841065658e202221e98",
+    "design/solution.json": "f99a6d0d2d23d2e6df59b4450fcfc494671dcf3303aef5d46eb73a70073dd880"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "a841213a33571d240b22d4bbd44c73eb90c6cf86",
+    "frontend_change": true,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/rounds/r004/**",
+      "doc/tasks/f-series/task.md",
+      "doc/roadmap.md",
+      "doc/tasks/README.md",
+      "frontend/apps/console/src/design/f-series/**",
+      "frontend/tests/e2e/f-series-*.ts",
+      "frontend/tests/unit/f-series-*.test.ts"
+    ],
+    "forbidden_paths": [
+      "backend/**",
+      ".agents/**",
+      ".codex/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**",
+      "doc/tasks/f-series/rounds/r001/**",
+      "doc/tasks/f-series/rounds/r002/**",
+      "doc/tasks/f-series/rounds/r003/**",
+      "frontend/pnpm-lock.yaml"
+    ],
+    "completion_boundary": "reviewed_design",
+    "requirement_ids": [
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R5",
+      "R6",
+      "R7",
+      "R8",
+      "R9",
+      "UX01",
+      "UX02",
+      "UX03",
+      "UX04",
+      "UX05"
+    ]
+  },
+  "payload": {
+    "journey_ref": "journey.md",
+    "flow_ref": "flow.mmd",
+    "ux_ref": "ux-analysis.yaml",
+    "review_plan_ref": "review-plan.json"
+  },
+  "assets": {
+    "journey": {
+      "path": "journey.md",
+      "sha256": "f655896927b56b39aa86ebb658d091856158a553ac0d7741522b6a60c09bf5ae"
+    },
+    "flow": {
+      "path": "flow.mmd",
+      "sha256": "2615bc7bef816ed07ce210854aeb2dba770d10f3d8d1d14c4b4df31f66a9cf06"
+    },
+    "ux_analysis": {
+      "path": "ux-analysis.yaml",
+      "sha256": "273738b0677673c570c66805e5dc3cf07dd9bb21b84a931add5933e2527f5285"
+    },
+    "review_plan": {
+      "path": "review-plan.json",
+      "sha256": "b0780ad8920eb9a4790ba562dd0ef32ceb097c47ba62493128e01bfd957e8fbf"
+    }
+  },
+  "blockers": []
+}

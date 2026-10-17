@@ -1,0 +1,19 @@
+{
+  "url": "http://127.0.0.1:5790/__design/f-series/full/customers?r=4&journey=SAAS01",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    "平台账号正常登录，平台授权不创建企业成员关系",
+    "正常创建同一企业并指定首次负责人，保存本次原ACT",
+    "从同一企业交接刚创建的首次Owner INV",
+    "首次Owner验证接受该INV并首次进入，无商业模块权益",
+    "首次Owner正常重登，唯一企业自动进入，无场景工具",
+    "平台正常重登，为同一企业配置并回读模块开通",
+    "同一Owner重登回读权益，正常导航读取本企业同一隔离资源"
+  ],
+  "errors": [],
+  "review_tools_used": false,
+  "human_approval": false
+}

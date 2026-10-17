@@ -12,12 +12,17 @@
     "ux_ref": {
       "type": "string",
       "minLength": 1
+    },
+    "review_plan_ref": {
+      "type": "string",
+      "minLength": 1
     }
   },
   "required": [
     "journey_ref",
     "flow_ref",
-    "ux_ref"
+    "ux_ref",
+    "review_plan_ref"
   ],
   "additionalProperties": false
 }

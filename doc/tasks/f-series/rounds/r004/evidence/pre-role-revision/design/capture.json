@@ -1,0 +1,65 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "yunka-f-series-r004-task-first-ui",
+  "stage": "design",
+  "step": "capture",
+  "status": "ready",
+  "definition_sha256": "259a43b4e892e2b3d6a00d11eab9a8f8863685c00cd593410db48e1484526f62",
+  "input_sha256": {
+    "request.json": "af567179328a54b2ab9a3a85161b2f7cb290b9229facf841065658e202221e98"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "a841213a33571d240b22d4bbd44c73eb90c6cf86",
+    "frontend_change": true,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/rounds/r004/**",
+      "doc/tasks/f-series/task.md",
+      "doc/roadmap.md",
+      "doc/tasks/README.md",
+      "frontend/apps/console/src/design/f-series/**",
+      "frontend/tests/e2e/f-series-*.ts",
+      "frontend/tests/unit/f-series-*.test.ts"
+    ],
+    "forbidden_paths": [
+      "backend/**",
+      ".agents/**",
+      ".codex/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**",
+      "doc/tasks/f-series/rounds/r001/**",
+      "doc/tasks/f-series/rounds/r002/**",
+      "doc/tasks/f-series/rounds/r003/**",
+      "frontend/pnpm-lock.yaml"
+    ],
+    "completion_boundary": "reviewed_design",
+    "requirement_ids": [
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R5",
+      "R6",
+      "R7",
+      "R8",
+      "R9",
+      "UX01",
+      "UX02",
+      "UX03",
+      "UX04",
+      "UX05"
+    ]
+  },
+  "payload": {
+    "raw_ref": "raw-user.txt"
+  },
+  "assets": {
+    "raw": {
+      "path": "raw-user.txt",
+      "sha256": "05759f4b9c244a6bc35b5e1d405051ace4dcc71a82eb5ecb9a79d707a1493e0d"
+    }
+  },
+  "blockers": []
+}

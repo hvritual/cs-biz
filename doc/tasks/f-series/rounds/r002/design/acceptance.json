@@ -1,0 +1,57 @@
+{
+  "protocol": "sdlc-artifact-v1",
+  "task_id": "yunka-f-series-r002-design",
+  "stage": "design",
+  "step": "acceptance",
+  "status": "blocked",
+  "definition_sha256": "58437ff6a70864af83fd7b6cb3e95a30f472af686b1f90f2516fbbd45eb1301b",
+  "input_sha256": {
+    "request.json": "4473e3491609d9895b82e8ecc8a29f06a0f3d92d73abfe82b089d736d9bd1139",
+    "design/preview.json": "58200fcb0019ee440408d5acb5337cf1e0a2884e8f4b1d0264840bca4246f6c4"
+  },
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+    "frontend_change": true,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/rounds/r002/**",
+      "doc/tasks/f-series/task.md",
+      "doc/roadmap.md",
+      "frontend/apps/console/src/design/f-series/**",
+      "frontend/apps/console/src/bootstrap.ts",
+      "frontend/tests/e2e/f-series-design.e2e.ts",
+      "frontend/apps/console/src/layouts/basic.vue",
+      "doc/tasks/README.md"
+    ],
+    "forbidden_paths": [
+      "backend/**",
+      ".agents/**",
+      ".codex/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**",
+      "doc/tasks/f-series/rounds/r001/**",
+      "frontend/pnpm-lock.yaml"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "payload": {},
+  "assets": {
+    "requirements": {
+      "path": "requirements.md",
+      "sha256": "fcac9259870ebdcf28fdbd941c92b92021bfff5feba40f152664ee6483114040"
+    },
+    "acceptance": {
+      "path": "decision-review.md",
+      "sha256": "dc60313c46fc83cb7c845fc5785a024def9903ebe17fdf08d658975b015ec657"
+    }
+  },
+  "blockers": [
+    {
+      "owner": "Human product/security owner",
+      "next_action": "Review same-version r002 solution/journey/preview and resolve P1/P2/P4/P7; production P6 separately scoped",
+      "evidence_ref": "decision-review.md"
+    }
+  ]
+}

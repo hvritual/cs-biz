@@ -1,0 +1,104 @@
+{
+  "repository": "hvritual/cs-biz",
+  "facts": [
+    "32 pages, 233 declared states, J01-J15; not 12 journeys",
+    "Current UI has no XLSX or selected-details workspace and clears selection when filters change",
+    "Current operations page lacks total/success/failed/pending/unknown counters",
+    "Hosted historical URL unverified; choose local dedicated review target for this delivery"
+  ],
+  "sources": [
+    {
+      "path": "doc/journeys/SAAS-01-tenant-onboarding.md",
+      "sha256": "38b13fa045e509815922290ec697381d23bec73e42f9a9ccd005a594efea2d08",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "doc/design/desktop-ui.md",
+      "sha256": "80b6f8d51d90925e2eec174bc5cac2fa404fdd90d9ff7b2fbd3c06fb38c3dcf0",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "doc/tasks/f-series/rounds/r003/requirements.md",
+      "sha256": "b7e56f68d0461b403f6e189a5902a81d4541fa0435f4a5841177327ea8ca2def",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "doc/tasks/f-series/rounds/r003/journey.md",
+      "sha256": "9ac772204c7395be1cf0c705805dea9ba8c32e7e04ee05d4b60eab4f9541ed6c",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "doc/tasks/f-series/rounds/r003/cross-screen-obligations.md",
+      "sha256": "504992e92b2d01b84d1cdebc2cf4437e82dc301fb556a6b4dd3b1130b634fd31",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "doc/tasks/f-series/rounds/r003/decision-review.md",
+      "sha256": "ffb5de0fd8b6d0533cece88e6f84b2c617ee87495a3e7ee48e8c5fa8c3fbe156",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": ".agents/skills/sdlc-design/references/review-delivery.md",
+      "sha256": "04a10097fad5c9ccad332ffa5e03445195a9c19641c4735b9855a10e8c4fd7e0",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/CustomerPages.vue",
+      "sha256": "a667cf6c60017253600186f32d2d9554b8f9c80fb97714c1337fa65c16c53cdd",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/AccessPages.vue",
+      "sha256": "64e4bb07e1c4915bdd46b7861712838ff199c03a88ef644642e13a1b3d0f0fe8",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/OperationPages.vue",
+      "sha256": "ee73cdfab39eafcfaeebb82dc7b2ae20a6399f8bdc09a661f0f6911af8993345",
+      "classification": "current_source_or_proposed_design"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/state.ts",
+      "sha256": "24a8a98beba1aa8edba3ec9607e515b152cb6957542298b0e73a4d793d4bb39a",
+      "classification": "current_source_or_proposed_design"
+    }
+  ],
+  "unknowns": [
+    "P1/P2/P4/P7 pending Human design decision",
+    "Actual production environment and authority P6 not granted"
+  ],
+  "tooling": {
+    "fallback": "repository Playwright and tester-army",
+    "browser": "no callable node_repl/js tool in current ALL_TOOLS",
+    "node": "bundled24.19.0",
+    "python": "bundled 3.12.14"
+  },
+  "baseline_sha": "a841213a33571d240b22d4bbd44c73eb90c6cf86",
+  "pr": 41,
+  "live": "sources-live.json",
+  "main": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+  "role_review_revision": {
+    "requirement_id": "UX06",
+    "source_ref": {
+      "path": "review-change-20261017.txt",
+      "sha256": "2c008e77e74d275999cbbad742c18a91a7992f5e529a7f67cf4438737c2416db"
+    },
+    "meaning": "Human以对应真实角色按全部已梳理旅程从正常入口连续操作，含必要恢复；Agent预演不能替代Human审阅。",
+    "authority": "Human确认通用Design与当前r004同步调整；未授权业务Build/合并/部署。"
+  },
+  "requester_experience_revision": {
+    "source_ref": {
+      "path": "requester-experience-20261017.txt",
+      "sha256": "e3e33748a66253f3340043371b512f8558726673cdc0b4ccb288f2e1f58272c4"
+    },
+    "human": "requirement_originator",
+    "design_goals": [
+      "完善需求",
+      "规划用户旅程",
+      "按照设计要求设计前端界面",
+      "输出需求发起人用户旅程体验操作流程"
+    ],
+    "experience": "按正式发布产品设计界面、导航和交互，业务操作流程独立交付，工程记录内部维护。"
+  },
+  "initial_fact_scope": "facts与既有sources保留r004起点观察；当前修正来源见requester_experience_revision，不把起点缺口当作当前实现结论。"
+}

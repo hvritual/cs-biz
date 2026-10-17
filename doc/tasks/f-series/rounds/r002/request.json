@@ -1,0 +1,38 @@
+{
+  "protocol": "sdlc-request-v1",
+  "task_id": "yunka-f-series-r002-design",
+  "contract": {
+    "repository": "hvritual/cs-biz",
+    "baseline_sha": "191189ba63ffcbda8f62be1981ae3b892172a9c9",
+    "frontend_change": true,
+    "mode": "real",
+    "allowed_paths": [
+      "doc/tasks/f-series/rounds/r002/**",
+      "doc/tasks/f-series/task.md",
+      "doc/roadmap.md",
+      "frontend/apps/console/src/design/f-series/**",
+      "frontend/apps/console/src/bootstrap.ts",
+      "frontend/tests/e2e/f-series-design.e2e.ts",
+      "frontend/apps/console/src/layouts/basic.vue",
+      "doc/tasks/README.md"
+    ],
+    "forbidden_paths": [
+      "backend/**",
+      ".agents/**",
+      ".codex/**",
+      ".github/**",
+      "doc/tasks/issue-11-f0/**",
+      "doc/tasks/issue-12-f1/**",
+      "doc/tasks/f-series/rounds/r001/**",
+      "frontend/pnpm-lock.yaml"
+    ],
+    "completion_boundary": "reviewed_design"
+  },
+  "authority_ref": "raw-user.txt#2026-10-16T22:54:10+08:00",
+  "assets": {
+    "raw": {
+      "path": "raw-user.txt",
+      "sha256": "348c1aaee2766457ca7563afb3d60d534e0dd5835f7945174380511975caab2f"
+    }
+  }
+}
