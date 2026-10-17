@@ -10,7 +10,6 @@ export async function installFSeriesPreview(router: Router) {
   if (import.meta.env.MODE !== 'design' || (!loopback && !privateReview)) {
     throw new Error('Design review requires its dedicated loopback origin');
   }
-  if(privateReview && location.pathname==='/') history.replaceState(null,'',`${reviewBase}/identity`);
   // Publish no Mock Console navigation before the first render, including reloads.
   // This isolates the fixture; real BFF/Menu authorization remains a later F2 proof.
   await installWorkspaceRoutes([], false, () => true);
@@ -40,4 +39,5 @@ export async function installFSeriesPreview(router: Router) {
     component: () => import('./PreviewLayout.vue'),
     children: [{ name: 'FSeriesDeniedState', path: '', component: () => import('./DeniedPreview.vue') }],
   });
+  if(privateReview && location.pathname==='/') await router.replace(`${reviewBase}/identity`);
 }
