@@ -1,5 +1,5 @@
 {
-  "protocol": "design-review-plan-v1",
+  "protocol": "design-review-plan-v2",
   "raw_ref": {
     "path": "raw-user.txt",
     "sha256": "REPLACE_WITH_ACTUAL_SHA256"
@@ -7,6 +7,15 @@
   "requirement_ids": [
     "R1"
   ],
+  "experience": {
+    "audience": "requirement_originator",
+    "interface": "released_product",
+    "guidance_location": "outside_product",
+    "guide_ref": {
+      "path": "review-fixture/experience-flow.txt",
+      "sha256": "9b333435438dc7a8ad1ced0dfce91f763514c330b531506ab7641b0d803fb0f9"
+    }
+  },
   "tasks": [
     {
       "id": "T1",
@@ -43,7 +52,11 @@
               "action": "查看更新结果",
               "visible_result": "显示该项的真实结果"
             }
-          ]
+          ],
+          "access": "authenticated",
+          "authenticates": false,
+          "session_after": "preserve",
+          "object_mode": "consume"
         },
         {
           "id": "unknown",
@@ -55,7 +68,11 @@
               "action": "查询原操作",
               "visible_result": "读回原结果，不重新执行"
             }
-          ]
+          ],
+          "access": "authenticated",
+          "authenticates": false,
+          "session_after": "preserve",
+          "object_mode": "consume"
         },
         {
           "id": "import-error",
@@ -82,7 +99,11 @@
               "action": "核对影响并确认调整",
               "visible_result": "本页自动更新原操作进度与逐项结果"
             }
-          ]
+          ],
+          "access": "authenticated",
+          "authenticates": false,
+          "session_after": "preserve",
+          "object_mode": "produce"
         },
         {
           "id": "ambiguity",
@@ -104,7 +125,11 @@
               "action": "核对影响并确认调整",
               "visible_result": "本页自动更新原操作进度与逐项结果"
             }
-          ]
+          ],
+          "access": "authenticated",
+          "authenticates": false,
+          "session_after": "preserve",
+          "object_mode": "produce"
         }
       ],
       "language": {
@@ -181,7 +206,11 @@
               "action": "核对影响并确认负责人调整",
               "visible_result": "保存原操作编号；本页自动更新进度、各类结果数量及逐项结果"
             }
-          ]
+          ],
+          "access": "authenticated",
+          "authenticates": false,
+          "session_after": "preserve",
+          "object_mode": "produce"
         },
         {
           "id": "paste",
@@ -202,7 +231,11 @@
               "action": "核对影响并确认负责人调整",
               "visible_result": "保存原操作编号；本页自动更新进度、各类结果数量及逐项结果"
             }
-          ]
+          ],
+          "access": "authenticated",
+          "authenticates": false,
+          "session_after": "preserve",
+          "object_mode": "produce"
         },
         {
           "id": "excel",
@@ -223,7 +256,11 @@
               "action": "核对影响并确认负责人调整",
               "visible_result": "保存原操作编号；本页自动更新进度、各类结果数量及逐项结果"
             }
-          ]
+          ],
+          "access": "authenticated",
+          "authenticates": false,
+          "session_after": "preserve",
+          "object_mode": "produce"
         }
       ]
     }
@@ -236,5 +273,265 @@
   },
   "review_questions": [
     "选取、影响核对和失败处理是否符合实际工作？"
+  ],
+  "roles": [
+    {
+      "id": "admin",
+      "label": "企业管理员",
+      "account_context": "隔离管理员账号",
+      "tenant_scope": "本企业",
+      "navigation": [
+        "客户",
+        "操作记录"
+      ],
+      "task_ids": [
+        "T1"
+      ],
+      "authentication_task_ids": []
+    },
+    {
+      "id": "support",
+      "label": "获授权支持",
+      "account_context": "独立支持账号",
+      "tenant_scope": "获授权支持范围",
+      "navigation": [
+        "诊断"
+      ],
+      "task_ids": [],
+      "authentication_task_ids": []
+    }
+  ],
+  "original_journey_coverage": {
+    "J1": [
+      "T1"
+    ]
+  },
+  "journeys": [
+    {
+      "id": "J1",
+      "goal": "管理员处理客户并将同一原操作交接给支持",
+      "entry": {
+        "kind": "sign_in",
+        "location": "/sign-in",
+        "actor_id": "admin"
+      },
+      "fixture_setup": {
+        "owner": "executor",
+        "preparation": "准备独立管理员与支持会话及授权客户",
+        "simulation_boundary": "SYNTHETIC ONLY; no real IAM or backend",
+        "review_tools_in_user_path": false,
+        "reset_during_walkthrough": false
+      },
+      "starting_objects": [],
+      "walkthrough": [
+        {
+          "id": "login",
+          "kind": "user_action",
+          "purpose": "authenticate",
+          "actor_id": "admin",
+          "action": "使用指定组织账号登录",
+          "visible_result": "进入本企业工作台"
+        },
+        {
+          "id": "navigate",
+          "kind": "user_action",
+          "actor_id": "admin",
+          "action": "从业务导航打开客户列表",
+          "visible_result": "显示当前授权客户"
+        },
+        {
+          "id": "work-filter",
+          "kind": "task_path",
+          "actor_id": "admin",
+          "task_id": "T1",
+          "path_kind": "normal",
+          "path_id": "filter",
+          "result_key": "operation",
+          "produces": [
+            "operation"
+          ]
+        },
+        {
+          "id": "handoff",
+          "kind": "handoff",
+          "actor_id": "admin",
+          "to_role_id": "support",
+          "channel": "授权支持交接",
+          "consumes": [
+            "operation"
+          ],
+          "action": "将原操作编号交给支持",
+          "visible_result": "支持获得同一原操作编号"
+        },
+        {
+          "id": "support-login",
+          "kind": "user_action",
+          "purpose": "authenticate",
+          "actor_id": "support",
+          "action": "支持在独立会话使用指定账号登录",
+          "visible_result": "进入支持工作台"
+        },
+        {
+          "id": "locate",
+          "kind": "user_action",
+          "actor_id": "support",
+          "consumes": [
+            "operation"
+          ],
+          "action": "按收到的原操作编号查询",
+          "visible_result": "只读取该原操作的授权结果"
+        }
+      ],
+      "branches": [
+        {
+          "id": "paste",
+          "from_step": "navigate",
+          "condition": "使用另一种批量选取方式",
+          "executor_preparation": "独立重放前由执行者准备输入或故障，用户不切场景",
+          "walkthrough": [
+            {
+              "id": "work-paste",
+              "kind": "task_path",
+              "actor_id": "admin",
+              "task_id": "T1",
+              "path_kind": "normal",
+              "path_id": "paste",
+              "result_key": "operation",
+              "produces": [
+                "operation"
+              ]
+            }
+          ],
+          "action_count": 5,
+          "end_result": "保留原记录并显示本分支实际结果"
+        },
+        {
+          "id": "excel",
+          "from_step": "navigate",
+          "condition": "使用另一种批量选取方式",
+          "executor_preparation": "独立重放前由执行者准备输入或故障，用户不切场景",
+          "walkthrough": [
+            {
+              "id": "work-excel",
+              "kind": "task_path",
+              "actor_id": "admin",
+              "task_id": "T1",
+              "path_kind": "normal",
+              "path_id": "excel",
+              "result_key": "operation",
+              "produces": [
+                "operation"
+              ]
+            }
+          ],
+          "action_count": 5,
+          "end_result": "保留原记录并显示本分支实际结果"
+        },
+        {
+          "id": "failed",
+          "from_step": "work-filter",
+          "condition": "一项失败，其余已成功",
+          "executor_preparation": "独立重放前由执行者准备输入或故障，用户不切场景",
+          "walkthrough": [
+            {
+              "id": "work-failed",
+              "kind": "task_path",
+              "actor_id": "admin",
+              "task_id": "T1",
+              "path_kind": "recovery",
+              "path_id": "failed",
+              "result_key": "operation",
+              "consumes": [
+                "operation"
+              ]
+            }
+          ],
+          "action_count": 10,
+          "end_result": "保留原记录并显示本分支实际结果"
+        },
+        {
+          "id": "unknown",
+          "from_step": "work-filter",
+          "condition": "提交后回复丢失",
+          "executor_preparation": "独立重放前由执行者准备输入或故障，用户不切场景",
+          "walkthrough": [
+            {
+              "id": "work-unknown",
+              "kind": "task_path",
+              "actor_id": "admin",
+              "task_id": "T1",
+              "path_kind": "recovery",
+              "path_id": "unknown",
+              "result_key": "operation",
+              "consumes": [
+                "operation"
+              ]
+            }
+          ],
+          "action_count": 7,
+          "end_result": "保留原记录并显示本分支实际结果"
+        },
+        {
+          "id": "import-error",
+          "from_step": "navigate",
+          "condition": "Excel格式错误，尚未选取",
+          "executor_preparation": "独立重放前由执行者准备输入或故障，用户不切场景",
+          "walkthrough": [
+            {
+              "id": "trigger-import-error",
+              "kind": "user_action",
+              "actor_id": "admin",
+              "action": "导入格式错误的文件",
+              "visible_result": "显示行级错误或待消歧项，尚未提交操作"
+            },
+            {
+              "id": "work-import-error",
+              "kind": "task_path",
+              "actor_id": "admin",
+              "task_id": "T1",
+              "path_kind": "recovery",
+              "path_id": "import-error",
+              "result_key": "operation",
+              "produces": [
+                "operation"
+              ]
+            }
+          ],
+          "action_count": 7,
+          "end_result": "保留原记录并显示本分支实际结果"
+        },
+        {
+          "id": "ambiguity",
+          "from_step": "navigate",
+          "condition": "一个名称对应多个可授权客户",
+          "executor_preparation": "独立重放前由执行者准备输入或故障，用户不切场景",
+          "walkthrough": [
+            {
+              "id": "trigger-ambiguity",
+              "kind": "user_action",
+              "actor_id": "admin",
+              "action": "粘贴存在同名匹配的客户名称",
+              "visible_result": "显示行级错误或待消歧项，尚未提交操作"
+            },
+            {
+              "id": "work-ambiguity",
+              "kind": "task_path",
+              "actor_id": "admin",
+              "task_id": "T1",
+              "path_kind": "recovery",
+              "path_id": "ambiguity",
+              "result_key": "operation",
+              "produces": [
+                "operation"
+              ]
+            }
+          ],
+          "action_count": 6,
+          "end_result": "保留原记录并显示本分支实际结果"
+        }
+      ],
+      "action_count": 9,
+      "end_result": "支持查询管理员刚产生的同一原操作"
+    }
   ]
 }

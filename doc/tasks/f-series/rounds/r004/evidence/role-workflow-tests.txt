@@ -1,0 +1,18 @@
+.............................................F...................................
+======================================================================
+FAIL: test_ui_bulk_requires_paste_and_excel (test_workflows.AgentWorkflowTests.test_ui_bulk_requires_paste_and_excel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\code\ai\cs-biz\.agents/skills/sdlc-workflow/tests\test_workflows.py", line 422, in test_ui_bulk_requires_paste_and_excel
+    self.run_check(p,t,False,'filter, paste and Excel')
+  File "F:\code\ai\cs-biz\.agents/skills/sdlc-workflow/tests\test_workflows.py", line 68, in run_check
+    self.assertRegex(str(data), pattern)
+AssertionError: Regex didn't match: 'filter, paste and Excel' not found in "{'authentic_approval': 'NOT_VERIFIED', 'runtime': 'NOT_VERIFIED', 'execution_granted': False, 'contract': 'FAIL', 'issues': ['empty field: $/contract/baseline_sha']}"
+
+----------------------------------------------------------------------
+Ran 81 tests in 356.294s
+
+FAILED (failures=1)
+
+PACKAGE SOURCE DRIFT: []
+NOT RUN: test_symlink_asset requires Windows symlink creation privilege unavailable in this session. Assertion retained.

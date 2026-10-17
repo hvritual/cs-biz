@@ -49,13 +49,13 @@ const icons = {
   <div
     class="full-primary-links"
     role="menu"
-    :aria-label="l('审阅页面导航', 'Review page navigation')"
+    :aria-label="s.journeyMode ? l('业务导航','Workspace navigation') : l('审阅页面导航', 'Review page navigation')"
   >
     <p v-if="!sidebarCollapsed" class="full-muted" style="padding: 0 18px; font-size: 11px">
-      {{ l("审阅页面导航", "Review page navigation") }}
+      {{ s.journeyMode ? l('工作台','Workspace') : l("审阅页面导航", "Review page navigation") }}
     </p>
     <button
-      v-for="item in reviewPages.filter((x) => primary.has(x.id))"
+      v-for="item in reviewPages.filter((x) => primary.has(x.id) && (!s.journeyMode || (s.canVisit(x.id) && (x.id !== 'identity' || !s.authenticated))))"
       :key="item.id"
       type="button"
       role="menuitem"

@@ -3,7 +3,8 @@ import { useRoute, useRouter } from "vue-router";
 import { useFSeriesDesignState } from "../state";
 import { reviewBase, reviewPages, type ReviewPageId, type ReviewRole } from "./catalog";
 import { l } from "./copy";
-import { conflictDomain } from './operation-guard';
+import { prepareJourneyFixtures } from './journey-fixtures';
+import { conflictDomain, conflictTenant, latestRecovery, retryableFailedIds } from './operation-guard';
 import {
   databaseKey,
   emptySpace,
@@ -68,6 +69,7 @@ function createState() {
   );
   const scene = computed<string>(() => scenario.value.id);
   const taskMode = computed(() => route.query.r === '4');
+  const journeyMode = computed(() => taskMode.value && typeof route.query.journey === 'string');
   const authenticated = computed(() => legacy.identity.value !== "signed_out");
   const actor = computed(() => legacy.workspace.user?.id || "none");
   const tenantId = computed(() => legacy.activeTenant.value || "");
@@ -82,7 +84,9 @@ function createState() {
   const busy = ref(false);
   const storageFailed = ref(false);
   const readback = ref<"succeeded" | "failed" | "unknown" | "denied">("succeeded");
-  const supportReference = computed(() => `support-review-${page.value.id}-003`);
+  const execution = ref<Outcome | 'scenario'>('scenario');
+  const localSupportReference = 'support-ui-' + crypto.randomUUID();
+  const supportReference = computed(() => journeyMode.value ? String(route.query.record || localSupportReference) : `support-review-${page.value.id}-003`);
   const profile = (db = database.value) => db.accounts.find((x) => x.id === actor.value);
   const membership = (db = database.value, target = tenantId.value) =>
     db.spaces[target]?.members.find((x) => x.accountId === actor.value);
@@ -223,11 +227,11 @@ function createState() {
             .join(" + ")
         : role.value,
   );
-  const pagePermission = computed(() => {
-    const id = page.value.id;
+  function permissionForPage(id: ReviewPageId) {
+    const targetPage = reviewPages.find(p => p.id === id)!;
     if (["identity", "invitation-accept", "errors"].includes(id)) return "public";
     if (["organizations", "sessions", "tasks", "task"].includes(id)) return "account";
-    if (page.value.group === "platform") return "platform";
+    if (targetPage.group === "platform") return "platform";
     if (["delivery", "telemetry", "qualification", "release", "rollout", "recovery"].includes(id))
       return "ops";
     if (id === "diagnostics") return "diagnostics";
@@ -235,9 +239,11 @@ function createState() {
     if (["members", "invitations", "invite-create", "roles", "role-edit"].includes(id))
       return "access";
     if (id === "modules") return "account";
-    if (page.value.group === "marketing") return "marketing.read";
+    if (targetPage.group === "marketing") return "marketing.read";
     return "read";
-  });
+  }
+  const pagePermission = computed(() => permissionForPage(page.value.id));
+  function canVisit(id: ReviewPageId) { return can(permissionForPage(id)); }
   const allowed = computed(() => can(pagePermission.value));
   const blocked = computed(
     () =>
@@ -290,15 +296,19 @@ function createState() {
       const raw = localStorage.getItem(databaseKey);
       database.value = raw ? (JSON.parse(raw) as ReviewDatabase) : fresh();
       if (database.value.schema !== 5) throw Error("Wrong review database version");
+      if (journeyMode.value) {
+        prepareJourneyFixtures(database.value);
+        localStorage.setItem(databaseKey, JSON.stringify(database.value));
+      }
       storageFailed.value = false;
       syncOrganizations();
     } catch {
       storageFailed.value = true;
       announce(
-        ["审阅记录无法读取", "Review records cannot be read"],
+        [(journeyMode.value ? "当前记录无法读取" : "审阅记录无法读取"), (journeyMode.value ? "Current records cannot be read" : "Review records cannot be read")],
         [
-          "已暂停写入。请保留可用记录后重置审阅样例。",
-          "Writes are paused. Preserve available records before resetting review fixtures.",
+          (journeyMode.value ? "已暂停保存。请保留已填写内容并联系管理员。" : "已暂停写入。请保留可用记录后重置审阅样例。"),
+          (journeyMode.value ? "Saving is paused. Keep your entered information and contact an administrator." : "Writes are paused. Preserve available records before resetting review fixtures."),
         ],
         "error",
       );
@@ -355,7 +365,7 @@ function createState() {
     return drafts.value[id] as T;
   }
   function go(id: ReviewPageId, query: Record<string, string> = {}) {
-    void router.push({ path: `${reviewBase}/${id}`, query: taskMode.value ? { ...query, r: '4' } : query });
+    void router.push({ path: `${reviewBase}/${id}`, query: taskMode.value ? { ...query, r: '4', ...(journeyMode.value ? {journey:String(route.query.journey)} : {}) } : query });
   }
   function setScene(id: string) {
     void router.replace({ path: route.path, query: { ...route.query, scene: id } });
@@ -443,6 +453,8 @@ function createState() {
   );
   const intentSlot = (effect: Effect) =>
     `cs-biz:f-series-full:intent:v5:${actor.value}:${tenantId.value}:${effect.kind}:${effect.ids.join("|")}`;
+  const effectTenant = (effect: Effect, db = database.value) => effect.kind === 'accept-invite'
+    ? db.invites.find(invite => invite.id === effect.ids[0])?.tenantId || '' : conflictTenant(effect, tenantId.value);
   function releaseIntent(task: Task) {
     if (task.items.some((x) => ["unknown", "pending"].includes(x.status))) return;
     const slot = task.intentSlot;
@@ -450,9 +462,14 @@ function createState() {
   }
   function request(title: Text, effect: Effect, permission = "write", inline = false) {
     if (!guard(permission)) return;
+    const priorId = taskMode.value ? draft<Record<string,string>>('inline-results',{})[page.value.id] : undefined;
+    const prior = visibleTasks.value.find(task=>task.id===priorId && task.status==='failed' && task.effect.kind===effect.kind);
+    if (prior && !effect.values.retryOf && prior.items.length===effect.ids.length &&
+      effect.ids.every(id=>retryableFailedIds(prior,database.value.tasks).includes(id)))
+      effect={...effect,values:{...effect.values,retryOf:prior.id}};
     const uncertain = visibleTasks.value.find(
       (x) =>
-        x.tenant === tenantId.value &&
+        x.tenant === effectTenant(effect) &&
         conflictDomain(x.effect.kind) === conflictDomain(effect.kind) &&
         x.items.some((i) => effect.ids.includes(i.id) && ["unknown", "pending"].includes(i.status)),
     );
@@ -827,6 +844,13 @@ function createState() {
       (!effect.values.target || !effect.values.version || !effect.values.confirmation)
     )
       return l("请核对目标、版本与影响确认", "Review target, version, and effects");
+    if (taskMode.value && effect.kind === 'recovery') {
+      const source = db.tasks.find(task => task.id === effect.values.originalPlanId && task.effect.kind === 'release');
+      if (!source || !canReadTask(source, db) || source.tenant !== tenantId.value || source.status !== 'succeeded' ||
+        source.effect.values.target !== effect.values.target || source.effect.values.recoveryVersion !== effect.values.version ||
+        source.effect.values.recoveryBackup !== effect.values.backup)
+        return l((journeyMode.value ? "原发布计划、环境或恢复关联已失效，请重新读取原计划。" : '原发布模拟计划、环境或恢复关联已失效，请重新读取原计划。'), (journeyMode.value ? "The original release plan, target or recovery link is invalid. Read the original plan again." : 'The original release simulation, target or recovery link is invalid. Read the original plan again.'));
+    }
   }
   function createInvite(
     db: ReviewDatabase,
@@ -973,6 +997,9 @@ function createState() {
       });
       db.spaces[newId] = emptySpace();
       createInvite(db, newId, effect.values.owner || "", "owner", sequence, index, true);
+      if (journeyMode.value && route.query.journey === 'SAAS01') {
+        db.spaces[newId]!.customers.push({id:'C-SAAS-1',name:'新企业客户',owner:'fixture-initial-owner',note:'企业客户资料',version:1});
+      }
     }
     if (effect.kind === "nominate") {
       const tenant = db.tenants.find((x) => x.id === id);
@@ -1029,6 +1056,7 @@ function createState() {
         });
       const target = db.tenants.find((r) => r.id === invitation.tenantId);
       if (target && invitation.role === "owner") {
+        for (const resource of space?.customers ?? []) if(resource.owner === 'fixture-initial-owner') resource.owner = account.id;
         target.state = "active";
         target.version++;
       }
@@ -1055,7 +1083,7 @@ function createState() {
     } catch {
       storageFailed.value = true;
       announce(
-        ["审阅记录未能保存", "Review record could not be saved"],
+        [(journeyMode.value ? "操作记录未能保存" : "审阅记录未能保存"), (journeyMode.value ? "Activity record could not be saved" : "Review record could not be saved")],
         [
           "保留输入，存储恢复前暂停写入。",
           "Keep input; writes are paused until storage is available.",
@@ -1066,18 +1094,22 @@ function createState() {
   }
   async function confirm() {
     const command = dialog.value;
-    if (
-      !command ||
-      busy.value ||
-      command.context !== contextKey.value ||
-      !guard(command.permission)
-    )
+    if (!command || busy.value) return;
+    if (command.context !== contextKey.value || !guard(command.permission)) {
+      if (taskMode.value) dialog.value = null;
       return;
+    }
     busy.value = true;
     try {
       let saved: Task | undefined;
       await transaction((d, db) => {
-        if (!can(command.permission, db) || command.context !== contextKey.value) return;
+        if (!can(command.permission, db) || command.context !== contextKey.value) {
+          if (taskMode.value) {
+            dialog.value = null;
+            announce(['当前不能执行此操作', 'This action is not allowed'], ['当前授权已变化，请重新核对身份与企业。没有提交变更。', 'Authorization changed. Review identity and organization. No change was submitted.'], 'error');
+          }
+          return;
+        }
         const digest = JSON.stringify(command.effect);
         const previous = db.tasks.find((x) => x.key === command.key);
         if (previous) {
@@ -1093,7 +1125,7 @@ function createState() {
           else saved = previous;
           return;
         }
-        const unresolved = db.tasks.find(task => task.tenant === tenantId.value &&
+        const unresolved = db.tasks.find(task => task.tenant === effectTenant(command.effect, db) &&
           conflictDomain(task.effect.kind) === conflictDomain(command.effect.kind) &&
           task.items.some(item => command.effect.ids.includes(item.id) && ['unknown', 'pending'].includes(item.status)));
         if (unresolved) {
@@ -1102,18 +1134,27 @@ function createState() {
           if (canReadTask(unresolved, db)) saved = unresolved;
           return;
         }
+        const retrySource = command.effect.values.retryOf ? db.tasks.find(task=>task.id===command.effect.values.retryOf) : undefined;
+        if (command.effect.values.retryOf && (!retrySource || !canReadTask(retrySource, db) || retrySource.effect.kind!==command.effect.kind ||
+          !command.effect.ids.length || command.effect.ids.some(id=>!retryableFailedIds(retrySource, db.tasks).includes(id)))) {
+          if(taskMode.value) dialog.value=null;
+          announce(['恢复未重复提交', 'Recovery was not repeated'], ['失败项已有后续结果或当前不可恢复，请查询后续原记录。', 'The failed items have a later outcome or are no longer recoverable. Query the related original record.'], 'warning');
+          return;
+        }
         const error = validate(d, db, command.effect);
         if (error) {
           announce(["变更未执行", "Change was not applied"], [error, error], "error");
+          if (taskMode.value) dialog.value = null;
           return;
         }
-        const result: Outcome = ["unknown", "timeout"].includes(scene.value)
+        const executionScene = taskMode.value && execution.value !== 'scenario' ? execution.value : scene.value;
+        const result: Outcome = ["unknown", "timeout"].includes(executionScene)
           ? "unknown"
-          : scene.value === "pending"
+          : executionScene === "pending"
             ? "pending"
-            : scene.value === "failed"
+            : executionScene === "failed"
               ? "failed"
-              : scene.value === "partial" &&
+              : executionScene === "partial" &&
                   command.effect.ids.length > 1 &&
                   ["invite", "batch", "export"].includes(command.effect.kind)
                 ? "partial"
@@ -1345,6 +1386,8 @@ function createState() {
     go("invitation-accept", { invite: id });
   }
   function chooseOrganization(name: string) {
+    const systemRoles = profile()?.systemRoles ?? [];
+    const systemRole = journeyMode.value && systemRoles.length === 1 ? systemRoles.find(x => ['platform','support','ops'].includes(x)) : undefined;
     legacy.chooseOrganization(name);
     const current = membership();
     const grants = assignedRoles();
@@ -1356,7 +1399,29 @@ function createState() {
           : grants.some((grant) => grant.update !== "none" || grant.marketingExecute !== "none")
             ? "operator"
             : "reader";
+    if (systemRole) role.value = systemRole as ReviewRole;
   }
+  async function signInWithEmail(email: string) {
+    const account = database.value.accounts.find(a => a.email.toLowerCase() === email.trim().toLowerCase() && a.verified);
+    if (!account) {
+      announce(['无法验证此组织账号','Organization account could not be verified'],['无法验证该账号，请核对组织账号邮箱或联系账号管理员。','Unable to verify this account. Check your organization email or contact your account administrator.'],'error');
+      return false;
+    }
+    await selectAccount(account.id, true);
+    const systemRole = account.systemRoles.length === 1 ? account.systemRoles.find(x => ['platform','support','ops'].includes(x)) : undefined;
+    if (systemRole) role.value = systemRole as ReviewRole;
+    if (systemRole === 'platform') go('tenants');
+    else if (legacy.workspace.tenants.length === 1) {
+      chooseOrganization(legacy.workspace.tenants[0]!.name);
+      go('modules');
+    }
+    else go('organizations');
+    return true;
+  }
+  const supportActivities = computed(() => {
+    if (!can('diagnostics') && !can('ops')) return [];
+    return database.value.tasks.filter(t => t.tenant === tenantId.value).map(t => ({id:t.id,trace:t.trace,status:t.status,kind:t.effect.kind}));
+  });
   async function selectAccount(id: string, preserveInvitation = false) {
     const account = database.value.accounts.find((x) => x.id === id);
     if (!account) return;
@@ -1487,11 +1552,11 @@ function createState() {
       );
       const link = document.createElement("a");
       link.href = url;
-      link.download = `review-customers-${task.id}.csv`;
+      link.download = `${journeyMode.value ? 'customers' : 'review-customers'}-${task.id}.csv`;
       link.click();
       URL.revokeObjectURL(url);
       announce(
-        ["审阅文件已生成", "Review file generated"],
+        [(journeyMode.value ? "导出文件已生成" : "审阅文件已生成"), (journeyMode.value ? "Export file generated" : "Review file generated")],
         [
           "仅包含本次已完成且当前有导出权限的集合。",
           "Contains only completed targets currently within export scope.",
@@ -1506,16 +1571,20 @@ function createState() {
     if (dialog.value && dialog.value !== previous && dialog.value.inline) await confirm();
   }
   function failedEffect(task: Task): Effect | undefined {
-    if (!['batch', 'invite'].includes(task.effect.kind) || !canReadTask(task)) return;
-    const ids = task.items.filter(item => item.status === 'failed').map(item => item.id);
+    if (!['batch', 'invite', 'export'].includes(task.effect.kind) || !canReadTask(task)) return;
+    const ids = retryableFailedIds(task, database.value.tasks);
     if (!ids.length) return;
-    const values = { ...task.effect.values };
+    const values: Record<string,string> = { ...task.effect.values, retryOf: task.id };
     if (task.effect.kind === 'batch') values.versions = JSON.stringify(Object.fromEntries(
       data.value.customers.filter(row => ids.includes(row.id)).map(row => [row.id, row.version]),
     ));
     return { ...task.effect, ids, values };
   }
   return {
+    journeyMode,
+    canVisit,
+    signInWithEmail,
+    supportActivities,
     legacy,
     role,
     effectiveRole,
@@ -1534,6 +1603,7 @@ function createState() {
     storageFailed,
     selected,
     readback,
+    execution,
     supportReference,
     contextKey,
     allowed,
@@ -1579,6 +1649,7 @@ function createState() {
     request,
     requestInline,
     failedEffect,
+    recoveryFor: (task: Task, id: string) => latestRecovery(task,id,visibleTasks.value),
     inlineResult: computed(() => {
       const id = draft<Record<string, string>>('inline-results', {})[page.value.id];
       return visibleTasks.value.find(task => task.id === id);

@@ -42,7 +42,7 @@ function activate() {
 </script>
 <template>
   <div class="full-stack">
-    <section class="full-card">
+    <section v-if="!s.journeyMode" class="full-card">
       <h3>
         {{ l("营销使用权与后台菜单分开", "Marketing capability is separate from console menus") }}
       </h3>

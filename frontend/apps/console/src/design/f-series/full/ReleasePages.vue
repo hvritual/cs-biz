@@ -6,20 +6,23 @@ import { useFullReviewState } from "./state";
 const s = useFullReviewState();
 const evidence = ref("");
 const validation = ref("");
+const originalPlan = computed(() => s.visibleTasks.find(task => task.id === s.query.record && task.effect.kind === 'release'));
 const plan = computed(() =>
-  s.draft("release-plan", {
+  s.draft(s.taskMode ? 'release-plan-r004' : "release-plan", {
     target: "nonproduction-review",
-    version: s.taskMode ? 'review-r004' : "review-r003",
-    range: "审阅环境全量",
+    version: s.journeyMode ? '2026.10.17' : s.taskMode ? 'review-r004' : "review-r003",
+    range: s.journeyMode ? "全部服务实例" : "审阅环境全量",
     note: "",
     confirmed: false,
+    recoveryVersion: s.journeyMode ? '2026.10.16' : 'review-previous',
+    recoveryBackup: s.journeyMode ? 'BACKUP-20261017' : 'review-backup-003',
   }),
 );
 const recovery = computed(() =>
-  s.draft("recovery-plan", {
-    target: "nonproduction-review",
-    version: "review-previous",
-    backup: "review-backup-003",
+  s.draft(s.taskMode ? `recovery-plan-r004-${originalPlan.value?.id || 'unbound'}` : "recovery-plan", {
+    target: s.taskMode ? originalPlan.value?.effect.values.target || '' : "nonproduction-review",
+    version: s.taskMode ? originalPlan.value?.effect.values.recoveryVersion || '' : "review-previous",
+    backup: s.taskMode ? originalPlan.value?.effect.values.recoveryBackup || '' : "review-backup-003",
     note: "",
     confirmed: false,
   }),
@@ -48,8 +51,7 @@ const checks = computed(() => [
     title: l("隔离、撤权与并发", "Isolation, revocation, and concurrency"),
     state: s.scene === "partial" ? "missing" : "ready",
     help: l(
-      "需要真实业务接口和数据库正反例，预览不能替代。",
-      "Real business interfaces and database positive/negative tests are required; previews are insufficient.",
+      (s.journeyMode ? "核对当前企业隔离、撤权与并发检查结果。" : "需要真实业务接口和数据库正反例，预览不能替代。"), (s.journeyMode ? "Check organization isolation, revocation and concurrency results." : "Real business interfaces and database positive/negative tests are required; previews are insufficient."),
     ),
   },
   {
@@ -82,7 +84,7 @@ const checks = computed(() => [
 ]);
 function stateText(id: string) {
   const labels: Record<string, string> = {
-    ready: l("样例材料可审阅", "Example evidence ready for review"),
+    ready: l((s.journeyMode ? "可查看" : "样例材料可审阅"), (s.journeyMode ? "Available" : "Example evidence ready for review")),
     missing: l("待补齐", "Missing"),
     failed: l("存在失败记录", "Failure recorded"),
     unknown: l("结果待确认", "Outcome unknown"),
@@ -116,6 +118,7 @@ const stages = computed(() =>
 );
 function submit() {
   validation.value = "";
+  if (s.taskMode && s.page.id === 'recovery' && (!originalPlan.value || originalPlan.value.status !== 'succeeded')) return;
   const p = s.page.id === "recovery" ? recovery.value : plan.value;
   if (!p.version.trim() || !p.target || (!s.taskMode && !p.confirmed)) {
     validation.value = l(
@@ -126,8 +129,8 @@ function submit() {
   }
   (s.taskMode ? s.requestInline : s.request)(
     s.page.id === "recovery"
-      ? ["核对恢复审阅方案", "Review recovery plan"]
-      : ["核对发布审阅方案", "Review release plan"],
+      ? [(s.journeyMode ? "保存恢复方案" : "核对恢复审阅方案"), (s.journeyMode ? "Save recovery plan" : "Review recovery plan")]
+      : [(s.journeyMode ? "保存发布计划" : "核对发布审阅方案"), (s.journeyMode ? "Save release plan" : "Review release plan")],
     {
       kind: s.page.id === "recovery" ? "recovery" : "release",
       ids: [p.target],
@@ -135,13 +138,12 @@ function submit() {
         target: p.target,
         version: p.version,
         confirmation: l(
-          "已核对审阅范围与风险，不是实际生产授权",
-          "Review scope and risks checked; not actual production authority",
+          (s.journeyMode ? "已核对计划范围与风险" : "已核对审阅范围与风险，不是实际生产授权"), (s.journeyMode ? "Plan scope and risks checked" : "Review scope and risks checked; not actual production authority"),
         ),
         note: p.note,
         ...(s.page.id === "recovery"
-          ? { backup: recovery.value.backup }
-          : { range: plan.value.range }),
+          ? { backup: recovery.value.backup, ...(s.taskMode ? { originalPlanId: originalPlan.value!.id } : {}) }
+          : { range: plan.value.range, ...(s.taskMode ? { recoveryVersion: plan.value.recoveryVersion, recoveryBackup: plan.value.recoveryBackup } : {}) }),
       },
     },
     "ops",
@@ -150,7 +152,7 @@ function submit() {
 </script>
 <template>
   <div class="full-stack">
-    <aside class="full-message" role="note">
+    <aside v-if="!s.journeyMode" class="full-message" role="note">
       <strong>{{ l("运维证据与方案审阅视图", "Operator evidence and plan review") }}</strong>
       <p>
         {{
@@ -168,8 +170,7 @@ function submit() {
       <p>
         {{
           l(
-            "样例材料用于页面审阅，不是真实生产证据。生产条件缺失不阻塞已获准的非生产工作。",
-            "Example evidence is for page review, not production proof. Missing production conditions do not block authorized nonproduction work.",
+            (s.journeyMode ? "请核对版本、备份、权限及观测配置后选择发布环境。" : "样例材料用于页面审阅，不是真实生产证据。生产条件缺失不阻塞已获准的非生产工作。"), (s.journeyMode ? "Check version, backup, access and observability before choosing a release environment." : "Example evidence is for page review, not production proof. Missing production conditions do not block authorized nonproduction work."),
           )
         }}
       </p>
@@ -201,7 +202,7 @@ function submit() {
       </div>
       <div class="full-actions">
         <ElButton type="primary" data-primary @click="s.go('release')">{{
-          l("核对非生产审阅计划", "Review nonproduction plan")
+          l((s.journeyMode ? "创建发布计划" : "核对非生产审阅计划"), (s.journeyMode ? "Create release plan" : "Review nonproduction plan"))
         }}</ElButton
         ><ElButton @click="s.go('telemetry')">{{
           l("核对观测与降级", "Review observability and degradation")
@@ -210,14 +211,14 @@ function submit() {
     </section>
     <section v-else-if="s.page.id === 'release'" class="full-card">
       <h2>{{ l("目标、固定版本与阶段范围", "Target, fixed version, and stage scope") }}</h2>
-      <div v-if="s.taskMode" class="inline-impact"><p>{{ plan.target }} · {{ plan.version }} · {{ plan.range }}</p><p>{{ l('仅保存上述同版模拟计划，不执行发布。资格、目标和实际授权未具备时，真实操作保持阻断。', 'Saves only this same-version simulated plan; no release is executed. Real actions remain blocked without qualification, target and authorization.') }}</p></div>
+      <div v-if="s.taskMode" class="inline-impact"><p>{{ plan.target }} · {{ plan.version }} · {{ plan.range }}</p><p>{{ l((s.journeyMode ? "恢复版本与备份：" : '关联的模拟恢复版本和样例备份：'), (s.journeyMode ? "Recovery version and backup: " : 'Linked simulated recovery version and example backup: ')) }}{{ plan.recoveryVersion }} · {{ plan.recoveryBackup }} · {{ l((s.journeyMode ? "请核对备份可用性" : '真实备份未提供'), (s.journeyMode ? "Check backup availability" : 'No real backup supplied')) }}</p><p>{{ l((s.journeyMode ? "保存前请核对目标、版本、影响范围和恢复方案。" : '仅保存上述同版模拟计划，不执行发布。资格、目标和实际授权未具备时，真实操作保持阻断。'), (s.journeyMode ? "Check target, version, affected scope and recovery plan before saving." : 'Saves only this same-version simulated plan; no release is executed. Real actions remain blocked without qualification, target and authorization.')) }}</p></div>
       <div v-show="!s.taskMode" class="full-form">
         <label
           >{{ l("目标环境", "Target environment")
-          }}<ElSelect v-model="plan.target" :aria-label="l('发布审阅目标', 'Release review target')"
+          }}<ElSelect v-model="plan.target" :aria-label="l((s.journeyMode ? '发布目标' : '发布审阅目标'), (s.journeyMode ? 'Release target' : 'Release review target'))"
             ><ElOption
               value="nonproduction-review"
-              :label="l('非生产审阅环境', 'Nonproduction review environment')" /><ElOption
+              :label="l((s.journeyMode ? '预发布环境' : '非生产审阅环境'), (s.journeyMode ? 'Staging environment' : 'Nonproduction review environment'))" /><ElOption
               value="production"
               disabled
               :label="
@@ -242,8 +243,7 @@ function submit() {
             :aria-label="l('发布核对记录', 'Release review notes')" /></label
         ><ElCheckbox v-model="plan.confirmed">{{
           l(
-            "已核对目标、版本、观察与恢复方案；本次仅记录审阅计划",
-            "Target, version, observation, and recovery reviewed; this records a review plan only",
+            (s.journeyMode ? "已核对目标、版本、观察与恢复方案" : "已核对目标、版本、观察与恢复方案；本次仅记录审阅计划"), (s.journeyMode ? "Target, version, observation and recovery plan checked" : "Target, version, observation, and recovery reviewed; this records a review plan only"),
           )
         }}</ElCheckbox>
       </div>
@@ -263,17 +263,16 @@ function submit() {
           l("返回资格材料", "Back to qualification")
         }}</ElButton
         ><ElButton type="primary" data-primary :disabled="s.blocked || ['missing_authority', 'missing_evidence'].includes(s.scene)" @click="submit">{{
-          s.taskMode ? l('确认仅保存模拟计划', 'Confirm saving simulation only') : l("核对计划与影响", "Review plan and effects")
+          s.taskMode ? l((s.journeyMode ? "保存发布计划" : '确认仅保存模拟计划'), (s.journeyMode ? "Save release plan" : 'Confirm saving simulation only')) : l("核对计划与影响", "Review plan and effects")
         }}</ElButton>
       </div>
     </section>
-    <section v-else-if="s.page.id === 'rollout'" class="full-card">
+    <section v-else-if="s.page.id === 'rollout'" class="full-card"><p v-if="s.taskMode && originalPlan" class="inline-impact">{{ l((s.journeyMode ? "原发布计划" : '原发布模拟计划'), (s.journeyMode ? "Original release plan" : 'Original release simulation')) }}: <code>{{ originalPlan.id }}</code> · {{ originalPlan.effect.values.version }} · {{ originalPlan.effect.values.target }}</p><p v-else-if="s.taskMode" class="full-message" role="alert">{{ l((s.journeyMode ? "请先打开原发布计划，再核对恢复方案。" : '先打开当前可读的原发布模拟计划，再核对其恢复方案。'), (s.journeyMode ? "Open the original release plan before reviewing recovery." : 'Open a readable original release simulation before reviewing its recovery plan.')) }}</p>
       <h2>{{ l("保留阶段范围与未知结果", "Retain stage scope and unknown outcomes") }}</h2>
       <p>
         {{
           l(
-            "这是进度呈现样例。受理不等于部署完成；部分生效、失败或未知时先读回目标环境。",
-            "This is a progress example. Acceptance is not deployment completion; read back partial, failed, or unknown stages first.",
+            (s.journeyMode ? "查看各阶段进度；部分生效、失败或结果待确认时，请先查询目标环境。" : "这是进度呈现样例。受理不等于部署完成；部分生效、失败或未知时先读回目标环境。"), (s.journeyMode ? "View stage progress. Query the target environment before acting on partial, failed or unconfirmed outcomes." : "This is a progress example. Acceptance is not deployment completion; read back partial, failed, or unknown stages first."),
           )
         }}
       </p>
@@ -301,9 +300,9 @@ function submit() {
       </div>
       <div class="full-actions">
         <ElButton @click="s.go('tasks')">{{
-          l("查看原审阅操作", "View original review activity")
+          l((s.journeyMode ? "查看原操作" : "查看原审阅操作"), (s.journeyMode ? "View original activity" : "View original review activity"))
         }}</ElButton
-        ><ElButton type="primary" data-primary @click="s.go('recovery')">{{
+        ><ElButton type="primary" data-primary :disabled="s.taskMode && (!originalPlan || originalPlan.status !== 'succeeded')" @click="s.go('recovery', s.taskMode ? {record: originalPlan!.id} : {})">{{
           l("核对恢复或回滚方案", "Review recovery or rollback plan")
         }}</ElButton
         ><ElButton @click="s.go('qualification')">{{
@@ -320,16 +319,17 @@ function submit() {
           )
         }}
       </h2>
-      <div v-if="s.taskMode" class="inline-impact"><p>{{ recovery.target }} · {{ recovery.version }} · {{ recovery.backup }}</p><p>{{ l('核对上述原计划关联、样例备份和兼容风险；只保存模拟恢复，不操作环境，不撤销外部效果。', 'Review the original plan reference, example backup and compatibility risk. Saves a simulation only; no environment changes or reversal of external effects.') }}</p></div>
+      <div v-if="s.taskMode && originalPlan" class="inline-impact"><p>{{ l((s.journeyMode ? "原发布计划" : '原发布模拟计划'), (s.journeyMode ? "Original release plan" : 'Original release simulation')) }}: <code>{{ originalPlan.id }}</code> · {{ originalPlan.effect.values.version }} · {{ originalPlan.effect.values.target }}</p><p>{{ recovery.target }} · {{ recovery.version }} · {{ recovery.backup }}</p><p>{{ l((s.journeyMode ? "恢复版本与备份关联原发布计划，请核对兼容性和影响范围。" : '恢复版本和样例备份来自上述原模拟计划，仅供审阅；真实备份未提供。不操作环境，不撤销外部效果。'), (s.journeyMode ? "Recovery version and backup belong to the original release plan. Check compatibility and affected scope." : 'Recovery version and example backup come from the original simulation and are for review only. No real backup is supplied, no environment changes or external effects are reversed.')) }}</p></div>
+      <p v-else-if="s.taskMode" class="full-message" role="alert">{{ l((s.journeyMode ? "暂时无法读取原发布计划，请从原计划重新进入。" : '缺少当前可读的原发布模拟计划。请从原计划进入，不使用默认版本或备份。'), (s.journeyMode ? "The original release plan is unavailable. Reopen it before continuing." : 'A readable original release simulation is required. Enter from the original plan; no default version or backup is substituted.')) }}</p>
       <div v-show="!s.taskMode" class="full-form">
         <label
-          >{{ l("恢复目标", "Recovery target")
+          >{{ l('恢复目标', 'Recovery target')
           }}<ElSelect
             v-model="recovery.target"
-            :aria-label="l('恢复审阅目标', 'Recovery review target')"
+            :aria-label="l((s.journeyMode ? '恢复目标' : '恢复审阅目标'), (s.journeyMode ? 'Recovery target' : 'Recovery review target'))"
             ><ElOption
               value="nonproduction-review"
-              :label="l('非生产审阅环境', 'Nonproduction review environment')" /><ElOption
+              :label="l((s.journeyMode ? '预发布环境' : '非生产审阅环境'), (s.journeyMode ? 'Staging environment' : 'Nonproduction review environment'))" /><ElOption
               value="production"
               disabled
               :label="
@@ -377,8 +377,8 @@ function submit() {
         <ElButton @click="s.go('rollout')">{{
           l("取消并返回阶段状态", "Cancel and return to stages")
         }}</ElButton
-        ><ElButton type="primary" data-primary :disabled="s.blocked" @click="submit">{{
-          s.taskMode ? l('确认仅保存模拟恢复', 'Confirm saving recovery simulation only') : l("核对恢复方案", "Review recovery plan")
+        ><ElButton type="primary" data-primary :disabled="s.blocked || (s.taskMode && (!originalPlan || originalPlan.status !== 'succeeded'))" @click="submit">{{
+          s.taskMode ? l((s.journeyMode ? "保存恢复方案" : '确认仅保存模拟恢复'), (s.journeyMode ? "Save recovery plan" : 'Confirm saving recovery simulation only')) : l("核对恢复方案", "Review recovery plan")
         }}</ElButton>
       </div>
     </section>
@@ -394,8 +394,7 @@ function submit() {
       <p v-else>
         {{
           l(
-            "实际记录必须包含固定候选、目标、操作者、时间、已生效范围、未知部分及读回结果。当前只展示审阅结构。",
-            "Actual records require a fixed candidate, target, operator, time, applied scope, unknowns, and readback. This shows the review structure only.",
+            (s.journeyMode ? "查看版本、目标、操作者、时间、已生效范围及查询结果。" : "实际记录必须包含固定候选、目标、操作者、时间、已生效范围、未知部分及读回结果。当前只展示审阅结构。"), (s.journeyMode ? "View version, target, operator, time, applied scope and readback results." : "Actual records require a fixed candidate, target, operator, time, applied scope, unknowns, and readback. This shows the review structure only."),
           )
         }}
       </p>

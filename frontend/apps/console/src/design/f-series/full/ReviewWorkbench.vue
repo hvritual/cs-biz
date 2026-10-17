@@ -51,6 +51,8 @@ const hardDenied = computed(
 const onlyState = computed(() => ["loading", "offline"].includes(s.scene));
 const count = reviewPages.reduce((n, p) => n + p.scenarios.length, 0);
 const effectLabels: Record<string, readonly [string, string]> = {
+  retryOf: ['恢复来源原操作', 'Recovery source operation'],
+  originalPlanId: s.journeyMode ? ['原发布计划', 'Original release plan'] : ['原发布模拟计划', 'Original release simulation'],
   name: ["名称", "Name"],
   code: ["唯一标识", "Unique code"],
   owner: ["指定负责人", "Nominated owner"],
@@ -101,19 +103,19 @@ function back() {
     :data-page="s.page.id"
     :data-scene="s.scene"
   >
-    <aside class="full-review-boundary" role="note">
+    <aside v-if="!s.journeyMode" class="full-review-boundary" role="note">
       <BookOpen :size="16" /><span>{{
         l(
           "完整交互审阅 · 所有操作仅影响当前审阅记录，不发送邀请、不触达客户、不改变线上环境。",
           "Interactive design review · Actions affect review records only. No invitations, customer outreach, or live environment changes.",
         )
       }}</span
-      ><ElTag size="small"
+      ><ElTag v-if="!s.journeyMode" size="small"
         >{{ reviewPages.length }} {{ l("页", "pages") }} · {{ count }}
         {{ l("状态", "states") }}</ElTag
       >
     </aside>
-    <details :open="!s.taskMode" class="review-fixtures"><summary>{{ l('审阅账号与异常样例', 'Review accounts and exception fixtures') }}</summary>
+    <details v-if="!s.journeyMode" :open="!s.taskMode" class="review-fixtures"><summary>{{ l('审阅账号与异常样例', 'Review accounts and exception fixtures') }}</summary>
     <div class="full-review-tools" :aria-label="l('审阅工具', 'Review controls')">
       <label
         >{{ l("页面", "Page")
@@ -174,6 +176,7 @@ function back() {
             value="denied"
             :label="l('当前无读取权限', 'Read access revoked')" /></ElSelect
       ></label>
+      <label v-if="s.taskMode">{{ l('本次提交结果样例', 'Submission outcome fixture') }}<ElSelect v-model="s.execution" :aria-label="l('本次提交结果样例', 'Submission outcome fixture')"><ElOption value="scenario" :label="l('按当前页面场景', 'Follow current page scenario')"/><ElOption v-for="value in ['succeeded','failed','partial','pending','unknown']" :key="value" :value="value" :label="statusTitle(value)"/></ElSelect></label>
       <ElButton
         v-if="s.active && ['customers', 'customer', 'customer-edit', 'task'].includes(s.page.id)"
         @click="s.changeAssignment"
@@ -194,12 +197,12 @@ function back() {
     </p>
     <PageHeader
       :title="pair(s.page.title)"
-      :description="`${s.legacy.organization || l('账号工作区', 'Account workspace')} · ${roleTitle(s.effectiveRole || s.role)}${s.taskMode ? '' : ' · ' + s.page.screen}`"
-      ><ElButton v-if="!s.active" type="primary" @click="s.selectRole(s.role)"
+      :description="s.journeyMode && !s.authenticated ? l('使用组织账号登录', 'Sign in with your organization account') : `${s.legacy.organization || l('账号工作区', 'Account workspace')} · ${roleTitle(s.effectiveRole || s.role)}${s.taskMode ? '' : ' · ' + s.page.screen}`"
+      ><ElButton v-if="!s.active && !s.journeyMode" type="primary" @click="s.selectRole(s.role)"
         >{{ l("使用当前审阅身份", "Use current review identity")
         }}<ArrowRight :size="15" /></ElButton
     ></PageHeader>
-    <TaskGuide v-if="s.taskMode" />
+    <TaskGuide v-if="s.taskMode && !s.journeyMode" />
     <div v-if="s.notice" class="full-message" :class="s.notice.kind" role="status" data-notice>
       <strong>{{ pair(s.notice.title) }}</strong>
       <p>{{ pair(s.notice.help) }}</p>
@@ -251,7 +254,7 @@ function back() {
     </section>
     <component :is="component" v-else :key="s.page.group" />
     <LocalOutcome v-if="s.taskMode && s.inlineResult" :key="s.inlineResult.id" :task="s.inlineResult" />
-    <details class="full-help">
+    <details v-if="!s.journeyMode" class="full-help">
       <summary>{{ l("操作与审阅说明", "Task and review guidance") }}</summary>
       <p>
         {{

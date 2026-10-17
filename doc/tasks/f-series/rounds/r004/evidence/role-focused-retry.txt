@@ -1,0 +1,6 @@
+test_ui_bulk_requires_paste_and_excel (test_workflows.AgentWorkflowTests.test_ui_bulk_requires_paste_and_excel) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 16.307s
+
+OK

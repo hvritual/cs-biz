@@ -20,9 +20,10 @@ const validation = ref("");
 const quickInviteIds = computed({ get: () => s.draft('r004-invite-selection-' + s.contextKey, { ids: [] as string[] }).ids, set: ids => { s.draft('r004-invite-selection-' + s.contextKey, { ids: [] as string[] }).ids = ids; } });
 const quickInviteReady = ref(false); const assignmentReady = ref(false);
 const roleTable = ref(''); const roleTableError = ref(''); const memberRoleText = ref('');
-const quickInviteRecords = computed(() => ['a','b','c','d','e','f'].map(letter => {
+const quickInviteRecords = computed(() => ['a','b','c','d','e','f'].map((letter, index) => {
   const email = `new-${letter}@example.test`;
-  return { id: email, name: l('待邀候选', 'Invitation candidate') + ' ' + letter.toUpperCase(), eligible: !s.data.members.some(member => member.email === email && member.state !== 'removed') && !s.data.invites.some(invite => invite.email === email && invite.state === 'created' && Date.parse(invite.expiresAt) > Date.now()) };
+  const name = l(['陈晨','陈晨','林玥','赵宁','方圆','周琦'][index]!, ['Alex Chen','Alex Chen','Lin Yue','Zhao Ning','Fang Yuan','Zhou Qi'][index]!);
+  return { id: email, name: l('待邀候选', 'Invitation candidate') + ' ' + name, eligible: !s.data.members.some(member => member.email === email && member.state !== 'removed') && !s.data.invites.some(invite => invite.email === email && invite.state === 'created' && Date.parse(invite.expiresAt) > Date.now()) };
 }));
 const quickAssignmentRecords = computed(() => assignmentResources.value.map(row => ({ id: row.id, name: row.name, eligible: s.readable(row, row.id.startsWith('M-') ? 'marketingExecute' : 'update') })));
 async function submitQuickInvites() {
@@ -76,6 +77,11 @@ const members = computed(() =>
 );
 const assignmentResources = computed(() => [...s.data.customers, ...s.data.campaigns]);
 const focused = computed(() => s.data.members.find((x) => x.id === detail.value));
+const assignmentUnchanged = computed(() => {
+  if (!focused.value) return true;
+  const previous=assignmentResources.value.filter(row=>row.assignedTo?.includes(focused.value!.accountId)).map(row=>row.id);
+  return previous.length===memberAssignments.value.length && previous.every(id=>memberAssignments.value.includes(id));
+});
 const assignmentChanged = computed(() => !!focused.value && (focused.value.version !== memberVersion.value || assignmentResources.value.some(row => resourceVersions.value[row.id] !== row.version)));
 function reviewMemberVersions() {
   memberVersion.value = focused.value?.version || 0;
@@ -275,14 +281,15 @@ function reinvite(email: string, role: string) {
     "access",
   );
 }
+function deliveryState(row: {delivery: string}) { return s.scene === 'delivery_failed' ? 'delivery_failed' : row.delivery; }
 function delivery(id: string) {
   const row = s.data.invites.find((x) => x.id === id);
   if (!row) return;
   s.announce(
     ["投递状态核对", "Delivery status review"],
     [
-      `${id} · ${row.delivery === "pending" ? "投递结果待确认，不会重新创建邀请。" : row.delivery === "delivered" ? "已投递，尚不代表受邀者已加入。" : "投递未完成，请先由获准人员核对投递记录。"}`,
-      `${id} · ${row.delivery === "pending" ? "Delivery is unconfirmed; the invitation is not recreated." : row.delivery === "delivered" ? "Delivered does not mean accepted." : "Delivery did not complete; authorized staff should inspect the delivery record."}`,
+      `${id} · ${deliveryState(row) === "pending" ? "投递结果待确认，不会重新创建邀请。" : deliveryState(row) === "delivered" ? "已投递，尚不代表受邀者已加入。" : "投递未完成，请先由获准人员核对投递记录。"}`,
+      `${id} · ${deliveryState(row) === "pending" ? "Delivery is unconfirmed; the invitation is not recreated." : deliveryState(row) === "delivered" ? "Delivered does not mean accepted." : "Delivery did not complete; authorized staff should inspect the delivery record."}`,
     ],
   );
 }
@@ -352,7 +359,7 @@ function parsedState(id: string) {
             <tbody>
               <tr v-for="row in members" :key="row.id">
                 <td>{{ row.name }}</td>
-                <td>{{ row.email }}</td>
+                <td>{{ row.email }}<small v-if="s.journeyMode" style="display:block" data-invitation-id>{{ row.id }}</small></td>
                 <td>{{ s.roleIds(row).map(roleName).join(" + ") }}</td>
                 <td>
                   <ElTag :type="row.state === 'active' ? 'success' : 'info'">{{
@@ -499,7 +506,7 @@ function parsedState(id: string) {
               >{{ customer.id }} · {{ customer.name }}</ElCheckbox
             ></ElCheckboxGroup
           >
-          <ElButton :disabled="focused.state !== 'active' || (s.taskMode && (!assignmentReady || assignmentChanged))" @click="changeAssignments">{{
+          <ElButton :disabled="focused.state !== 'active' || (s.taskMode && (!assignmentReady || assignmentChanged || assignmentUnchanged))" @click="changeAssignments">{{
             s.taskMode ? l('确认替换指派集合', 'Confirm replacement assignments') : l("核对资源指派", "Review assignments")
           }}</ElButton>
           <p class="full-muted">
@@ -533,21 +540,19 @@ function parsedState(id: string) {
           </thead>
           <tbody>
             <tr v-for="row in inviteRows" :key="row.id">
-              <td>{{ row.email }}</td>
+              <td>{{ row.email }}<small v-if="s.journeyMode" style="display:block" data-invitation-id>{{ row.id }}</small></td>
               <td>{{ roleTitle(row.role) }}</td>
               <td>{{ statusTitle(row.state) }}</td>
               <td>
                 {{
-                  s.scene === "delivery_failed"
-                    ? statusTitle("delivery_failed")
-                    : s.taskMode && row.delivery === 'pending'
+                  s.taskMode && deliveryState(row) === 'pending'
                       ? l('等待投递', 'Awaiting delivery')
-                      : statusTitle(row.delivery)
+                      : statusTitle(deliveryState(row))
                 }}
               </td>
               <td>
                 <ElButton link @click="s.openInvitation(row.id)">{{
-                  l("受邀者入口", "Invitee entry")
+                  s.journeyMode ? l("打开邀请链接", "Open invitation link") : l("受邀者入口", "Invitee entry")
                 }}</ElButton
                 ><ElButton link @click="delivery(row.id)">{{
                   l("核对投递", "Check delivery")
@@ -590,7 +595,7 @@ function parsedState(id: string) {
     </section>
     <section v-else-if="s.page.id === 'invite-create' && s.taskMode" class="full-card">
       <h2>{{ l('选好成员，再创建邀请', 'Choose people, then create invitations') }}</h2>
-      <p class="full-muted">{{ l('筛选来源是本轮隔离的待邀候选名单；创建、投递和加入分别显示，不发送真实邮件。', 'Filters use this review’s isolated candidate list. Creation, delivery and joining are separate; no real email is sent.') }}</p>
+      <p v-if="!s.journeyMode" class="full-muted">{{ l('筛选来源是本轮隔离的待邀候选名单；创建、投递和加入分别显示，不发送真实邮件。', 'Filters use this review’s isolated candidate list. Creation, delivery and joining are separate; no real email is sent.') }}</p>
       <BulkPicker :key="s.contextKey" v-model="quickInviteIds" :records="quickInviteRecords" :scope="s.legacy.organization + l(' · 本次邀请范围', ' · Invitation scope')" column="邮箱" :template-url="inviteTemplate" @valid="quickInviteReady = $event" />
       <label class="inline-edit">{{ l('加入后的角色', 'Role after joining') }}<ElSelect v-model="invite.role" :aria-label="l('本次邀请角色', 'Role for these invitations')"><ElOption value="reader" :label="l('只读成员', 'Read-only member')"/><ElOption value="operator" :label="l('业务成员', 'Business member')"/></ElSelect></label>
       <div class="inline-impact"><strong>{{ l('确认前核对影响', 'Review effects before confirming') }}</strong><p>{{ s.legacy.organization }} · {{ quickInviteIds.length }} {{ l('个地址', 'addresses') }} · {{ roleTitle(invite.role) }}</p><p>{{ l('创建邀请不等于已送达或已加入；72小时单次为待审建议。', 'Creating an invitation does not mean delivery or joining. The 72-hour single-use policy remains a proposal.') }}</p></div>

@@ -10,13 +10,13 @@ STAGES=('design','build','deploy')
 from check_workflow import definition_digest
 def dump(path,value):
  path.parent.mkdir(parents=True,exist_ok=True)
- path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
+ path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 def ref(task,path):return {'path':path,'sha256':hashlib.sha256((task/path).read_bytes()).hexdigest()}
 def fixture(stage, package, task, incoming=None, outcome='healthy'):
  task.mkdir(parents=True,exist_ok=True)
  workflow=json.loads((package/'workflow.json').read_text())
  if stage=='design':
-  (task/'raw.txt').write_text('SYNTHETIC ONLY: design a tenant-scoped operation with observable result and unknown-outcome recovery.\n')
+  (task/'raw.txt').write_text('SYNTHETIC ONLY: design a tenant-scoped operation with observable result and unknown-outcome recovery.\n',encoding='utf-8',newline='\n')
   intake={'protocol':'sdlc-request-v1','task_id':'synthetic-example',
    'contract':{'repository':'hvritual/cs-biz','baseline_sha':BASE,'frontend_change':False,'mode':'example',
     'allowed_paths':['backend/internal/example/**'],'forbidden_paths':['frontend/**'],'completion_boundary':'deployed'},

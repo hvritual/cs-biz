@@ -1,0 +1,68 @@
+schema_version: 1
+artifact_kind: analysis
+status: ready_for_review
+task_ref:
+  issue: https://github.com/hvritual/cs-biz/issues/10
+  baseline_commit: a841213a33571d240b22d4bbd44c73eb90c6cf86
+  candidate_commit: null
+  name: r004 完整任务与可交互UI
+classification:
+  type: authorization_sensitive
+  reason: 多企业、权限、写入与未知结果的隔离设计预览
+  business_state_mutation: true
+  authorization_sensitive: true
+  asynchronous_effect: true
+context:
+  role: {summary: 平台管理员/企业管理员/成员/受邀者/获准支持运维, source_refs: [review-plan.json]}
+  task: {summary: 26完整任务且保留原32页233状态J01-15及X01-12, source_refs: [review-plan.json]}
+  entity: {summary: 企业/成员/角色/客户/营销/原操作, source_refs: [requirements.md]}
+  workflow: {summary: 选取和匹配不执行_内联影响后明确确认_原ID恢复, source_refs: [journey.md]}
+  state: {summary: 正常/拒绝/版本变化/部分/未知/恢复, source_refs: [review-plan.json]}
+  action: {summary: 当前企业及逐动作范围内操作_切换清理旧上下文, source_refs: [design.md]}
+  risk: {summary: 前端样例不承担真实IAM/DB证明_成功不重放_未知先查, source_refs: [design.md]}
+  decision: {summary: P1/P2/P4/P7待Human同版判断_P6只影响生产, source_refs: [solution.md]}
+sources: [raw-user.txt, sources.json, review-plan.json]
+page_pattern:
+  name: existing-console-task-workspace
+  reason: 唯一Console内选取/影响/确认/就地结果，保留原逐页审阅
+  contract_ref: ../../../../design/desktop-ui.md
+  gaps: []
+outcome:
+  definition: 实际同版可交互界面及完整旅程供Human审阅
+  result_contract_refs: [review-plan.json, requirements.md]
+  recovery_contract_refs: [review-plan.json]
+humanized_ux:
+  time_to_information: {applicability: applies, reason: 企业对象范围与结果就地可见, requirements: [当前对象与结果可见], evidence_types: [browser_observation, screenshot], verification: not_verified, evidence: []}
+  time_to_action: {applicability: applies, reason: 最多四个实际动作, requirements: [review-plan逐任务正常与恢复实际计数], evidence_types: [browser_observation], verification: not_verified, evidence: []}
+  context_switching: {applicability: applies, reason: 保留列表且标签页企业独立, requirements: [就地结果与原X03验证], evidence_types: [browser_observation], verification: not_verified, evidence: []}
+  decision_load: {applicability: applies, reason: 自动唯一匹配而歧义明确处理, requirements: [当前可授权集合与准确业务用语], evidence_types: [browser_observation, screenshot], verification: not_verified, evidence: []}
+  interaction_cost: {applicability: applies, reason: 过滤粘贴Excel独立入口, requirements: [三方法及已选数量明细排除], evidence_types: [browser_observation], verification: not_verified, evidence: []}
+  error_recoverability: {applicability: applies, reason: 成功不重做未知先查, requirements: [仅恢复合法明确失败项与原操作查询], evidence_types: [browser_observation], verification: not_verified, evidence: []}
+  how_to_guidance: {applicability: applies, reason: 实际任务配图短说明及alt, requirements: [图片对应当前控件而非泛装饰], evidence_types: [browser_observation, screenshot], verification: not_verified, evidence: []}
+  operation_effect_transparency: {applicability: applies, reason: 影响及五类结果透明, requirements: [确认前完整差异和确认后逐项结果], evidence_types: [browser_observation], verification: not_verified, evidence: []}
+  problem_resolution_guidance: {applicability: applies, reason: 逐项原因及安全下一步, requirements: [原ID及权限变化_无权不泄露_来源缺失不伪成功], evidence_types: [browser_observation], verification: not_verified, evidence: []}
+acceptance:
+  scenarios: [review-plan全部正常恢复路径与原页面状态]
+  automated_checks: [Fast, Desktop浏览器连续路径, workflow与结构]
+  human_checks: [同版体验与P1/P2/P4/P7]
+  metrics:
+    - {id: human-completion-time, definition: 实际用户任务入口到结果, baseline: null, target: null, observed: null, unit: seconds, sample_size: 0, evidence_ref: null}
+open_questions:
+  - {question: P1会话期限和退出方式, blocking: true, owner_role: Human}
+  - {question: P2邀请与恢复语义, blocking: true, owner_role: Human}
+  - {question: P4委派细则, blocking: true, owner_role: Human}
+  - {question: P7营销效果边界, blocking: true, owner_role: Human}
+handoff:
+  allowed_paths: [本轮request.json声明的预览与文档路径]
+  forbidden_paths: [后端, 门禁和Skill, 历史封存, 生产环境]
+  reuse_refs: [../../../../design/desktop-ui.md]
+  gates: [最终入口真实浏览器观察, 独立内容与交付复核, 同版Human批准后方可冻结验收]
+review:
+  reviewer: null
+  actor_kind: null
+  scope: null
+  reference: null
+  analysis_ref: null
+  reviewed_at: null
+  candidate_sha: null
+  decision: not_reviewed

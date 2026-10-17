@@ -39,3 +39,9 @@
 F系列r003现已形成[完整交互审阅候选](tasks/f-series/rounds/r003/review-summary.md)，精确源码Full验证见该轮记录。最终入口验证及新增任务效率/批量/结果义务待后续修订，不直接转交Human排障；业务F2–F6/O1与生产资格继续保持未完成。
 
 审阅交付状态纠正及本次维护：[工作流修订记录](tasks/f-series/workflow-review-delivery.md)。原封存轮次保持字节，工作流修订不恢复已停止的业务实施。
+
+2026-10-17 Human确认执行 [r004完整用户旅程与UI计划](tasks/f-series/rounds/r004/solution.md)：沿最新分支建立新轮，原32页/233声明状态、J01–15与X01–12不缩减，补齐三种批量入口、已选详情、内联影响、就地结果及恢复。当前内容计划已独立反查；Preview实际路径及最终入口仍在验证，不提前标记正式可审阅，不进入业务Build/合并/生产。当前旅程见[r004](tasks/f-series/rounds/r004/journey.md)。
+
+2026-10-17 Human确认[Design完整角色旅程审阅调整](tasks/f-series/review-role-journeys.md)。r004改以正常入口、真实业务导航和同一对象跨角色交接组织Human体验；[完整脚本](tasks/f-series/rounds/r004/human-review.md)已编排，连续旅程证据及Human审阅未完成，保持CHANGES_REQUESTED。
+
+2026-10-17需求发起人进一步明确Design loop四项目标：完善需求、规划旅程、设计前端、输出体验操作流程；产品体验与工程检查分开。当前修正见[体验定义](tasks/f-series/review-role-journeys.md)，全量交付状态按实际证据保留。

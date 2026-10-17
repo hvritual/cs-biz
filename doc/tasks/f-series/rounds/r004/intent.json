@@ -1,0 +1,78 @@
+{
+  "version": "r004",
+  "raw_ref": "raw-user.txt",
+  "goal": "完善需求并规划完整用户旅程，设计符合要求的前端界面，交付需求发起人可直接体验的产品和操作流程。",
+  "actors": [
+    "平台管理员",
+    "企业负责人及获委派管理员",
+    "普通成员",
+    "受邀者",
+    "获准支持与运维"
+  ],
+  "original_requirements": {
+    "R1": "Docker MySQL和非生产OIDC及生产适配",
+    "R2": "可信身份与Session",
+    "R3": "Workspace和Access成员权限",
+    "R4": "独立营销及原回执",
+    "R5": "客户营销逐动作Scope",
+    "R6": "统一执行及异步因果链",
+    "R7": "Trace、stdout及可选SLS",
+    "R8": "生产资格和恢复",
+    "R9": "单分支、分期门禁及原分母"
+  },
+  "new_requirements": {
+    "UX01": "完整覆盖与最多4个实际动作",
+    "UX02": "过滤、粘贴、Excel独立入口及恢复",
+    "UX03": "已选数量明细和固定影响范围",
+    "UX04": "本地结果汇总及安全恢复",
+    "UX05": "简单用语与配图、最终入口浏览器核验及实际展示"
+  },
+  "accepted": [
+    "设计计划已明确确认",
+    "沿现有唯一分支建立r004",
+    "保留原R/AC及32页233状态15旅程",
+    "复用现有Console与Desktop规范",
+    "本轮边界为设计审阅"
+  ],
+  "pending_decisions": [
+    "P1 Session期限与退出",
+    "P2邀请期限/恢复",
+    "P4委派细则",
+    "P7营销真实效果"
+  ],
+  "excluded_authority": [
+    "业务Build",
+    "合并main",
+    "生产发布",
+    "外部邮件/营销触达或收费",
+    "修改历史封存与门禁"
+  ],
+  "proof_boundary": "当前隔离项目预览的实际交互；真实IAM/DB/SQL/O1/生产仍按原验收保留未完成",
+  "resources": {
+    "target": "http://127.0.0.1:5790/__design/f-series/full/identity",
+    "browser": "使用现有项目Playwright与tester-army；当前会话未提供内置浏览器执行工具"
+  },
+  "role_review_revision": {
+    "requirement_id": "UX06",
+    "source_ref": {
+      "path": "review-change-20261017.txt",
+      "sha256": "2c008e77e74d275999cbbad742c18a91a7992f5e529a7f67cf4438737c2416db"
+    },
+    "meaning": "Human以对应真实角色按全部已梳理旅程从正常入口连续操作，含必要恢复；Agent预演不能替代Human审阅。",
+    "authority": "Human确认通用Design与当前r004同步调整；未授权业务Build/合并/部署。"
+  },
+  "requester_experience_revision": {
+    "source_ref": {
+      "path": "requester-experience-20261017.txt",
+      "sha256": "e3e33748a66253f3340043371b512f8558726673cdc0b4ccb288f2e1f58272c4"
+    },
+    "human": "requirement_originator",
+    "design_goals": [
+      "完善需求",
+      "规划用户旅程",
+      "按照设计要求设计前端界面",
+      "输出需求发起人用户旅程体验操作流程"
+    ],
+    "experience": "按正式发布产品设计界面、导航和交互，业务操作流程独立交付，工程记录内部维护。"
+  }
+}

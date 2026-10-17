@@ -15,7 +15,13 @@ async function select(p: Page, label: string, value: string) {
   await p.locator(`.el-select:has(input[aria-label="${label}"]) .el-select__wrapper`).click();
   const listId = await input.getAttribute('aria-controls');
   await p.locator(`[id="${listId}"]`).getByRole('option', { name: value, exact: true }).click();
-  await expect(input).toHaveAttribute('aria-expanded', 'false');
+  await expect(p.locator('.el-select-dropdown:visible')).toHaveCount(0);
+}
+async function outcomeFixture(p: Page, value: string) {
+  const tools=p.locator('.review-fixtures');
+  if(!(await tools.getAttribute('open')!==null))await tools.locator('summary').click();
+  await select(p,'本次提交结果样例',value);
+  await tools.locator('summary').click();
 }
 async function setup(p: Page, role = '企业负责人') {
   await go(p, 'identity');
@@ -58,6 +64,86 @@ async function result(p: Page, total: number) {
   return outcome;
 }
 export function registerR004ReviewTests() {
+  test('r004 T18 recovery: original partial task recovers only its failed item',async()=>owned('T18-failed-items',async p=>{
+    await setup(p);await go(p,'task','&record=ACT-SAMPLE-0-4');
+    const original=p.locator('[data-local-outcome]');await expect(original.locator('.outcome-counts > div').nth(1)).toHaveText('已完成1');
+    await original.getByRole('button',{name:'仅核对明确失败项目',exact:true}).click();await p.getByRole('textbox',{name:'失败项服务备注',exact:true}).fill('只恢复原失败对象');
+    await p.getByRole('button',{name:'确认仅处理失败项',exact:true}).click();
+    const recovered=p.locator('.full-review > [data-local-outcome]');await expect(recovered).toContainText('C-1003');await expect(recovered).not.toContainText('C-1001');await expect(recovered).not.toContainText('C-1005');
+    await expect(recovered.locator('.outcome-counts > div').nth(1)).toHaveText('已完成1');
+    await go(p,'task','&record=ACT-SAMPLE-0-4');
+    await expect(p.locator('[data-local-outcome]').getByRole('button',{name:'仅核对明确失败项目',exact:true})).toHaveCount(0);
+    await expect(p.locator('.full-stack [data-local-outcome]')).toContainText('后续操作');
+  }));
+  test('r004 T08 recovery: a known wrong-identity rejection releases its stale dialog before four-action recovery',async()=>owned('T08-identity-recovery',async p=>{
+    await setup(p);await go(p,'invitations');await p.getByRole('button',{name:'受邀者入口',exact:true}).first().click();
+    await p.getByRole('button',{name:'核对并接受邀请',exact:true}).click();await p.locator('[data-confirm-submit]').click();
+    await expect(p.locator('.el-overlay:visible')).toHaveCount(0);await expect(p.locator('[data-notice]')).toContainText('未执行');
+    await p.getByRole('button',{name:'验证受邀组织账号',exact:true}).click();
+    await p.getByRole('button',{name:'核对并接受邀请',exact:true}).click();await p.locator('[data-confirm-submit]').click();await result(p,1);
+    await p.getByRole('button',{name:'进入该企业',exact:true}).click();await expect(p.locator('[data-page]')).toHaveAttribute('data-page','modules');
+  }));
+  test('r004 T07 delivery recovery: original invitation failure and readback remain consistent without recreating it',async()=>owned('T07-delivery-failure',async p=>{
+    await setup(p);await go(p,'invitations','&scene=delivery_failed');
+    const rows=p.locator('tbody tr');const count=await rows.count();const row=rows.filter({hasText:'new@example.test'});
+    await expect(row).toContainText('投递失败');await row.getByRole('button',{name:'核对投递',exact:true}).click();
+    await expect(p.locator('[data-notice]')).toContainText('INV-REVIEW-0');await expect(p.locator('[data-notice]')).toContainText('投递未完成');
+    await expect(p.locator('[data-notice]')).not.toContainText('结果待确认');await expect(rows).toHaveCount(count);
+    await expect(p.locator('[data-local-outcome]')).toHaveCount(0);
+  }));
+  test('r004 regression: platform unknown protection follows the target enterprise across workspaces',async()=>owned('regression-platform-target',async p=>{
+    await setup(p,'平台管理员');await go(p,'tenants');
+    await p.locator('tbody tr').filter({hasText:'云岚生活'}).getByRole('button',{name:'查看企业',exact:true}).click();
+    await p.getByRole('button',{name:'配置模块开通',exact:true}).click();
+    await p.getByRole('textbox',{name:'本次模块名称',exact:true}).fill('营销');await p.getByRole('textbox',{name:'权益配置行',exact:true}).fill('开通\t2027-12-31\t100');
+    await outcomeFixture(p,'结果待确认');await p.getByRole('button',{name:'确认模块变更',exact:true}).click();
+    const originalId=await(await result(p,1)).locator('code').first().innerText();
+    await p.getByRole('button',{name:'保留输入并核对最新配置',exact:true}).click();await p.getByRole('button',{name:'确认模块变更',exact:true}).click();
+    await expect(p.locator('[data-notice]')).toContainText('先查询原操作结果');
+    await expect(p.locator('[data-local-outcome] code').first()).toHaveText(originalId);
+    await expect(p.locator('[data-local-outcome] .outcome-counts > div').nth(4)).toHaveText('待核实1');
+  }));
+  for (const [task,page] of [['T15','customer-edit'],['T16','batch'],['T17','export'],['T22','release'],['T23','recovery'],['T26','members']] as const) for(const condition of ['failed','unknown'] as const) {
+    test(`r004 recovery ${task}: ${condition} preserves original identity and current authorization`,async()=>owned(task+'-'+condition+'-recovery',async p=>{
+      await setup(p,['release','recovery'].includes(page)?'获准运维人员':'企业负责人');
+      let record='';
+      if(page==='recovery') {
+        await go(p,'release');await p.getByRole('button',{name:'确认仅保存模拟计划',exact:true}).click();record=await (await result(p,1)).locator('code').first().innerText();
+      }
+      await go(p,page,(record?'&record='+record:'')+(page==='customer-edit'?'&target=C-1001':''));
+      if(page==='batch'||page==='export') {
+        await p.getByRole('button',{name:'粘贴',exact:true}).click();await p.getByRole('textbox',{name:'快速粘贴',exact:true}).fill('C-1001');
+        if(page==='batch')await p.getByRole('textbox',{name:'本次统一备注',exact:true}).fill('保留失败前的明确输入');
+      }
+      if(page==='members') {
+        await p.locator('tbody tr').filter({hasText:'lin@example.test'}).getByRole('button',{name:'查看详情',exact:true}).click();
+        await p.getByRole('button',{name:'粘贴',exact:true}).click();await p.getByRole('textbox',{name:'快速粘贴',exact:true}).fill('C-1006');
+      }
+      const submit=async(recordActions?:{action:string;at:string;url:string}[])=>{
+        const button=({'customer-edit':'核对修改影响',batch:'确认批量修改',export:'确认导出',release:'确认仅保存模拟计划',recovery:'确认仅保存模拟恢复',members:'确认替换指派集合'})[page];
+        await p.getByRole('button',{name:button,exact:true}).click();recordActions?.push({action:button,at:new Date().toISOString(),url:p.url()});
+        if(page==='customer-edit'){await p.locator('[data-confirm-submit]').click();recordActions?.push({action:'确认提交',at:new Date().toISOString(),url:p.url()});}
+      };
+      if(page==='customer-edit')await p.getByRole('textbox',{name:'客户服务备注',exact:true}).fill('恢复仍须当前授权与版本');
+      await outcomeFixture(p,condition==='failed'?'未完成':'结果待确认');
+      await submit(); const original=await result(p,1); const originalId=await original.locator('code').first().innerText();
+      await expect(original.locator('.outcome-counts > div').nth(condition==='failed'?2:4)).toHaveText(condition==='failed'?'失败1':'待核实1');
+      const actions:{action:string;at:string;url:string}[]=[];
+      if(condition==='unknown') {
+        await p.getByRole('button',{name:'查询原操作结果',exact:true}).click();actions.push({action:'查询原操作结果',at:new Date().toISOString(),url:p.url()});
+        await expect(p.locator('[data-local-outcome] code').first()).toHaveText(originalId);
+      } else {
+        // Executor restores the failed dependency before the recovery entry;
+        // this fixture control is not a product-user recovery action.
+        await outcomeFixture(p,'已完成');
+        await submit(actions);
+        await expect(p.locator('[data-local-outcome] code').first()).not.toHaveText(originalId);
+      }
+      await expect(p.locator('[data-local-outcome] .outcome-counts > div').nth(1)).toHaveText('已完成1');
+      if(page==='export') { const download=p.waitForEvent('download');await p.getByRole('button',{name:'按当前权限下载文件',exact:true}).click();await(await download).saveAs(artifacts+task+'-'+condition+'-recovery.csv');actions.push({action:'按当前权限下载文件',at:new Date().toISOString(),url:p.url()}); }
+      await writeFile(artifacts+task+'-'+condition+'-path.json',JSON.stringify({task,path:condition,originalId,executorFixture:{submission:condition,dependencyRestoredBeforeRecovery:condition==='failed'},actions,meaningfulActionCount:actions.length,result:'pass',url:p.url()},null,2));
+    }));
+  }
   test('r004 T01 recovery: illustrated identity handoff returns through fresh verification in four actions',async()=>owned('T01-idp-recovery',async p=>{
     await go(p,'identity');
     await p.getByRole('button',{name:'忘记密码或需要恢复验证方式',exact:true}).click();
@@ -340,7 +426,7 @@ export function registerR004ReviewTests() {
     await me.getByRole('button',{name:'停用',exact:true}).click();
     await p.locator('[data-confirm-submit]').click();
     await expect(p.locator('[data-notice]')).toContainText('另一位在任企业负责人');
-    await p.getByRole('button',{name:'取消',exact:true}).last().click();
+    await expect(p.locator('.el-overlay:visible')).toHaveCount(0);
   }));
   for(const method of ['filter','paste','excel'] as const) test(`r004 T26: ${method} resource assignment preserves ownership and displays exact changes`,async()=>owned('T26-'+method,async p=>{
     await setup(p); await go(p,'members');
@@ -373,9 +459,20 @@ export function registerR004ReviewTests() {
   }));
   test('r004 T22/T23: qualification gaps block production while simulated plans remain inspectable',async()=>owned('T22-T23-release',async p=>{
     await setup(p,'获准运维人员');await go(p,'qualification');await expect(p.locator('tbody')).toContainText('生产目标、阈值与执行授权');
-    await p.getByRole('button',{name:'核对非生产审阅计划',exact:true}).click();await p.getByRole('button',{name:'确认仅保存模拟计划',exact:true}).click();await result(p,1);
-    await go(p,'rollout');await p.getByRole('button',{name:'核对恢复或回滚方案',exact:true}).click();await p.getByRole('button',{name:'确认仅保存模拟恢复',exact:true}).click();await result(p,1);
+    await p.getByRole('button',{name:'核对非生产审阅计划',exact:true}).click();await p.getByRole('button',{name:'确认仅保存模拟计划',exact:true}).click();const original=await result(p,1);
+    const originalId=await original.locator('code').first().innerText();
+    await p.getByRole('button',{name:'查看本计划的进展与恢复',exact:true}).click();await p.getByRole('button',{name:'核对恢复或回滚方案',exact:true}).click();
+    await expect(p.locator('.inline-impact')).toContainText(originalId);await expect(p).toHaveURL(new RegExp('record='+originalId));
+    await p.getByRole('button',{name:'确认仅保存模拟恢复',exact:true}).click();const recovered=await result(p,1);await expect(recovered).toContainText(originalId);
+    await go(p,'recovery');await expect(p.getByRole('button',{name:'确认仅保存模拟恢复',exact:true})).toBeDisabled();
     await go(p,'release','&scene=missing_authority');await expect(p.getByRole('button',{name:'确认仅保存模拟计划',exact:true})).toBeDisabled();
+  }));
+  test('r004 T07 recovery: real duplicate visible names require an exact invitation address',async()=>owned('T07-ambiguity',async p=>{
+    await setup(p);await go(p,'invite-create');await p.getByRole('button',{name:'粘贴',exact:true}).click();await p.getByRole('textbox',{name:'快速粘贴',exact:true}).fill('待邀候选 陈晨');
+    await expect(p.getByRole('button',{name:'确认创建邀请',exact:true})).toBeDisabled();
+    await select(p,'明确对象 待邀候选 陈晨','待邀候选 陈晨 · new-a@example.test');
+    await select(p,'本次邀请角色','业务成员');await p.getByRole('button',{name:'确认创建邀请',exact:true}).click();await result(p,1);
+    await expect(p.locator('[data-local-outcome]')).toContainText('new-a@example.test');await expect(p.locator('[data-local-outcome]')).not.toContainText('new-b@example.test');
   }));
   test('r004 T16/UX02/UX04: ambiguous rows, import errors and partial outcomes recover without replaying successes',async()=>owned('T16-recovery',async p=>{
     await setup(p);await go(p,'batch','&scene=partial');await p.getByRole('button',{name:'粘贴',exact:true}).click();

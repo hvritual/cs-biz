@@ -3,6 +3,7 @@ import re
 from urllib.parse import urlsplit
 
 from artifact_io import asset, read_json, require
+from role_journey_checks import journey_plan, journey_delivery
 
 AVAILABLE = {'REVIEW_AVAILABLE', 'AWAITING_HUMAN_REVIEW', 'DESIGN_APPROVED'}
 STATES = AVAILABLE | {'CONTENT_COMPLETE', 'DELIVERY_BLOCKED', 'CHANGES_REQUESTED'}
@@ -55,8 +56,8 @@ def reviewer(task, value):
     record(task, value.get('record_ref'))
 
 
-def plan_check(task, plan, raw_ref, expected_ids=None):
-    require(plan.get('protocol') == 'design-review-plan-v1', 'review plan protocol required')
+def plan_check(task, plan, raw_ref, expected_ids=None, expected_scope=None):
+    require(plan.get('protocol') == 'design-review-plan-v2', 'review plan protocol required')
     require(plan.get('raw_ref') == raw_ref, 'review plan replaced original intent')
     record(task, plan['raw_ref'])
     ids = rows(plan.get('requirement_ids'), 'requirement_ids')
@@ -64,6 +65,14 @@ def plan_check(task, plan, raw_ref, expected_ids=None):
             'invalid/duplicate original requirements')
     if expected_ids is not None:
         require(set(ids) == set(expected_ids), 'review plan changed frozen original requirements')
+    experience = plan.get('experience')
+    require(isinstance(experience, dict), 'experience operation flow required')
+    require(experience.get('audience') == 'requirement_originator',
+            'experience is for the requirement originator')
+    require(experience.get('interface') == 'released_product'
+            and experience.get('guidance_location') == 'outside_product',
+            'product experience must keep review guidance outside the interface')
+    record(task, experience.get('guide_ref'))
     tasks = keyed(plan.get('tasks'), 'tasks')
     covered = set()
     for key, item in tasks.items():
@@ -113,6 +122,19 @@ def plan_check(task, plan, raw_ref, expected_ids=None):
         require(set(results.get('states', [])) == {'success', 'failed', 'pending', 'unknown'},
                 'result summary must separate success, failed, pending and unknown')
     require(covered == set(ids), 'original requirement missing from user tasks')
+    journey_plan(plan, tasks)
+    if expected_scope is not None:
+        for name, field in [('journey_ids', 'journeys'), ('role_ids', 'roles')]:
+            require(set(v['id'] for v in plan[field]) == set(expected_scope.get(name, [])),
+                    'review plan changed frozen original ' + name + ' denominator')
+        paths = {(t['id'], kind, p['id']) for t in tasks.values()
+                 for kind, values in [('normal', t['paths']), ('recovery', t['recovery'])] for p in values}
+        require(paths == {tuple(v) for v in expected_scope.get('task_paths', [])},
+                'review plan changed frozen original task path denominator')
+        pairs = {(n['actor_id'], j['id']) for j in plan['journeys']
+                 for n in j['walkthrough'] + [n for b in j['branches'] for n in b['walkthrough']]}
+        require(pairs == {tuple(v) for v in expected_scope.get('role_journey_pairs', [])},
+                'review plan changed frozen role journey pairs')
     reviewer(task, plan.get('coverage_review'))
     rows(plan.get('review_questions'), 'review_questions')
     for question in plan['review_questions']:
@@ -130,7 +152,7 @@ def entry_url(value):
 
 def delivery_check(task, delivery, plan, plan_ref, raw_ref):
     tasks = plan_check(task, plan, raw_ref)
-    require(delivery.get('protocol') == 'design-review-delivery-v1', 'review delivery protocol required')
+    require(delivery.get('protocol') == 'design-review-delivery-v2', 'review delivery protocol required')
     state = delivery.get('state')
     require(state in STATES, 'unknown Design review state')
     require(delivery.get('plan_ref') == plan_ref, 'review delivery uses another plan')
@@ -151,6 +173,10 @@ def delivery_check(task, delivery, plan, plan_ref, raw_ref):
     words(target.get('version'), 'deployed/local snapshot version')
     words(target.get('access_instructions'), 'review access instructions')
     observed = mapping(delivery.get('observation'), 'observation')
+    ui = observed.get('experience_ui', {})
+    require(ui.get('product_interface') is True and ui.get('review_chrome_visible') is False
+            and ui.get('engineering_copy_visible') is False,
+            'product experience includes review controls or unrelated engineering copy')
     require(observed.get('kind') == 'final_entry_browser' and observed.get('result') == 'pass',
             'final review entry browser observation required; CI/offline probe is insufficient')
     require(observed.get('candidate_sha') == candidate and observed.get('url') == url
@@ -203,14 +229,18 @@ def delivery_check(task, delivery, plan, plan_ref, raw_ref):
                      or b'<svg' in body[:1024]), 'invalid guidance image bytes')
             images.add(visual['image_ref']['path'])
     handoff = mapping(delivery.get('presentation'), 'presentation')
+    require(handoff.get('experience_guide_ref') == plan['experience']['guide_ref'],
+            'presented experience operation flow differs from plan')
+    record(task, handoff['experience_guide_ref'])
     require(handoff.get('url') == url and handoff.get('candidate_sha') == candidate,
             'Human presentation differs from verified UI')
     require(handoff.get('version') == target['version'], 'Human presentation snapshot version drift')
     require(set(handoff.get('image_paths', [])) >= images, 'Human presentation omitted UI images')
-    for name in ('review_sequence', 'decision_questions', 'limitations'):
+    for name in ('review_sequence', 'decision_questions'):
         for item in rows(handoff.get(name), 'presentation.' + name):
             words(item, 'presentation.' + name)
     require(handoff['decision_questions'] == plan['review_questions'], 'presented questions differ from review plan')
+    journey_delivery(plan, tasks, delivery, lambda value: record(task, value))
     record(task, handoff.get('record_ref'))
     review = delivery.get('independent_review', {})
     reviewer(task, review)
@@ -224,6 +254,8 @@ def delivery_check(task, delivery, plan, plan_ref, raw_ref):
         require(human.get('version') == target['version'] and human.get('url') == url
                 and human.get('plan_ref') == plan_ref, 'Human approval target/plan version drift')
         require(human.get('actor_kind') == 'human', 'actual Human review declaration required')
+        require(human.get('reviewer_role') == 'requirement_originator',
+                'design feedback must come from the requirement originator')
         for key in ('reviewer', 'reviewed_at'):
             words(human.get(key), 'human_review.' + key)
         record(task, human.get('record_ref'))

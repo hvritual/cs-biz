@@ -1,0 +1,631 @@
+{
+  "schemaVersion": "report-1",
+  "run": {
+    "id": "01a14914-cf1b-7355-b98e-f643ae15b0b0",
+    "specVersion": "0.1",
+    "runner": {
+      "name": "e2e",
+      "version": "0.20.0"
+    },
+    "status": "failed",
+    "exitCode": 1,
+    "startedAt": "2026-10-17T08:57:45.060Z",
+    "finishedAt": "2026-10-17T09:00:08.630Z",
+    "project": {
+      "id": "cs-biz-console",
+      "configDigest": "052984212e696a839feecda1f069dce611dcc2d763c0cf83a448e1444ae04bd6"
+    },
+    "environment": {
+      "ci": false,
+      "trustNoticeShown": false,
+      "os": "win32 10.0.19045",
+      "arch": "x64",
+      "runtime": "node v24.19.0"
+    },
+    "vcs": {
+      "commit": "a841213a33571d240b22d4bbd44c73eb90c6cf86",
+      "branch": "feat/yunka-f-series-delivery",
+      "dirty": true
+    },
+    "targets": [
+      {
+        "id": "desktop-edge-local",
+        "index": 0,
+        "platform": "web",
+        "baseOrigin": "http://127.0.0.1:5778",
+        "environment": "test",
+        "engine": {
+          "name": "web",
+          "version": "0.14.0",
+          "spiVersion": 1
+        },
+        "capabilities": [
+          "actions",
+          "artifacts",
+          "browser",
+          "keyboard",
+          "location",
+          "observation",
+          "pointer",
+          "state"
+        ],
+        "artifactCapabilities": [
+          "screenshot",
+          "video"
+        ],
+        "stateCapability": true
+      }
+    ],
+    "serialGroups": [],
+    "results": [
+      {
+        "id": "d3a0190513f5dce3db353aafcd25e406bdf30ed183bd2c76dacfea67c994fcfb",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%3A%20filter%20selection%2C%20fixed%20scope%20and%20local%20result%20within%20four%20actions",
+        "kind": "test",
+        "declarationIndex": 2,
+        "titlePath": [
+          "r004 T16: filter selection, fixed scope and local result within four actions"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14914-f816-7beb-8db5-a6411347f806",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:57:53.430Z",
+            "durationMs": 22158,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "c37549dcd0218ac9aefcf218525a2f4be9d0595da2d606156086b12d4e6f5c55",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T07%3A%20filter%20invitation%20selection%20distinguishes%20creation%20and%20delivery",
+        "kind": "test",
+        "declarationIndex": 3,
+        "titlePath": [
+          "r004 T07: filter invitation selection distinguishes creation and delivery"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "failed",
+        "attempts": [
+          {
+            "id": "01a14915-4ea6-7a23-99fb-c2368d78fb65",
+            "index": 0,
+            "status": "failed",
+            "startedAt": "2026-10-17T08:58:15.590Z",
+            "durationMs": 11943,
+            "artifacts": [],
+            "error": {
+              "category": "test",
+              "code": "ERROR",
+              "message": "expect(locator).toContainText(expected) failed\n\nLocator: locator('tbody')\nExpected substring: \"等待投递\"\nReceived string:    \"new@example.test只读成员已创建处理中受邀者入口核对投递撤回new-a@example.test业务成员已创建处理中受邀者入口核对投递撤回new-b@example.test业务成员已创建处理中受邀者入口核对投递撤回new-c@example.test业务成员已创建处理中受邀者入口核对投递撤回new-d@example.test业务成员已创建处理中受邀者入口核对投递撤回new-e@example.test业务成员已创建处理中受邀者入口核对投递撤回new-f@example.test业务成员已创建处理中受邀者入口核对投递撤回\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('tbody')\n    14 × locator resolved to <tbody>…</tbody>\n       - unexpected value \"new@example.test只读成员已创建处理中受邀者入口核对投递撤回new-a@example.test业务成员已创建处理中受邀者入口核对投递撤回new-b@example.test业务成员已创建处理中受邀者入口核对投递撤回new-c@example.test业务成员已创建处理中受邀者入口核对投递撤回new-d@example.test业务成员已创建处理中受邀者入口核对投递撤回new-e@example.test业务成员已创建处理中受邀者入口核对投递撤回new-f@example.test业务成员已创建处理中受邀者入口核对投递撤回\"\n",
+              "retryable": false,
+              "phase": "body",
+              "source": {
+                "file": "node_modules/.pnpm/e2e@0.20.0/node_modules/e2e/dist/run/execute.js",
+                "line": 523,
+                "column": 24
+              }
+            },
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "2f1bb7df6d770b45fa3ab9632dbca46410ed6ec92fc4b0a63dc92ba19f6d7cd2",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T17%3A%20filter%20export%20finishes%20with%20authorized%20file%20download",
+        "kind": "test",
+        "declarationIndex": 4,
+        "titlePath": [
+          "r004 T17: filter export finishes with authorized file download"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14915-7d65-7b69-9c05-959d8e8f29f4",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:58:27.557Z",
+            "durationMs": 6018,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "82f69281fd1024507e8b2fd374ba4bf75ce3685341db29142e8d0577eac85a5b",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%3A%20paste%20selection%2C%20fixed%20scope%20and%20local%20result%20within%20four%20actions",
+        "kind": "test",
+        "declarationIndex": 5,
+        "titlePath": [
+          "r004 T16: paste selection, fixed scope and local result within four actions"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14915-94e7-7c57-a629-f3ed49536eff",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:58:33.575Z",
+            "durationMs": 6631,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ac935574ab4c9d6ac154cbdb32f564a7e2a9b1bd8260009f3fad8fc2351a1e78",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T07%3A%20paste%20invitation%20selection%20distinguishes%20creation%20and%20delivery",
+        "kind": "test",
+        "declarationIndex": 6,
+        "titlePath": [
+          "r004 T07: paste invitation selection distinguishes creation and delivery"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "failed",
+        "attempts": [
+          {
+            "id": "01a14915-aece-7319-a363-fda4937a447a",
+            "index": 0,
+            "status": "failed",
+            "startedAt": "2026-10-17T08:58:40.206Z",
+            "durationMs": 12163,
+            "artifacts": [],
+            "error": {
+              "category": "test",
+              "code": "ERROR",
+              "message": "expect(locator).toContainText(expected) failed\n\nLocator: locator('tbody')\nExpected substring: \"等待投递\"\nReceived string:    \"new@example.test只读成员已创建处理中受邀者入口核对投递撤回new-a@example.test业务成员已创建处理中受邀者入口核对投递撤回new-b@example.test业务成员已创建处理中受邀者入口核对投递撤回\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('tbody')\n    13 × locator resolved to <tbody>…</tbody>\n       - unexpected value \"new@example.test只读成员已创建处理中受邀者入口核对投递撤回new-a@example.test业务成员已创建处理中受邀者入口核对投递撤回new-b@example.test业务成员已创建处理中受邀者入口核对投递撤回\"\n",
+              "retryable": false,
+              "phase": "body",
+              "source": {
+                "file": "node_modules/.pnpm/e2e@0.20.0/node_modules/e2e/dist/run/execute.js",
+                "line": 523,
+                "column": 24
+              }
+            },
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "94d912420fa2ed4223c2040d18ad07c4849d9b5a5d33c289582acfc147fbff9e",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T17%3A%20paste%20export%20finishes%20with%20authorized%20file%20download",
+        "kind": "test",
+        "declarationIndex": 7,
+        "titlePath": [
+          "r004 T17: paste export finishes with authorized file download"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14915-de61-7ac1-a931-fa02df401128",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:58:52.385Z",
+            "durationMs": 6203,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "bf5ce19c12f90ee6ffdd549de5bb989358f79686e66e4f4972032645c11cac1c",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%3A%20excel%20selection%2C%20fixed%20scope%20and%20local%20result%20within%20four%20actions",
+        "kind": "test",
+        "declarationIndex": 8,
+        "titlePath": [
+          "r004 T16: excel selection, fixed scope and local result within four actions"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14915-f69d-7227-bae6-d497d7964c16",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:58:58.589Z",
+            "durationMs": 22403,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "a330412ffeab4b9f7079af29dd4b190f328f17d5f16ac8157716fd29e79987c8",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T07%3A%20excel%20invitation%20selection%20distinguishes%20creation%20and%20delivery",
+        "kind": "test",
+        "declarationIndex": 9,
+        "titlePath": [
+          "r004 T07: excel invitation selection distinguishes creation and delivery"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "failed",
+        "attempts": [
+          {
+            "id": "01a14916-4e20-701b-959e-308ba3ba2147",
+            "index": 0,
+            "status": "failed",
+            "startedAt": "2026-10-17T08:59:20.992Z",
+            "durationMs": 11861,
+            "artifacts": [],
+            "error": {
+              "category": "test",
+              "code": "ERROR",
+              "message": "expect(locator).toContainText(expected) failed\n\nLocator: locator('tbody')\nExpected substring: \"等待投递\"\nReceived string:    \"new@example.test只读成员已创建处理中受邀者入口核对投递撤回new-a@example.test业务成员已创建处理中受邀者入口核对投递撤回new-b@example.test业务成员已创建处理中受邀者入口核对投递撤回\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('tbody')\n    14 × locator resolved to <tbody>…</tbody>\n       - unexpected value \"new@example.test只读成员已创建处理中受邀者入口核对投递撤回new-a@example.test业务成员已创建处理中受邀者入口核对投递撤回new-b@example.test业务成员已创建处理中受邀者入口核对投递撤回\"\n",
+              "retryable": false,
+              "phase": "body",
+              "source": {
+                "file": "node_modules/.pnpm/e2e@0.20.0/node_modules/e2e/dist/run/execute.js",
+                "line": 523,
+                "column": 24
+              }
+            },
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "805d2367779cc6a62dc8dba161a5455f1705b8075fe16014f2ee5204c0f80051",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T17%3A%20excel%20export%20finishes%20with%20authorized%20file%20download",
+        "kind": "test",
+        "declarationIndex": 10,
+        "titlePath": [
+          "r004 T17: excel export finishes with authorized file download"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14916-7c81-76a4-9b83-80f6ba73719a",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:59:32.865Z",
+            "durationMs": 5623,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "e1ece4e965a9ad959babadc3bd3abd1c75d69d5363e44966df60e3201aa3f2f1",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T15%3A%20inline%20edit%20preserves%20the%20customer%20list%20and%20reports%20its%20real%20result",
+        "kind": "test",
+        "declarationIndex": 11,
+        "titlePath": [
+          "r004 T15: inline edit preserves the customer list and reports its real result"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "failed",
+        "attempts": [
+          {
+            "id": "01a14916-9279-755f-ae05-a4817475af33",
+            "index": 0,
+            "status": "failed",
+            "startedAt": "2026-10-17T08:59:38.489Z",
+            "durationMs": 6122,
+            "artifacts": [],
+            "error": {
+              "category": "test",
+              "code": "ERROR",
+              "message": "expect(locator).toContainText(expected) failed\n\nLocator: locator('tbody')\nExpected substring: \"已确认下一次服务时间\"\nError: strict mode violation: locator('tbody') resolved to 2 elements:\n    1) <tbody>…</tbody> aka getByText('青禾科技园C-1001本人负责已确认下一次服务时间修改备注查看详情青禾商务中心C-1002其他成员负责联系负责人后安排服务查看详情星河中心C-1003')\n    2) <tbody>…</tbody> aka getByRole('status', { name: '本次操作结果' }).locator('tbody')\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for locator('tbody')\n",
+              "retryable": false,
+              "phase": "body",
+              "source": {
+                "file": "node_modules/.pnpm/e2e@0.20.0/node_modules/e2e/dist/run/execute.js",
+                "line": 523,
+                "column": 24
+              }
+            },
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "9543fe8be2f0c9c7bdd5c4ab2a300b7352b6acdda2fda83ce02b09feea80948f",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20UX03%3A%20filtering%20preserves%20explicit%20selection%20and%20selected%20details%20support%20exclusion",
+        "kind": "test",
+        "declarationIndex": 12,
+        "titlePath": [
+          "r004 UX03: filtering preserves explicit selection and selected details support exclusion"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14916-aa6f-7935-9f53-4d1a425342a8",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:59:44.623Z",
+            "durationMs": 5278,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "324bac326b0c0dd3ca0c54b1d99e95089a70b0aa48141fb4a15e1d0cb3d0c836",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%3A%20unknown%20outcomes%20are%20queried%20before%20any%20overlapping%20resubmission",
+        "kind": "test",
+        "declarationIndex": 13,
+        "titlePath": [
+          "r004 T16: unknown outcomes are queried before any overlapping resubmission"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14916-bf0d-7842-b090-0cb542a8d6f3",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:59:49.901Z",
+            "durationMs": 5550,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "443f346c882f23e199c08d0efe8a48c74a960a1e016c1712a356956f5315466a",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T04%2FT05%3A%20organization%20creation%20and%20custom%20entitlement%20remain%20explicit%2C%20bounded%20operations",
+        "kind": "test",
+        "declarationIndex": 14,
+        "titlePath": [
+          "r004 T04/T05: organization creation and custom entitlement remain explicit, bounded operations"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14916-d4bb-728f-95de-44b9c208b6ad",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T08:59:55.451Z",
+            "durationMs": 7544,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "d1561fc53c554967809d1a5cd9142da119a74573397177c7fe89b8d1dabc4c9c",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T10%3A%20full%20role%20table%20preserves%20per-action%20grants%20and%20rejects%20unconfirmed%20legacy%20scope",
+        "kind": "test",
+        "declarationIndex": 15,
+        "titlePath": [
+          "r004 T10: full role table preserves per-action grants and rejects unconfirmed legacy scope"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14916-f233-7499-9534-c16c216594fb",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:00:02.995Z",
+            "durationMs": 5411,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "summary": {
+      "discovered": 14,
+      "selected": 14,
+      "executed": 14,
+      "passed": 10,
+      "failed": 4,
+      "interrupted": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "limits": {
+      "maxAgentContextBytes": 16384,
+      "maxLedgerBytes": 8192,
+      "maxObservationBytes": 262144,
+      "maxEventsPerStep": 1000,
+      "maxModelTokensPerCall": 64000
+    },
+    "usage": {
+      "discoveredResults": 14,
+      "maxAgentContextBytes": 0,
+      "maxLedgerBytes": 0,
+      "maxObservationBytes": 0,
+      "artifactBytes": 0,
+      "downloads": 0,
+      "events": 0,
+      "modelTokens": 0,
+      "maxModelCallsInStep": 0,
+      "maxActionStepsInStep": 0
+    }
+  }
+}

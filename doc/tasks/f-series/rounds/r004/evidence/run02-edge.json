@@ -1,0 +1,2112 @@
+{
+  "schemaVersion": "report-1",
+  "run": {
+    "id": "01a1491c-9ab3-7e93-bf9f-ad73229d025e",
+    "specVersion": "0.1",
+    "runner": {
+      "name": "e2e",
+      "version": "0.20.0"
+    },
+    "status": "failed",
+    "exitCode": 1,
+    "startedAt": "2026-10-17T09:06:16.031Z",
+    "finishedAt": "2026-10-17T09:19:47.847Z",
+    "project": {
+      "id": "cs-biz-console",
+      "configDigest": "5b0686995d5e41c262076be40cc2421421086a2a76fed4a524a4f4126ce73f80"
+    },
+    "environment": {
+      "ci": false,
+      "trustNoticeShown": false,
+      "os": "win32 10.0.19045",
+      "arch": "x64",
+      "runtime": "node v24.19.0"
+    },
+    "vcs": {
+      "commit": "a841213a33571d240b22d4bbd44c73eb90c6cf86",
+      "branch": "feat/yunka-f-series-delivery",
+      "dirty": true
+    },
+    "targets": [
+      {
+        "id": "desktop-edge-local",
+        "index": 0,
+        "platform": "web",
+        "baseOrigin": "http://127.0.0.1:5778",
+        "environment": "test",
+        "engine": {
+          "name": "web",
+          "version": "0.14.0",
+          "spiVersion": 1
+        },
+        "capabilities": [
+          "actions",
+          "artifacts",
+          "browser",
+          "keyboard",
+          "location",
+          "observation",
+          "pointer",
+          "state"
+        ],
+        "artifactCapabilities": [
+          "screenshot",
+          "video"
+        ],
+        "stateCapability": true
+      }
+    ],
+    "serialGroups": [],
+    "results": [
+      {
+        "id": "d3a0190513f5dce3db353aafcd25e406bdf30ed183bd2c76dacfea67c994fcfb",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%3A%20filter%20selection%2C%20fixed%20scope%20and%20local%20result%20within%20four%20actions",
+        "kind": "test",
+        "declarationIndex": 2,
+        "titlePath": [
+          "r004 T16: filter selection, fixed scope and local result within four actions"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491c-a978-748a-b687-031681a7cad8",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:06:17.592Z",
+            "durationMs": 22395,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "c37549dcd0218ac9aefcf218525a2f4be9d0595da2d606156086b12d4e6f5c55",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T07%3A%20filter%20invitation%20selection%20distinguishes%20creation%20and%20delivery",
+        "kind": "test",
+        "declarationIndex": 3,
+        "titlePath": [
+          "r004 T07: filter invitation selection distinguishes creation and delivery"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491d-00f4-7f2d-b899-55fb9fbd4f87",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:06:39.988Z",
+            "durationMs": 7174,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "2f1bb7df6d770b45fa3ab9632dbca46410ed6ec92fc4b0a63dc92ba19f6d7cd2",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T17%3A%20filter%20export%20finishes%20with%20authorized%20file%20download",
+        "kind": "test",
+        "declarationIndex": 4,
+        "titlePath": [
+          "r004 T17: filter export finishes with authorized file download"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491d-1cfb-70cd-8f6c-eff30e966390",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:06:47.163Z",
+            "durationMs": 5965,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "82f69281fd1024507e8b2fd374ba4bf75ce3685341db29142e8d0577eac85a5b",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%3A%20paste%20selection%2C%20fixed%20scope%20and%20local%20result%20within%20four%20actions",
+        "kind": "test",
+        "declarationIndex": 5,
+        "titlePath": [
+          "r004 T16: paste selection, fixed scope and local result within four actions"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491d-3449-7511-9d9e-1a68eea0af53",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:06:53.129Z",
+            "durationMs": 6616,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ac935574ab4c9d6ac154cbdb32f564a7e2a9b1bd8260009f3fad8fc2351a1e78",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T07%3A%20paste%20invitation%20selection%20distinguishes%20creation%20and%20delivery",
+        "kind": "test",
+        "declarationIndex": 6,
+        "titlePath": [
+          "r004 T07: paste invitation selection distinguishes creation and delivery"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491d-4e22-75c9-bc0e-71beeab45836",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:06:59.746Z",
+            "durationMs": 6926,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "94d912420fa2ed4223c2040d18ad07c4849d9b5a5d33c289582acfc147fbff9e",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T17%3A%20paste%20export%20finishes%20with%20authorized%20file%20download",
+        "kind": "test",
+        "declarationIndex": 7,
+        "titlePath": [
+          "r004 T17: paste export finishes with authorized file download"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491d-6930-76bc-87e7-f902ac70026e",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:07:06.672Z",
+            "durationMs": 5959,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "bf5ce19c12f90ee6ffdd549de5bb989358f79686e66e4f4972032645c11cac1c",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%3A%20excel%20selection%2C%20fixed%20scope%20and%20local%20result%20within%20four%20actions",
+        "kind": "test",
+        "declarationIndex": 8,
+        "titlePath": [
+          "r004 T16: excel selection, fixed scope and local result within four actions"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491d-8077-7742-8122-16bb48c11e54",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:07:12.632Z",
+            "durationMs": 6434,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "a330412ffeab4b9f7079af29dd4b190f328f17d5f16ac8157716fd29e79987c8",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T07%3A%20excel%20invitation%20selection%20distinguishes%20creation%20and%20delivery",
+        "kind": "test",
+        "declarationIndex": 9,
+        "titlePath": [
+          "r004 T07: excel invitation selection distinguishes creation and delivery"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491d-999b-7c50-a274-cba98e8a8a9d",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:07:19.067Z",
+            "durationMs": 21774,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "805d2367779cc6a62dc8dba161a5455f1705b8075fe16014f2ee5204c0f80051",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T17%3A%20excel%20export%20finishes%20with%20authorized%20file%20download",
+        "kind": "test",
+        "declarationIndex": 10,
+        "titlePath": [
+          "r004 T17: excel export finishes with authorized file download"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491d-eeaa-7071-88f5-e7f51c909c38",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:07:40.842Z",
+            "durationMs": 6043,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "e1ece4e965a9ad959babadc3bd3abd1c75d69d5363e44966df60e3201aa3f2f1",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T15%3A%20inline%20edit%20preserves%20the%20customer%20list%20and%20reports%20its%20real%20result",
+        "kind": "test",
+        "declarationIndex": 11,
+        "titlePath": [
+          "r004 T15: inline edit preserves the customer list and reports its real result"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491e-0645-7b6b-aaa7-80a08068d89f",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:07:46.886Z",
+            "durationMs": 6428,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "9543fe8be2f0c9c7bdd5c4ab2a300b7352b6acdda2fda83ce02b09feea80948f",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20UX03%3A%20filtering%20preserves%20explicit%20selection%20and%20selected%20details%20support%20exclusion",
+        "kind": "test",
+        "declarationIndex": 12,
+        "titlePath": [
+          "r004 UX03: filtering preserves explicit selection and selected details support exclusion"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491e-1f62-7734-b808-a9cb93b87fc9",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:07:53.314Z",
+            "durationMs": 5158,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "324bac326b0c0dd3ca0c54b1d99e95089a70b0aa48141fb4a15e1d0cb3d0c836",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%3A%20unknown%20outcomes%20are%20queried%20before%20any%20overlapping%20resubmission",
+        "kind": "test",
+        "declarationIndex": 13,
+        "titlePath": [
+          "r004 T16: unknown outcomes are queried before any overlapping resubmission"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491e-3388-72a3-8c5d-ae6337d5015c",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:07:58.472Z",
+            "durationMs": 5602,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "443f346c882f23e199c08d0efe8a48c74a960a1e016c1712a356956f5315466a",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T04%2FT05%3A%20organization%20creation%20and%20custom%20entitlement%20remain%20explicit%2C%20bounded%20operations",
+        "kind": "test",
+        "declarationIndex": 14,
+        "titlePath": [
+          "r004 T04/T05: organization creation and custom entitlement remain explicit, bounded operations"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491e-496a-79d6-871e-846e375a3905",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:08:04.074Z",
+            "durationMs": 7588,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "d1561fc53c554967809d1a5cd9142da119a74573397177c7fe89b8d1dabc4c9c",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T10%3A%20full%20role%20table%20preserves%20per-action%20grants%20and%20rejects%20unconfirmed%20legacy%20scope",
+        "kind": "test",
+        "declarationIndex": 15,
+        "titlePath": [
+          "r004 T10: full role table preserves per-action grants and rejects unconfirmed legacy scope"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491e-670e-70b3-848a-d280a37cd0d1",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:08:11.662Z",
+            "durationMs": 5779,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "00e7b07d11de42958994c9b46f3b2356783cc7f4f1d8cca11521b82ade4b455f",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T01%2FT02%3A%20zero%2C%20one%20and%20multiple%20organizations%20have%20distinct%20safe%20outcomes",
+        "kind": "test",
+        "declarationIndex": 16,
+        "titlePath": [
+          "r004 T01/T02: zero, one and multiple organizations have distinct safe outcomes"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491e-7da1-7fcf-8ae5-0ae7169fc7ee",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:08:17.441Z",
+            "durationMs": 6485,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "c62bce07007194cd66afd52f3040ce5534159e1a19bd898e6a839eeeabe4f9d8",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T03%2FX06%3A%20other-device%2C%20current-browser%20and%20all-device%20revocation%20retain%20their%20scope",
+        "kind": "test",
+        "declarationIndex": 17,
+        "titlePath": [
+          "r004 T03/X06: other-device, current-browser and all-device revocation retain their scope"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491e-96f7-74e4-bb88-815a73444e9a",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:08:23.927Z",
+            "durationMs": 24486,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "9b111b0ea522e31e24159ab7aa1b8082c06fe62f3565a94e9df00a7d5876d97c",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T08%2FT09%3A%20verified%20invitation%20joins%20exactly%20once%20and%20enters%20its%20workspace",
+        "kind": "test",
+        "declarationIndex": 18,
+        "titlePath": [
+          "r004 T08/T09: verified invitation joins exactly once and enters its workspace"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491e-f69d-7c25-a374-f0b356bfb61a",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:08:48.413Z",
+            "durationMs": 7308,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "d65ed16422b67028daddd2e84ad0d119621d0b44758a9d863aa99d92633c4535",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T06%2FT11%2FX08%2FX11%3A%20revoke%20a%20write%20role%20without%20losing%20read%20access%20and%20protect%20the%20last%20owner",
+        "kind": "test",
+        "declarationIndex": 19,
+        "titlePath": [
+          "r004 T06/T11/X08/X11: revoke a write role without losing read access and protect the last owner"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491f-1329-788c-9308-aa26feaae469",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:08:55.721Z",
+            "durationMs": 6786,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "c2a1f34188ebb482dfe05c4bf70fc03f5e150d03fc74173c21017e481523d115",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T26%3A%20filter%20resource%20assignment%20preserves%20ownership%20and%20displays%20exact%20changes",
+        "kind": "test",
+        "declarationIndex": 20,
+        "titlePath": [
+          "r004 T26: filter resource assignment preserves ownership and displays exact changes"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491f-2dab-7de9-a83c-d4507f303744",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:09:02.507Z",
+            "durationMs": 9020,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "6b4a4765daf84f358560b4c02fb4698ad507664b7593fbb5b7d9fb105fd9f9d7",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T26%3A%20paste%20resource%20assignment%20preserves%20ownership%20and%20displays%20exact%20changes",
+        "kind": "test",
+        "declarationIndex": 21,
+        "titlePath": [
+          "r004 T26: paste resource assignment preserves ownership and displays exact changes"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491f-50e7-7b96-94b5-d76f40c9693c",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:09:11.527Z",
+            "durationMs": 6424,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "1cee4a0d7dc39ced785aaae38f63df2319cf72cda219da8d855803f3c812fb9f",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T26%3A%20excel%20resource%20assignment%20preserves%20ownership%20and%20displays%20exact%20changes",
+        "kind": "test",
+        "declarationIndex": 22,
+        "titlePath": [
+          "r004 T26: excel resource assignment preserves ownership and displays exact changes"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491f-69ff-7b6a-a51e-b43633c18004",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:09:17.952Z",
+            "durationMs": 6492,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "6002516d96708639460e6e79757ff04af481fbe0bca360918fa7f5f46a5cd304",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T12%2FT13%2FX01%3A%20marketing%20function%20works%20without%20console%20membership%20menus",
+        "kind": "test",
+        "declarationIndex": 23,
+        "titlePath": [
+          "r004 T12/T13/X01: marketing function works without console membership menus"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491f-835c-7284-9ace-45a7b8fe06d1",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:09:24.444Z",
+            "durationMs": 24496,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "c3b5cac9944112cb955adc029fd22ebbf743c469c55246b49f1a9ebdd475bee1",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T19%2FT20%2FT21%2FT25%3A%20authorized%20diagnostic%2C%20audit%20and%20collection%20views%20retain%20source%20boundaries",
+        "kind": "test",
+        "declarationIndex": 24,
+        "titlePath": [
+          "r004 T19/T20/T21/T25: authorized diagnostic, audit and collection views retain source boundaries"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a1491f-e30d-741c-aa11-b9eb4362d441",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:09:48.941Z",
+            "durationMs": 13547,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "f9c7c52ab5131b102e500061b63fa9bbbb4d5fa500503afb0f7abfdeabcd79a0",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T22%2FT23%3A%20qualification%20gaps%20block%20production%20while%20simulated%20plans%20remain%20inspectable",
+        "kind": "test",
+        "declarationIndex": 25,
+        "titlePath": [
+          "r004 T22/T23: qualification gaps block production while simulated plans remain inspectable"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "failed",
+        "attempts": [
+          {
+            "id": "01a14920-17f9-709f-95ad-65a1e42150d7",
+            "index": 0,
+            "status": "failed",
+            "startedAt": "2026-10-17T09:10:02.489Z",
+            "durationMs": 13866,
+            "artifacts": [],
+            "error": {
+              "category": "test",
+              "code": "ERROR",
+              "message": "expect(locator).toBeDisabled() failed\n\nLocator:  getByRole('button', { name: '确认仅保存模拟计划', exact: true })\nExpected: disabled\nReceived: enabled\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.be.disabled\" with timeout 5000ms\n  - waiting for getByRole('button', { name: '确认仅保存模拟计划', exact: true })\n    14 × locator resolved to <button type=\"button\" data-primary=\"\" aria-disabled=\"false\" class=\"el-button el-button--primary el-button--default\">…</button>\n       - unexpected value \"enabled\"\n",
+              "retryable": false,
+              "phase": "body",
+              "source": {
+                "file": "node_modules/.pnpm/e2e@0.20.0/node_modules/e2e/dist/run/execute.js",
+                "line": 523,
+                "column": 24
+              }
+            },
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "524d734e1ce29ba092e69155fa8a43ee9c0e5e8b0f9f53582229b261afbc4b3c",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20T16%2FUX02%2FUX04%3A%20ambiguous%20rows%2C%20import%20errors%20and%20partial%20outcomes%20recover%20without%20replaying%20successes",
+        "kind": "test",
+        "declarationIndex": 26,
+        "titlePath": [
+          "r004 T16/UX02/UX04: ambiguous rows, import errors and partial outcomes recover without replaying successes"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14920-4e46-7399-989d-6dfd1da25f7c",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:10:16.391Z",
+            "durationMs": 5441,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "abd0a5830781e3ee7c4b769a8ddb883e0cdfddd209dfec87226d177e2f925583",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-01%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 27,
+        "titlePath": [
+          "r004 inventory UI-01: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14920-6388-766a-b723-329a4bf69f1a",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:10:21.832Z",
+            "durationMs": 11731,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "a2125580814e3f958920816ce9c2ebf26388614cc89efc52dcdf4f64873db522",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-02%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 28,
+        "titlePath": [
+          "r004 inventory UI-02: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "failed",
+        "attempts": [
+          {
+            "id": "01a14920-915c-743d-9f0e-113d13bf7d1a",
+            "index": 0,
+            "status": "failed",
+            "startedAt": "2026-10-17T09:10:33.564Z",
+            "durationMs": 25824,
+            "artifacts": [],
+            "error": {
+              "category": "test",
+              "code": "ERROR",
+              "message": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: '选择企业', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for getByRole('heading', { name: '选择企业', exact: true })\n",
+              "retryable": false,
+              "phase": "body",
+              "source": {
+                "file": "node_modules/.pnpm/e2e@0.20.0/node_modules/e2e/dist/run/execute.js",
+                "line": 523,
+                "column": 24
+              }
+            },
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ea39676126e3fae762dae6837cc8a22eb14513f870330c3cca948ca1ab55752c",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-03%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 29,
+        "titlePath": [
+          "r004 inventory UI-03: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14920-f656-7cf0-bbef-d0a9c92ea5f7",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:10:59.414Z",
+            "durationMs": 13332,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "bbc461e70431d3301e96110e60d671bd4f4f8e16a8b098ba7cd4ea772fe5e842",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-04%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 30,
+        "titlePath": [
+          "r004 inventory UI-04: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14921-2a6a-7581-9771-4e0fc99c1246",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:11:12.746Z",
+            "durationMs": 14838,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "f8a4a47a18af6d39dc587b5f335070283c484b300d514943fc8b58ca45f14eb1",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-05%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 31,
+        "titlePath": [
+          "r004 inventory UI-05: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14921-6461-723b-99f3-7e65a4a94445",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:11:27.585Z",
+            "durationMs": 11259,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "98dd31d9a3995490c47c4cdc28b798b6573b45854143c9383089c9d552ba2f17",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-06%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 32,
+        "titlePath": [
+          "r004 inventory UI-06: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14921-905c-7891-912a-c3ceca5c86c4",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:11:38.844Z",
+            "durationMs": 30670,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "526f30ca650dcfe7fc84ba2dcf1a5d3cd664953d27284891b3527877a49beb68",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-07%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 33,
+        "titlePath": [
+          "r004 inventory UI-07: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14922-082a-761a-81b0-a883014eb06e",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:12:09.514Z",
+            "durationMs": 12618,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "162c96266de26beda260baaabbc6db93421320f6d8fa0f32bc83d168defb0268",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-08%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 34,
+        "titlePath": [
+          "r004 inventory UI-08: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14922-3974-734d-b936-fd61b685953c",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:12:22.132Z",
+            "durationMs": 14547,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "e8bcec6f65c913512f67988fcafd064618274f33d789ca88c50de8658cbfe715",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-09%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 35,
+        "titlePath": [
+          "r004 inventory UI-09: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14922-7247-7eb5-98ad-4bdd073dcc61",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:12:36.679Z",
+            "durationMs": 16084,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "be1baf1f8f87d2da325fd2b369cfd681d3f5ea448ccae8211e2553f2836c65bd",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-10%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 36,
+        "titlePath": [
+          "r004 inventory UI-10: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14922-b11b-7d58-bf92-4704a98ff4f2",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:12:52.763Z",
+            "durationMs": 29774,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "f3a43612e778c0605284753dee9dda10c8876f910ecb4ad183b54c4865ec02c9",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-11%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 37,
+        "titlePath": [
+          "r004 inventory UI-11: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14923-2569-7cb2-b978-67704c100ba8",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:13:22.537Z",
+            "durationMs": 16002,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "6c4a9e618e33c9f0e3700d0efe04d8d1fecf3f420010a953f306d3abc1537492",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-12%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 38,
+        "titlePath": [
+          "r004 inventory UI-12: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14923-63eb-709d-aa6a-a94ae9e954f6",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:13:38.539Z",
+            "durationMs": 13189,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "be8fa72990cecaa3b6645256a3727cc21c94b7155dc48a1e7389e6cebef849fe",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-13%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 39,
+        "titlePath": [
+          "r004 inventory UI-13: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14923-9770-7291-bebd-66e83e4e7e4b",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:13:51.728Z",
+            "durationMs": 14966,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "159d5dbc2378aa225e6008ffb515ce6e5fc74830d9e62a9bcfbed8969a7cb364",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-14%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 40,
+        "titlePath": [
+          "r004 inventory UI-14: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14923-d1e6-753e-ba1f-94f50b763572",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:14:06.695Z",
+            "durationMs": 26656,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ef62096ed790a98d287c057b5eac8c5fae0c7ee785e070c71655c680373e3965",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-15%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 41,
+        "titlePath": [
+          "r004 inventory UI-15: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14924-3a07-72b1-a73d-90a093733f1f",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:14:33.351Z",
+            "durationMs": 14438,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "19fb7ad7727ead83ddbf8adb8f73b7149be64ae073d0b17b89116dc26cca0435",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-16%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 42,
+        "titlePath": [
+          "r004 inventory UI-16: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14924-726d-7d90-b496-59dca8084571",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:14:47.789Z",
+            "durationMs": 17579,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "c38182680440611ff31f0c9ccac166716dacd2c387770c307d9cbe56ed688a09",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-17%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 43,
+        "titlePath": [
+          "r004 inventory UI-17: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14924-b719-7774-bbf7-362f755d0716",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:15:05.369Z",
+            "durationMs": 12256,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "79b3ddf61a8b5ab14c840616ae465abf3fb04c5b40bbd5d1a8a87ad653c59864",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-18%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 44,
+        "titlePath": [
+          "r004 inventory UI-18: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14924-e6f9-7b60-bd0e-0cce15e03ea4",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:15:17.625Z",
+            "durationMs": 26525,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "488b9aa9cf44c328cb9188b7c5319a8d9bf2305b42db91ff6342e85f07f9ce4e",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-19%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 45,
+        "titlePath": [
+          "r004 inventory UI-19: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14925-4e96-787f-a629-5e855bb82aa1",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:15:44.150Z",
+            "durationMs": 14511,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "02ce1649e3b18db5a96e29583bbb0ccf01692568fae39975bbd1d82fbdc10a77",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-20%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 46,
+        "titlePath": [
+          "r004 inventory UI-20: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14925-8745-7df8-be43-0b28a5f330de",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:15:58.661Z",
+            "durationMs": 15342,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "fecae4de2c689febdab2274d2742547b97d0477724b4838a0556a654db8e572b",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-21%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 47,
+        "titlePath": [
+          "r004 inventory UI-21: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14925-c333-781b-a5ed-6153e8e6b286",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:16:14.003Z",
+            "durationMs": 15125,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "f26a528c3dbfd16fd4e398a7157ae4b744d7e8fa1afdcc76ba2d1796b4cf449d",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-22%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 48,
+        "titlePath": [
+          "r004 inventory UI-22: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14925-fe48-7a3e-8f6d-5fa5f4d78870",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:16:29.128Z",
+            "durationMs": 25395,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "57204847004fd5960d8052c0f20a03a354df0b36aed3dbe1fea6bda33a96af1a",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-23%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 49,
+        "titlePath": [
+          "r004 inventory UI-23: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14926-617b-7532-bbd0-745e0e3a9533",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:16:54.523Z",
+            "durationMs": 16797,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "2e6293f8fbf7c80348bdae8b25d7fc9e12c8ced145b23d6a59928dc0b46936a9",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-24%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 50,
+        "titlePath": [
+          "r004 inventory UI-24: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14926-a318-7d62-a5dd-6bcf2570c5bf",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:17:11.320Z",
+            "durationMs": 14353,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "08e55c04601210d03b9504bb372ce3a6c5d371cc37698080382434d31bea98bb",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-25%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 51,
+        "titlePath": [
+          "r004 inventory UI-25: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14926-db29-70fb-abb2-0b800491233e",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:17:25.673Z",
+            "durationMs": 31326,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "7b2f984b782c755a1c78d0a9bac52784eeb981144da2516e327156d7976e8005",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-26%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 52,
+        "titlePath": [
+          "r004 inventory UI-26: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14927-5587-716b-acf3-54f4a1cc64a3",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:17:56.999Z",
+            "durationMs": 11904,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "495ac58ce81db6085fc9665904d932a6d4542839a3b299773408f58db2b75e73",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-27%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 53,
+        "titlePath": [
+          "r004 inventory UI-27: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14927-8407-7403-8c19-f6d9b3d244e0",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:18:08.903Z",
+            "durationMs": 14196,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "b589dcccf74ae4ee82d61008d89d94b085398f944abb13c3bbd23811f01d6e13",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-28%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 54,
+        "titlePath": [
+          "r004 inventory UI-28: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14927-bb7b-7419-9428-b0b2f8a5a861",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:18:23.099Z",
+            "durationMs": 16412,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "6bd146df34dd88431ff0c68cba80894100694ed3194c060fb668deb2761fcb48",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-29%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 55,
+        "titlePath": [
+          "r004 inventory UI-29: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14927-fb98-74b1-bbab-ae55e0ea535c",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:18:39.512Z",
+            "durationMs": 27118,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "9ecd271968619badab43bf772b956972bdee7d99ac8a7959d07cd47a405c0475",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-30%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 56,
+        "titlePath": [
+          "r004 inventory UI-30: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14928-6586-70cf-baae-647146d2ce84",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:19:06.630Z",
+            "durationMs": 13629,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "781483faeef73a29f08e8b5698e608613ea1d1e5891bf2e7c0d1228ae27d4ec1",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-31%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 57,
+        "titlePath": [
+          "r004 inventory UI-31: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14928-9ac3-755a-aa06-648154d20730",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:19:20.259Z",
+            "durationMs": 13526,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "7f60c270ee018a76e5cd2209d996f3e1838fd2f45f7acce6c5a5856cc5c178bd",
+        "testId": "tests/e2e/f-series-r004.e2e.ts::r004%20inventory%20UI-32%3A%20retained%20states%20and%20task-specific%20guidance",
+        "kind": "test",
+        "declarationIndex": 58,
+        "titlePath": [
+          "r004 inventory UI-32: retained states and task-specific guidance"
+        ],
+        "file": "tests/e2e/f-series-r004.e2e.ts",
+        "source": {
+          "file": "tests/e2e/f-series-r004.e2e.ts",
+          "line": 30,
+          "column": 1
+        },
+        "targetId": "desktop-edge-local",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a14928-cf99-7337-94e7-170117e00672",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-17T09:19:33.785Z",
+            "durationMs": 13894,
+            "artifacts": [],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": []
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "summary": {
+      "discovered": 57,
+      "selected": 57,
+      "executed": 57,
+      "passed": 55,
+      "failed": 2,
+      "interrupted": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "limits": {
+      "maxAgentContextBytes": 16384,
+      "maxLedgerBytes": 8192,
+      "maxObservationBytes": 262144,
+      "maxEventsPerStep": 1000,
+      "maxModelTokensPerCall": 64000
+    },
+    "usage": {
+      "discoveredResults": 57,
+      "maxAgentContextBytes": 0,
+      "maxLedgerBytes": 0,
+      "maxObservationBytes": 0,
+      "artifactBytes": 0,
+      "downloads": 0,
+      "events": 0,
+      "modelTokens": 0,
+      "maxModelCallsInStep": 0,
+      "maxActionStepsInStep": 0
+    }
+  }
+}

@@ -17,7 +17,7 @@ const tasks = computed(() =>
       ),
 );
 const task = computed(() => (s.scene === "not_found" ? undefined : s.currentTask));
-const deliveryRows = computed(() => [
+const deliveryRows = computed(() => s.journeyMode ? s.supportActivities.map(t => ({id:t.id,cause:t.id,state:'unknown',attempt:'—',trace:t.trace})) : [
   {
     id: "EV-REVIEW-001",
     cause: "ACT-REVIEW-001",
@@ -30,12 +30,14 @@ const deliveryRows = computed(() => [
             ? "queued"
             : "complete",
     attempt: s.scene === "retrying" ? 2 : 1,
+    trace: 'correlation-review-003',
   },
   {
     id: "EV-REVIEW-002",
     cause: "ACT-REVIEW-002",
     state: s.scene === "unknown" ? "unknown" : "deadletter",
     attempt: 3,
+    trace: 'correlation-review-003',
   },
 ]);
 function returnToOrigin() {
@@ -146,8 +148,7 @@ function failedOnly() {
         <p>
           {{
             l(
-              "仅展示当前账号、企业和权限允许的记录。可以返回业务页面发起一次审阅操作。",
-              "Only records permitted for this account and organization are shown. Return to a business page to perform a review action.",
+              (s.journeyMode ? "暂无操作记录。完成业务操作后，可在这里查看进度和结果。" : "仅展示当前账号、企业和权限允许的记录。可以返回业务页面发起一次审阅操作。"), (s.journeyMode ? "No activities yet. Business actions appear here with their progress and results." : "Only records permitted for this account and organization are shown. Return to a business page to perform a review action."),
             )
           }}
         </p>
@@ -181,8 +182,7 @@ function failedOnly() {
             {{
               ["release", "recovery"].includes(task.effect.kind)
                 ? l(
-                    "仅记录审阅计划，不改变任何环境。",
-                    "Records a review plan only; no environment changes.",
+                    (s.journeyMode ? "查看计划的目标、版本与处理进度。" : "仅记录审阅计划，不改变任何环境。"), (s.journeyMode ? "View the target, version and progress of the plan." : "Records a review plan only; no environment changes."),
                   )
                 : task.effect.kind === "invite"
                   ? l(
@@ -317,9 +317,9 @@ function failedOnly() {
         <h3>{{ inspected }}</h3>
         <dl class="full-facts">
           <dt>{{ l("关联链", "Correlation") }}</dt>
-          <dd>correlation-review-003</dd>
+          <dd>{{ deliveryRows.find(row=>row.id===inspected)?.trace }}</dd>
           <dt>{{ l("触发原因", "Cause") }}</dt>
-          <dd>causation-review-003</dd>
+          <dd>{{ s.journeyMode ? deliveryRows.find(row=>row.id===inspected)?.cause : 'causation-review-003' }}</dd>
           <dt>{{ l("受控错误分类", "Safe error category") }}</dt>
           <dd>
             {{
@@ -337,7 +337,8 @@ function failedOnly() {
             )
           }}
         </p>
-        <ElButton @click="s.go('diagnostics')">{{
+        <p v-if="s.journeyMode" class="full-muted">{{ l('处理状态待确认时，请查询原操作。','When processing is unconfirmed, query the original activity.') }}</p>
+        <ElButton @click="s.go('diagnostics', s.journeyMode ? {reference:deliveryRows.find(row=>row.id===inspected)?.cause || ''} : {})">{{
           l("进入受控诊断", "Open authorized diagnostics")
         }}</ElButton
         ><ElButton @click="inspected = ''">{{ l("关闭详情", "Close details") }}</ElButton>

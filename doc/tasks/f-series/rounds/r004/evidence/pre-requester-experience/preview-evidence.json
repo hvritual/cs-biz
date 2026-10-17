@@ -1,0 +1,86 @@
+{
+  "protocol": "local-preview-observation-v1",
+  "state": "PARTIAL_NOT_QUALIFIED",
+  "candidate_sha": null,
+  "source_ref": {
+    "path": "preview-source.json",
+    "sha256": "f3ca525b3211acd3016659d0fed49b046016f1aff72b2fc6c973986f7e130412"
+  },
+  "review_plan_ref": {
+    "path": "review-plan.json",
+    "sha256": "ca874c5189b22d72b8b72ced4776beab4c9b97e698d0cf07bdea1df6ea618bed"
+  },
+  "planned_routes": 109,
+  "full_routes_verified": null,
+  "partial_browser_target": "http://127.0.0.1:5778",
+  "intended_delivery_target": "http://127.0.0.1:5790",
+  "partial_results": [
+    "business role at three desktop sizes",
+    "actual invitation handoff and owner readback",
+    "reader authorization boundary",
+    "new enterprise and first Owner through empty and granted entitlement",
+    "failed-only recovery preserves original result"
+  ],
+  "evidence_refs": [
+    {
+      "path": "evidence/role-entry/r03-business-1366.json",
+      "sha256": "07ad15b6696e4d3568e8053741e2d6efbcfa3dc49027347c80e8a5f74fca42a4"
+    },
+    {
+      "path": "evidence/role-entry/r03-business-1366.png",
+      "sha256": "99d9de1b964c6395321926c1e9c7c21c4bf15eb6e11bde7a847476502e04834f"
+    },
+    {
+      "path": "evidence/role-entry/r03-business-1440.json",
+      "sha256": "f7e7b8dc4d1f2083ff39bf5efcb14edf49ebb2e4093f17c4d11edf3540f91817"
+    },
+    {
+      "path": "evidence/role-entry/r03-business-1440.png",
+      "sha256": "1b27436842e02c4ce1348b002b41b4e0ddd3a4ef1ff1494fc9f88929d23e59b3"
+    },
+    {
+      "path": "evidence/role-entry/r03-business-1536.json",
+      "sha256": "6798f49ba72db2a971817b69dd1f943b1777f67a23c92edcf87998b06e3fdf80"
+    },
+    {
+      "path": "evidence/role-entry/r03-business-1536.png",
+      "sha256": "92949ca0ddb7e5b6cd38ce379387b1fcfa1777c35363930c6f7b5c303694a977"
+    },
+    {
+      "path": "evidence/role-entry/r03-invitation-handoff.json",
+      "sha256": "e9ba69a686de4d5ad52821316980671300eca49a27d11c34e27c485820ce413f"
+    },
+    {
+      "path": "evidence/role-entry/r03-invitation-handoff.png",
+      "sha256": "fcba85dec2a0bb4e1e5fce220e22b7b4183d1d7e10deb5e2266df35387df761d"
+    },
+    {
+      "path": "evidence/role-entry/r03-onboarding-handoff.json",
+      "sha256": "e4553b8b15566f5a85936b339b933d3eccdce68e805e05349d9dccdc1107a7b7"
+    },
+    {
+      "path": "evidence/role-entry/r03-onboarding-handoff.png",
+      "sha256": "8a12caaea0c80df4c7e5e741a3cbcae569ab98b03f0d8301d2b85555365cd7a3"
+    },
+    {
+      "path": "evidence/role-entry/r03-onboarding-run.json",
+      "sha256": "df16ccd2d67927e91f3b9681c005f7d46e9ddd0cc816ac2ed19dc8600404dd59"
+    },
+    {
+      "path": "evidence/role-entry/r03-reader-boundary.json",
+      "sha256": "51cdb9ed16bdd8c24fc8d63df4fba6c6e3b1c100d3c238683a8091cdb7ec391d"
+    },
+    {
+      "path": "evidence/role-entry/r03-reader-boundary.png",
+      "sha256": "f7043f30b200062faffecf57c9b8d6ba78097a0f75e195f8f12c997336ba4d1a"
+    }
+  ],
+  "validation_ref": {
+    "path": "role-review-validation.md",
+    "sha256": "94ec7398dafabb3f94274199cac9a446450a2721b6fa47024775f1e2f720ca2c"
+  },
+  "limits": [
+    "Partial runs are supporting regressions, not complete journey_runs or final entry proof.",
+    "Human has not reviewed this candidate."
+  ]
+}

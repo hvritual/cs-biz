@@ -1,0 +1,46 @@
+{
+  "protocol": "design-review-delivery-v2",
+  "state": "CHANGES_REQUESTED",
+  "plan_ref": {
+    "path": "review-plan.json",
+    "sha256": "ca874c5189b22d72b8b72ced4776beab4c9b97e698d0cf07bdea1df6ea618bed"
+  },
+  "candidate_sha": null,
+  "target": {
+    "url": "http://127.0.0.1:5790",
+    "version": "uncommitted role-journey draft",
+    "access_instructions": "Not yet delivered for Human review; executor must complete final entry observation."
+  },
+  "observation": {
+    "kind": "partial_browser",
+    "result": "partial",
+    "record_ref": {
+      "path": "preview-evidence.json",
+      "sha256": "00c308fe62467de3e8fbd48704d49e5f2a65b3df3fb5dd426a4f8fae5510cb45"
+    }
+  },
+  "presentation": null,
+  "independent_review": {
+    "decision": "content_only",
+    "record_ref": {
+      "path": "role-journey-review.md",
+      "sha256": "aeb5aaa82f97960b55141547f80fbae252efed34c00a389b25860c2a827bdeed"
+    }
+  },
+  "human_review": {
+    "decision": "pending",
+    "candidate_sha": null,
+    "record_ref": null
+  },
+  "blockers": [
+    {
+      "owner": "Design/Preview executor",
+      "gap": "109 complete normal/prefix branch routes at final delivered version are not fully observed; retained legacy two-tab regression is unresolved.",
+      "next_action": "Finish same-version continuous role rehearsals with actual sessions/object IDs and independent readback before Human delivery.",
+      "evidence_ref": {
+        "path": "role-review-validation.md",
+        "sha256": "94ec7398dafabb3f94274199cac9a446450a2721b6fa47024775f1e2f720ca2c"
+      }
+    }
+  ]
+}

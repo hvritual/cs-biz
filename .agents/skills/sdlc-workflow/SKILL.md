@@ -5,6 +5,8 @@ description: Route a cs-biz task through Design, Build and Deploy Agents using s
 
 # SDLC workflow router
 
+In Design, Human is the requirement originator. The Agent refines requirements, plans complete user journeys, designs the frontend and outputs the originator's experience operation flow. Frontend review is that person's product experience and feedback. Keep engineering qualification and records outside the product and the business operation flow.
+
 Read AGENTS.md and the actual task. Select the stage from authoritative artifacts and the requested completion boundary; do not reset scope, budgets or original acceptance. Agent is the LLM + instructions + host tools/context/control loop. A capability Skill performs one bounded function and returns an artifact. `agents/openai.yaml` is Skill UI metadata, not a runnable Agent.
 
 | Current need | Agent / workflow Skill | Handoff |
@@ -30,3 +32,5 @@ Run `python3 .agents/skills/sdlc-workflow/scripts/check_packages.py` for package
 For project knowledge routing, start with [the document map](../../../doc/README.md); run `scripts/check_docs.py` for live ownership, reachability, retired references and documented command drift. It does not prove semantic freshness. [Definition sources](references/standards.md) explain Agent/Skill formats.
 
 For UI Design returns distinguish content completion, verified final-entry delivery, actual presentation and same-version Human approval; use [Design review delivery](../sdlc-design/references/review-delivery.md). Goal validates each boundary and continues authorized repair rather than converting an executor/tooling gap into a pending Human review. Existing stopped business implementation is not resumed by workflow maintenance.
+
+Human UI review uses complete role journeys at the same delivered version. Keep normal entry/navigation and original business object handoffs observable; do not route a page/scene selector or executor fixture preparation to Human. Return missing continuous-journey proof to Design/Preview before asking for approval.

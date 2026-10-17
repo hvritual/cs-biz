@@ -221,11 +221,10 @@ function applyEntitlement(value: string) {
           >{{ l("指定负责人组织账号", "Nominated owner account")
           }}<ElInput
             v-model="form.owner"
-            :aria-label="l('负责人受控测试地址', 'Controlled owner email')"
+            :aria-label="s.journeyMode ? l('负责人邮箱', 'Owner email') : l('负责人受控测试地址', 'Controlled owner email')"
           /><small>{{
             l(
-              "审阅仅接受 example.test 测试地址。负责人需验证受邀账号后接受，创建者不会自动成为负责人。",
-              "Review accepts example.test addresses only. The nominee must verify and accept; the creator does not become an owner.",
+              (s.journeyMode ? "负责人验证邮箱并接受邀请后即可进入企业，创建者不会自动成为负责人。" : "审阅仅接受 example.test 测试地址。负责人需验证受邀账号后接受，创建者不会自动成为负责人。"), (s.journeyMode ? "The owner verifies the invited account and accepts the invitation. Creating the organization does not grant ownership." : "Review accepts example.test addresses only. The nominee must verify and accept; the creator does not become an owner."),
             )
           }}</small></label
         >
@@ -276,7 +275,7 @@ function applyEntitlement(value: string) {
       </div>
       <div class="full-actions">
         <ElButton v-if="ownerInvitation" @click="s.openInvitation(ownerInvitation.id)">{{
-          l("审阅受邀负责人验证入口", "Review nominated owner verification")
+          s.journeyMode ? l("打开首次负责人邀请链接", "Open initial owner invitation") : l("审阅受邀负责人验证入口", "Review nominated owner verification")
         }}</ElButton
         ><ElButton type="primary" @click="s.go('module-grant', { target: target?.id || '' })">{{
           l("配置模块开通", "Configure modules")
@@ -323,8 +322,7 @@ function applyEntitlement(value: string) {
       <p class="full-muted">
         {{
           l(
-            "已有审阅样例的生效配置为不限期、不设额度上限；新配置必须在确认页明确核对。关闭模块后现有菜单与角色不再允许业务访问。",
-            "Existing review fixtures have no expiry or quota cap. New settings are explicitly reviewed. Disabling a module blocks business access regardless of menus and roles.",
+            (s.journeyMode ? "请核对开通期限和额度。关闭模块后，成员将无法继续访问该模块。" : "已有审阅样例的生效配置为不限期、不设额度上限；新配置必须在确认页明确核对。关闭模块后现有菜单与角色不再允许业务访问。"), (s.journeyMode ? "Check expiry and quota. Members cannot access a disabled module." : "Existing review fixtures have no expiry or quota cap. New settings are explicitly reviewed. Disabling a module blocks business access regardless of menus and roles."),
           )
         }}
       </p>

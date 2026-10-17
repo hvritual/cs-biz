@@ -1,10 +1,10 @@
 # F 系列连续交付
 
-当前状态：`DESIGN_CONTENT_COMPLETE / REVIEW_DELIVERY_UNVERIFIED / S0_RESOURCE_VERIFIED`。2026-10-17 Human 要求先完成完整页面、异常流程及可交互审阅界面；当前版本转为 [r003完整设计](rounds/r003/solution.md)，覆盖 [页面清单](rounds/r003/screen-inventory.md) 与 [跨页义务](rounds/r003/cross-screen-obligations.md)。r002保留为历史片段版本，不能代表当前完整交互验收。所有F业务Issue及生产资格仍未完成。
+当前状态：`DESIGN_R004_PREVIEW_IN_PROGRESS / S0_RESOURCE_VERIFIED`。2026-10-17 Human 确认基于最新分支按计划设计完整用户旅程及UI；当前版本为 [r004方案](rounds/r004/solution.md)、[完整旅程](rounds/r004/journey.md) 与 [验收分母](rounds/r004/requirements.md)。原32页/233声明状态、J01–15及X01–12均保留；[独立内容计划反查](rounds/r004/coverage-review-v3.md)通过，实际交互与最终审阅交付继续验证。r001–r003原件不改，P1/P2/P4/P7未获同版批准；所有F业务Issue及生产资格仍未完成。
 
 2026-10-16 22:49 Human 明确要求恢复 F2–F6，22:54 要求开始第一步，即同版业务设计与准入对账；来源见 [r002原文](rounds/r002/raw-user.txt)。此前 Human stop 保留为历史，不再被当成本次设计阻塞。后续正式 Build 仍需每个切片真实设计准入；生产发布未获授权。
 
-当前单一工作分支 `feat/yunka-f-series-delivery` 从 main `191189ba63ffcbda8f62be1981ae3b892172a9c9` 建立。[r003方案](rounds/r003/solution.md)、[技术分析](rounds/r003/architecture.md)、[实现设计](rounds/r003/design.md)、[完整验收/准入图](rounds/r003/requirements.md)、[旅程](rounds/r003/journey.md) 与 [集中决策包](rounds/r003/decision-review.md) 是本轮审阅入口。尚未签发 Build handoff 或完整模块锁，未关闭任何 F Issue。 本步总入口见 [集中审阅](rounds/r003/review-summary.md)，实际验证与失败保留见 [验证](rounds/r003/validation.md)。
+当前单一工作分支 `feat/yunka-f-series-delivery` 从 main `191189ba63ffcbda8f62be1981ae3b892172a9c9` 建立；r004起点为 `a841213a33571d240b22d4bbd44c73eb90c6cf86`。r004仅准入Design/隔离Preview，不进入业务Build、合并或生产。r003[方案](rounds/r003/solution.md)、[技术分析](rounds/r003/architecture.md)、[设计](rounds/r003/design.md)、[验收](rounds/r003/requirements.md)、[旅程](rounds/r003/journey.md)、[决策包](rounds/r003/decision-review.md)及[历史验证](rounds/r003/validation.md)保留为来源，不代表r004已运行或已获Human批准。没有签发Build handoff、冻结完整模块或关闭F业务Issue。
 
 S0 资源切片已由 [PR #38](https://github.com/hvritual/cs-biz/pull/38) 合入 main `9272114c7e79f3267820f393fcdd4b747b503f89`；真实资源资格见 [S0](S0-resources.md)，不是业务 IAM/Session/Domain DB 或生产资格。
 
@@ -42,3 +42,7 @@ S0 已在支持 Docker 的现有 GitHub CI 真实启动并验证，精确版本�
 本轮完整页面与异常恢复已作为r003审阅候选完成，见[r003总入口](rounds/r003/review-summary.md)。源码候选 1ef0e792e09e7d999071707574d3ac63fd339d9b 的现行Full及独立receipt已通过；该历史候选尚缺正式审阅交付核验，不签Build handoff，不关闭F业务Issue。Goal负责在收到该版反馈后只重开受影响范围，或按获准切片继续Build；生产P6不扩大为非生产设计的全局阻塞。
 
 2026-10-17审阅交付归因及本次[工作流修订](workflow-review-delivery.md)：r003保留历史内容/源码验证，最终交付入口尚未实际浏览器验证，新增任务效率与批量/结果要求也未作为该轮完成事实。当前正式交互交付未核实，不将其转为Human排障或恢复业务Build。后续设计需新修订，旧轮原件不重签。
+
+2026-10-17 Human确认[完整角色旅程审阅调整](review-role-journeys.md)：通用Design合同与r004同步改版。当前改版候选保留原分母，完整旅程观察和Human实际同版审阅仍未齐备；旧逐页/单任务通过不升级为审阅批准。
+
+2026-10-17需求发起人进一步明确Design loop四项目标：完善需求、规划旅程、设计前端、输出体验操作流程；产品体验与工程检查分开。当前修正见[体验定义](review-role-journeys.md)，全量交付状态按实际证据保留。

@@ -3,6 +3,7 @@ import { spawn, type ChildProcess } from 'node:child_process';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { registerR004ReviewTests } from './f-series-r004';
+import { registerRoleJourneyTests } from './f-series-role-journeys';
 const frontend = fileURLToPath(new URL('../..', import.meta.url));
 let server: ChildProcess | undefined;
 beforeAll(async () => {
@@ -28,3 +29,4 @@ afterAll(async()=>{
   if(child.exitCode===null)child.kill('SIGKILL');
 });
 registerR004ReviewTests();
+registerRoleJourneyTests();

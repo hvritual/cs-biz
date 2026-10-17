@@ -8,20 +8,125 @@ from pathlib import Path
 
 def write(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
 
 
 def ref(root, name):
     return {'path': name, 'sha256': hashlib.sha256((root / name).read_bytes()).hexdigest()}
 
 
+def role_example(plan, delivery, record):
+    """A synthetic continuous route, including entry, navigation and record handoff."""
+    plan['roles'] = [
+        {'id': 'admin', 'label': '企业管理员', 'account_context': '隔离管理员账号',
+         'tenant_scope': '本企业', 'navigation': ['客户', '操作记录'], 'task_ids': ['T1'], 'authentication_task_ids': []},
+        {'id': 'support', 'label': '获授权支持', 'account_context': '独立支持账号',
+         'tenant_scope': '获授权支持范围', 'navigation': ['诊断'], 'task_ids': [], 'authentication_task_ids': []}]
+    for item in plan['tasks'][0]['paths'] + plan['tasks'][0]['recovery']:
+        item.update(access='authenticated', authenticates=False, session_after='preserve',
+                    object_mode='produce' if item in plan['tasks'][0]['paths'] or item['id'] in {'import-error', 'ambiguity'} else 'consume')
+    plan['original_journey_coverage'] = {'J1': ['T1']}
+    def path(path_id, kind='normal'):
+        creates = kind == 'normal' or path_id in {'import-error', 'ambiguity'}
+        return {'id': 'work-' + path_id, 'kind': 'task_path', 'actor_id': 'admin',
+                'task_id': 'T1', 'path_kind': kind, 'path_id': path_id,
+                'result_key': 'operation',
+                **({'produces': ['operation']} if creates else {'consumes': ['operation']})}
+    normal = [
+        {'id': 'login', 'kind': 'user_action', 'purpose': 'authenticate', 'actor_id': 'admin', 'action': '使用指定组织账号登录', 'visible_result': '进入本企业工作台'},
+        {'id': 'navigate', 'kind': 'user_action', 'actor_id': 'admin', 'action': '从业务导航打开客户列表', 'visible_result': '显示当前授权客户'},
+        path('filter'),
+        {'id': 'handoff', 'kind': 'handoff', 'actor_id': 'admin', 'to_role_id': 'support',
+         'channel': '授权支持交接', 'consumes': ['operation'],
+         'action': '将原操作编号交给支持', 'visible_result': '支持获得同一原操作编号'},
+        {'id': 'support-login', 'kind': 'user_action', 'purpose': 'authenticate', 'actor_id': 'support',
+         'action': '支持在独立会话使用指定账号登录', 'visible_result': '进入支持工作台'},
+        {'id': 'locate', 'kind': 'user_action', 'actor_id': 'support', 'consumes': ['operation'],
+         'action': '按收到的原操作编号查询', 'visible_result': '只读取该原操作的授权结果'}]
+    branches = []
+    for item in plan['tasks'][0]['paths'][1:] + plan['tasks'][0]['recovery']:
+        kind = 'normal' if item in plan['tasks'][0]['paths'] else 'recovery'
+        before_submit = item['id'] in {'import-error', 'ambiguity'}
+        if before_submit:
+            item['object_mode'] = 'produce'
+        prefix = 2 if kind == 'normal' or before_submit else 6
+        trigger = [{'id': 'trigger-' + item['id'], 'kind': 'user_action', 'actor_id': 'admin',
+                    'action': '导入格式错误的文件' if item['id'] == 'import-error' else '粘贴存在同名匹配的客户名称',
+                    'visible_result': '显示行级错误或待消歧项，尚未提交操作'}] if before_submit else []
+        branches.append({'id': item['id'], 'from_step': 'navigate' if kind == 'normal' or before_submit else 'work-filter',
+                         'condition': item.get('condition', '使用另一种批量选取方式'),
+                         'executor_preparation': '独立重放前由执行者准备输入或故障，用户不切场景',
+                         'walkthrough': trigger + [path(item['id'], kind)], 'action_count': prefix + len(trigger) + len(item['steps']),
+                         'end_result': '保留原记录并显示本分支实际结果'})
+    plan['journeys'] = [{'id': 'J1', 'goal': '管理员处理客户并将同一原操作交接给支持',
+                         'entry': {'kind': 'sign_in', 'location': '/sign-in', 'actor_id': 'admin'},
+                         'fixture_setup': {'owner': 'executor', 'preparation': '准备独立管理员与支持会话及授权客户',
+                                           'simulation_boundary': 'SYNTHETIC ONLY; no real IAM or backend',
+                                           'review_tools_in_user_path': False, 'reset_during_walkthrough': False},
+                         'starting_objects': [], 'walkthrough': normal, 'branches': branches,
+                         'action_count': 9, 'end_result': '支持查询管理员刚产生的同一原操作'}]
+    # Fixture construction is declarative, not execution. The checker independently expands the route.
+    def run(route_id, nodes, count):
+        actions, bindings, actors = [], [], []
+        for node in nodes:
+            before = len(actions)
+            if node['kind'] == 'task_path':
+                paths = plan['tasks'][0]['paths' if node['path_kind'] == 'normal' else 'recovery']
+                item = next(v for v in paths if v['id'] == node['path_id'])
+                actions.extend(node['id'] + '.' + s['id'] for s in item['steps'])
+            else:
+                actions.append(node['id'])
+            actors.extend({'step_id': step, 'role_id': node['actor_id']} for step in actions[before:])
+            bindings.extend({'step_id': node['id'], 'object_key': key, 'value': 'SYNTHETIC-OP-1'}
+                            for key in node.get('consumes', []) + node.get('produces', []))
+        return {'id': route_id, 'result': 'pass', 'steps': actions, 'action_count': count,
+                'review_tools_used': False, 'reset_used': False, 'object_bindings': bindings, 'record_ref': record,
+                'actors': actors, 'role_sessions': [{'id': role, 'account_id': 'SYNTHETIC-' + role,
+                                                    'tenant_scope': 'SYNTHETIC-tenant', 'record_ref': record}
+                                                   for role in dict.fromkeys(v['role_id'] for v in actors)]}
+    runs = [run('main', normal, 9)]
+    for branch in branches:
+        prefix = normal[:2] if branch['from_step'] == 'navigate' else normal[:3]
+        runs.append(run(branch['id'], prefix + branch['walkthrough'], branch['action_count']))
+    delivery['observation']['journey_runs'] = [{'id': 'J1', 'result': 'pass', 'walkthrough_runs': runs}]
+    delivery['presentation']['journey_ids'] = ['J1']
+
+
+def synthetic_approval(delivery):
+    """Explicit synthetic Human receipts for contract tests only, never real approval."""
+    context = {key: delivery['target'][key] for key in ('url', 'version')}
+    context.update(candidate_sha=delivery['candidate_sha'], plan_ref=delivery['plan_ref'])
+    record = delivery['observation']['record_ref']
+    reviews = []
+    for journey in delivery['observation']['journey_runs']:
+        walkthroughs = []
+        roles = []
+        for run in journey['walkthrough_runs']:
+            role_ids = list(dict.fromkeys(v['role_id'] for v in run['actors']))
+            roles.extend(role_ids)
+            walkthroughs.append({'id': run['id'], 'role_reviews': [
+                {'id': role, 'actor_kind': 'human', 'decision': 'approved', **context, 'record_ref': record,
+                 'steps': [v['step_id'] for v in run['actors'] if v['role_id'] == role]} for role in role_ids]})
+        reviews.append({'id': journey['id'], **context, 'actor_kind': 'human', 'decision': 'approved',
+                        'role_ids': list(dict.fromkeys(roles)), 'walkthrough_ids': [r['id'] for r in journey['walkthrough_runs']],
+                        'walkthrough_reviews': walkthroughs, 'record_ref': record})
+    return {'decision': 'approved', **context, 'record_ref': record, 'actor_kind': 'human',
+            'reviewer_role': 'requirement_originator',
+            'reviewer': 'synthetic-human', 'reviewed_at': '2026-10-17T00:00:00Z', 'journey_reviews': reviews}
+
+
 def review_assets(task, raw_ref, candidate='a' * 40):
     """Only synthetic declarations, used by examples and temporary negative tests."""
     folder = task / 'review-fixture'
     folder.mkdir(parents=True, exist_ok=True)
-    (folder / 'record.txt').write_text('SYNTHETIC ONLY. No browser, message delivery or approval occurred.\n')
+    (folder / 'record.txt').write_text('SYNTHETIC ONLY. No browser, message delivery or approval occurred.\n', encoding='utf-8', newline='\n')
+    (folder / 'experience-flow.txt').write_text(
+        '目标：调整客户负责人并查看结果。\n入口：登录后进入客户。\n'
+        '1. 选取客户。\n2. 选择新的负责人并核对范围。\n3. 确认调整，查看逐项结果。\n'
+        '需要支持时，将本次操作编号交给支持；支持登录后查询该编号。\n',
+        encoding='utf-8', newline='\n')
     (folder / 'guide.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" width="360" height="80">'
-                                    '<text x="10" y="40">Example: select - confirm - results</text></svg>\n')
+                                    '<text x="10" y="40">Example: select - confirm - results</text></svg>\n', encoding='utf-8', newline='\n')
     record = ref(task, 'review-fixture/record.txt')
     coverage = {'implementer': 'example-author', 'reviewer': 'example-reviewer',
                 'decision': 'pass', 'record_ref': record}
@@ -79,7 +184,10 @@ def review_assets(task, raw_ref, candidate='a' * 40):
             sequence.insert(1, {'id': 'select-results', 'action': '选取当前匹配结果',
                                 'visible_result': '固定当前明确范围的集合，显示唯一选中数量及已选入口'})
         task_item['paths'].append({'id': method, 'method': method, 'steps': sequence})
-    plan = {'protocol': 'design-review-plan-v1', 'raw_ref': raw_ref, 'requirement_ids': ['R1'],
+    plan = {'protocol': 'design-review-plan-v2', 'raw_ref': raw_ref, 'requirement_ids': ['R1'],
+            'experience': {'audience': 'requirement_originator', 'interface': 'released_product',
+                           'guidance_location': 'outside_product',
+                           'guide_ref': ref(task, 'review-fixture/experience-flow.txt')},
             'tasks': [task_item], 'coverage_review': coverage,
             'review_questions': ['选取、影响核对和失败处理是否符合实际工作？']}
     write(task / 'review-plan.json', plan)
@@ -87,10 +195,12 @@ def review_assets(task, raw_ref, candidate='a' * 40):
               'unknown_readback', 'selected_count', 'selected_details', 'affected_scope', 'filter', 'paste',
               'excel', 'deduplication', 'ambiguity', 'import_errors', 'scope_guard')}
     url = 'https://review.example.invalid/task'
-    delivery = {'protocol': 'design-review-delivery-v1', 'state': 'AWAITING_HUMAN_REVIEW',
+    delivery = {'protocol': 'design-review-delivery-v2', 'state': 'AWAITING_HUMAN_REVIEW',
                 'plan_ref': ref(task, 'review-plan.json'), 'candidate_sha': candidate,
                 'target': {'url': url, 'version': 'synthetic-snapshot', 'access_instructions': 'SYNTHETIC ONLY; not an accessible UI'},
                 'observation': {'kind': 'final_entry_browser', 'result': 'pass', 'url': url,
+                                'experience_ui': {'product_interface': True, 'review_chrome_visible': False,
+                                                  'engineering_copy_visible': False},
                                 'version': 'synthetic-snapshot', 'candidate_sha': candidate,
                                 'actor': 'synthetic-only', 'observed_at': '2026-10-17T00:00:00Z', 'record_ref': record,
                                 'task_runs': [{'id': 'T1', 'result': 'pass', 'record_ref': record,
@@ -101,10 +211,14 @@ def review_assets(task, raw_ref, candidate='a' * 40):
                                                                   'steps': [s['id'] for s in v['steps']]} for v in task_item['recovery']],
                                                'visuals': [{'id': 'guide', 'image_ref': ref(task, 'review-fixture/guide.svg')}]}]},
                 'presentation': {'url': url, 'candidate_sha': candidate, 'version': 'synthetic-snapshot', 'record_ref': record,
+                                 'experience_guide_ref': plan['experience']['guide_ref'],
                                  'image_paths': ['review-fixture/guide.svg'], 'review_sequence': ['选取→核对→结果'],
                                  'decision_questions': plan['review_questions'], 'limitations': ['Synthetic example only; no actual execution.']},
                 'independent_review': {**coverage, 'candidate_sha': candidate},
                 'human_review': {'decision': 'pending', 'candidate_sha': None, 'record_ref': None}, 'blockers': []}
+    role_example(plan, delivery, record)
+    write(task / 'review-plan.json', plan)
+    delivery['plan_ref'] = ref(task, 'review-plan.json')
     write(task / 'review-delivery.json', delivery)
     return plan, delivery
 
@@ -112,7 +226,7 @@ def review_assets(task, raw_ref, candidate='a' * 40):
 def generate(root):
     task = root / 'examples/review'
     task.mkdir(parents=True, exist_ok=True)
-    (task / 'raw.txt').write_text('SYNTHETIC R1: bulk customer selection and result recovery.\n')
+    (task / 'raw.txt').write_text('SYNTHETIC R1: bulk customer selection and result recovery.\n', encoding='utf-8', newline='\n')
     plan, delivery = review_assets(task, ref(task, 'raw.txt'))
     # Templates deliberately cannot pass as delivered/approved.
     template = copy.deepcopy(plan)
@@ -120,7 +234,7 @@ def generate(root):
     template['coverage_review'] = {'implementer': None, 'reviewer': None, 'decision': 'not_reviewed', 'record_ref': None}
     write(root / 'templates/review-plan.json', template)
     write(root / 'templates/review-delivery.json', {
-        'protocol': 'design-review-delivery-v1', 'state': 'DELIVERY_BLOCKED',
+        'protocol': 'design-review-delivery-v2', 'state': 'DELIVERY_BLOCKED',
         'plan_ref': {'path': 'review-plan.json', 'sha256': 'REPLACE_WITH_ACTUAL_SHA256'},
         'candidate_sha': None, 'target': {'url': None, 'version': None, 'access_instructions': None},
         'observation': {'kind': 'not_run', 'result': 'not_run', 'record_ref': None},

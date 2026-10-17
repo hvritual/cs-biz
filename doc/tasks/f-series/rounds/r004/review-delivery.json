@@ -1,0 +1,53 @@
+{
+  "protocol": "design-review-delivery-v2",
+  "state": "CHANGES_REQUESTED",
+  "plan_ref": {
+    "path": "review-plan.json",
+    "sha256": "6f11621cb2f8c17e01d4c34994d6613a7a57dcabd9b405afaef9296ea788ceed"
+  },
+  "candidate_sha": null,
+  "target": {
+    "url": "http://127.0.0.1:5790",
+    "version": "uncommitted requester-experience draft",
+    "access_instructions": "Not yet delivered for Human review; executor must complete final entry observation."
+  },
+  "observation": {
+    "kind": "partial_browser",
+    "result": "partial",
+    "record_ref": {
+      "path": "preview-evidence.json",
+      "sha256": "61b32fdf74e49a6d2804a845b967d9b136f101ea100ff24af3069d769e970fc9"
+    },
+    "experience_ui": {
+      "product_interface": true,
+      "review_chrome_visible": false,
+      "engineering_copy_visible": false,
+      "scope": "7 bounded cases, not all product states"
+    }
+  },
+  "presentation": null,
+  "independent_review": {
+    "decision": "content_only",
+    "record_ref": {
+      "path": "requester-experience-review.md",
+      "sha256": "10b9b39b1d3b2e2d2981731b76cb8059e77c05967c52f546760130db1003fcb7"
+    }
+  },
+  "human_review": {
+    "decision": "pending",
+    "reviewer_role": "requirement_originator",
+    "candidate_sha": null,
+    "record_ref": null
+  },
+  "blockers": [
+    {
+      "owner": "Design/Preview executor",
+      "gap": "Full journey observation, applicable UX05 visuals, retained regressions and immutable candidate qualification remain incomplete.",
+      "next_action": "Finish Agent preparation and qualification before delivering the product experience to the requirement originator.",
+      "evidence_ref": {
+        "path": "requester-experience-validation.md",
+        "sha256": "401f1fee9fa3af7e5b8181ffacaf44d7dd1efd822ad492df04a0e6fba2d68b54"
+      }
+    }
+  ]
+}

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { ElButton, ElDialog, ElTag } from "element-plus";
+import { ElButton, ElDialog, ElInput, ElTag } from "element-plus";
 import { ArrowRight, Building2, KeyRound, Laptop, ShieldCheck } from "lucide-vue-next";
 import { l, roleTitle, statusTitle } from "./copy";
 import { useFullReviewState } from "./state";
 const s = useFullReviewState();
+const loginEmail = ref(localStorage.getItem('cs-biz:f-series-design:review-profile') ? s.legacy.workspace.user?.email || '' : '');
 const recovery = ref(false);
 const recoveryHandoff = ref(false);
 const revoke = ref("");
@@ -28,8 +29,9 @@ const organizations = computed(() =>
       ? s.legacy.workspace.tenants.slice(0, 1)
       : s.legacy.workspace.tenants,
 );
-function login() {
+async function login() {
   if (loginFailed.value) return;
+  if (s.journeyMode) { await s.signInWithEmail(loginEmail.value); return; }
   s.legacy.beginSignIn();
   const orgs = String(s.query.orgs || '');
   s.go("organizations", { ...(['one', 'zero'].includes(orgs) ? { scene: orgs } : {}),
@@ -58,7 +60,9 @@ function logout() {
 }
 function finishRecovery() {
   recovery.value = false; recoveryHandoff.value = false;
-  if (s.taskMode) {
+  if (s.journeyMode) {
+    logout();
+  } else if (s.taskMode) {
     s.legacy.signOut(); s.legacy.beginSignIn(); s.go('organizations');
   } else logout();
 }
@@ -89,6 +93,7 @@ function confirmRevoke() {
             }}
           </p>
           <div class="full-actions">
+            <ElInput v-if="s.journeyMode" v-model="loginEmail" type="email" autocomplete="username" :aria-label="l('组织账号邮箱','Organization account email')" :placeholder="l('请输入组织账号邮箱','Enter your organization account email')" @keyup.enter="login" />
             <ElButton
               type="primary"
               size="large"
@@ -115,7 +120,7 @@ function confirmRevoke() {
               )
             }}
           </p>
-          <p>
+          <p v-if="!s.journeyMode">
             {{
               l(
                 "推荐会话：空闲30分钟，最长8小时。普通退出会结束当前浏览器的所有标签页。",
@@ -123,7 +128,7 @@ function confirmRevoke() {
               )
             }}
           </p>
-          <ElTag>{{ l("本版策略待审", "Policy pending review") }}</ElTag>
+          <ElTag v-if="!s.journeyMode">{{ l("本版策略待审", "Policy pending review") }}</ElTag>
         </div>
       </div>
     </section>
@@ -291,9 +296,9 @@ function confirmRevoke() {
       v-model="recovery"
       :title="l('前往组织账号服务恢复', 'Recover through organization identity service')"
       width="540px"
-      ><div v-if="s.taskMode" class="full-message">
-        <ElButton v-if="!recoveryHandoff" @click="recoveryHandoff = true">{{ l('查看账号服务恢复交接示意', 'View identity-service recovery handoff') }}</ElButton>
-        <template v-else><h3>{{ l('组织账号服务负责恢复验证', 'The identity service owns recovery verification') }}</h3><p>{{ l('交接示意已打开。用户在组织账号服务完成或取消恢复，再返回这里重新验证；本预览不发送恢复请求，也不表示账号已经恢复。', 'Handoff illustration opened. Complete or cancel recovery with the organization identity service, then return here for fresh verification. This preview sends no recovery request and does not claim the account was recovered.') }}</p><ol><li>{{ l('在账号服务核对受控身份', 'Verify the controlled identity with the identity service') }}</li><li>{{ l('由账号服务恢复验证方式或取消', 'Recover verification or cancel with the identity service') }}</li><li>{{ l('返回本平台重新登录并核对企业', 'Return to sign in and check organization access') }}</li></ol></template>
+      ><div v-if="s.taskMode && !s.journeyMode" class="full-message">
+        <ElButton v-if="!recoveryHandoff" @click="recoveryHandoff = true">{{ s.journeyMode ? l('前往组织账号服务', 'Open organization account service') : l('查看账号服务恢复交接示意', 'View identity-service recovery handoff') }}</ElButton>
+        <template v-else><h3>{{ l('组织账号服务负责恢复验证', 'The identity service owns recovery verification') }}</h3><p>{{ s.journeyMode ? l('请在组织账号服务完成账号恢复，再返回登录。', 'Recover your account with the organization account service, then return to sign in.') : l('交接示意已打开。用户在组织账号服务完成或取消恢复，再返回这里重新验证；本预览不发送恢复请求，也不表示账号已经恢复。', 'Handoff illustration opened. Complete or cancel recovery with the organization identity service, then return here for fresh verification. This preview sends no recovery request and does not claim the account was recovered.') }}</p><ol><li>{{ l('在账号服务核对受控身份', 'Verify the controlled identity with the identity service') }}</li><li>{{ l('由账号服务恢复验证方式或取消', 'Recover verification or cancel with the identity service') }}</li><li>{{ l('返回本平台重新登录并核对企业', 'Return to sign in and check organization access') }}</li></ol></template>
       </div><p>
         {{
           l(
@@ -302,7 +307,7 @@ function confirmRevoke() {
           )
         }}
       </p>
-      <div class="full-message">
+      <div v-if="!s.journeyMode" class="full-message">
         <ShieldCheck :size="20" />
         <p>
           {{

@@ -7,7 +7,7 @@ const s = useFullReviewState();
 const searched = ref(false);
 const handoff = ref(false);
 const search = computed(() =>
-  s.draft("diagnostic-search", { reference: "trace-review-003", source: "all" }),
+  s.draft("diagnostic-search", { reference: s.journeyMode ? String(s.query.reference || '') : "trace-review-003", source: "all" }),
 );
 const auditFilter = computed(() => s.draft("audit-filter", { text: "", result: "all" }));
 const audit = computed(() =>
@@ -53,10 +53,15 @@ const sources = computed(() =>
           status: s.scene === "partial" ? "missing" : "complete",
           result: l("效果仍以原操作回执为准", "Original activity receipt confirms effects"),
         },
-      ].filter((x) => search.value.source === "all" || search.value.source === x.source),
+      ].filter((x) => search.value.source === "all" || search.value.source === x.source).map(x => s.journeyMode ? {...x,status:'missing',result:l('此来源未连接；保留本次原编号，不推断外部效果。','This source is not connected. Retain the original reference; external effects are unverified.')} : x),
 );
 function lookup() {
   searched.value = true;
+  if (s.journeyMode && !s.supportActivities.some(t => [t.id,t.trace].includes(search.value.reference))) {
+    searched.value = false;
+    s.announce(['当前范围内未找到此编号','Reference unavailable in current scope'],['请核对原编号与当前企业；不会跨企业查询或读取业务私有结果。','Check the original reference and organization. No cross-organization search or private business result is exposed.'],'warning');
+    return;
+  }
   if (!/^[a-zA-Z0-9-]{6,100}$/.test(search.value.reference)) {
     s.announce(
       ["请输入安全的记录编号", "Enter a valid safe reference"],
@@ -271,7 +276,7 @@ function originalRecord() {
                   ? l("正在限流", "Rate limited")
                   : s.scene === "expired"
                     ? l("采集凭据需运维处理", "Collection credential requires operator action")
-                    : l("等待环境策略审阅", "Awaiting environment policy review")
+                    : l((s.journeyMode ? "待配置" : "等待环境策略审阅"), (s.journeyMode ? "Configuration needed" : "Awaiting environment policy review"))
           }}</ElTag>
           <p>
             {{

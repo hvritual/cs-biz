@@ -1,0 +1,181 @@
+{
+  "protocol": "local-preview-source-v1",
+  "repository": "hvritual/cs-biz",
+  "candidate_sha": "58de84e98e56538f061aee7e25c661c6412990ca",
+  "baseline_sha": "a841213a33571d240b22d4bbd44c73eb90c6cf86",
+  "files": [
+    {
+      "path": "doc/design/desktop-ui.md",
+      "sha256": "80b6f8d51d90925e2eec174bc5cac2fa404fdd90d9ff7b2fbd3c06fb38c3dcf0"
+    },
+    {
+      "path": "frontend/AGENTS.md",
+      "sha256": "d3c27c1eff4a1612a7d0aaf2c347797947c624bab028e98efb3ac25f9079c8dc"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/copy.ts",
+      "sha256": "3f1b1d0025c7ccac54cd2913d0add22dfcfdd58b70deb53cf6178f90cb4323ec"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/DeniedPreview.vue",
+      "sha256": "7d632289c332fa58530c4487c30229fb0b2049c19d1861e4d3a7ba53daf9577d"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/AccessPages.vue",
+      "sha256": "4dfee312ccb3b250279eb302635d5b81063e02bd75b5d4f5d49fa2501454096d"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/assets/create_templates.py",
+      "sha256": "b8b22fd693be83417847b1aa6e3eb4783341d20f8599619436b980602d3ca23c"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/assets/invitations.xlsx",
+      "sha256": "6d19db4643c4486abb962843442450426786d639368da499b14481e747c791de"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/assets/targets.xlsx",
+      "sha256": "b2258900cff19fa935cfc1639a4a4e32cae12a1f1c8f828dcebd2a0bf099b778"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/authorization.ts",
+      "sha256": "ba3aff5478998d63cdb29d0af7f82d2e50007d6423a61cf9d34991c0ae11b361"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/BulkPicker.vue",
+      "sha256": "bcdc2742500584cfa4e6fab9227c265c67aed1579f9fb8bd744b8b7ed4c75275"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/catalog.ts",
+      "sha256": "e08c55905d7443492f0f3a221fdb2849e8345c5ab590870c9af6333f01435353"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/copy.ts",
+      "sha256": "60f956506c0cccb5c4590542988dcbc6a6f380e284ea9f2163477cb91611573a"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/CustomerPages.vue",
+      "sha256": "b7fb8531a1b045e68946f81a33e1a5ed0978223b30f53aa304d9dcda9cd62ed9"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/FullNavigation.vue",
+      "sha256": "4a7cbdb7643ca612fd05b190126f08aef6f3b254f53c06ebe99c0e85a95434f7"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/IdentityPages.vue",
+      "sha256": "176b0009c547b7c64fbdb98676d71c45b962f4229e6e95e0a93951ee0cd14b23"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/LocalOutcome.vue",
+      "sha256": "d1c0513c6feb13a3b86d224240e24ccbc1b4b64582ee53a6b21929b86fc60f78"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/MarketingPages.vue",
+      "sha256": "d07e22a04354bff89617fc1cfa5aa286f66a15e31af1920d79f7ee74e6f429b8"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/model.ts",
+      "sha256": "c3570c376d9498885efa44f9e4a46baab82f34dae8d0fb1e5ad822fd9f18619d"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/ObservabilityPages.vue",
+      "sha256": "8e7566a76dd88682ba0cdf78c68b05057224300240a46589b246f434359d770f"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/operation-guard.test.ts",
+      "sha256": "59bc712ee9de585f3e29d89c934c327f078162b3f15c0b0d178787dd9fcf7ae5"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/operation-guard.ts",
+      "sha256": "de04a0f87270505c49cabd746ec0418ae7c1aa8d420b6226ac4af12807343272"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/OperationPages.vue",
+      "sha256": "89a3eff5cf8241432bf01a6f807926d30bf1b753cba561c0e844c1e140c32149"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/PlatformPages.vue",
+      "sha256": "75b034cd8ec328ec45ac906493ebdc089e9ae06407586043478df0d53fcb6bbf"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/ReleasePages.vue",
+      "sha256": "78ac580094b1576f095cac694d40118b675377bd4918eb4757599be42cdf3bcd"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/review.css",
+      "sha256": "3bed071d9fcc1daaabd19c49c5623a89ba80eea0575b47962c4efecc10df92b0"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/ReviewWorkbench.vue",
+      "sha256": "c1f11715854d5dd5abfe1519a77933126f757854836deb7cf1e44e5b867c54de"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/role-table.test.ts",
+      "sha256": "5212293e1e9dfd037826bff75fe2e3b6e058cc5a1018d943005b6aacd2dec575"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/role-table.ts",
+      "sha256": "38c113ca2e474df33a81b6f8ace97de84fd9341b8caac44a682d583adc8df784"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/selection.test.ts",
+      "sha256": "fc62dd5a03650fa53674c3e44135059f9ba80d8080ebe2fcbe4b79128b4cab44"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/selection.ts",
+      "sha256": "9486d81ab553c99134fb40df42283482be8fdfb32a69183547a7fc7cc4f236cd"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/state.ts",
+      "sha256": "e75fd62400c0dbd45ba13e8b19e764a1fd9897b6d1ef41409a3f14c908ac1f5d"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/full/TaskGuide.vue",
+      "sha256": "93c47c9788b8b864b15e4c429c2892e91c81fd1969abe2cb62b437aee885e676"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/install.ts",
+      "sha256": "596f1acc7b4c0ea57f58f7cccbe772384f0cca0a58a6de4dcc4557091ef6c0ef"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/JourneyPreview.vue",
+      "sha256": "0fd5738acffca83fdeb8c2de53cdbe811de226b3fe5bdb4dc6e9184647b0f50a"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/PreviewLayout.vue",
+      "sha256": "439f33e87a37de4d88dd58a3f1669b97bc94db0240deb75836415bf43bb3407d"
+    },
+    {
+      "path": "frontend/apps/console/src/design/f-series/state.ts",
+      "sha256": "8595eacce7cfb484276a4a7c944e2eff7e82cc29c6aa2459437c21c185e6fdc0"
+    },
+    {
+      "path": "frontend/package.json",
+      "sha256": "43a33755d3f763e474ac6380f3cf82ba51342c76e8d9a63350b6839b46857011"
+    },
+    {
+      "path": "frontend/pnpm-lock.yaml",
+      "sha256": "9562982309e7a9d0c7d36c5028d830128a07cccb0f8f1e422cf4b92d388e8dcc"
+    },
+    {
+      "path": "frontend/tests/e2e/f-series-design.e2e.ts",
+      "sha256": "591788a7e481d35ac7f626bd0f073aaba8cff22c0c85bd97b4130b87b7a257ce"
+    },
+    {
+      "path": "frontend/tests/e2e/f-series-full.ts",
+      "sha256": "446735907fb919d8078c4320c526e8025e95b671050990871958f16bbddffe89"
+    },
+    {
+      "path": "frontend/tests/e2e/f-series-r004.e2e.ts",
+      "sha256": "9a5708a9df9b6ac9489120fd61b2db065b21d27f8ce612781a9737052513d5d1"
+    },
+    {
+      "path": "frontend/tests/e2e/f-series-r004.ts",
+      "sha256": "ee30d8ac5083a2662803bd5a659444a988916e400306298dfc7b1a6d8116c6d6"
+    }
+  ],
+  "source_sha256": "6154eb091790dba8ed92977495ad6e2307532edb2d9fc6f091567b4d867e7a70",
+  "production_boundary": "MODE=design at loopback origin; normal production build excludes design entry",
+  "limits": [
+    "No real IAM, database isolation, customer outreach, email delivery, charging or environment release is proven."
+  ]
+}

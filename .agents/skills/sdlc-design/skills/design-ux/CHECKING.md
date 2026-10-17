@@ -15,3 +15,5 @@ python3 -m unittest discover -s doc/ci -p 'test_design_workflow.py' -v
 模型负责预览与实现的实际核实，使用现有 Fast 和适用 Targeted；Full、合并与部署保留各自权限边界。脚本永远不执行交接文档里的命令、不访问引用 URL、不回写批准状态。Human 审阅、API、浏览器与真实任务完成不能互相代替；未知、失败、未运行与不适用要分开。
 
 新Design轮次另由Design包的 review_checks.py 在UX/Preview阶段校验任务覆盖、<=4动作、选取/结果必填项、同版最终入口观察和实际展示的声明一致性；测试入口为 `python3 -m unittest discover -s .agents/skills/sdlc-workflow/tests -p 'test_workflows.py'`。这没有移植完整UX YAML或人类理解验证器，不认证外部观察或批准；详见[审阅交付](../../references/review-delivery.md)。
+
+完整角色旅程负例另运行 `python3 -m unittest discover -s .agents/skills/sdlc-workflow/tests -p test_role_journeys.py`；doc/ci/test_agent_workflows.py将其接入既有CI发现。此处只证明声明一致性，不证明实际Human体验。

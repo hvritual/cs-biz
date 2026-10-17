@@ -1,0 +1,47 @@
+[
+  {
+    "name": "reset",
+    "start": 1792235322528,
+    "passed": true
+  },
+  {
+    "name": "second tab enters",
+    "start": 1792235326591,
+    "passed": true
+  },
+  {
+    "name": "second tab role",
+    "start": 1792235328372,
+    "passed": true
+  },
+  {
+    "name": "first tab holds read",
+    "start": 1792235328848,
+    "passed": true
+  },
+  {
+    "name": "switch first tab",
+    "start": 1792235334350,
+    "passed": true
+  },
+  {
+    "name": "deliver and check stale read",
+    "start": 1792235340391,
+    "passed": true
+  },
+  {
+    "name": "check isolated data",
+    "start": 1792235342415,
+    "passed": true
+  },
+  {
+    "name": "campaign 0",
+    "start": 1792235342435,
+    "passed": true
+  },
+  {
+    "name": "campaign 1",
+    "start": 1792235348807,
+    "passed": true
+  }
+]

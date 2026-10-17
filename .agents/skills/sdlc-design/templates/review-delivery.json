@@ -1,5 +1,5 @@
 {
-  "protocol": "design-review-delivery-v1",
+  "protocol": "design-review-delivery-v2",
   "state": "DELIVERY_BLOCKED",
   "plan_ref": {
     "path": "review-plan.json",

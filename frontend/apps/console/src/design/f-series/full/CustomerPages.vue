@@ -264,7 +264,7 @@ function rowState(id: string) {
             ><ElOption value="all" :label="l('当前企业全部', 'All in organization')" /><ElOption
               value="self"
               :label="l('本人负责', 'Owned by me')" /></ElSelect
-          ><ElButton @click="s.go('batch')">{{
+          ><ElButton :disabled="s.journeyMode && !s.can('write')" :title="s.journeyMode && !s.can('write') ? l('当前角色没有客户修改权限','Your current role cannot update customers') : undefined" @click="s.go('batch')">{{
             s.taskMode ? l('批量修改', 'Batch update') : l("文本批量选定", "Select by pasted text")
           }}</ElButton
           ><ElButton

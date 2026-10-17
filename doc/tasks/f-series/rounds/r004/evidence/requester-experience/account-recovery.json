@@ -1,0 +1,14 @@
+{
+  "url": "http://127.0.0.1:5790/__design/f-series/full/modules?r=4&journey=J01",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    "从登录入口查看账号恢复方式",
+    "返回后重新验证账号并选择企业，查看恢复方式本身不授予权限"
+  ],
+  "errors": [],
+  "review_tools_used": false,
+  "human_approval": false
+}

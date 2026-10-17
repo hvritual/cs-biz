@@ -91,6 +91,63 @@
           "type": "string",
           "minLength": 1,
           "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "review_scope": {
+          "type": "object",
+          "properties": {
+            "journey_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "role_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "role_journey_pairs": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 2,
+                "uniqueItems": false
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "task_paths": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 3
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "journey_ids",
+            "role_ids",
+            "role_journey_pairs",
+            "task_paths"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [

@@ -1,9 +1,11 @@
 ---
 name: sdlc-design
-description: Coordinate the Design Agent's artifact workflow using single-function capability Skills, versioned handoff contracts and demand-loaded context. Use for the design stage only; do not infer authority from this Skill.
+description: Refine requirements, plan complete user journeys, design the existing-project frontend, and deliver the requirement originator's experience operation flow. Use for the Design loop; do not infer Build or deployment authority.
 ---
 
 # SDLC Design Agent workflow
+
+Human is the requirement originator. The Design loop has four connected outcomes: clarified requirements, complete user journeys, frontend interfaces designed to those requirements, and an operation flow the originator can follow to experience the product. Present the interface and interactions as they should appear after release. Keep review controls, engineering explanations, fixture setup and evidence outside that experience. Use the originator's experience feedback to refine the affected requirements, journeys, interface and operation flow, then repeat until the originator confirms the design.
 
 Read [Agent instructions](agents/agent.md) and `workflow.json`, then the current task's authoritative intake. The Agent owns sequencing, invocation, output checking, retries, recovery and stage handoff. Skills under `skills/` each own one function and stop at one output; they do not select or spawn successors.
 
@@ -20,3 +22,5 @@ The native Agent definition is [agents/design.toml](agents/design.toml); its `.c
 Legacy approved `intent-design-v2` is verified by `scripts/check_design_workflow.py`; read [v2 protocol](references/intent-design-v2.md) only for that artifact type. Design freezes the whole module acceptance before autonomous Build.
 
 For new UI rounds use [review delivery](references/review-delivery.md): UX binds review-plan.json, Preview binds review-delivery.json, and acceptance requires actual same-version design approval. Content, final-entry browser observation, presentation and Human review are distinct states. Read this reference during UX/Preview or a delivery failure; preserve old sealed rounds under their original package version.
+
+Frontend review means the requirement originator personally experiences the planned user journeys through normal product entry, navigation and business role handoffs. Deliver the operation flow separately from the product interface; the originator does not perform engineering qualification or fill technical approval receipts. The Agent prepares and records the experience and actual feedback. Bound v2 assets preserve continuity and internal proof without putting that machinery into the product or the operation flow.

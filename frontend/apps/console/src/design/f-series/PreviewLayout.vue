@@ -4,6 +4,7 @@ import { preferences, usePreferences } from '@vben/preferences';
 import { ElDropdown, ElDropdownItem, ElDropdownMenu, ElOption, ElSelect } from 'element-plus';
 import { useRoute } from 'vue-router';
 import FullNavigation from './full/FullNavigation.vue';
+import { useFullReviewState } from './full/state';
 import BasicLayout from '#/layouts/basic.vue';
 import { $t } from '#/locales';
 import { useAppearanceStore } from '#/store';
@@ -16,8 +17,12 @@ const { isDark } = usePreferences();
 const t = (key: CopyKey) => text(key, preferences.app.locale === 'en-US');
 function choose(value: string) {
   const target = workspace.tenants.find(item => item.id === value);
-  if (target) chooseOrganization(target.name);
+  if (target) {
+    if (route.path.startsWith('/__design/f-series/full')) useFullReviewState().chooseOrganization(target.name);
+    else chooseOrganization(target.name);
+  }
 }
+function logout() { signOut(); if(route.query.journey) useFullReviewState().go('identity'); }
 async function language(value: string) {
   if (value === 'zh-CN' || value === 'en-US') await appearance.update({ locale: value });
 }
@@ -40,7 +45,7 @@ async function language(value: string) {
           <template #dropdown><ElDropdownMenu><ElDropdownItem command="zh-CN" :disabled="appearance.settings.locale==='zh-CN'">简体中文</ElDropdownItem><ElDropdownItem command="en-US" :disabled="appearance.settings.locale==='en-US'">English</ElDropdownItem></ElDropdownMenu></template>
         </ElDropdown>
         <span class="cs-shell-divider"></span>
-        <button type="button" class="cs-account-tool" :disabled="identity==='signed_out'" :aria-label="t('signout')" @click="signOut"><span class="cs-account-avatar" aria-hidden="true">陈</span><span class="cs-account-name">{{ t('signout') }}</span></button>
+        <button v-if="!route.query.journey || identity !== 'signed_out'" type="button" class="cs-account-tool" :disabled="identity==='signed_out'" :aria-label="t('signout')" @click="logout"><span class="cs-account-avatar" aria-hidden="true">{{ route.query.journey ? workspace.user?.initials : '陈' }}</span><span class="cs-account-name">{{ route.query.journey ? workspace.user?.name + ' · ' : '' }}{{ t('signout') }}</span></button>
       </div>
     </template>
   </BasicLayout>

@@ -1,0 +1,6 @@
+test_build_admission_preserves_reviewed_ui (test_workflows.AgentWorkflowTests.test_build_admission_preserves_reviewed_ui) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 48.261s
+
+OK

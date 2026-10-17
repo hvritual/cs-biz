@@ -8,8 +8,9 @@ from review_checks import AVAILABLE, delivery_check, plan_check
 def check(workflow, step, data, intake, task, completed):
     ui = intake['contract']['frontend_change']
     if ui and step['id'] == 'ux' and data['status'] == 'ready':
+        require(bool(intake['contract'].get('review_scope')), 'original review denominator required in UI intake')
         plan_check(task, read_json(asset(task, data['assets']['review_plan'])), intake['assets']['raw'],
-                   intake['contract'].get('requirement_ids'))
+                   intake['contract'].get('requirement_ids'), intake['contract']['review_scope'])
     if ui and step['id'] == 'preview' and 'review_delivery' in data['assets']:
         plan_ref = completed['ux']['assets']['review_plan']
         delivery = read_json(asset(task, data['assets']['review_delivery']))
