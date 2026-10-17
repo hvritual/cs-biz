@@ -303,3 +303,11 @@
   font-size: 12px;
   margin: 4px 0;
 }
+
+/* Keep enabled select controls readable under the shared dark palette. */
+.full-review .el-select__wrapper:not(.is-disabled) {
+  background-color: var(--color-surface);
+}
+.full-review .el-select__wrapper:not(.is-disabled) .el-select__selected-item {
+  color: var(--color-text);
+}

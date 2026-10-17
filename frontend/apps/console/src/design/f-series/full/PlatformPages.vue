@@ -292,8 +292,8 @@ function enable() {
       </p>
       <ElCheckboxGroup v-model="grant.modules"
         ><div class="full-grid">
-          <label class="full-card"
-            ><ElCheckbox value="crm">{{ l("客户管理", "Customer management") }}</ElCheckbox>
+          <div class="full-card">
+            <ElCheckbox value="crm">{{ l("客户管理", "Customer management") }}</ElCheckbox>
             <p>
               {{
                 l(
@@ -301,9 +301,10 @@ function enable() {
                   "Allows customer operations under each member’s current grants.",
                 )
               }}
-            </p></label
-          ><label class="full-card"
-            ><ElCheckbox value="marketing">{{ l("营销活动", "Marketing") }}</ElCheckbox>
+            </p>
+          </div>
+          <div class="full-card">
+            <ElCheckbox value="marketing">{{ l("营销活动", "Marketing") }}</ElCheckbox>
             <p>
               {{
                 l(
@@ -311,13 +312,14 @@ function enable() {
                   "Module activation does not grant campaign execution rights.",
                 )
               }}
-            </p></label
-          ><label class="full-card"
-            ><ElCheckbox value="unpublished" disabled>{{
+            </p>
+          </div>
+          <div class="full-card">
+            <ElCheckbox value="unpublished" disabled>{{
               l("未发布模块", "Unpublished module")
             }}</ElCheckbox>
-            <p>{{ l("当前不可开通", "Not available for activation") }}</p></label
-          >
+            <p>{{ l("当前不可开通", "Not available for activation") }}</p>
+          </div>
         </div></ElCheckboxGroup
       >
       <p v-if="validation" class="full-error-text" role="alert">{{ validation }}</p>

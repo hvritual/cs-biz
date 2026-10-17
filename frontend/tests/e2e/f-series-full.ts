@@ -9,7 +9,6 @@ const output = fileURLToPath(new URL("../../.e2e/artifacts/f-series-full/", impo
 async function select(p: Page, label: string, value: string) {
   await p.locator(`.el-select:has(input[aria-label="${label}"]) .el-select__wrapper`).click();
   await p.getByRole("option", { name: value, exact: true }).click();
-  await expect(p.locator(".el-select-dropdown:visible")).toHaveCount(0);
 }
 async function check(p: Page, name: string, checked: boolean) {
   const input = p.getByRole("checkbox", { name, exact: true });
@@ -29,6 +28,7 @@ async function confirm(p: Page) {
   await expect(p.locator(".el-dialog")).toBeHidden();
 }
 async function shot(p: Page, name: string) {
+  await expect(p.locator(".el-select-dropdown:visible")).toHaveCount(0);
   await mkdir(output, { recursive: true });
   await p.screenshot({ path: output + name + ".png", fullPage: true });
 }
@@ -297,6 +297,28 @@ export function registerFullReviewTests() {
       await p.getByText("English", { exact: true }).click();
       await expect(p.getByRole("heading", { name: "Customers", exact: true })).toBeVisible();
       await p.getByRole("button", { name: "Use dark appearance", exact: true }).click();
+      await expect(p.locator("html")).toHaveClass(/dark/);
+      const contrast = await p.evaluate(() => {
+        const wrapper = document.querySelector(".full-review-tools .el-select__wrapper")!;
+        const text = wrapper.querySelector(".el-select__selected-item")!;
+        const luminance = (color: string) => {
+          const v = color
+            .match(/[0-9.]+/g)!
+            .slice(0, 3)
+            .map(Number)
+            .map((x) => {
+              const n = x / 255;
+              return n <= 0.04045 ? n / 12.92 : ((n + 0.055) / 1.055) ** 2.4;
+            });
+          return v[0]! * 0.2126 + v[1]! * 0.7152 + v[2]! * 0.0722;
+        };
+        const foreground = luminance(getComputedStyle(text).color);
+        const background = luminance(getComputedStyle(wrapper).backgroundColor);
+        return (
+          (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05)
+        );
+      });
+      expect(contrast).toBeGreaterThanOrEqual(4.5);
       for (const [width, height] of [
         [1366, 768],
         [1440, 900],
@@ -344,7 +366,10 @@ export function registerFullReviewTests() {
       await expect(z.locator(".full-table tbody")).toContainText("已完成");
       await expect(a.locator(".full-table tbody")).toContainText("结果待确认");
       await z.goto(origin + base + "/sessions");
-      await z.getByRole("button", { name: "退出当前浏览器", exact: true }).click();
+      await z
+        .locator('[data-page="sessions"]')
+        .getByRole("button", { name: "退出当前浏览器", exact: true })
+        .click();
       await z.getByRole("button", { name: "确认撤销", exact: true }).click();
       await expect(a.getByRole("heading", { name: "当前访问受到限制", exact: true })).toBeVisible();
       await shot(a, "two-tabs-logout");

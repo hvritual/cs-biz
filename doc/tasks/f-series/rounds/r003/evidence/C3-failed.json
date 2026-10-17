@@ -1,0 +1,21 @@
+{
+  "candidate": "e76c210043c4a141893d6dcc0a5c640b324d0351",
+  "run_id": 38992397225,
+  "attempt": 1,
+  "result": "failed",
+  "tester_army": {
+    "passed": 45,
+    "failed": 2,
+    "total": 47
+  },
+  "legacy": "not_run_due_to_preceding_failure",
+  "artifact_id": 12085389956,
+  "archive_sha256": "333dd23f15c7876b62672f97871f0366b3b21327f48209e4a49e5ac0c7fdb3a5",
+  "repairs": [
+    "Remove invalid nested HTML labels from module selection cards so checkbox naming is unambiguous.",
+    "Scope session revocation click to sessions page, distinguishing the shell button with the same name.",
+    "Move dropdown-closure assertion to screenshot capture; retain all scene/business assertions.",
+    "Visual inspection found low contrast in dark select wrappers; use shared foreground/surface tokens and add measured contrast check."
+  ],
+  "success_claimed": false
+}
