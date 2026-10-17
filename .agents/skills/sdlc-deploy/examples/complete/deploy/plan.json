@@ -6,9 +6,9 @@
   "status": "ready",
   "definition_sha256": "5badb77cb00cc2a948fc9aca4cedda5509c8087dca940e684047c9d82ba6612e",
   "input_sha256": {
-    "build-to-deploy.json": "089b9e586ac5695136e2a6215adce7f4e41bf335f7a0545519450906f47db519",
+    "build-to-deploy.json": "6613f1bc62deb6c18e64bbb77f28e5da55db685fe00ed8308424b72d5ce75102",
     "deploy-request.json": "31950c45cb7ecb3df63492db3ba482ec84e8205e29677c431cb0856e504bbcaa",
-    "deploy/admit.json": "97f76d01e5c44c8632291dd3e12489e67aa6f340bb4ba4acd7d23148a4a3acfe"
+    "deploy/admit.json": "c67ef03b8fa819d052a3e35c5da70b71a32cf19fc7e09225a0484219009daaa9"
   },
   "contract": {
     "repository": "hvritual/cs-biz",

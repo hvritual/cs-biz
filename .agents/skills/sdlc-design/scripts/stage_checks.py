@@ -2,9 +2,31 @@
 from pathlib import Path
 import runpy
 from artifact_io import asset, read_json, relative, require
+from review_checks import AVAILABLE, delivery_check, plan_check
 
 
 def check(workflow, step, data, intake, task, completed):
+    ui = intake['contract']['frontend_change']
+    if ui and step['id'] == 'ux' and data['status'] == 'ready':
+        plan_check(task, read_json(asset(task, data['assets']['review_plan'])), intake['assets']['raw'],
+                   intake['contract'].get('requirement_ids'))
+    if ui and step['id'] == 'preview' and 'review_delivery' in data['assets']:
+        plan_ref = completed['ux']['assets']['review_plan']
+        delivery = read_json(asset(task, data['assets']['review_delivery']))
+        state = delivery_check(task, delivery,
+                               read_json(asset(task, plan_ref)), plan_ref, intake['assets']['raw'])
+        require((state in AVAILABLE) == (data['status'] == 'ready'),
+                'Preview ready status contradicts review delivery state')
+        if state in AVAILABLE:
+            preview = read_json(asset(task, data['assets']['preview_evidence']))
+            require(delivery['candidate_sha'] == preview.get('candidate_sha'),
+                    'review delivery differs from canonical Preview candidate')
+    if ui and step['id'] == 'acceptance' and data['status'] == 'ready':
+        delivery = read_json(asset(task, completed['preview']['assets']['review_delivery']))
+        require(delivery['state'] == 'DESIGN_APPROVED', 'same-version Human design review pending')
+        plan = read_json(asset(task, completed['ux']['assets']['review_plan']))
+        require(set(plan['requirement_ids']) == set(data['contract'].get('requirement_ids', [])),
+                'acceptance changed original UI task denominator')
     if data['status'] != 'ready':
         return
     if step['id'] == 'capture':

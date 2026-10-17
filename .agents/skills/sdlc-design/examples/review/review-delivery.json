@@ -1,0 +1,196 @@
+{
+  "protocol": "design-review-delivery-v1",
+  "state": "AWAITING_HUMAN_REVIEW",
+  "plan_ref": {
+    "path": "review-plan.json",
+    "sha256": "d1ff13bf7f5a2f903d0d737339f294a8d1ec1ee99d6c8dee641025869b8e994a"
+  },
+  "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target": {
+    "url": "https://review.example.invalid/task",
+    "version": "synthetic-snapshot",
+    "access_instructions": "SYNTHETIC ONLY; not an accessible UI"
+  },
+  "observation": {
+    "kind": "final_entry_browser",
+    "result": "pass",
+    "url": "https://review.example.invalid/task",
+    "version": "synthetic-snapshot",
+    "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "actor": "synthetic-only",
+    "observed_at": "2026-10-17T00:00:00Z",
+    "record_ref": {
+      "path": "review-fixture/record.txt",
+      "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+    },
+    "task_runs": [
+      {
+        "id": "T1",
+        "result": "pass",
+        "record_ref": {
+          "path": "review-fixture/record.txt",
+          "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+        },
+        "path_runs": [
+          {
+            "id": "filter",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "select",
+              "select-results",
+              "owner",
+              "confirm"
+            ]
+          },
+          {
+            "id": "paste",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "select",
+              "owner",
+              "confirm"
+            ]
+          },
+          {
+            "id": "excel",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "select",
+              "owner",
+              "confirm"
+            ]
+          }
+        ],
+        "checks": {
+          "plain_language": "pass",
+          "visual_guidance": "pass",
+          "result_summary": "pass",
+          "failure_recovery": "pass",
+          "unknown_readback": "pass",
+          "selected_count": "pass",
+          "selected_details": "pass",
+          "affected_scope": "pass",
+          "filter": "pass",
+          "paste": "pass",
+          "excel": "pass",
+          "deduplication": "pass",
+          "ambiguity": "pass",
+          "import_errors": "pass",
+          "scope_guard": "pass"
+        },
+        "recovery_runs": [
+          {
+            "id": "failed",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "details",
+              "repair",
+              "retry",
+              "readback"
+            ]
+          },
+          {
+            "id": "unknown",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "original"
+            ]
+          },
+          {
+            "id": "import-error",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "errors",
+              "replace",
+              "owner",
+              "confirm"
+            ]
+          },
+          {
+            "id": "ambiguity",
+            "result": "pass",
+            "record_ref": {
+              "path": "review-fixture/record.txt",
+              "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+            },
+            "steps": [
+              "resolve",
+              "owner",
+              "confirm"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "id": "guide",
+            "image_ref": {
+              "path": "review-fixture/guide.svg",
+              "sha256": "c7a26000266b314249ebeeef44bd008a4121ff447403fbc089e992e1ae4be753"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "url": "https://review.example.invalid/task",
+    "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "version": "synthetic-snapshot",
+    "record_ref": {
+      "path": "review-fixture/record.txt",
+      "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+    },
+    "image_paths": [
+      "review-fixture/guide.svg"
+    ],
+    "review_sequence": [
+      "选取→核对→结果"
+    ],
+    "decision_questions": [
+      "选取、影响核对和失败处理是否符合实际工作？"
+    ],
+    "limitations": [
+      "Synthetic example only; no actual execution."
+    ]
+  },
+  "independent_review": {
+    "implementer": "example-author",
+    "reviewer": "example-reviewer",
+    "decision": "pass",
+    "record_ref": {
+      "path": "review-fixture/record.txt",
+      "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+    },
+    "candidate_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "human_review": {
+    "decision": "pending",
+    "candidate_sha": null,
+    "record_ref": null
+  },
+  "blockers": []
+}

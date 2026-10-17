@@ -58,3 +58,5 @@
 ## cs-biz Preview 补充
 
 输出供独立 Preview 能力消费的场景、状态和操作要求；本能力不创建或运行 Preview。优先自动完成已授权的确定性工作；批量场景必须评估文本导入快速选定，包含去重、精确匹配、歧义/未匹配/越权处理、影响、部分结果和恢复。选定不执行，模拟不证明真实能力。Human 同轮确认方案与可操作旅程。
+
+New Design rounds apply the [task-first review delivery supplement](../../../references/review-delivery.md): take the real actor to the promised task outcome within four explicit actions, including necessary navigation and confirmation; preserve safety. Bulk selection requires filters, multiline paste and Excel import with actual selected count/details and affected scope. Pair plain terms with helpful images/captions; expose immediate result totals, unit-level failures and safe recovery. Planned design and observed behavior remain separate.

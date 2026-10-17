@@ -97,3 +97,7 @@ status: reviewed 只表示所声明范围的审阅已完成，decision 必须是
 以下即使文件能解析也不得作为完整分析接受：unknown + pass；无理由 N/A；没有样本但 observed=0；写操作只写成功 toast；给所有失败加一个“重试”；把未接入能力标成已实现；只通过 hash 检查却填写 human review approved。
 
 #312 提供此格式的只读结构 checker 和正反例入口，详见 [CHECKING](CHECKING.md)。来源支持的语义、外部记录和批准身份不能由结构校验授予；未核验仍待审。试点和指标硬化在 #313–#316。模板通过解析不等于任一业务任务完成。
+
+## Task review supplement for new Design rounds
+
+The existing v1 analysis remains unchanged. New Design UX rounds also bind [review-plan.json](../../references/review-delivery.md) as the review_plan asset: original task coverage, <=4 actual normal/recovery actions, familiar labels with captioned accessible images, filter/paste/Excel selection with selected count/details, and local result/failed/unknown handling. Preview consumes this exact asset and records observations separately. Historical v1 examples and sealed analyses are not retroactively rewritten or approved.

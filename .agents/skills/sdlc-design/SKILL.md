@@ -18,3 +18,5 @@ For incomplete broad goals start with [goal coordination](../intent-to-outcome-c
 The native Agent definition is [agents/design.toml](agents/design.toml); its `.codex/agents` copy is an installation mirror, not a second authority. Inherit host model, provider, tools, permissions and existing budgets. If no separate Agent can be spawned, disclose the limitation and use the same bounded role only within current authority.
 
 Legacy approved `intent-design-v2` is verified by `scripts/check_design_workflow.py`; read [v2 protocol](references/intent-design-v2.md) only for that artifact type. Design freezes the whole module acceptance before autonomous Build.
+
+For new UI rounds use [review delivery](references/review-delivery.md): UX binds review-plan.json, Preview binds review-delivery.json, and acceptance requires actual same-version design approval. Content, final-entry browser observation, presentation and Human review are distinct states. Read this reference during UX/Preview or a delivery failure; preserve old sealed rounds under their original package version.

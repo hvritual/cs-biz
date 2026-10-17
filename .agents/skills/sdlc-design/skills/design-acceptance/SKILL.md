@@ -19,3 +19,5 @@ Freeze every R/AC and invariant with actor, conditions, action, observable expec
 
 ## Boundary
 Do not select the next step, spawn a successor, approve your own work, grant permissions, change frozen criteria or claim another stage's result. The Agent owns the control loop and external evidence verification. Stop this capability at its declared output; a static check is not authenticated approval or runtime proof.
+
+For UI require the Preview review_delivery state DESIGN_APPROVED with actual same-version Human material review; REVIEW_AVAILABLE/AWAITING_HUMAN_REVIEW only qualify delivery, not acceptance. Independently inspect final-entry proof and presentation, original requirement coverage, task action counts, terminology/images, bulk selection and result/recovery evidence. See [review delivery](../../references/review-delivery.md).

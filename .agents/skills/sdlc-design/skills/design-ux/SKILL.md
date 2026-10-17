@@ -19,3 +19,5 @@ Use the internal UX method and only its relevant references. Identify roles, tas
 
 ## Boundary
 Do not select the next step, spawn a successor, approve your own work, grant permissions, change frozen criteria or claim another stage's result. The Agent owns the control loop and external evidence verification. Stop this capability at its declared output; a static check is not authenticated approval or runtime proof.
+
+Use the [review delivery contract](../../references/review-delivery.md) and produce the bound review_plan asset before Preview work. Simulate the actual actor reaching each original task outcome in at most four user actions, including navigation/confirmation/result access. Require plain terms with relevant captioned/accessible images; bulk filters plus paste plus Excel, visible selected count/detail entry, and result summaries with safe failure/unknown recovery. Reverse-review original coverage before UI implementation; unresolved necessary requirements are gaps, not N/A.

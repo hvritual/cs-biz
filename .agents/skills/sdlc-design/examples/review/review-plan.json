@@ -1,0 +1,243 @@
+{
+  "protocol": "design-review-plan-v1",
+  "raw_ref": {
+    "path": "raw.txt",
+    "sha256": "103691a805a1d19daedf275987e70ce1a6cf15ce8b16ba1eaad2412e0caa1e5b"
+  },
+  "requirement_ids": [
+    "R1"
+  ],
+  "tasks": [
+    {
+      "id": "T1",
+      "requirement_ids": [
+        "R1"
+      ],
+      "actor": "企业管理员",
+      "goal": "批量调整所选客户的负责人，并查看每个客户的结果",
+      "entry_context": "当前企业客户列表",
+      "preconditions": "已有本企业有效会话及必要权限；不含首次登录任务",
+      "recovery": [
+        {
+          "id": "failed",
+          "kind": "failed",
+          "condition": "一项失败，其余已成功",
+          "steps": [
+            {
+              "id": "details",
+              "action": "打开失败明细",
+              "visible_result": "显示失败原因及需修改的内容"
+            },
+            {
+              "id": "repair",
+              "action": "修改该失败项的无效值",
+              "visible_result": "仅该失败项进入待确认集合"
+            },
+            {
+              "id": "retry",
+              "action": "核对后确认仅处理失败项",
+              "visible_result": "按实际合同安全提交，已成功项保持原结果"
+            },
+            {
+              "id": "readback",
+              "action": "查看更新结果",
+              "visible_result": "显示该项的真实结果"
+            }
+          ]
+        },
+        {
+          "id": "unknown",
+          "kind": "unknown",
+          "condition": "提交后回复丢失",
+          "steps": [
+            {
+              "id": "original",
+              "action": "查询原操作",
+              "visible_result": "读回原结果，不重新执行"
+            }
+          ]
+        },
+        {
+          "id": "import-error",
+          "kind": "import_error",
+          "condition": "Excel格式错误，尚未选取",
+          "steps": [
+            {
+              "id": "errors",
+              "action": "查看错误明细",
+              "visible_result": "显示行列与正确格式"
+            },
+            {
+              "id": "replace",
+              "action": "拖入已修正的Excel文件",
+              "visible_result": "重新校验并显示选中集合，不执行业务操作"
+            },
+            {
+              "id": "owner",
+              "action": "选择新的负责人",
+              "visible_result": "显示当前负责人、新负责人及影响范围"
+            },
+            {
+              "id": "confirm",
+              "action": "核对影响并确认调整",
+              "visible_result": "本页自动更新原操作进度与逐项结果"
+            }
+          ]
+        },
+        {
+          "id": "ambiguity",
+          "kind": "ambiguity",
+          "condition": "一个名称对应多个可授权客户",
+          "steps": [
+            {
+              "id": "resolve",
+              "action": "在歧义项中选择明确客户",
+              "visible_result": "只将该明确编号纳入待确认集合"
+            },
+            {
+              "id": "owner",
+              "action": "选择新的负责人",
+              "visible_result": "显示当前负责人、新负责人及影响范围"
+            },
+            {
+              "id": "confirm",
+              "action": "核对影响并确认调整",
+              "visible_result": "本页自动更新原操作进度与逐项结果"
+            }
+          ]
+        }
+      ],
+      "language": {
+        "plain_summary": "先选客户，核对调整范围，再查看每项结果。",
+        "terms": [
+          {
+            "label": "待核实",
+            "meaning": "暂未确认最终结果，请先查询原操作。"
+          }
+        ],
+        "visuals": [
+          {
+            "id": "guide",
+            "purpose": "帮助理解选取、确认与结果的位置",
+            "caption": "选取后可查看已选客户；确认后查看本次结果。",
+            "alt": "选取、确认、结果三个位置的示意图"
+          }
+        ]
+      },
+      "selection": {
+        "mode": "bulk",
+        "methods": [
+          "filter",
+          "paste",
+          "excel"
+        ],
+        "count_label": "已选客户数量",
+        "details_entry": "查看已选客户",
+        "scope_label": "当前企业及可调整客户",
+        "matching": "按当前企业内编号精确匹配",
+        "deduplication": "同编号仅保留一项",
+        "ambiguity": "同名项逐项选择或排除",
+        "unauthorized": "不可授权项排除且不泄露跨企业对象",
+        "import_errors": "显示Excel列映射、逐行错误和文本编号；修正后重新校验",
+        "final_set": "提交固定已核对的编号集合，筛选改变不扩大集合",
+        "no_execution_on_selection": "选取、粘贴及导入仅建立选定集，不提交调整"
+      },
+      "results": {
+        "summary_entry": "本次调整结果",
+        "total_label": "本次受影响客户总数",
+        "details_entry": "逐项结果",
+        "states": [
+          "success",
+          "failed",
+          "pending",
+          "unknown"
+        ],
+        "readback": "按原操作编号查询权威结果",
+        "failure_action": "按原因修正，仅在合同允许时重试失败项",
+        "unknown_action": "先查询原操作，禁止重发整批"
+      },
+      "paths": [
+        {
+          "id": "filter",
+          "method": "filter",
+          "steps": [
+            {
+              "id": "select",
+              "action": "输入客户筛选条件",
+              "visible_result": "自动筛选，只展示匹配的客户，不自动选取"
+            },
+            {
+              "id": "select-results",
+              "action": "选取当前匹配结果",
+              "visible_result": "固定当前明确范围的集合，显示唯一选中数量及已选入口"
+            },
+            {
+              "id": "owner",
+              "action": "选择新的负责人",
+              "visible_result": "显示当前负责人、新负责人及本次影响范围"
+            },
+            {
+              "id": "confirm",
+              "action": "核对影响并确认负责人调整",
+              "visible_result": "保存原操作编号；本页自动更新进度、各类结果数量及逐项结果"
+            }
+          ]
+        },
+        {
+          "id": "paste",
+          "method": "paste",
+          "steps": [
+            {
+              "id": "select",
+              "action": "粘贴客户编号",
+              "visible_result": "自动匹配并显示唯一选中数量及已选入口"
+            },
+            {
+              "id": "owner",
+              "action": "选择新的负责人",
+              "visible_result": "显示当前负责人、新负责人及本次影响范围"
+            },
+            {
+              "id": "confirm",
+              "action": "核对影响并确认负责人调整",
+              "visible_result": "保存原操作编号；本页自动更新进度、各类结果数量及逐项结果"
+            }
+          ]
+        },
+        {
+          "id": "excel",
+          "method": "excel",
+          "steps": [
+            {
+              "id": "select",
+              "action": "拖入标准模板的Excel文件",
+              "visible_result": "自动解析匹配并显示唯一选中数量及已选入口"
+            },
+            {
+              "id": "owner",
+              "action": "选择新的负责人",
+              "visible_result": "显示当前负责人、新负责人及本次影响范围"
+            },
+            {
+              "id": "confirm",
+              "action": "核对影响并确认负责人调整",
+              "visible_result": "保存原操作编号；本页自动更新进度、各类结果数量及逐项结果"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "coverage_review": {
+    "implementer": "example-author",
+    "reviewer": "example-reviewer",
+    "decision": "pass",
+    "record_ref": {
+      "path": "review-fixture/record.txt",
+      "sha256": "be6681069c3c507e877ad01f04e9ed47c4854d0b1352f73893ee2db495dfdc90"
+    }
+  },
+  "review_questions": [
+    "选取、影响核对和失败处理是否符合实际工作？"
+  ]
+}

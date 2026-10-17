@@ -19,3 +19,5 @@ Reuse frontend/apps/console and current shell/components/tokens/i18n. Isolate fi
 
 ## Boundary
 Do not select the next step, spawn a successor, approve your own work, grant permissions, change frozen criteria or claim another stage's result. The Agent owns the control loop and external evidence verification. Stop this capability at its declared output; a static check is not authenticated approval or runtime proof.
+
+Use [review delivery](../../references/review-delivery.md) and bind review_delivery to the UX review_plan. Observe the final delivered URL/version/actor, normal and recovery actions, selected count/details, paste/Excel paths, and local results. Present that same version with representative images, entry/access instructions and prepared review questions in the user conversation, preserving a bound record. CI/offline probes/native deploy success do not prove the delivered entry. Missing final-entry observation keeps Preview blocked, even when content is complete. Static checks never authenticate the underlying observation or presentation.

@@ -1,6 +1,6 @@
 # F 系列连续交付
 
-当前状态：`DESIGN_REVIEW_READY / S0_RESOURCE_VERIFIED`。2026-10-17 Human 要求先完成完整页面、异常流程及可交互审阅界面；当前版本转为 [r003完整设计](rounds/r003/solution.md)，覆盖 [页面清单](rounds/r003/screen-inventory.md) 与 [跨页义务](rounds/r003/cross-screen-obligations.md)。r002保留为历史片段版本，不能代表当前完整交互验收。所有F业务Issue及生产资格仍未完成。
+当前状态：`DESIGN_CONTENT_COMPLETE / REVIEW_DELIVERY_UNVERIFIED / S0_RESOURCE_VERIFIED`。2026-10-17 Human 要求先完成完整页面、异常流程及可交互审阅界面；当前版本转为 [r003完整设计](rounds/r003/solution.md)，覆盖 [页面清单](rounds/r003/screen-inventory.md) 与 [跨页义务](rounds/r003/cross-screen-obligations.md)。r002保留为历史片段版本，不能代表当前完整交互验收。所有F业务Issue及生产资格仍未完成。
 
 2026-10-16 22:49 Human 明确要求恢复 F2–F6，22:54 要求开始第一步，即同版业务设计与准入对账；来源见 [r002原文](rounds/r002/raw-user.txt)。此前 Human stop 保留为历史，不再被当成本次设计阻塞。后续正式 Build 仍需每个切片真实设计准入；生产发布未获授权。
 
@@ -39,4 +39,6 @@ S0 已在支持 Docker 的现有 GitHub CI 真实启动并验证，精确版本�
 
 后续每步记录实际 base/head/tree、路径、命令、失败与修复、reviewer、quality run/attempt/receipt 和 main 回读。两次同质失败无新信息暂停受影响步骤；不确定外部副作用先回读再重试。父 #10 和完整 F6 仅在其全部原出口成立后关闭。
 
-本轮完整页面与异常恢复已作为r003审阅候选完成，见[r003总入口](rounds/r003/review-summary.md)。源码候选 1ef0e792e09e7d999071707574d3ac63fd339d9b 的现行Full及独立receipt已通过；当前仍等待Human同版设计审阅，不签Build handoff，不关闭F业务Issue。Goal负责在收到该版反馈后只重开受影响范围，或按获准切片继续Build；生产P6不扩大为非生产设计的全局阻塞。
+本轮完整页面与异常恢复已作为r003审阅候选完成，见[r003总入口](rounds/r003/review-summary.md)。源码候选 1ef0e792e09e7d999071707574d3ac63fd339d9b 的现行Full及独立receipt已通过；该历史候选尚缺正式审阅交付核验，不签Build handoff，不关闭F业务Issue。Goal负责在收到该版反馈后只重开受影响范围，或按获准切片继续Build；生产P6不扩大为非生产设计的全局阻塞。
+
+2026-10-17审阅交付归因及本次[工作流修订](workflow-review-delivery.md)：r003保留历史内容/源码验证，最终交付入口尚未实际浏览器验证，新增任务效率与批量/结果要求也未作为该轮完成事实。当前正式交互交付未核实，不将其转为Human排障或恢复业务Build。后续设计需新修订，旧轮原件不重签。

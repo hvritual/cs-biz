@@ -27,3 +27,5 @@ UI 使用既有 `frontend/apps/console`、[Desktop 规范](../design/desktop-ui.
 先恢复既有候选/未知副作用，核对当前 main、资源和已审原件；修改协议/方法会使相关 definition digest 失效，不重签旧审批求通过。当前入口按 [协议表](../../.agents/skills/sdlc-workflow/references/current-protocols.md) 选择检测器；已退休格式仅在其原 Git 版本恢复，禁止混用格式。
 
 [迁移与退休路径](../../.agents/skills/sdlc-workflow/references/migration.md) 解释移除的别名、历史查询和必须保留的分发副本。单包复制检查只验证检测器/样例可运行；原生 Agent 发现与启动需要支持的宿主和实证。仓库不安装常驻调度器，也不因新增 Skill 授权自动部署。
+
+UI Design的审阅交付按[任务优先的审阅合同](../../.agents/skills/sdlc-design/references/review-delivery.md)：UX固定原要求覆盖及用户任务，Preview区分内容完成、最终入口已验证并呈现、等待Human及真实批准。每个正常任务和恢复任务最多4个实际用户动作；使用易懂术语、图片与短说明；批量支持过滤/粘贴/Excel，并提供已选数量、明细与影响范围；操作后就地汇总结果及安全恢复。Goal对实际交付闭环负责，Human不承担预览排障。静态脚本只校验声明、版本与证据绑定；缺少实际入口观察不能进入可审阅状态。旧封存保持原字节，新增约束在新轮次适用，不重签历史批准。

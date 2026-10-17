@@ -4,7 +4,7 @@
 
 | 业务用途 | 阅读入口 | 继续时核对 |
 | --- | --- | --- |
-| Yunka F 系列 | [F 系列](f-series/task.md)、[F0 已审基线](F0-yunka-freeze.md)、[F1 Consumer](issue-12-f1/task.md) | F2–F6 的 r003 完整交互候选待Human同版审阅，P1/P2/P4/P7 待审；Docker MySQL / 非生产 OIDC 仅资源资格通过；原始 R/AC、同版批准和生产边界继续保留 |
+| Yunka F 系列 | [F 系列](f-series/task.md)、[F0 已审基线](F0-yunka-freeze.md)、[F1 Consumer](issue-12-f1/task.md) | F2–F6 的 r003 内容候选保留，正式审阅交付未核实，P1/P2/P4/P7 待审；Docker MySQL / 非生产 OIDC 仅资源资格通过；原始 R/AC、同版批准和生产边界继续保留 |
 | Observability O1 | [Trace、日志与可选 SLS](observability/task.md) | #19 全部正反例；F1 技术 Trace 只构成局部前提；旧 P0/P1 PR 不等于当前业务全链路 |
 | 当前 Console / Mock 与布局 | [S01](S01-frontend-mock.md)、[侧栏](UI-rail-zero-offset.md) | 当前 UI/Mock 合同仍引用这些来源；不证明真实 IAM/DB；现行全局规范见 [Desktop](../design/desktop-ui.md) |
 
@@ -12,4 +12,6 @@
 
 F系列当前完整交互设计：[r003](f-series/rounds/r003/solution.md)，范围与异常义务见该轮页面清单；此前r002为历史片段审阅。
 
-F系列r003交互审阅及验证入口：[review-summary](f-series/rounds/r003/review-summary.md)，状态 DESIGN_REVIEW_READY，未授予业务完成或Build资格。
+F系列r003交互审阅及验证入口：[review-summary](f-series/rounds/r003/review-summary.md)，状态 DESIGN_CONTENT_COMPLETE / REVIEW_DELIVERY_UNVERIFIED，未授予业务完成或Build资格。
+
+当前[Design审阅交付修订](f-series/workflow-review-delivery.md)仅维护流程与纠正现行投影，未恢复业务实施。

@@ -14,7 +14,7 @@
 
 ## Yunka F：恢复设计，保留完整出口
 
-当前状态为 **DESIGN_REVIEW_READY**：Human 于2026-10-16 22:49明确恢复F2–F6，22:54要求开始同版设计/旅程/验收与准入对账；见 [F系列任务](tasks/f-series/task.md)。r003完整交互候选等待Human同版审阅；r002保留历史，不代表本版验收；P1/P2/P4/P7按影响范围待决定，生产P6只阻塞相应出口。Goal继续维护完整原R/AC与逐切片准入。
+当前状态为 **DESIGN_CONTENT_COMPLETE / REVIEW_DELIVERY_UNVERIFIED**：Human 于2026-10-16 22:49明确恢复F2–F6，22:54要求开始同版设计/旅程/验收与准入对账；见 [F系列任务](tasks/f-series/task.md)。r003历史内容候选保留，正式交互审阅交付尚未核实；r002保留历史，不代表本版验收；P1/P2/P4/P7按影响范围待决定，生产P6只阻塞相应出口。Goal继续维护完整原R/AC与逐切片准入。
 
 | 单元 | 必需结果与依赖 | 当前缺口 |
 | --- | --- | --- |
@@ -36,4 +36,6 @@
 
 当前F2–F6设计推进到 [r003完整页面与异常旅程](tasks/f-series/rounds/r003/solution.md)：先完成可交互设计及浏览器验证，再由Human同版审阅。业务Build与生产资格不因设计页面完成而通过。
 
-F系列r003现已形成[完整交互审阅候选](tasks/f-series/rounds/r003/review-summary.md)，精确源码Full验证见该轮记录。当前返回Human同版设计审阅；业务F2–F6/O1与生产资格继续保持未完成。
+F系列r003现已形成[完整交互审阅候选](tasks/f-series/rounds/r003/review-summary.md)，精确源码Full验证见该轮记录。最终入口验证及新增任务效率/批量/结果义务待后续修订，不直接转交Human排障；业务F2–F6/O1与生产资格继续保持未完成。
+
+审阅交付状态纠正及本次维护：[工作流修订记录](tasks/f-series/workflow-review-delivery.md)。原封存轮次保持字节，工作流修订不恢复已停止的业务实施。
